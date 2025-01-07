@@ -23,7 +23,6 @@ function App() {
             </AdminLayout>
           }
         />
-        
         <Route
           path="/admin/users"
           element={

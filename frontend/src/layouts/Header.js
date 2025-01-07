@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineSearch, AiOutlineBell } from 'react-icons/ai'; // Iconos para la lupa y notificaciones
-import '../styles/header.css';
+import '../styles/layouts/header.css';
 
 function Header({ username, profilePic }) {
   return (

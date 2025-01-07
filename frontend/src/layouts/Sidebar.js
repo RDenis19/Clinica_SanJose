@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/sidebar.css';
+import '../styles/layouts/sidebar.css';
 import { NavLink } from 'react-router-dom';
 import { AiOutlineDashboard, AiOutlineUser, AiOutlineTeam, AiOutlineTool } from 'react-icons/ai';
 

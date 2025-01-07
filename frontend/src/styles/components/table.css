@@ -1,0 +1,23 @@
+.generic-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .generic-table th,
+  .generic-table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .generic-table th {
+    background-color: #f3f3f3;
+    font-weight: bold;
+  }
+  
+  .generic-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

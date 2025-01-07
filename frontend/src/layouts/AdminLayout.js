@@ -1,19 +1,16 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import './AdminLayout.css';
+import Sidebar from './Sidebar';
+import Header from './Header';
+import '../styles/layouts/AdminLayout.css';
 
-function AdminLayout({ children }) {
-  return (
-    <div className="admin-layout">
-      <Sidebar />
-      <div className="main-content">
-        <Header />
-        {/* Aquí se renderiza dinámicamente el contenido de la ruta */}
-        <div className="content-area">{children}</div>
-      </div>
+const AdminLayout = ({ children }) => (
+  <div className="admin-layout">
+    <Sidebar />
+    <div className="main-content">
+      <Header />
+      {children}
     </div>
-  );
-}
+  </div>
+);
 
 export default AdminLayout;
