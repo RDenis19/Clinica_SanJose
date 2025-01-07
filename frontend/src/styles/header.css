@@ -22,30 +22,38 @@
     gap: 15px;
   }
   
-  .header-right input {
-    padding: 10px;
+  .search-bar {
+    position: relative;
+  }
+  
+  .search-bar input {
+    padding: 10px 35px 10px 15px;
     border: 1px solid #ddd;
     border-radius: 25px;
   }
   
-  .header-right button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
+  .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+  }
+  
+  .notification-icon {
+    font-size: 1.5rem;
+    color: #555;
   }
   
   .profile {
-    position: relative;
+    display: flex;
+    align-items: center;
   }
   
-  .notification-dot {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 10px;
-    height: 10px;
-    background-color: #3cb371;
+  .profile-pic {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    object-fit: cover;
   }
   
