@@ -1,5 +1,5 @@
 import React from 'react';
-import './comingSoon.css';
+import '../styles/components/comingSoon.css';
 
 const ComingSoon = ({ message = "Próximamente" }) => {
   return (

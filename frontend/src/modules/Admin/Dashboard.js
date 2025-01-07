@@ -1,20 +1,12 @@
 import React from 'react';
-import Sidebar from '../../layouts/Sidebar';
-import Header from '../../layouts/Header';
-import '../../styles/Administrador/admin.css';
+import ComingSoon from '../../components/ComingSoon';
 
-function Dashboard() {
+const ChangeRequest = () => {
   return (
-    <div className="admin-container">
-      <Sidebar />
-      <div className="admin-content">
-        <Header />
-        <div className="dashboard-content">
-          <h1>PRÓXIMAMENTE</h1>
-        </div>
-      </div>
+    <div>
+      <ComingSoon message="¡Estará disponible pronto!" />
     </div>
   );
-}
+};
 
-export default Dashboard;
+export default ChangeRequest;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { loginRequest } from '../../utils/api'; // Importa la función de login
 import './login.css';
 import logo from '../../assets/images/LogoCorazon.png';
 import doctors from '../../assets/images/DoctoresLogin.png';
@@ -14,22 +14,24 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3301/api/login', {
-        email,
-        password,
-      });
+      const data = await loginRequest({ email, password });
 
-      if (response.data.role === 'Admin') {
-        window.location.href = '/admin';
-      } else if (response.data.role === 'Doctor') {
+      const { role } = data;
+
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userRole', role);
+
+      if (role === 'Admin') {
+        window.location.href = '/admin/dashboard';
+      } else if (role === 'Doctor') {
         window.location.href = '/doctor';
-      } else if (response.data.role === 'Nurse') {
+      } else if (role === 'Nurse') {
         window.location.href = '/nurse';
       } else {
         setError('Rol no reconocido.');
       }
     } catch (err) {
-      setError('Credenciales inválidas o error en el servidor.');
+      setError(err.error || 'Error en el servidor.');
     }
   };
 
