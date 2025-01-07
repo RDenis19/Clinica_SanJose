@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-//import Login from './modules/Login/Login';
-import AdminLayout from './layouts/AdminLayout'; // Layout que contiene Sidebar y Header
+import Login from './modules/Login/Login';
+import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users';
 import Patients from './modules/Admin/Patients';
@@ -12,11 +12,17 @@ function App() {
     <Router>
       <Routes>
         {/* Ruta para el Login */}
-        {/* <Route path="/" element={<Login />} /> */}
+        <Route path="/" element={<Login />} />
 
         {/* Rutas del Administrador */}
-
-        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
+          }
+        />
         
         <Route
           path="/admin/users"
