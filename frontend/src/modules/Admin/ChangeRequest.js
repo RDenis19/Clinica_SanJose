@@ -1,12 +1,12 @@
 import React from 'react';
-import '../../styles/Administrador/ChangeRequest.css';
+import ComingSoon from '../../components/ComingSoon';
 
-function ChangeRequest() {
+const ChangeRequest = () => {
   return (
-    <div className="change-request">
-      <h1 className="coming-soon">PRÓXIMAMENTE</h1>
+    <div>
+      <ComingSoon message="¡Estará disponible pronto!" />
     </div>
   );
-}
+};
 
 export default ChangeRequest;

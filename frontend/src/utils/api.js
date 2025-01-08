@@ -16,11 +16,20 @@ export const loginRequest = async (credentials) => {
   }
 };
 
-// Puedes agregar más funciones reutilizables aquí
-// Ejemplo: Obtener usuarios
+// Obtener Usuarios
 export const getUsers = async () => {
   try {
-    const response = await API.get('/users');
+    const response = await API.get('/users'); // Actualiza con la ruta correcta
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+// Obtener Pacientes
+export const fetchPatients = async () => {
+  try {
+    const response = await API.get('/patients'); // Ruta actualizada
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };

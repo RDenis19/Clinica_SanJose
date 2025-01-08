@@ -1,34 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import { fetchPatients } from '../../utils/api';
 import SearchBar from '../../components/SearchBar';
 import Table from '../../components/Table';
 import Button from '../../components/Button';
 import Stats from '../../components/Stats';
+import FilterDropdown from '../../components/FilterDropdown';
 import '../../styles/Administrador/patients.css';
 
 function Patients() {
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({ attention: '', status: '' });
+  const [isFilterOpen, setFilterOpen] = useState(false);
 
-  // Obtener datos desde la API
   useEffect(() => {
-    const fetchPatients = async () => {
+    const loadPatients = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const data = await response.json();
+        const data = await fetchPatients();
         setPatients(data);
       } catch (error) {
         console.error('Error al obtener pacientes:', error);
       }
     };
-    fetchPatients();
+    loadPatients();
   }, []);
 
-  // Filtrar pacientes por búsqueda
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(search.toLowerCase())
+  const filteredPatients = patients
+    .filter((patient) =>
+      patient.name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter(
+      (patient) =>
+        (filters.attention ? patient.attention === filters.attention : true) &&
+        (filters.status ? patient.status === filters.status : true)
+    );
+
+  const pageSize = 10;
+  const paginatedPatients = filteredPatients.slice(
+    (page - 1) * pageSize,
+    page * pageSize
   );
 
-  // Configuración de las columnas de la tabla
   const columns = [
     { label: 'Cédula', accessor: 'id' },
     { label: 'Nombre', accessor: 'name' },
@@ -38,51 +51,56 @@ function Patients() {
     { label: 'Estado', accessor: 'status' },
   ];
 
-  // Datos con tipo de atención y estado dinámico
-  const tableData = filteredPatients.map((patient, index) => ({
-    id: `098051189${index}`,
-    name: patient.name,
-    email: patient.email,
-    phone: patient.phone,
-    attention: index % 2 === 0 ? 'Consulta Externa' : 'Hospitalización',
-    status: index % 2 === 0 ? 'Activo' : 'Inactivo',
-  }));
-
   return (
-    <div className="patients-page">
-      <h2 className="patients-title">Pacientes</h2>
-
-      {/* Estadísticas */}
+    <div className="page-content">
       <Stats
         stats={[
-          { label: 'Pacientes Totales', value: patients.length },
-          { label: 'Pacientes Activos', value: Math.floor(patients.length * 0.75) },
-          { label: 'Pacientes Inactivos', value: Math.floor(patients.length * 0.25) },
+          { label: 'Totales', value: patients.length },
+          { label: 'Activos', value: patients.filter((p) => p.status === 'Activo').length },
+          { label: 'Inactivos', value: patients.filter((p) => p.status === 'Inactivo').length },
         ]}
       />
-
-      {/* Barra de búsqueda y botón */}
-      <div className="patients-actions">
-        <SearchBar
-          placeholder="Buscar Paciente"
-          value={search}
-          onChange={setSearch}
-        />
-        <Button
-          label="Agregar Paciente"
-          onClick={() => alert('Agregar Paciente')}
-        />
+      <div className="actions-container">
+        <div className="actions-left">
+          <SearchBar
+            className="search-bar"
+            placeholder="Buscar Paciente"
+            value={search}
+            onChange={setSearch}
+          />
+          <FilterDropdown
+            isOpen={isFilterOpen}
+            toggle={() => setFilterOpen(!isFilterOpen)}
+            filters={filters}
+            setFilters={setFilters}
+          />
+        </div>
+        <div className="actions-right">
+          <Button label="Agregar Paciente" onClick={() => alert('Agregar Paciente')} />
+        </div>
       </div>
-
-      {/* Tabla */}
       <Table
         columns={columns}
-        data={tableData}
+        data={paginatedPatients}
         actions={{
           icon: '→',
           onClick: (row) => alert(`Ver detalles del paciente: ${row.name}`),
         }}
       />
+      <div className="pagination">
+        <button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
+          Anterior
+        </button>
+        <span>
+          Página {page} de {Math.ceil(filteredPatients.length / pageSize) || 1}
+        </span>
+        <button
+          disabled={page === Math.ceil(filteredPatients.length / pageSize)}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 }

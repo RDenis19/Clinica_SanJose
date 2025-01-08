@@ -2,16 +2,19 @@ import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import '../styles/components/searchBar.css';
 
-const SearchBar = ({ placeholder, value, onChange }) => (
-  <div className="search-bar">
-    <input
-      type="text"
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    />
-    <AiOutlineSearch className="icon" />
-  </div>
-);
+const SearchBar = ({ placeholder, value, onChange }) => {
+  return (
+    <div className="search-bar-container">
+      <AiOutlineSearch className="search-icon" />
+      <input
+        type="text"
+        className="search-bar"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+};
 
 export default SearchBar;

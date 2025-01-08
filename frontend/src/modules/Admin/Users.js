@@ -1,34 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import { getUsers } from '../../utils/api';
 import SearchBar from '../../components/SearchBar';
 import Table from '../../components/Table';
 import Button from '../../components/Button';
 import Stats from '../../components/Stats';
+import FilterDropdown from '../../components/FilterDropdown';
 import '../../styles/Administrador/users.css';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({ role: '', status: '' });
+  const [isFilterOpen, setFilterOpen] = useState(false);
 
-  // Obtener datos desde la API
   useEffect(() => {
-    const fetchUsers = async () => {
+    const loadUsers = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const data = await response.json();
+        const data = await getUsers();
         setUsers(data);
       } catch (error) {
         console.error('Error al obtener usuarios:', error);
       }
     };
-    fetchUsers();
+    loadUsers();
   }, []);
 
-  // Filtrar usuarios por búsqueda
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(search.toLowerCase())
+  const filteredUsers = users
+    .filter((user) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter(
+      (user) =>
+        (filters.role ? user.role === filters.role : true) &&
+        (filters.status ? user.status === filters.status : true)
+    );
+
+  const pageSize = 10;
+  const paginatedUsers = filteredUsers.slice(
+    (page - 1) * pageSize,
+    page * pageSize
   );
 
-  // Configuración de las columnas de la tabla
   const columns = [
     { label: 'Cédula', accessor: 'id' },
     { label: 'Nombre', accessor: 'name' },
@@ -38,51 +51,56 @@ const Users = () => {
     { label: 'Estado', accessor: 'status' },
   ];
 
-  // Datos dinámicos con roles y estado
-  const tableData = filteredUsers.map((user, index) => ({
-    id: `098051189${index}`, // Ejemplo de cédula dinámica
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
-    role: index % 2 === 0 ? 'Administrador' : 'Doctor',
-    status: index % 2 === 0 ? 'Activo' : 'Inactivo',
-  }));
-
   return (
-    <div className="users-page">
-      <h2 className="users-title">Usuarios</h2>
-
-      {/* Estadísticas */}
+    <div className="page-content">
       <Stats
         stats={[
-          { label: 'Usuarios Totales', value: users.length },
-          { label: 'Usuarios Activos', value: Math.floor(users.length * 0.75) },
-          { label: 'Usuarios Inactivos', value: Math.floor(users.length * 0.25) },
+          { label: 'Totales', value: users.length },
+          { label: 'Activos', value: users.filter((u) => u.status === 'Activo').length },
+          { label: 'Inactivos', value: users.filter((u) => u.status === 'Inactivo').length },
         ]}
       />
-
-      {/* Barra de búsqueda y botón */}
-      <div className="users-actions">
-        <SearchBar
-          placeholder="Buscar Usuario"
-          value={search}
-          onChange={setSearch}
-        />
-        <Button
-          label="Agregar Usuario"
-          onClick={() => alert('Agregar Usuario')}
-        />
+      <div className="actions-container">
+        <div className="actions-left">
+          <SearchBar
+            className="search-bar"
+            placeholder="Buscar Usuario"
+            value={search}
+            onChange={setSearch}
+          />
+          <FilterDropdown
+            isOpen={isFilterOpen}
+            toggle={() => setFilterOpen(!isFilterOpen)}
+            filters={filters}
+            setFilters={setFilters}
+          />
+        </div>
+        <div className="actions-right">
+          <Button label="Agregar Usuario" onClick={() => alert('Agregar Usuario')} />
+        </div>
       </div>
-
-      {/* Tabla */}
       <Table
         columns={columns}
-        data={tableData}
+        data={paginatedUsers}
         actions={{
           icon: '→',
           onClick: (row) => alert(`Ver detalles del usuario: ${row.name}`),
         }}
       />
+      <div className="pagination">
+        <button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
+          Anterior
+        </button>
+        <span>
+          Página {page} de {Math.ceil(filteredUsers.length / pageSize) || 1}
+        </span>
+        <button
+          disabled={page === Math.ceil(filteredUsers.length / pageSize)}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 };

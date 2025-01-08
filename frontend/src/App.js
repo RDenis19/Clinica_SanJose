@@ -1,18 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './modules/Login/Login';
 import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users';
 import Patients from './modules/Admin/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
-
-// Verificar autenticación
-const isAuthenticated = () => localStorage.getItem('isAuthenticated') === 'true';
-
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/" />;
-};
 
 function App() {
   return (
@@ -21,45 +14,37 @@ function App() {
         {/* Ruta para el Login */}
         <Route path="/" element={<Login />} />
 
-        {/* Rutas protegidas del Administrador */}
+        {/* Rutas del Administrador */}
         <Route
           path="/admin/dashboard"
           element={
-            <PrivateRoute>
-              <AdminLayout>
-                <Dashboard />
-              </AdminLayout>
-            </PrivateRoute>
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
           }
         />
         <Route
           path="/admin/users"
           element={
-            <PrivateRoute>
-              <AdminLayout>
-                <Users />
-              </AdminLayout>
-            </PrivateRoute>
+            <AdminLayout>
+              <Users />
+            </AdminLayout>
           }
         />
         <Route
           path="/admin/patients"
           element={
-            <PrivateRoute>
-              <AdminLayout>
-                <Patients />
-              </AdminLayout>
-            </PrivateRoute>
+            <AdminLayout>
+              <Patients />
+            </AdminLayout>
           }
         />
         <Route
           path="/admin/change"
           element={
-            <PrivateRoute>
-              <AdminLayout>
-                <ChangeRequest />
-              </AdminLayout>
-            </PrivateRoute>
+            <AdminLayout>
+              <ChangeRequest />
+            </AdminLayout>
           }
         />
       </Routes>
