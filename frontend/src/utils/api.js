@@ -3,7 +3,7 @@ import axios from 'axios';
 // Configuración base de Axios
 const API = axios.create({
   baseURL: 'http://localhost:3301/api', // URL base de tu API
-  timeout: 10000, // Tiempo límite para las peticiones
+  timeout: 10000,
 });
 
 // Petición para iniciar sesión
