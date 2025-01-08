@@ -18,56 +18,62 @@ export const loginRequest = async (credentials) => {
   }
 };
 
-// Obtener lista de usuarios (paginada si es necesario)
-export const fetchUsers = async (page = 1, limit = 10) => {
+// Usuario
+// Obtener lista parcial de usuarios (para tabla)
+export const fetchUsers = async () => {
   try {
     const response = await API.get('/usuarios', {
-      params: { page, limit }, // Parámetros para paginación
+      params: { fields: 'idUsuario,identificacion,nombres,correo,telefono,rol,estado' },
     });
     return response.data;
   } catch (error) {
-    console.error('Error al obtener usuarios:', error);
-    return [];
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-// Obtener detalles de un usuario específico
-export const fetchUserDetails = async (id) => {
+// Obtener detalles completos de un usuario
+export const fetchUserDetails = async (idUsuario) => {
   try {
-    const response = await API.get(`/usuarios/${id}`);
+    const response = await API.get(`/usuarios/${idUsuario}`);
     return response.data;
   } catch (error) {
-    console.error('Error al obtener detalles del usuario:', error);
-    throw error.response
-      ? error.response.data
-      : { error: 'Error en el servidor' };
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-// Actualizar un usuario
-export const updateUser = async (user) => {
+// Agregar un nuevo usuario
+export const createUser = async (userData) => {
   try {
-    const response = await API.put(`/usuarios/${user.idUsuario}`, user);
+    const response = await API.post('/usuarios', userData);
     return response.data;
   } catch (error) {
-    console.error('Error al actualizar usuario:', error);
-    throw error.response
-      ? error.response.data
-      : { error: 'Error en el servidor' };
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+// Actualizar datos de un usuario
+export const updateUser = async (idUsuario, updatedData) => {
+  try {
+    const response = await API.put(`/usuarios/${idUsuario}`, updatedData);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
 // Eliminar un usuario
-export const deleteUser = async (id) => {
+export const removeUser = async (idUsuario) => {
   try {
-    await API.delete(`/usuarios/${id}`);
+    const response = await API.delete(`/usuarios/${idUsuario}`);
+    return response.data;
   } catch (error) {
-    console.error('Error al eliminar usuario:', error);
     throw error.response
       ? error.response.data
       : { error: 'Error en el servidor' };
   }
 };
+
+
 
 // Obtener pacientes (si también es necesario en este proyecto)
 export const fetchPatients = async () => {

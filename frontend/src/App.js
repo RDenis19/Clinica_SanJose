@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './modules/Login/Login';
 import AdminLayout from './components/layouts/AdminLayout';
 import Dashboard from './modules/Admin/Dashboard';
-import Users from './modules/Admin/Users';
+import Users from './modules/Admin/Users/Users';
 import Patients from './modules/Admin/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
 
