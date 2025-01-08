@@ -1,106 +1,123 @@
-import React, { useEffect, useState } from 'react';
-import { getUsers } from '../../utils/api';
-import SearchBar from '../../components/SearchBar';
-import Table from '../../components/Table';
-import Button from '../../components/Button';
-import Stats from '../../components/Stats';
-import FilterDropdown from '../../components/FilterDropdown';
-import '../../styles/Administrador/users.css';
+import React, { useState, useEffect } from 'react';
+import SearchBar from '../../components/common/SearchBar';
+import FilterDropdown from '../../components/common/FilterDropdown';
+import Pagination from '../../components/common/Pagination';
+import Table from '../../components/common/Table';
+import UserProfileModal from '../../components/common/UserProfileModal';
+import '../../styles/modules/Administrador/users.css';
+import { fetchUsers, deleteUser, updateUser } from '../../utils/api'; // Peticiones API
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({ role: '', status: '' });
-  const [isFilterOpen, setFilterOpen] = useState(false);
+  const [users, setUsers] = useState([]); // Lista de usuarios
+  const [filteredUsers, setFilteredUsers] = useState([]); // Usuarios filtrados
+  const [expandedUser, setExpandedUser] = useState(null); // Usuario seleccionado para el modal
+  const [searchQuery, setSearchQuery] = useState(''); // Búsqueda
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const itemsPerPage = 10; // Usuarios por página
 
+  // Cargar usuarios al montar el componente
   useEffect(() => {
-    const loadUsers = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getUsers();
+        const data = await fetchUsers(); // Petición para obtener usuarios
         setUsers(data);
+        setFilteredUsers(data);
       } catch (error) {
-        console.error('Error al obtener usuarios:', error);
+        console.error('Error al obtener los usuarios:', error);
       }
     };
-    loadUsers();
+    fetchData();
   }, []);
 
-  const filteredUsers = users
-    .filter((user) =>
-      user.name.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter(
-      (user) =>
-        (filters.role ? user.role === filters.role : true) &&
-        (filters.status ? user.status === filters.status : true)
+  // Filtrar usuarios en tiempo real con la búsqueda
+  useEffect(() => {
+    const filtrados = users.filter((user) =>
+      user.nombres.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    setFilteredUsers(filtrados);
+  }, [searchQuery, users]);
 
-  const pageSize = 10;
-  const paginatedUsers = filteredUsers.slice(
-    (page - 1) * pageSize,
-    page * pageSize
+  // Cambiar de página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Manejo de eliminación de usuario
+  const handleDelete = async (idUsuario) => {
+    try {
+      await deleteUser(idUsuario); // Petición DELETE
+      const data = users.filter((user) => user.idUsuario !== idUsuario);
+      setUsers(data);
+      setFilteredUsers(data);
+      setExpandedUser(null); // Cerrar modal si el usuario estaba abierto
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+    }
+  };
+
+  // Manejo de edición de usuario
+  const handleSave = async (updatedUser) => {
+    try {
+      const response = await updateUser(updatedUser); // Petición PUT
+      const updatedUsers = users.map((user) =>
+        user.idUsuario === response.idUsuario ? response : user
+      );
+      setUsers(updatedUsers);
+      setFilteredUsers(updatedUsers);
+      setExpandedUser(null); // Cerrar modal
+    } catch (error) {
+      console.error('Error al editar el usuario:', error);
+    }
+  };
+
+  // Usuarios paginados
+  const usuariosPaginados = filteredUsers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
-  const columns = [
-    { label: 'Cédula', accessor: 'id' },
-    { label: 'Nombre', accessor: 'name' },
-    { label: 'Correo', accessor: 'email' },
-    { label: 'Teléfono', accessor: 'phone' },
-    { label: 'Rol', accessor: 'role' },
-    { label: 'Estado', accessor: 'status' },
+  // Columnas de la tabla
+  const columnas = [
+    { label: 'Cédula', accessor: 'identificacion' },
+    { label: 'Nombre', accessor: 'nombres' },
+    { label: 'Correo', accessor: 'correo' },
+    { label: 'Teléfono', accessor: 'telefono' },
+    { label: 'Rol', accessor: 'rol' },
+    { label: 'Estado', accessor: 'estado' },
+    {
+      label: 'Acción',
+      accessor: 'accion',
+      render: (user) => (
+        <button onClick={() => setExpandedUser(user)}>🔍</button>
+      ),
+    },
   ];
 
   return (
-    <div className="page-content">
-      <Stats
-        stats={[
-          { label: 'Totales', value: users.length },
-          { label: 'Activos', value: users.filter((u) => u.status === 'Activo').length },
-          { label: 'Inactivos', value: users.filter((u) => u.status === 'Inactivo').length },
-        ]}
-      />
+    <div className="users-container">
       <div className="actions-container">
-        <div className="actions-left">
-          <SearchBar
-            className="search-bar"
-            placeholder="Buscar Usuario"
-            value={search}
-            onChange={setSearch}
-          />
-          <FilterDropdown
-            isOpen={isFilterOpen}
-            toggle={() => setFilterOpen(!isFilterOpen)}
-            filters={filters}
-            setFilters={setFilters}
-          />
-        </div>
-        <div className="actions-right">
-          <Button label="Agregar Usuario" onClick={() => alert('Agregar Usuario')} />
-        </div>
+        <SearchBar
+          placeholder="Buscar Usuario"
+          value={searchQuery}
+          onChange={setSearchQuery}
+        />
+        <FilterDropdown filters={[]} setFilters={() => {}} />
+        <button className="add-user-button">Agregar Usuario</button>
       </div>
-      <Table
-        columns={columns}
-        data={paginatedUsers}
-        actions={{
-          icon: '→',
-          onClick: (row) => alert(`Ver detalles del usuario: ${row.name}`),
-        }}
+      <Table columns={columnas} data={usuariosPaginados} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
+        onPageChange={handlePageChange}
       />
-      <div className="pagination">
-        <button disabled={page === 1} onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
-          Anterior
-        </button>
-        <span>
-          Página {page} de {Math.ceil(filteredUsers.length / pageSize) || 1}
-        </span>
-        <button
-          disabled={page === Math.ceil(filteredUsers.length / pageSize)}
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          Siguiente
-        </button>
-      </div>
+      {expandedUser && (
+        <UserProfileModal
+          user={expandedUser}
+          onClose={() => setExpandedUser(null)}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineFilter } from 'react-icons/ai';
-import '../styles/components/filterDropdown.css';
+import '../../styles/components/filterDropdown.css';
 
 const FilterDropdown = ({ isOpen, toggle, filters, setFilters }) => {
   const handleChange = (key, value) => {

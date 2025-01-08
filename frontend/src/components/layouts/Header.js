@@ -1,17 +1,15 @@
 import React from 'react';
-import { AiOutlineSearch, AiOutlineBell } from 'react-icons/ai'; // Iconos para la lupa y notificaciones
-import '../styles/layouts/header.css';
+import { AiOutlineBell } from 'react-icons/ai'; // Icono para las notificaciones
+import '../../styles/layouts/header.css';
 
 function Header({ username, profilePic }) {
   return (
     <div className="header">
       <h1>Bienvenido, <span>{username}</span></h1>
       <div className="header-right">
-        <div className="search-bar">
-          <input type="text" placeholder="Buscar Paciente" />
-          <AiOutlineSearch className="search-icon" />
-        </div>
+        {/* Icono de notificaciones */}
         <AiOutlineBell className="notification-icon" />
+        {/* Foto de perfil */}
         <div className="profile">
           <img
             src={profilePic}

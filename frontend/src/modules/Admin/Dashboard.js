@@ -1,12 +1,15 @@
 import React from 'react';
-import ComingSoon from '../../components/ComingSoon';
+import ComingSoon from '../../components/common/ComingSoon';
 
-const ChangeRequest = () => {
+const Dashboard = () => {
   return (
     <div>
-      <ComingSoon message="¡Estará disponible pronto!" />
+      <ComingSoon
+        message="¡Dashboard en construcción!"
+        subMessage="Pronto podrás acceder a esta sección."
+      />
     </div>
   );
 };
 
-export default ChangeRequest;
+export default Dashboard;

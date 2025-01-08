@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import '../styles/components/searchBar.css';
+import '../../styles/components/searchBar.css';
 
 const SearchBar = ({ placeholder, value, onChange }) => {
   return (

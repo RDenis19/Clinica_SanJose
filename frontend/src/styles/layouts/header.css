@@ -1,54 +1,61 @@
 .header {
   position: fixed;
   top: 0;
-  left: 250px; /* Respeta el ancho del sidebar */
+  left: 0; /* Ajustar para que no respete un espacio innecesario */
   right: 0;
   height: 60px;
   background: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Alinea los elementos a los lados */
   align-items: center;
-  padding: 0 20px;
+  padding: 0 20px; /* Espaciado interno */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 5;
+  z-index: 10; /* Mantener el Header encima de otros elementos */
+}
+
+.header h1 {
+  font-size: 20px;
+  color: #2d3748;
+  margin: 0; /* Elimina márgenes extra */
+}
+
+.header h1 span {
+  font-weight: bold;
+  color: #2b6cb0;
 }
 
 .header-right {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.search-bar {
-  position: relative;
-  width: 300px;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.search-bar .search-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #94a3b8;
-  font-size: 1.25rem;
+  align-items: center; /* Alinea verticalmente campana y perfil */
+  gap: 15px; /* Espacio entre elementos */
 }
 
 .notification-icon {
-  font-size: 1.5rem;
-  color: #94a3b8;
+  font-size: 1.8rem;
+  color: #4a5568;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.notification-icon:hover {
+  color: #2b6cb0;
+}
+
+.profile {
+  display: flex;
+  align-items: center; /* Asegura que la imagen esté alineada con la campana */
 }
 
 .profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: cover; /* Asegura que la imagen no se deforme */
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+  transition: border-color 0.3s ease;
+}
+
+.profile-pic:hover {
+  border-color: #2b6cb0;
 }

@@ -1,18 +1,39 @@
 .admin-layout {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #f9f9f9;
-  }
-  
-  .content-area {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
+  display: flex;
+  height: 100vh; /* Ocupa toda la altura del viewport */
+}
+
+.sidebar {
+  width: 250px; /* Ancho fijo para el Sidebar */
+  background-color: #f8f9fa;
+  position: fixed; /* Sidebar siempre fijo */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Ocupa toda la altura */
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px; /* Respeta el ancho del Sidebar */
+  margin-top: 60px; /* Espacio reservado para el Header */
+  padding: 20px;
+  overflow-y: auto; /* Scroll solo si el contenido es demasiado grande */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaciado entre los componentes */
+  box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
+}
+
+.header {
+  position: fixed; /* Fijo para que siempre esté visible en la parte superior */
+  top: 0;
+  left: 250px; /* Ajustado al ancho del Sidebar */
+  right: 0;
+  height: 60px; /* Altura estándar */
+  z-index: 10; /* Asegúrate de que esté encima de otros elementos */
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 20px; /* Espaciado interno */
+}
