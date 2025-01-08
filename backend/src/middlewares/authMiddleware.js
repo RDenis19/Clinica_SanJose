@@ -1,44 +1,27 @@
-// backend/app.js
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const authRoutes = require('./routes/authRoutes');
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const errorHandler = require('./middlewares/errorHandler'); // Opcional, para manejo global de errores
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 3301;
+const verifyTokenMiddleware = (req, res, next) => {
+  // Obtener el token del encabezado Authorization
+  const authHeader = req.headers['authorization'];
+  
+  // El formato esperado es "Bearer <token>"
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ mensaje: 'Acceso Restringido'});
+  }
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+  try {
+    // Verificar el token sin decodificarlo completamente
+    jwt.verify(token, process.env.JWT_SECRET, { complete: false });
+    next();
+  } catch (error) {
+    console.error('Error en la verificación de JWT:', error);
+    return res.status(403).json({ mensaje: 'Token inválido' });
+  }
+};
 
-// Rutas de la API
-app.use('/api', authRoutes);
-
-// Ruta de prueba
-app.get('/api/hello', (req, res) => {
-  res.json({ mensaje: 'Hola desde el servidor Express!' });
-});
-
-// Servir el frontend en producción (si decides implementar en el futuro)
-if (process.env.NODE_ENV === 'production') {
-  // Configura la carpeta estática de React
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-  // Manejar cualquier ruta que no sea la API y servir index.html
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-  });
-}
-
-// Middleware de manejo de errores (opcional, debe estar al final)
-if (process.env.NODE_ENV === 'production') {
-  app.use(errorHandler);
-}
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+module.exports = verifyTokenMiddleware;

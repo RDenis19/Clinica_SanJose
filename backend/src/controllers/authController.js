@@ -40,8 +40,7 @@ exports.login = async (req, res) => {
     res.json({
       mensaje: 'Login exitoso.',
       token,
-      rol: user.rol,
-      usuario: userData
+      rol: user.rol
     });
   } catch (error) {
     console.error('Error en el login:', error);

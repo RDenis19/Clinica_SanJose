@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3301;
 app.use(cors());
 app.use(express.json());
 
-// Rutas de la API
+// Rutas protegidas
 app.use('/api', authRoutes);
 
 // Ruta de verificacion de prueba
