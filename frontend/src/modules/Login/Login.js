@@ -16,16 +16,18 @@ function Login() {
     try {
       const data = await loginRequest({ email, password });
 
-      const { role } = data;
+      const { rol } = data;
+      const { token } = data;
 
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userRole', role);
+      localStorage.setItem('userRole', rol);
+      localStorage.setItem('jwt_token', token);
 
-      if (role === 'Admin') {
+      if (rol === 'Admin') {
         window.location.href = '/admin/dashboard';
-      } else if (role === 'Doctor') {
+      } else if (rol === 'Doctor') {
         window.location.href = '/doctor';
-      } else if (role === 'Nurse') {
+      } else if (rol === 'Enfermera') {
         window.location.href = '/nurse';
       } else {
         setError('Rol no reconocido.');
