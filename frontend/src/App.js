@@ -47,6 +47,14 @@ function App() {
             </AdminLayout>
           }
         />
+      <Route
+          path="/admin/form"
+          element={
+            <AdminLayout>
+              <form />
+            </AdminLayout>
+          }
+        />
       </Routes>
     </Router>
   );

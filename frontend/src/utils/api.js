@@ -6,6 +6,22 @@ const API = axios.create({
   timeout: 10000,
 });
 
+// Interceptor para agregar el token en el encabezado Authorization
+API.interceptors.request.use(
+  (config) => {
+    // Obtener el token desde el almacenamiento local o donde lo guardes
+    const token = localStorage.getItem('token'); // Cambia esto si usas otro método de almacenamiento
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Funciones para las peticiones
 // Petición para iniciar sesión
 export const loginRequest = async (credentials) => {
   try {
@@ -72,8 +88,6 @@ export const removeUser = async (idUsuario) => {
       : { error: 'Error en el servidor' };
   }
 };
-
-
 
 // Obtener pacientes (si también es necesario en este proyecto)
 export const fetchPatients = async () => {

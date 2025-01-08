@@ -1,0 +1,15 @@
+/* styles/modules/Administrador/formulario.css */
+.formulario-container {
+    padding: 1rem;
+  }
+  
+  .formulario-list {
+    background-color: #f9f9f9;
+    padding: 1rem;
+  }
+  
+  .formulario-form label {
+    display: block;
+    margin-top: 1rem;
+  }
+  
