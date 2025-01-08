@@ -34,9 +34,6 @@ exports.login = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    // Preparar la respuesta sin la contraseña
-    const { contraseña, ...userData } = user;
-
     res.json({
       mensaje: 'Login exitoso.',
       token,
