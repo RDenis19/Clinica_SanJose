@@ -19,10 +19,6 @@ const errorHandler = require('./middlewares/errorMiddleware');
 
 // Middlewares globales
 app.use(helmet());
-app.use(cors({
-  origin: 'http://localhost',
-  optionsSuccessStatus: 200
-}));
 app.use(express.json());
 
 // Rutas
