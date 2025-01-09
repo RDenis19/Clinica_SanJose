@@ -15,7 +15,6 @@ const verifyTokenMiddleware = (req, res, next) => {
   }
 
   try {
-    // Verificar el token sin decodificarlo completamente
     jwt.verify(token, process.env.JWT_SECRET, { complete: false });
     next();
   } catch (error) {

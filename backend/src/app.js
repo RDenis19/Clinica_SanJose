@@ -1,38 +1,44 @@
-// backend/app.js
+// server.js
+
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const authRoutes = require('./routes/authRoutes');
+const app = express();
 const dotenv = require('dotenv');
+const createError = require('http-errors');
+const helmet = require('helmet');
+const cors = require('cors');
+const logger = require('./utils/logger');
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 3301;
+// Importar rutas
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/userRoutes');
 
-// Middleware
-app.use(cors());
+// Importar middleware de manejo de errores
+const errorHandler = require('./middlewares/errorMiddleware');
+
+// Middlewares globales
+app.use(helmet());
+app.use(cors({
+  origin: 'http://localhost',
+  optionsSuccessStatus: 200
+}));
 app.use(express.json());
 
-// Rutas protegidas
-app.use('/api', authRoutes);
+// Rutas
+app.use('/auth', authRoutes);
+app.use('/usuarios', userRoutes);
 
-// Ruta de verificacion de prueba
-app.get('/api/hello', (req, res) => {
-  res.json({ mensaje: 'Hola desde el servidor Express!' });
+// Manejo de errores 404
+app.use((req, res, next) => {
+  next(createError(404, 'Ruta no encontrada.'));
 });
 
-// Servir el frontend en producción (si decides implementar en el futuro)
-if (process.env.NODE_ENV === 'production') {
-  // Configura la carpeta estática de React
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Middleware de manejo de errores
+app.use(errorHandler);
 
-  // Manejar cualquier ruta que no sea la API y servir index.html
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-  });
-}
-
+// Iniciar el servidor
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  logger.info(`Servidor corriendo en el puerto ${PORT}`);
 });

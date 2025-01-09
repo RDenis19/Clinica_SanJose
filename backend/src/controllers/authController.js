@@ -14,7 +14,6 @@ exports.login = async (req, res) => {
   }
 
   try {
-    // Buscar al usuario por correo
     const user = await User.findByEmail(email);
 
     if (!user) {
@@ -22,12 +21,11 @@ exports.login = async (req, res) => {
     }
 
     // Comparar la contraseña proporcionada con la almacenada
-    // Dado que las contraseñas están en texto plano, simplemente comparamos las cadenas
     if (password !== user.contraseña) {
       return res.status(401).json({ mensaje: 'Credenciales inválidas.' });
     }
 
-    // Generar un token JWT
+    // Generar token JWT
     const token = jwt.sign(
       { id: user.idUsuario, usuario: user.usuario, rol: user.rol },
       process.env.JWT_SECRET,

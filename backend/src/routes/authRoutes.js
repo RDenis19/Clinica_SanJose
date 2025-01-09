@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// Ruta para el login
+// Ruta Publica: Login
 router.post('/login', authController.login);
 
 module.exports = router;
