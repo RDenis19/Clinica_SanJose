@@ -12,7 +12,7 @@ dotenv.config();
 
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Importar middleware de manejo de errores
 const errorHandler = require('./middlewares/errorMiddleware');
