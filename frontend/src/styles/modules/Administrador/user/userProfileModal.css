@@ -1,0 +1,118 @@
+/* Estilo del contenedor principal del modal */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6); /* Fondo oscuro semi-transparente */
+  z-index: 1000;
+}
+
+/* Contenido del modal */
+.modal-content {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 900px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animación para mostrar el modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Encabezado del modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #333333;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999999;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.modal-close:hover {
+  color: #ff0000;
+}
+
+/* Diseño en columnas para el formulario */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Campos individuales del formulario */
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  color: #555555;
+  margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field select {
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333333;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #10b981; /* Verde */
+  box-shadow: 0 0 4px rgba(16, 185, 129, 0.5);
+}
+
+/* Botón centrado */
+.add-user-button {
+  grid-column: span 2; /* Botón ocupa ambas columnas */
+  background: #10b981; /* Verde */
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s ease-in-out;
+}
+
+.add-user-button:hover {
+  background: #059669; /* Verde más oscuro */
+}

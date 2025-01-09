@@ -1,12 +1,12 @@
 .coming-soon-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centra verticalmente */
-  align-items: center; /* Centra horizontalmente */
-  height: calc(100vh - 60px); /* Altura completa menos el header */
-  margin-left: 250px; /* Espacio para el sidebar */
+  justify-content: center; /* Centrar verticalmente */
+  align-items: center; /* Centrar horizontalmente */
+  height: 100%; /* Usa toda la altura del contenedor */
   text-align: center;
   color: #2d3748; /* Color principal del texto */
+  margin: 170px; /* Centrar horizontalmente si hay padding */
 }
 
 .spinner {

@@ -5,7 +5,7 @@ import Pagination from '../../../components/common/Pagination';
 import Table from '../../../components/common/Table';
 import AddUserForm from './AddUserForm';
 import UserProfileModal from './UserProfileModal';
-import '../../../styles/modules/Administrador/users.css';
+import '../../../styles/modules/Administrador/user/users.css';
 import { fetchUsers, fetchUserDetails, removeUser, createUser, updateUser } from '../../../utils/api';
 
 const Users = () => {
@@ -65,7 +65,7 @@ const Users = () => {
       console.error('Error al actualizar usuario:', error);
     }
   };
-
+  
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedUsers = users.slice(startIndex, startIndex + itemsPerPage);
 

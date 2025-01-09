@@ -1,16 +1,22 @@
-// src/components/common/Modal.js
-import React from 'react';
-import { AiOutlineClose } from 'react-icons/ai'; // Icono de cierre
-import '../../styles/components/modal.css';
+import React, { useEffect } from "react";
+import "../../styles/components/modal.css";
 
 const Modal = ({ children, onClose }) => {
+  // Bloquea el scroll del fondo cuando el modal está abierto
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
   return (
     <div className="modal-overlay">
       <div className="modal-container">
         <button className="modal-close-button" onClick={onClose}>
-          <AiOutlineClose />
+          ×
         </button>
-        <div className="modal-content">{children}</div>
+        {children}
       </div>
     </div>
   );
