@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/modules/Administrador/formulario.css'; 
+import '../../../styles/modules/Administrador/formulario.css'; 
 // <-- Importa tu CSS, ajusta la ruta si es necesario
 
 function Index() {

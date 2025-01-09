@@ -26,9 +26,9 @@ function Login() {
       if (rol === 'Admin') {
         window.location.href = '/admin/dashboard';
       } else if (rol === 'Doctor') {
-        window.location.href = '/doctor';
+        window.location.href = '/doctor/dashboard';
       } else if (rol === 'Enfermera') {
-        window.location.href = '/nurse';
+        window.location.href = '/nurse/dashboard';
       } else {
         setError('Rol no reconocido.');
       }

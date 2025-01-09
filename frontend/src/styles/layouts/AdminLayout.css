@@ -16,7 +16,41 @@
   flex: 1;
   margin-left: 250px; /* Respeta el ancho del Sidebar */
   margin-top: 60px; /* Espacio reservado para el Header */
-  padding: 20px;
+  padding: 20px;// src/components/layouts/AdminLayout.js
+  import React from 'react';
+  
+  function AdminLayout({ children }) {
+    return (
+      <div className="admin-layout">
+        {/* Aquí podrías tener tu Header, Sidebar o lo que uses */}
+        <header>Encabezado Admin</header>
+        <nav>Sidebar con menús de Admin</nav>
+  
+        {/* Contenido principal: el componente hijo (Dashboard, Users, etc.) */}
+        <main>{children}</main>
+      </div>
+    );
+  }// src/components/layouts/AdminLayout.js
+  import React from 'react';
+  
+  function AdminLayout({ children }) {
+    return (
+      <div className="admin-layout">
+        {/* Aquí podrías tener tu Header, Sidebar o lo que uses */}
+        <header>Encabezado Admin</header>
+        <nav>Sidebar con menús de Admin</nav>
+  
+        {/* Contenido principal: el componente hijo (Dashboard, Users, etc.) */}
+        <main>{children}</main>
+      </div>
+    );
+  }
+  
+  export default AdminLayout;
+  
+  
+  export default AdminLayout;
+  
   overflow-y: auto; /* Scroll solo si el contenido es demasiado grande */
   display: flex;
   flex-direction: column;
