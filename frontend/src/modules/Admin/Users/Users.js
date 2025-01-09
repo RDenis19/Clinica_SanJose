@@ -6,7 +6,7 @@ import Table from '../../../components/common/Table';
 import AddUserForm from './AddUserForm';
 import UserProfileModal from './UserProfileModal';
 import '../../../styles/modules/Administrador/users.css';
-import { fetchUsers, fetchUserDetails, removeUser, createUser } from '../../../utils/api';
+import { fetchUsers, fetchUserDetails, removeUser, createUser, updateUser } from '../../../utils/api';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -17,15 +17,19 @@ const Users = () => {
 
   useEffect(() => {
     const loadUsers = async () => {
-      const data = await fetchUsers();
-      setUsers(data);
+      try {
+        const data = await fetchUsers();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error al cargar los usuarios:', error);
+      }
     };
     loadUsers();
   }, []);
 
-  const handleExpandUser = async (idUsuario) => {
+  const handleExpandUser = async (id) => {
     try {
-      const userDetails = await fetchUserDetails(idUsuario);
+      const userDetails = await fetchUserDetails(id);
       setExpandedUser(userDetails);
     } catch (error) {
       console.error('Error al obtener detalles del usuario:', error);
@@ -42,13 +46,23 @@ const Users = () => {
     }
   };
 
-  const handleDeleteUser = async (idUsuario) => {
+  const handleDeleteUser = async (id) => {
     try {
-      await removeUser(idUsuario);
-      setUsers(users.filter((user) => user.idUsuario !== idUsuario));
+      await removeUser(id);
+      setUsers(users.filter((user) => user.id !== id));
       setExpandedUser(null);
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
+    }
+  };
+
+  const handleUpdateUser = async (id, updatedData) => {
+    try {
+      const updatedUser = await updateUser(id, updatedData);
+      setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
+      setExpandedUser(null);
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
     }
   };
 
@@ -74,7 +88,7 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <button onClick={() => handleExpandUser(user.idUsuario)}>🔍</button>
+              <button onClick={() => handleExpandUser(user.id)}>🔍</button>
             ),
           },
         ]}
@@ -90,6 +104,7 @@ const Users = () => {
           user={expandedUser}
           onClose={() => setExpandedUser(null)}
           onDelete={handleDeleteUser}
+          onUpdate={handleUpdateUser}
         />
       )}
       {isAddUserModalOpen && (

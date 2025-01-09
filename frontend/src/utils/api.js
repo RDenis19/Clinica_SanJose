@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Configuración base de Axios
 const API = axios.create({
-  baseURL: 'http://localhost:3301/api', // URL base de tu API
+  baseURL: 'http://localhost:3301', // URL base de tu API
   timeout: 10000,
 });
 
@@ -25,7 +25,7 @@ API.interceptors.request.use(
 // Petición para iniciar sesión
 export const loginRequest = async (credentials) => {
   try {
-    const response = await API.post('/login', credentials);
+    const response = await API.post('/auth/login', credentials);
     return response.data;
   } catch (error) {
     throw error.response
@@ -35,29 +35,16 @@ export const loginRequest = async (credentials) => {
 };
 
 // Usuario
-// Obtener lista parcial de usuarios (para tabla)
+// Funciones de Usuario
 export const fetchUsers = async () => {
   try {
-    const response = await API.get('/usuarios', {
-      params: { fields: 'idUsuario,identificacion,nombres,correo,telefono,rol,estado' },
-    });
+    const response = await API.get('/usuarios');
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-// Obtener detalles completos de un usuario
-export const fetchUserDetails = async (idUsuario) => {
-  try {
-    const response = await API.get(`/usuarios/${idUsuario}`);
-    return response.data;
-  } catch (error) {
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
-  }
-};
-
-// Agregar un nuevo usuario
 export const createUser = async (userData) => {
   try {
     const response = await API.post('/usuarios', userData);
@@ -67,25 +54,30 @@ export const createUser = async (userData) => {
   }
 };
 
-// Actualizar datos de un usuario
-export const updateUser = async (idUsuario, updatedData) => {
+export const fetchUserDetails = async (id) => {
   try {
-    const response = await API.put(`/usuarios/${idUsuario}`, updatedData);
+    const response = await API.get(`/usuarios/${id}`);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-// Eliminar un usuario
-export const removeUser = async (idUsuario) => {
+export const updateUser = async (id, updatedData) => {
   try {
-    const response = await API.delete(`/usuarios/${idUsuario}`);
+    const response = await API.put(`/usuarios/${id}`, updatedData);
     return response.data;
   } catch (error) {
-    throw error.response
-      ? error.response.data
-      : { error: 'Error en el servidor' };
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+export const removeUser = async (id) => {
+  try {
+    const response = await API.delete(`/usuarios/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
