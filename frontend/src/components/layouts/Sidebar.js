@@ -1,12 +1,15 @@
+// src/components/layouts/Sidebar.js
 import React from 'react';
-import '../../styles/layouts/sidebar.css';
 import { NavLink } from 'react-router-dom';
+import '../../styles/layouts/sidebar.css';
 
 function Sidebar({ links = [] }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <h1>Clínica Hospital <span>San José</span></h1>
+        <h1>
+          Clínica Hospital <span>San José</span>
+        </h1>
         <p>Todo Corazón</p>
       </div>
       <ul className="menu">
@@ -16,7 +19,7 @@ function Sidebar({ links = [] }) {
               to={link.to}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              {link.label}
+              {link.icon} {link.label}
             </NavLink>
           </li>
         ))}
@@ -26,4 +29,3 @@ function Sidebar({ links = [] }) {
 }
 
 export default Sidebar;
-

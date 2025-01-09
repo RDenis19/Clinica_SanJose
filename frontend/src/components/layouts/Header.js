@@ -1,15 +1,16 @@
+// src/components/layouts/Header.js
 import React from 'react';
-import { AiOutlineBell } from 'react-icons/ai'; // Icono para las notificaciones
-import '../../styles/layouts/header.css';
+import { AiOutlineBell } from 'react-icons/ai';
+import '../../styles/layouts/header.css'; // si gustas separar sus estilos
 
 function Header({ username, profilePic }) {
   return (
     <div className="header">
-      <h1>Bienvenido, <span>{username}</span></h1>
+      <h1>
+        Bienvenido, <span>{username}</span>
+      </h1>
       <div className="header-right">
-        {/* Icono de notificaciones */}
         <AiOutlineBell className="notification-icon" />
-        {/* Foto de perfil */}
         <div className="profile">
           <img
             src={profilePic}

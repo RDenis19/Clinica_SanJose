@@ -1,13 +1,9 @@
+/* src/styles/layouts/sidebar.css */
 .sidebar {
-  width: 250px; /* Tamaño fijo */
-  position: fixed; /* Mantiene su posición */
-  top: 0;
-  left: 0;
-  height: 100vh; /* Ocupa toda la altura */
-  background: #f8f9fa;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  width: 250px;
+  background: #e2e8f0;
 }
+
 
 .sidebar-logo {
   padding: 20px;
@@ -18,6 +14,36 @@
   font-size: 1.25rem;
   color: #1d8f85;
 }
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin: 15px 0;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.menu li a.active {
+  background: #1d8f85;
+  color: white;
+  border-radius: 5px;
+}
+
+.menu li a:hover {
+  background: #b6c4a8;
+}
+
 
 .menu {
   list-style: none;

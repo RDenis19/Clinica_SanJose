@@ -1,29 +1,33 @@
-// src/layouts/DoctorLayout.js
-import React from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import "../../styles/layouts/DoctorLayout.css"; // si deseas estilos específicos
+// src/components/layouts/DoctorLayout.js
+import React from 'react';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import '../../styles/layouts/DoctorLayout.css';
+
+// Íconos (doctor)
+import { AiOutlineDashboard } from 'react-icons/ai';
+import { BiUserCircle } from 'react-icons/bi';
+import { FaBookMedical } from 'react-icons/fa';
 
 function DoctorLayout({ children }) {
   return (
     <div className="doctor-layout">
-      {/* Reutilizar el mismo Header */}
-      <Header />
-      
-      <div className="doctor-container">
-        {/* Reutilizar el mismo Sidebar pero con links específicos para doctor */}
-        <Sidebar 
-          links={[
-            { label: "Dashboard", to: "/doctor/dashboard" },
-            { label: "Pacientes", to: "/doctor/pacientes" },
-            { label: "Historias Clínicas", to: "/doctor/historias" }
-          ]}
-        />
-        
-        {/* Aquí va el contenido dinámico de cada vista del doctor */}
-        <main className="doctor-content">
+      {/* Columna Izquierda */}
+      <Sidebar
+        links={[
+          { label: 'Dashboard', to: '/doctor/dashboard', icon: <AiOutlineDashboard /> },
+          { label: 'Pacientes', to: '/doctor/pacientes', icon: <BiUserCircle /> },
+          { label: 'Historias Clínicas', to: '/doctor/historias', icon: <FaBookMedical /> }
+        ]}
+      />
+
+      {/* Columna Derecha: Header arriba + contenido abajo */}
+      <div className="doctor-main">
+        <Header username="Doctor" profilePic="https://via.placeholder.com/40" />
+
+        <div className="doctor-content">
           {children}
-        </main>
+        </div>
       </div>
     </div>
   );
