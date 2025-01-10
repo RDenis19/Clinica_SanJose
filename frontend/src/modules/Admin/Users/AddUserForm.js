@@ -8,21 +8,31 @@ const AddUserForm = ({ onClose, onAdd }) => {
     nombres: "",
     apellidos: "",
     fechaNacimiento: "",
+    direccion: "",
     telefono: "",
     sexo: "F",
     correo: "",
-    estadoCivil: "S", // Estado Civil: Soltero por defecto
+    estadoCivil: "S", // Estado Civil predeterminado
     usuario: "",
     contraseña: "",
     especialidad: "",
-    estado: "Activo", // Estado por defecto
-    rol: "Admin", // Rol por defecto
+    estado: "Activo", // Estado predeterminado
+    rol: "Admin", // Rol predeterminado
     InternaClinica_idInternaClinica: "",
     FirmaElectronica_idFirmaElec: "",
   });
 
   const handleSubmit = () => {
-    // Validaciones básicas antes de enviar al backend
+    console.log("Datos enviados al backend:", formData);
+
+    if (!formData.InternaClinica_idInternaClinica || isNaN(formData.InternaClinica_idInternaClinica)) {
+      alert("El ID de Interna Clínica debe ser un número entero.");
+      return;
+    }
+    if (!formData.FirmaElectronica_idFirmaElec || isNaN(formData.FirmaElectronica_idFirmaElec)) {
+      alert("El ID de Firma Electrónica debe ser un número entero.");
+      return;
+    }
     if (!formData.identificacion || formData.identificacion.length < 10) {
       alert("La identificación debe tener al menos 10 caracteres.");
       return;
@@ -59,7 +69,13 @@ const AddUserForm = ({ onClose, onAdd }) => {
       alert("El campo 'Especialidad' es obligatorio.");
       return;
     }
-    onAdd(formData);
+
+    onAdd({
+      ...formData,
+      InternaClinica_idInternaClinica: parseInt(formData.InternaClinica_idInternaClinica),
+      FirmaElectronica_idFirmaElec: parseInt(formData.FirmaElectronica_idFirmaElec),
+    });
+
     onClose();
   };
 
@@ -106,6 +122,16 @@ const AddUserForm = ({ onClose, onAdd }) => {
             value={formData.fechaNacimiento}
             onChange={(e) =>
               setFormData({ ...formData, fechaNacimiento: e.target.value })
+            }
+          />
+        </div>
+        <div className="form-field">
+          <label>Dirección</label>
+          <input
+            type="text"
+            value={formData.direccion}
+            onChange={(e) =>
+              setFormData({ ...formData, direccion: e.target.value })
             }
           />
         </div>
@@ -175,30 +201,24 @@ const AddUserForm = ({ onClose, onAdd }) => {
           />
         </div>
         <div className="form-field">
-          <label>Rol</label>
-          <select
-            value={formData.rol}
+          <label>ID de Interna Clínica</label>
+          <input
+            type="number"
+            value={formData.InternaClinica_idInternaClinica}
             onChange={(e) =>
-              setFormData({ ...formData, rol: e.target.value })
+              setFormData({ ...formData, InternaClinica_idInternaClinica: e.target.value })
             }
-          >
-            <option value="Admin">Admin</option>
-            <option value="Doctor">Doctor</option>
-            <option value="Enfermera">Enfermera</option>
-          </select>
+          />
         </div>
         <div className="form-field">
-          <label>Estado</label>
-          <select
-            value={formData.estado}
+          <label>ID de Firma Electrónica</label>
+          <input
+            type="number"
+            value={formData.FirmaElectronica_idFirmaElec}
             onChange={(e) =>
-              setFormData({ ...formData, estado: e.target.value })
+              setFormData({ ...formData, FirmaElectronica_idFirmaElec: e.target.value })
             }
-          >
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-            <option value="Suspendido">Suspendido</option>
-          </select>
+          />
         </div>
         <button className="add-user-button" type="button" onClick={handleSubmit}>
           Agregar Usuario

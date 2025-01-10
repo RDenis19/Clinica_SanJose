@@ -45,3 +45,69 @@
 2025-01-10T00:58:59.314Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-10T00:59:20.040Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-10T00:59:22.313Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T01:02:35.911Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T01:10:08.835Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:08.854Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:11.243Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:11.283Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:15.070Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:15.091Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:16.941Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:16.955Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:24.393Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:10:24.406Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:11:42.717Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:11:42.724Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:12:52.311Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:12:52.324Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:20:55.915Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:20:55.923Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:21:44.254Z [ERROR]: POST /usuarios - El ID de InternaClinica debe ser un número entero., El ID de FirmaElectronica debe ser un número entero.
+2025-01-10T01:21:51.504Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:21:51.522Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:27:12.112Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T01:27:27.238Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:27:27.249Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:31:10.336Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:31:10.348Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:32:05.586Z [ERROR]: POST /usuarios - El ID de InternaClinica debe ser un número entero., El ID de FirmaElectronica debe ser un número entero.
+2025-01-10T01:38:51.258Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:38:51.274Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:39:48.477Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:39:48.478Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:40:00.002Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:40:00.029Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:41:21.461Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:41:21.462Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:41:24.751Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:41:24.768Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:42:04.318Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:42:04.320Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:48:22.003Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:48:22.014Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:48:43.799Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:48:43.800Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:48:48.218Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:48:48.225Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:49:07.949Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:49:07.955Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:49:30.471Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:49:30.472Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:54:39.484Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:54:39.502Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:55:12.882Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:55:12.883Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T01:56:30.829Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T01:57:22.380Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:57:22.390Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T01:57:36.118Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T01:57:36.120Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T02:01:26.056Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T02:01:26.079Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T02:01:35.743Z [ERROR]: Error al crear usuario: pool is not defined
+2025-01-10T02:01:35.744Z [ERROR]: POST /usuarios - pool is not defined
+2025-01-10T02:02:21.639Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T02:15:36.463Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T02:42:09.186Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T02:54:21.638Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T02:54:21.654Z [ERROR]: GET /patients - Ruta no encontrada.

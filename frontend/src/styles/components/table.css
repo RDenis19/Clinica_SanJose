@@ -1,66 +1,22 @@
-.generic-table {
+.table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.generic-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.generic-table th, .generic-table td {
-  padding: 10px;
-  text-align: left;
+.table th,
+.table td {
   border: 1px solid #ddd;
-}
-
-.expanded-content {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-top: none;
-}
-
-.generic-table th, .generic-table td {
+  padding: 8px;
   text-align: left;
-  padding: 15px;
 }
 
-.generic-table th {
-  background-color: #f4f4f9;
+.table th {
+  background-color: #f4f4f4;
   font-weight: bold;
-  color: #4a4a4a;
-  border-bottom: 2px solid #e8e8f8;
 }
 
-.generic-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.generic-table tr:hover {
-  background-color: #f1f1ff;
-}
-
-.generic-table td {
-  border-bottom: 1px solid #e8e8f8;
-  color: #4a4a4a;
-}
-
-.action-button {
-  background-color: #10b981;
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.action-button:hover {
-  background-color: #059669;
+.table .no-data {
+  text-align: center;
+  color: #888;
 }

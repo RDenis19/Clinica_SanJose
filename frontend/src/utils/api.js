@@ -1,16 +1,13 @@
 import axios from 'axios';
 
-// Configuración base de Axios
 const API = axios.create({
-  baseURL: 'http://localhost:3301', // URL base de tu API
+  baseURL: 'http://localhost:3301',
   timeout: 10000,
 });
 
-// Interceptor para agregar el token en el encabezado Authorization
 API.interceptors.request.use(
   (config) => {
-    // Obtener el token desde el almacenamiento local o donde lo guardes
-    const token = localStorage.getItem('token'); // Cambia esto si usas otro método de almacenamiento
+    const token = localStorage.getItem('jwt_token'); 
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -20,6 +17,9 @@ API.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export default API;
+
 
 // Funciones para las peticiones
 // Petición para iniciar sesión
@@ -35,21 +35,24 @@ export const loginRequest = async (credentials) => {
 };
 
 // Usuario
-// Funciones de Usuario
 export const fetchUsers = async () => {
   try {
     const response = await API.get('/usuarios');
-    return response.data;
+    console.log('Respuesta del servidor:', response.data);
+    return response.data; // Esto debe ser un array
   } catch (error) {
+    console.error('Error al obtener usuarios:', error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
 export const createUser = async (userData) => {
   try {
+    console.log("Datos enviados al backend (API):", userData);
     const response = await API.post('/usuarios', userData);
     return response.data;
   } catch (error) {
+    console.error('Error al agregar usuario:', error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
@@ -93,3 +96,5 @@ export const fetchPatients = async () => {
       : { error: 'Error en el servidor' };
   }
 };
+
+

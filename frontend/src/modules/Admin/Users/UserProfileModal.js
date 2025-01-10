@@ -1,111 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
+import '../../../styles/modules/Administrador/user/userProfileModal.css';
+import { fetchUserDetails } from '../../../utils/api';
 
-const UserProfileModal = ({ user, onClose, onDelete, onUpdate }) => {
+const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState(null);
 
-  const handleSave = () => {
-    onUpdate(user.idUsuario, formData);
-    setIsEditing(false);
+  useEffect(() => {
+    if (userId) {
+      // Llama a la API para obtener los detalles del usuario
+      const fetchDetails = async () => {
+        try {
+          const userDetails = await fetchUserDetails(userId);
+          setFormData(userDetails);
+        } catch (error) {
+          console.error('Error al obtener detalles del usuario:', error);
+        }
+      };
+      fetchDetails();
+    }
+  }, [userId]);
+
+  const handleSave = async () => {
+    try {
+      await onUpdate(userId, formData);
+      setIsEditing(false);
+      alert('Usuario actualizado correctamente.');
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
+      alert('Error al actualizar el usuario. Intente nuevamente.');
+    }
   };
 
-  if (!user) return null;
+  if (!formData) return <p>Cargando...</p>;
 
   return (
     <Modal onClose={onClose}>
-      <h2>{isEditing ? 'Editar Usuario' : 'Detalles del Usuario'}</h2>
+      <div className="modal-header">
+        <h2>{isEditing ? 'Editar Usuario' : 'Detalles del Usuario'}</h2>
+        <button className="modal-close" onClick={onClose}>×</button>
+      </div>
       {isEditing ? (
-        <form>
-          <input
-            type="text"
-            placeholder="Identificación"
-            value={formData.identificacion}
-            onChange={(e) => setFormData({ ...formData, identificacion: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Nombres"
-            value={formData.nombres}
-            onChange={(e) => setFormData({ ...formData, nombres: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Apellidos"
-            value={formData.apellidos}
-            onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
-          />
-          <input
-            type="date"
-            placeholder="Fecha de Nacimiento"
-            value={formData.fechaNacimiento}
-            onChange={(e) => setFormData({ ...formData, fechaNacimiento: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Teléfono"
-            value={formData.telefono}
-            onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-          />
-          <select
-            value={formData.sexo}
-            onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}
-          >
-            <option value="F">Femenino</option>
-            <option value="M">Masculino</option>
-          </select>
-          <input
-            type="email"
-            placeholder="Correo Electrónico"
-            value={formData.correo}
-            onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Nombre de Usuario"
-            value={formData.usuario}
-            onChange={(e) => setFormData({ ...formData, usuario: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Especialidad"
-            value={formData.especialidad}
-            onChange={(e) => setFormData({ ...formData, especialidad: e.target.value })}
-          />
-          <select
-            value={formData.estado}
-            onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
-          >
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-            <option value="Suspendido">Suspendido</option>
-          </select>
-          <select
-            value={formData.rol}
-            onChange={(e) => setFormData({ ...formData, rol: e.target.value })}
-          >
-            <option value="Admin">Admin</option>
-            <option value="Doctor">Doctor</option>
-            <option value="Enfermera">Enfermera</option>
-          </select>
+        <form className="form-grid">
+          <div className="form-field">
+            <label>Identificación</label>
+            <input
+              type="text"
+              value={formData.identificacion}
+              onChange={(e) =>
+                setFormData({ ...formData, identificacion: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-field">
+            <label>Nombres</label>
+            <input
+              type="text"
+              value={formData.nombres}
+              onChange={(e) =>
+                setFormData({ ...formData, nombres: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-field">
+            <label>Apellidos</label>
+            <input
+              type="text"
+              value={formData.apellidos}
+              onChange={(e) =>
+                setFormData({ ...formData, apellidos: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-field">
+            <label>Correo Electrónico</label>
+            <input
+              type="email"
+              value={formData.correo}
+              onChange={(e) =>
+                setFormData({ ...formData, correo: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-field">
+            <label>Teléfono</label>
+            <input
+              type="text"
+              value={formData.telefono}
+              onChange={(e) =>
+                setFormData({ ...formData, telefono: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-field">
+            <label>Estado</label>
+            <select
+              value={formData.estado}
+              onChange={(e) =>
+                setFormData({ ...formData, estado: e.target.value })
+              }
+            >
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+              <option value="Suspendido">Suspendido</option>
+            </select>
+          </div>
           <Button label="Guardar Cambios" onClick={handleSave} />
         </form>
       ) : (
-        <div>
-          <p><strong>Identificación:</strong> {user.identificacion}</p>
-          <p><strong>Nombres:</strong> {user.nombres} {user.apellidos}</p>
-          <p><strong>Correo:</strong> {user.correo}</p>
-          <p><strong>Teléfono:</strong> {user.telefono}</p>
-          <p><strong>Fecha de Nacimiento:</strong> {new Date(user.fechaNacimiento).toLocaleDateString()}</p>
-          <p><strong>Sexo:</strong> {user.sexo === 'F' ? 'Femenino' : 'Masculino'}</p>
-          <p><strong>Estado:</strong> {user.estado}</p>
-          <p><strong>Rol:</strong> {user.rol}</p>
-          <Button label="Editar" onClick={() => setIsEditing(true)} />
-          <Button label="Eliminar" onClick={() => onDelete(user.idUsuario)} />
+        <div className="user-details">
+          <p><strong>Identificación:</strong> {formData.identificacion}</p>
+          <p><strong>Nombres:</strong> {formData.nombres}</p>
+          <p><strong>Apellidos:</strong> {formData.apellidos}</p>
+          <p><strong>Correo Electrónico:</strong> {formData.correo}</p>
+          <p><strong>Teléfono:</strong> {formData.telefono}</p>
+          <p><strong>Estado:</strong> {formData.estado}</p>
+          <div className="actions">
+            <Button label="Editar" onClick={() => setIsEditing(true)} />
+            <Button
+              label="Eliminar"
+              onClick={() => {
+                if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                  onDelete(userId);
+                }
+              }}
+            />
+          </div>
         </div>
       )}
-      <Button label="Cerrar" onClick={onClose} />
     </Modal>
   );
 };
