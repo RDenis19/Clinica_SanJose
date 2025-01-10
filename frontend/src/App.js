@@ -12,7 +12,7 @@ import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users/Users';
 import Patients from './modules/Admin/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
-import Formulario from './modules/Admin/Formulario';  // <-- reemplaza <form />
+import Formulario from './modules/Admin/Formulario/Form';  
 
 // Vistas de Doctor
 import DashboardDoctor from './modules/Doctor/DashboardDoctor';
