@@ -1,0 +1,88 @@
+/* EmergenciaTabs.css */
+
+.emergencia-tabs-container {
+    display: flex;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .tabs-sidebar {
+    width: 300px;
+    background-color: #d4e0e0;
+    color: rgb(0, 0, 0);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tab-button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .tab-button:hover,
+  .tab-button.active {
+    background-color: #24c587;
+  }
+  
+  .form-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: white;
+  }
+  
+  .form-content h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-transform: capitalize;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .form-group input {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #fdfdfd;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+  
+  .form-actions button {
+    width: 150px;
+  }
+  

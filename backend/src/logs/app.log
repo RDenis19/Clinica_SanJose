@@ -111,3 +111,40 @@
 2025-01-10T02:42:09.186Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-10T02:54:21.638Z [ERROR]: GET /patients - Ruta no encontrada.
 2025-01-10T02:54:21.654Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T04:16:58.889Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T04:20:14.835Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T04:20:39.642Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:20:39.651Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:33:32.319Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:33:32.327Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:33:33.855Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T04:33:34.791Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T04:33:35.104Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T04:33:35.458Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-10T04:33:35.868Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-10T04:33:36.891Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-10T04:33:45.783Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T04:33:45.790Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T04:33:48.366Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:33:48.374Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T04:33:50.244Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-10T04:34:17.330Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-10T04:34:25.271Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T04:34:25.276Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:20:52.683Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:20:52.689Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:20:55.018Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:20:55.022Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:20:58.021Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:20:58.032Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:47:17.567Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:47:17.575Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:49:28.473Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:49:28.478Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T05:50:53.732Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:50:53.741Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:50:55.553Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T05:50:55.565Z [INFO]: Obtenida lista de usuarios.
+2025-01-10T18:04:38.436Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T18:05:59.404Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T18:05:59.408Z [ERROR]: GET /patients - Ruta no encontrada.
