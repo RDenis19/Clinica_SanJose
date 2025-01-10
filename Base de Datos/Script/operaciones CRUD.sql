@@ -81,3 +81,86 @@ WHERE `Usuario_idUsuario` = ? AND `HistoriaClinica_idHistoriaClinica` = ?;
 -- eliminar
 DELETE FROM `clinica_sanjose`.`Usuario_has_HistoriaClinica` WHERE `Usuario_idUsuario` = ? AND `HistoriaClinica_idHistoriaClinica` = ?;
 
+
+-- TABLA FIRMA ELECTRONICA
+-- crear
+INSERT INTO `clinica_sanjose`.`FirmaElectronica` (`firma`, `fechaEmision`, `fechaExpiracion`)
+VALUES (?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`FirmaElectronica` WHERE `idFirmaElec` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`FirmaElectronica` 
+SET `firma` = ?, `fechaEmision` = ?, `fechaExpiracion` = ? 
+WHERE `idFirmaElec` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`FirmaElectronica` WHERE `idFirmaElec` = ?;
+
+
+-- TABLA InternaClinica
+-- crear
+INSERT INTO `clinica_sanjose`.`InternaClinica` (`supervisor`, `fechaContratacion`, `horarios`)
+VALUES (?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`InternaClinica` WHERE `idInternaClinica` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`InternaClinica` 
+SET `supervisor` = ?, `fechaContratacion` = ?, `horarios` = ? 
+WHERE `idInternaClinica` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`InternaClinica` WHERE `idInternaClinica` = ?;
+
+
+-- TABLA Formulario_Tipo
+-- crear
+INSERT INTO `clinica_sanjose`.`Formulario_Tipo` (`nroTipoFormulario`, `nombreTipoFormulario`, `Estructura`)
+VALUES (?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`Formulario_Tipo` WHERE `idFormulario_Tipo` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`Formulario_Tipo` 
+SET `nroTipoFormulario` = ?, `nombreTipoFormulario` = ?, `Estructura` = ? 
+WHERE `idFormulario_Tipo` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`Formulario_Tipo` WHERE `idFormulario_Tipo` = ?;
+
+
+-- TABLA Titulo
+-- crear
+INSERT INTO `clinica_sanjose`.`Titulo` (`nombreTitulo`, `institucionEducacionSuperior`, `tipoTitulo`, `reconocidoPor`, `numeroRegistro`, `fechaRegistro`, `areaConocimiento`, `observacion`, `Usuario_idUsuario`)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`Titulo` WHERE `idTitulo` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`Titulo` 
+SET `nombreTitulo` = ?, `institucionEducacionSuperior` = ?, `tipoTitulo` = ?, `reconocidoPor` = ?, `numeroRegistro` = ?, `fechaRegistro` = ?, `areaConocimiento` = ?, `observacion` = ?, `Usuario_idUsuario` = ?
+WHERE `idTitulo` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`Titulo` WHERE `idTitulo` = ?;
+
+
+-- TABLA Certificaciones
+-- crear
+INSERT INTO `clinica_sanjose`.`Certificaciones` (`nombreCertificacion`, `fechaEmisionC`, `fechaExpiracionC`, `idUsuario`, `Usuario_idUsuario`)
+VALUES (?, ?, ?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`Certificaciones` WHERE `idCertificaciones` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`Certificaciones` 
+SET `nombreCertificacion` = ?, `fechaEmisionC` = ?, `fechaExpiracionC` = ?, `idUsuario` = ?, `Usuario_idUsuario` = ?
+WHERE `idCertificaciones` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`Certificaciones` WHERE `idCertificaciones` = ?;
+
+
+-- TABLA Referido
+-- crear
+INSERT INTO `clinica_sanjose`.`Referido` (`nombreReferido`, `parentescoReferido`, `direccionReferido`, `telefonoReferido`, `Paciente_idPaciente`)
+VALUES (?, ?, ?, ?, ?);
+-- leer
+SELECT * FROM `clinica_sanjose`.`Referido` WHERE `idReferido` = ? AND `Paciente_idPaciente` = ?;
+-- actualizar
+UPDATE `clinica_sanjose`.`Referido` 
+SET `nombreReferido` = ?, `parentescoReferido` = ?, `direccionReferido` = ?, `telefonoReferido` = ?, `Paciente_idPaciente` = ?
+WHERE `idReferido` = ? AND `Paciente_idPaciente` = ?;
+-- eliminar
+DELETE FROM `clinica_sanjose`.`Referido` WHERE `idReferido` = ? AND `Paciente_idPaciente` = ?;
