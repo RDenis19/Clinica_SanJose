@@ -1,0 +1,24 @@
+/* src/styles/modules/doctor/HistoriasClinicas.css */
+
+.historias-clinicas-container {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .botones-opciones button {
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .formulario-nuevo-paciente,
+  .formulario-buscar-paciente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  

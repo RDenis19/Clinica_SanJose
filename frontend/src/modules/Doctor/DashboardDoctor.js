@@ -1,13 +1,15 @@
-// src/modules/Doctor/DashboardDoctor.js
 import React from 'react';
+import ComingSoon from '../../components/common/ComingSoon';
 
-function DashboardDoctor() {
+const Dashboard = () => {
   return (
     <div>
-      <h2>Dashboard del Doctor</h2>
-      <p>Aquí irán estadísticas o información relevante para el médico.</p>
+      <ComingSoon
+        message="¡Dashboard en construcción!"
+        subMessage="Pronto podrás acceder a esta sección."
+      />
     </div>
   );
-}
+};
 
-export default DashboardDoctor;
+export default Dashboard;

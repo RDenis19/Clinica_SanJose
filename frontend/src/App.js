@@ -17,7 +17,12 @@ import Formulario from './modules/Admin/Formulario';  // <-- reemplaza <form />
 // Vistas de Doctor
 import DashboardDoctor from './modules/Doctor/DashboardDoctor';
 import PacientesDoctor from './modules/Doctor/PacientesDoctor';
-import HistoriasDoctor from './modules/Doctor/HistoriasDoctor';
+import HistoriasDoctor from './modules/Doctor/HistoriaClinica/HistoriasDoctor';
+
+// Vistas de Doctor las Rutas de Historia Clinica
+import RegistrarPaciente from './modules/Doctor/HistoriaClinica/RegistrarPaciente';
+import BuscarPaciente from './modules/Doctor/HistoriaClinica/BuscarPaciente';
+import Emergencia from './modules/Doctor/HistoriaClinica/Emergencia';
 
 function App() {
   return (
@@ -90,6 +95,35 @@ function App() {
           element={
             <DoctorLayout>
               <HistoriasDoctor />
+            </DoctorLayout>
+          }
+        />
+
+        <Route
+          path="/doctor/historias/registrar"
+          element={
+            <DoctorLayout>
+              <RegistrarPaciente />
+            </DoctorLayout>
+          }
+        />
+
+        {/* Buscar Paciente */}
+        <Route
+          path="/doctor/historias/buscar"
+          element={
+            <DoctorLayout>
+              <BuscarPaciente />
+            </DoctorLayout>
+          }
+        />
+
+        {/* Emergencia */}
+        <Route
+          path="/doctor/historias/emergencia"
+          element={
+            <DoctorLayout>
+              <Emergencia />
             </DoctorLayout>
           }
         />

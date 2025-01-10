@@ -1,7 +1,7 @@
 /* src/styles/layouts/sidebar.css */
 .sidebar {
   width: 250px;
-  background: #e2e8f0;
+  background: #F6FFED;
 }
 
 
@@ -35,7 +35,7 @@
 }
 
 .menu li a.active {
-  background: #1d8f85;
+  background: #E6F7FF;
   color: white;
   border-radius: 5px;
 }
