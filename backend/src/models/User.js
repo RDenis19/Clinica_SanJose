@@ -1,6 +1,4 @@
-// models/User.js
-
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 const User = {
   // Obtener todos los usuarios
@@ -29,9 +27,42 @@ const User = {
     return rows;
   },
 
+  //Encontrar usuario por correo
+  findByEmail: async (email) => {
+    const [rows] = await pool.execute(
+      `
+      SELECT
+        idUsuario,
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        usuario,
+        contraseña,
+        especialidad,
+        consultorio,
+        estado,
+        rol,
+        InternaClinica_idInternaClinica,
+        FirmaElectronica_idFirmaElec
+      FROM usuario
+      WHERE correo = ?
+    `,
+      [email]
+    );
+
+    return rows[0];
+  },
+
   // Obtener un usuario por idUsuario
   findById: async (idUsuario) => {
-    const [rows] = await pool.execute(`
+    const [rows] = await pool.execute(
+      `
       SELECT 
         idUsuario, 
         identificacion, 
@@ -52,7 +83,9 @@ const User = {
         FirmaElectronica_idFirmaElec 
       FROM usuario 
       WHERE idUsuario = ?
-    `, [idUsuario]);
+    `,
+      [idUsuario]
+    );
     return rows[0];
   },
 
@@ -76,22 +109,39 @@ const User = {
       estado,
       rol,
       InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec
+      FirmaElectronica_idFirmaElec,
     } = data;
 
-    const [result] = await pool.execute(`
+    const [result] = await pool.execute(
+      `
       INSERT INTO usuario (
         identificacion, nombres, apellidos, fechaNacimiento, direccion, 
         telefono, sexo, correo, estadoCivil, usuario, 
         contraseña, especialidad, fotografia, consultorio, 
         estado, rol, InternaClinica_idInternaClinica, FirmaElectronica_idFirmaElec
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      identificacion, nombres, apellidos, fechaNacimiento, direccion, 
-      telefono, sexo, correo, estadoCivil, usuario, 
-      contraseña, especialidad, fotografia, consultorio, 
-      estado, rol, InternaClinica_idInternaClinica, FirmaElectronica_idFirmaElec
-    ]);
+    `,
+      [
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        usuario,
+        contraseña,
+        especialidad,
+        fotografia,
+        consultorio,
+        estado,
+        rol,
+        InternaClinica_idInternaClinica,
+        FirmaElectronica_idFirmaElec,
+      ]
+    );
 
     return { idUsuario: result.insertId, ...data };
   },
@@ -116,10 +166,11 @@ const User = {
       estado,
       rol,
       InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec
+      FirmaElectronica_idFirmaElec,
     } = data;
 
-    const [result] = await pool.execute(`
+    const [result] = await pool.execute(
+      `
       UPDATE usuario SET 
         identificacion = ?, 
         nombres = ?, 
@@ -140,23 +191,43 @@ const User = {
         InternaClinica_idInternaClinica = ?, 
         FirmaElectronica_idFirmaElec = ?
       WHERE idUsuario = ?
-    `, [
-      identificacion, nombres, apellidos, fechaNacimiento, direccion, 
-      telefono, sexo, correo, estadoCivil, usuario, 
-      contraseña, especialidad, fotografia, consultorio, 
-      estado, rol, InternaClinica_idInternaClinica, FirmaElectronica_idFirmaElec, idUsuario
-    ]);
+    `,
+      [
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        usuario,
+        contraseña,
+        especialidad,
+        fotografia,
+        consultorio,
+        estado,
+        rol,
+        InternaClinica_idInternaClinica,
+        FirmaElectronica_idFirmaElec,
+        idUsuario,
+      ]
+    );
 
     return result.affectedRows > 0 ? { idUsuario, ...data } : null;
   },
 
   // Eliminar un usuario por idUsuario
   delete: async (idUsuario) => {
-    const [result] = await pool.execute(`
+    const [result] = await pool.execute(
+      `
       DELETE FROM usuario WHERE idUsuario = ?
-    `, [idUsuario]);
+    `,
+      [idUsuario]
+    );
     return result.affectedRows > 0;
-  }
+  },
 };
 
 module.exports = User;

@@ -1,33 +1,36 @@
-// server.js
+const express = require("express");
+const dotenv = require("dotenv");
+const createError = require("http-errors");
+const helmet = require("helmet");
+const cors = require("cors");
+const logger = require("./utils/logger");
+const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
-const express = require('express');
 const app = express();
-const dotenv = require('dotenv');
-const createError = require('http-errors');
-const helmet = require('helmet');
-const cors = require('cors');
-const logger = require('./utils/logger');
 
 dotenv.config();
 
-// Importar rutas
-const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/authRoutes');
-
-// Importar middleware de manejo de errores
-const errorHandler = require('./middlewares/errorMiddleware');
-
 // Middlewares globales
-app.use(helmet());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+const errorHandler = require("./middlewares/errorMiddleware");
 
 // Rutas
-app.use('/auth', authRoutes);
-app.use('/usuarios', userRoutes);
+app.use("/auth", authRoutes);
+app.use("/usuarios", userRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {
-  next(createError(404, 'Ruta no encontrada.'));
+  next(createError(404, "Ruta no encontrada."));
 });
 
 // Middleware de manejo de errores
