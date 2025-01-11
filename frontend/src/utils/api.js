@@ -2,25 +2,22 @@ import axios from 'axios';
 import { isTokenExpired } from './authUtils';
 
 const API = axios.create({
-    baseURL: 'http://localhost:3301',
-    timeout: 10000,
+  baseURL: 'http://localhost:3301',
+  timeout: 10000,
 });
 
 API.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('jwt_token');
-        if (isTokenExpired(token)) {
-            return Promise.reject({ message: 'Token expirado. Por favor, inicie sesión nuevamente.' });
-        }
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
+  (config) => {
+    if (!config.url.includes('/auth/login')) {
+      const token = localStorage.getItem('jwt_token');
+      if (token && !isTokenExpired(token)) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
-
-export default API;
 
 // Funciones para las peticiones
 // Petición para iniciar sesión
@@ -38,7 +35,7 @@ export const loginRequest = async (credentials) => {
 // Usuario
 export const fetchUsers = async () => {
   try {
-    const response = await API.get('/usuarios');
+    const response = await API.get('/user/');
     console.log('Respuesta del servidor:', response.data);
     return response.data; // Esto debe ser un array
   } catch (error) {
@@ -50,7 +47,7 @@ export const fetchUsers = async () => {
 export const createUser = async (userData) => {
   try {
     console.log("Datos enviados al backend (API):", userData);
-    const response = await API.post('/usuarios', userData);
+    const response = await API.post('/user/', userData);
     return response.data;
   } catch (error) {
     console.error('Error al agregar usuario:', error.response?.data || error.message);
@@ -60,7 +57,7 @@ export const createUser = async (userData) => {
 
 export const fetchUserDetails = async (id) => {
   try {
-    const response = await API.get(`/usuarios/${id}`);
+    const response = await API.get(`/user/${id}`);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
@@ -69,7 +66,7 @@ export const fetchUserDetails = async (id) => {
 
 export const updateUser = async (id, updatedData) => {
   try {
-    const response = await API.put(`/usuarios/${id}`, updatedData);
+    const response = await API.put(`/user/${id}`, updatedData);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
@@ -78,7 +75,7 @@ export const updateUser = async (id, updatedData) => {
 
 export const removeUser = async (id) => {
   try {
-    const response = await API.delete(`/usuarios/${id}`);
+    const response = await API.delete(`/user/${id}`);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };

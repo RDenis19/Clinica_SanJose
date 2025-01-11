@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
-import { checkTokenAndRedirect } from './utils/authUtils';
+import { isTokenExpired } from './utils/authUtils';
 
 import Login from './modules/Login/Login';
 import AdminLayout from './components/layouts/AdminLayout';
@@ -22,12 +22,13 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = checkTokenAndRedirect();
-    if (!isAuthenticated) {
+    const token = localStorage.getItem('jwt_token');
+    if (!token || isTokenExpired(token)) {
       localStorage.clear();
-      navigate('/'); // Redirige al login
+      navigate('/'); // Redirige al login solo si no hay token o está expirado
     }
   }, [navigate]);
+
 
   return (
     <Routes>

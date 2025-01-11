@@ -10,32 +10,40 @@ function Login() {
     const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        setError('');
-
+        e.preventDefault(); // Evitar recarga
+    
+        setError(''); // Limpiar errores previos
+    
         try {
             const data = await loginRequest({ email, password });
-
+            if (!data || !data.token || !data.rol) {
+                throw new Error('Respuesta inválida del servidor.');
+            }
+    
             const { rol, token } = data;
-
+    
+            // Guardar en localStorage
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('userRole', rol);
             localStorage.setItem('jwt_token', token);
-
-            if (rol === 'Admin') {
-                window.location.href = '/admin/dashboard';
-            } else if (rol === 'Doctor') {
-                window.location.href = '/doctor/dashboard';
-            } else if (rol === 'Enfermera') {
-                window.location.href = '/enfermera/dashboard';
+    
+            // Redirigir según rol
+            const routes = {
+                Admin: '/admin/dashboard',
+                Doctor: '/doctor/dashboard',
+                Enfermera: '/enfermera/dashboard',
+            };
+    
+            if (routes[rol]) {
+                window.location.href = routes[rol];
             } else {
-                setError('Rol no reconocido.');
+                throw new Error('Rol no reconocido.');
             }
         } catch (err) {
+            console.error('Error en el login:', err); // Depuración
             setError(err.message || 'Error en el servidor.');
         }
     };
-
     return (
         <div className="login-container">
             <div className="login-left">
