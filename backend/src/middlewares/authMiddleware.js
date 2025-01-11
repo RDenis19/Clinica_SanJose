@@ -6,6 +6,7 @@ dotenv.config();
 const verifyTokenMiddleware = (req, res, next) => {
   // Obtener el token del encabezado Authorization
   const authHeader = req.headers['authorization'];
+  console.log(req.headers);
   
   // El formato esperado es "Bearer <token>"
   const token = authHeader && authHeader.split(' ')[1];

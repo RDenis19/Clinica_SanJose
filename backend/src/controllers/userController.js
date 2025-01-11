@@ -1,5 +1,3 @@
-// controllers/userController.js
-
 const User = require('../models/User');
 const createError = require('http-errors');
 const { validationResult } = require('express-validator');
@@ -15,8 +13,8 @@ exports.getAllUsers = async (req, res, next) => {
       usuarios
     });
   } catch (error) {
-    logger.error(`Error al obtener usuarios: ${error.message}`);
-    next(createError(500, 'Error del servidor.'));
+    logger.error(`Error al obtener lista completa de usuarios: ${error.message}`);
+    next(createError(500, 'Error al obtener lista completa de usuarios'));
   }
 };
 

@@ -33,23 +33,10 @@ const User = {
       `
       SELECT
         idUsuario,
-        identificacion,
-        nombres,
-        apellidos,
-        fechaNacimiento,
-        direccion,
-        telefono,
-        sexo,
         correo,
-        estadoCivil,
-        usuario,
         contraseña,
-        especialidad,
-        consultorio,
         estado,
-        rol,
-        InternaClinica_idInternaClinica,
-        FirmaElectronica_idFirmaElec
+        rol
       FROM usuario
       WHERE correo = ?
     `,
