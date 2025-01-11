@@ -26,7 +26,7 @@ import HistoriasDoctor from './modules/Doctor/HistoriaClinica/HistoriasDoctor';
 // Vistas de Enfermera
 import DashboardEnfermera from './modules/Enfermera/DashboardEnfermera';
 import PacientesEnfermera from './modules/Enfermera/PacientesEnfermera';
-import HistoriasEnfermera from './modules/Enfermera/HistoriasEnfermera';
+import HistoriasEnfermera from './modules/Enfermera/Historia Clinica/HistoriasEnfermera';
 
 function App() {
   return (

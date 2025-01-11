@@ -97,6 +97,16 @@ export const fetchPatients = async () => {
   }
 };
 
+export const createPatients = async (userData) => {
+  try {
+    const response = await API.post('/patients', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al agregar paciente:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+//Doctor - Enfermera
 // Obtener formulario
 export const fetchFormularioEstructura = async (tipo) => {
   try {
@@ -107,6 +117,24 @@ export const fetchFormularioEstructura = async (tipo) => {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+//Enfermera
+// asignar Formulario a Paciente 
+export const asignarFormularioAPaciente = async ({ pacienteId, tipoFormulario }) => {
+  const response = await fetch(`/api/pacientes/${pacienteId}/formularios`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ tipoFormulario }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al asignar el formulario');
+  }
+
+  return await response.json();
+};
+
 
 
 

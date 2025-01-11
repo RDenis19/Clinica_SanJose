@@ -21,7 +21,6 @@ function EnfermeraLayout({ children }) {
         ]}
       />
 
-      {/* Columna Derecha: Header arriba + contenido abajo */}
       <div className="enfermera-main">
         <Header username="Enfermera" profilePic="https://via.placeholder.com/40" />
 
