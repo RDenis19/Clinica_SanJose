@@ -6,35 +6,34 @@ import Table from '../../../components/common/Table';
 import AddUserForm from './AddUserForm';
 import UserProfileModal from './UserProfileModal';
 import '../../../styles/modules/Administrador/user/users.css';
+import Button from '../../../components/common/Button'; // Usando el componente Button
 import { fetchUsers, fetchUserDetails, removeUser, createUser, updateUser } from '../../../utils/api';
 
 const Users = () => {
-  const [users, setUsers] = useState([]); // Estado para usuarios
-  const [expandedUser, setExpandedUser] = useState(null); // Usuario expandido para detalles
-  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false); // Estado para modal de agregar usuario
-  const [currentPage, setCurrentPage] = useState(1); // Paginación
+  const [users, setUsers] = useState([]);
+  const [expandedUser, setExpandedUser] = useState(null);
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Cargar usuarios al montar el componente
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const response = await fetchUsers();
         if (response && response.usuarios && Array.isArray(response.usuarios)) {
-          setUsers(response.usuarios); // Ajustar para extraer el array `usuarios`
+          setUsers(response.usuarios);
         } else {
           console.error('La respuesta del servidor no contiene un array de usuarios:', response);
-          setUsers([]); // Asegurar que sea un array vacío en caso de error
+          setUsers([]);
         }
       } catch (error) {
         console.error('Error al cargar los usuarios:', error);
-        setUsers([]); // Asegurar que sea un array vacío en caso de error
+        setUsers([]);
       }
     };
     loadUsers();
   }, []);
 
-  // Manejar la expansión de detalles de un usuario
   const handleExpandUser = async (id) => {
     try {
       const userDetails = await fetchUserDetails(id);
@@ -44,18 +43,16 @@ const Users = () => {
     }
   };
 
-  // Agregar un nuevo usuario
   const handleAddUser = async (newUser) => {
     try {
       const addedUser = await createUser(newUser);
-      setUsers([...users, addedUser]); // Actualiza el estado con el nuevo usuario
+      setUsers([...users, addedUser]);
       setIsAddUserModalOpen(false);
     } catch (error) {
       console.error('Error al agregar usuario:', error);
     }
   };
 
-  // Eliminar un usuario
   const handleDeleteUser = async (id) => {
     try {
       await removeUser(id);
@@ -66,7 +63,6 @@ const Users = () => {
     }
   };
 
-  // Actualizar un usuario
   const handleUpdateUser = async (id, updatedData) => {
     try {
       const updatedUser = await updateUser(id, updatedData);
@@ -77,19 +73,16 @@ const Users = () => {
     }
   };
 
-  // Paginación
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedUsers = users.slice(startIndex, startIndex + itemsPerPage);
-
-  console.log('Usuarios mostrados en la tabla:', paginatedUsers); // Depuración
 
   return (
     <div className="users-container">
       {/* Barra de acciones */}
       <div className="actions-container">
         <SearchBar placeholder="Buscar Usuario" />
-        <FilterDropdown filters={{}} setFilters={() => { }} />
-        <button onClick={() => setIsAddUserModalOpen(true)}>Agregar Usuario</button>
+        <FilterDropdown filters={{}} setFilters={() => {}} />
+        <Button label="Agregar Usuario" onClick={() => setIsAddUserModalOpen(true)} />
       </div>
 
       {/* Tabla de usuarios */}
@@ -105,7 +98,11 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <button onClick={() => handleExpandUser(user.idUsuario)}>🔍</button>
+              <Button
+                label="Detalles"
+                className="secondary"
+                onClick={() => handleExpandUser(user.idUsuario)}
+              />
             ),
           },
         ]}
