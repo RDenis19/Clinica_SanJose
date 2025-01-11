@@ -51,40 +51,36 @@ exports.createUser = async (req, res, next) => {
     nombres,
     apellidos,
     fechaNacimiento,
-    direccion,
+    direccionDomicilio,
     telefono,
     sexo,
     correo,
     estadoCivil,
-    usuario,
-    contraseña,
     especialidad,
     fotografia,
     consultorio,
     estado,
     rol,
-    InternaClinica_idInternaClinica,
-    FirmaElectronica_idFirmaElec
+    usuario,
+    contraseña,
   } = req.body;
 
   try {
-    // Verificar si el usuario ya existe por identificación, usuario o correo
-    const existingUserById = await User.findById(identificacion); // Si 'identificacion' es único
-    if (existingUserById) {
-      throw createError(409, 'Un usuario con esta identificación ya existe.');
+    const checkUser = await User.checkBeforeCreateUsuer(identificacion, usuario, correo);
+    console.log(checkUser);
+
+    if (checkUser.identificacion !== 0) {
+      throw createError(404, 'Cedula ya existente');
     }
 
-    // Verificar si el nombre de usuario ya existe
-    const [existingUserByUsername] = await pool.execute('SELECT * FROM usuario WHERE usuario = ?', [usuario]);
-    if (existingUserByUsername.length > 0) {
-      throw createError(409, 'El nombre de usuario ya está en uso.');
+    if (checkUser.usuario !== 0) {
+      throw createError(404, 'Usuario ya existente');
     }
 
-    // Verificar si el correo electrónico ya existe
-    const [existingUserByCorreo] = await pool.execute('SELECT * FROM usuario WHERE correo = ?', [correo]);
-    if (existingUserByCorreo.length > 0) {
-      throw createError(409, 'El correo electrónico ya está en uso.');
+    if (checkUser.correo !== 0) {
+      throw createError(404, 'Correo ya existente');
     }
+
 
     // Crear el usuario
     const newUser = await User.create({
@@ -92,27 +88,24 @@ exports.createUser = async (req, res, next) => {
       nombres,
       apellidos,
       fechaNacimiento,
-      direccion,
+      direccionDomicilio,
       telefono,
       sexo,
       correo,
       estadoCivil,
-      usuario,
-      contraseña,
       especialidad,
       fotografia,
       consultorio,
       estado,
       rol,
-      InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec
+      usuario,
+      contraseña,
     });
 
     logger.info(`Creado nuevo usuario con idUsuario: ${newUser.idUsuario}`);
 
-    res.status(201).json({
-      mensaje: 'Usuario creado exitosamente.',
-      usuario: newUser
+    res.status(200).json({
+      mensaje: 'Usuario creado exitosamente.'
     });
   } catch (error) {
     logger.error(`Error al crear usuario: ${error.message}`);

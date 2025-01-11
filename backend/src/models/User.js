@@ -41,27 +41,46 @@ const User = {
     const [rows] = await pool.execute(
       `
       SELECT 
-        idUsuario, 
-        identificacion, 
-        nombres, 
-        apellidos, 
-        fechaNacimiento, 
-        direccion, 
-        telefono, 
-        sexo, 
-        correo, 
-        estadoCivil, 
-        usuario, 
-        especialidad, 
-        consultorio, 
-        estado, 
-        rol, 
-        InternaClinica_idInternaClinica, 
-        FirmaElectronica_idFirmaElec 
-      FROM usuario 
-      WHERE idUsuario = ?
+        idUsuario,
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccionDomicilio,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        especialidad,
+        fotografia,
+        consultorio,
+        estado,
+        rol,
+        usuario,
+        contraseña,
+        fechaCreacion,
+        fechaModificacion
+      FROM 
+        usuario
+      WHERE 
+        idUsuario = ?;
     `,
       [idUsuario]
+    );
+    return rows[0];
+  },
+
+  //Verificar si existe una cedula, usuario y correo
+  checkBeforeCreateUsuer: async (identificacion, usuario, correo) => {
+    const [rows] = await pool.execute(
+      `
+      SELECT 
+        EXISTS(SELECT 1 FROM usuario WHERE identificacion = '?') AS identificacion,
+        EXISTS(SELECT 1 FROM usuario WHERE usuario = '?')  AS usuario,
+        EXISTS(SELECT 1 FROM usuario WHERE correo = '?') AS correo
+      FROM DUAL;
+      `,
+      [identificacion, usuario, correo]
     );
     return rows[0];
   },
@@ -73,50 +92,58 @@ const User = {
       nombres,
       apellidos,
       fechaNacimiento,
-      direccion,
+      direccionDomicilio,
       telefono,
       sexo,
       correo,
       estadoCivil,
-      usuario,
-      contraseña,
       especialidad,
       fotografia,
       consultorio,
       estado,
       rol,
-      InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec,
+      usuario,
+      contraseña,
     } = data;
 
     const [result] = await pool.execute(
       `
       INSERT INTO usuario (
-        identificacion, nombres, apellidos, fechaNacimiento, direccion, 
-        telefono, sexo, correo, estadoCivil, usuario, 
-        contraseña, especialidad, fotografia, consultorio, 
-        estado, rol, InternaClinica_idInternaClinica, FirmaElectronica_idFirmaElec
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `,
-      [
         identificacion,
         nombres,
         apellidos,
         fechaNacimiento,
-        direccion,
+        direccionDomicilio,
         telefono,
         sexo,
         correo,
         estadoCivil,
-        usuario,
-        contraseña,
         especialidad,
         fotografia,
         consultorio,
         estado,
         rol,
-        InternaClinica_idInternaClinica,
-        FirmaElectronica_idFirmaElec,
+        usuario,
+        contraseña
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccionDomicilio,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        especialidad,
+        fotografia,
+        consultorio,
+        estado,
+        rol,
+        usuario,
+        contraseña,
       ]
     );
 
