@@ -1,31 +1,34 @@
 // src/modules/Doctor/HistoriasClinicas.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '../../../components/common/Button'; // Usa tu componente de botón
+import React, { useState } from 'react';
+import PasoTipoFormulario from './steps/PasoTipoFormulario';
+import PasoFormulario from './steps/PasoFormulario';
+import PasoBasico from './steps/PasoBasico';
+import NavigationSteps from '../../../components/common/NavigationSteps';
+import '../../../styles/modules/Doctor/HistoriasClinicas/HistoriasClinicas.css'; 
 
 function HistoriasClinicas() {
-  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
 
-  const handleRegistrar = () => {
-    navigate('/doctor/historias/registrar');
-  };
+  const nextStep = () => setCurrentStep((prev) => prev + 1);
+  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
-  const handleBuscar = () => {
-    navigate('/doctor/historias/buscar');
-  };
-
-  const handleEmergencia = () => {
-    navigate('/doctor/historias/emergencia');
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <PasoTipoFormulario nextStep={nextStep} />;
+      case 2:
+        return <PasoFormulario nextStep={nextStep} prevStep={prevStep} />;
+      case 3:
+        return <PasoBasico prevStep={prevStep} onSubmit={() => alert('Registro finalizado')} />;
+      default:
+        return <PasoTipoFormulario nextStep={nextStep} />;
+    }
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>¡Historial Clínico!</h1>
-      <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-        <Button label="Registrar Paciente" onClick={handleRegistrar} />
-        <Button label="Buscar Paciente" onClick={handleBuscar} />
-        <Button label="Emergencia" onClick={handleEmergencia} />
-      </div>
+    <div className="historias-clinicas-container">
+      <NavigationSteps step={currentStep} />
+      <div>{renderStep()}</div>
     </div>
   );
 }

@@ -148,3 +148,7 @@
 2025-01-10T18:04:38.436Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-10T18:05:59.404Z [ERROR]: GET /patients - Ruta no encontrada.
 2025-01-10T18:05:59.408Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T18:41:03.090Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T18:42:17.017Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-10T18:42:37.583Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-10T18:42:37.589Z [ERROR]: GET /patients - Ruta no encontrada.

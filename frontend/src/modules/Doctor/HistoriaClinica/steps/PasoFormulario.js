@@ -1,54 +1,40 @@
-// src/modules/Doctor/steps/PasoFormulario.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Formulario from '../../../../components/common/FormularioG';
 import Button from '../../../../components/common/Button';
-import BackButton from '../../../../components//common/BackButton'; 
+import { fetchFormularioEstructura } from '../../../../utils/api';
 
-function PasoFormulario({ prevStep, onSubmit }) {
-  const [info, setInfo] = useState({
-    celular: '',
-    habitacion: '',
-  });
+function PasoFormulario({ prevStep, nextStep, tipoFormulario }) {
+  const [estructura, setEstructura] = useState(null);
 
-  const handleChange = (e) => {
-    setInfo(prev => ({
+  useEffect(() => {
+    const cargarEstructura = async () => {
+      try {
+        const data = await fetchFormularioEstructura(tipoFormulario);
+        setEstructura(data);
+      } catch (error) {
+        console.error('Error al cargar el formulario:', error);
+      }
+    };
+
+    cargarEstructura();
+  }, [tipoFormulario]);
+
+  const handleChange = (campo, valor) => {
+    setEstructura((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [campo]: valor,
     }));
   };
 
-  const handleFinal = () => {
-    onSubmit(); // Enviar los datos
-  };
+  if (!estructura) return <p>Cargando formulario...</p>;
 
   return (
     <div>
-      <BackButton to="/doctor/historias" label="Volver al Historial" />
       <h2>Formulario Detallado</h2>
-      <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem' }}>
-        <div>
-          <label>Celular:</label><br/>
-          <input
-            type="text"
-            name="celular"
-            value={info.celular}
-            onChange={handleChange}
-            placeholder="Ej: 0999999999"
-          />
-        </div>
-        <div>
-          <label>Asignación de Habitación:</label><br/>
-          <input
-            type="text"
-            name="habitacion"
-            value={info.habitacion}
-            onChange={handleChange}
-            placeholder="Ej: 101"
-          />
-        </div>
-      </div>
+      <Formulario estructura={estructura} onChange={handleChange} />
       <div style={{ marginTop: '1rem' }}>
-        <Button label="Anterior" onClick={prevStep} className="secondary" />
-        <Button label="Completado" onClick={handleFinal} style={{ marginLeft: '10px' }} />
+        <Button label="Atrás" onClick={prevStep} className="secondary" />
+        <Button label="Siguiente" onClick={nextStep} style={{ marginLeft: '10px' }} />
       </div>
     </div>
   );

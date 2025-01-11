@@ -97,4 +97,17 @@ export const fetchPatients = async () => {
   }
 };
 
+// Obtener formulario
+export const fetchFormularioEstructura = async (tipo) => {
+  try {
+    const response = await API.get(`/formularios/${tipo}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener la estructura del formulario:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+
+
 

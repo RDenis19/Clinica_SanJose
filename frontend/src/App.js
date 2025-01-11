@@ -6,6 +6,7 @@ import Login from './modules/Login/Login';
 // Layouts
 import AdminLayout from './components/layouts/AdminLayout';
 import DoctorLayout from './components/layouts/DoctorLayout';
+import EnfermeraLayout from './components/layouts/EnfermeraLayout';
 
 // Vistas de Admin
 import Dashboard from './modules/Admin/Dashboard';
@@ -19,10 +20,13 @@ import DashboardDoctor from './modules/Doctor/DashboardDoctor';
 import PacientesDoctor from './modules/Doctor/PacientesDoctor';
 import HistoriasDoctor from './modules/Doctor/HistoriaClinica/HistoriasDoctor';
 
-// Vistas de Doctor las Rutas de Historia Clinica
-import RegistrarPaciente from './modules/Doctor/HistoriaClinica/RegistrarPaciente';
-import BuscarPaciente from './modules/Doctor/HistoriaClinica/BuscarPaciente';
-import Emergencia from './modules/Doctor/HistoriaClinica/Emergencia';
+
+
+
+// Vistas de Enfermera
+import DashboardEnfermera from './modules/Enfermera/DashboardEnfermera';
+import PacientesEnfermera from './modules/Enfermera/PacientesEnfermera';
+import HistoriasEnfermera from './modules/Enfermera/HistoriasEnfermera';
 
 function App() {
   return (
@@ -99,34 +103,33 @@ function App() {
           }
         />
 
+        {/* Rutas de la Enfermera */}
         <Route
-          path="/doctor/historias/registrar"
+          path="/enfermera/dashboard"
           element={
-            <DoctorLayout>
-              <RegistrarPaciente />
-            </DoctorLayout>
+            <EnfermeraLayout>
+              <DashboardEnfermera />
+            </EnfermeraLayout>
           }
         />
 
-        {/* Buscar Paciente */}
         <Route
-          path="/doctor/historias/buscar"
+          path="/enfermera/paciente"
           element={
-            <DoctorLayout>
-              <BuscarPaciente />
-            </DoctorLayout>
+            <EnfermeraLayout>
+              <PacientesEnfermera />
+            </EnfermeraLayout>
           }
-        />
+        /> 
 
-        {/* Emergencia */}
         <Route
-          path="/doctor/historias/emergencia"
+          path="/enfermera/historias"
           element={
-            <DoctorLayout>
-              <Emergencia />
-            </DoctorLayout>
+            <EnfermeraLayout>
+              <HistoriasEnfermera />
+            </EnfermeraLayout>
           }
-        />
+        />   
 
         {/* 404 si la ruta no existe */}
         <Route path="*" element={<h1>404 - Página no encontrada</h1>} />

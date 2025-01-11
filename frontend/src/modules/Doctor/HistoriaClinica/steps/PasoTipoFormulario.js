@@ -1,48 +1,68 @@
-// src/modules/Doctor/steps/PasoTipoFormulario.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../../components/common/Button';
-import BackButton from '../../../../components//common/BackButton'; 
+import SearchBar from '../../../../components/common/SearchBar';
+import '../../../../styles/modules/Doctor/HistoriasClinicas/PasoTipoFormulario.css'; // Estilos actualizados
 
-function PasoTipoFormulario({ nextStep, prevStep }) {
+const formulariosMock = [
+  'ALTA – EGRESO',
+  'ADMINISTRACIÓN DE MEDICAMENTOS',
+  'EVOLUCIÓN Y PRESCRIPCIONES',
+  'SIGNOS VITALES',
+  'EMERGENCIA',
+  'CONSULTA EXTERNA - ANAMNESIS Y EXAMEN FÍSICO',
+  'EPICRISIS',
+];
+
+function PasoTipoFormulario({ nextStep }) {
   const [tipo, setTipo] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [formularios, setFormularios] = useState([]);
+
+  useEffect(() => {
+    setFormularios(formulariosMock);
+  }, []);
+
+  const filteredFormularios = formularios.filter((formulario) =>
+    formulario.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleNext = () => {
-    nextStep();
-  };
-
-  const handlePrev = () => {
-    prevStep();
+    if (!tipo) {
+      alert('Por favor, selecciona un tipo de formulario.');
+      return;
+    }
+    nextStep(tipo);
   };
 
   return (
-    <div>
-      <BackButton to="/doctor/historias" label="Volver al Historial" />
-      <h2>Tipo de Formulario</h2>
-      <p>Selecciona qué tipo de atención:</p>
-      <label>
-        <input
-          type="radio"
-          name="tipo"
-          value="consulta"
-          checked={tipo === 'consulta'}
-          onChange={(e) => setTipo(e.target.value)}
+    <div className="paso-tipo-formulario">
+      <h2 className="titulo-paso">Tipo de Formulario</h2>
+      <div className="busqueda-contenedor">
+        <SearchBar
+          placeholder="Buscar formulario..."
+          value={searchTerm}
+          onChange={setSearchTerm}
+          className="search-bar"
         />
-        Consulta Externa
-      </label>
-      <br />
-      <label>
-        <input
-          type="radio"
-          name="tipo"
-          value="emergencia"
-          checked={tipo === 'emergencia'}
-          onChange={(e) => setTipo(e.target.value)}
-        />
-        Emergencia
-      </label>
-      <div style={{ marginTop: '1rem' }}>
-        <Button label="Anterior" onClick={handlePrev} className="secondary" />
-        <Button label="Siguiente" onClick={handleNext} style={{ marginLeft: '10px' }} />
+      </div>
+      <div className="formulario-list-container">
+        <div className="formulario-list">
+          {filteredFormularios.map((formulario, index) => (
+            <label key={index} className="formulario-option">
+              <input
+                type="radio"
+                name="tipo"
+                value={formulario}
+                checked={tipo === formulario}
+                onChange={(e) => setTipo(e.target.value)}
+              />
+              <span>{formulario}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      <div className="actions">
+        <Button label="Siguiente" onClick={handleNext} />
       </div>
     </div>
   );
