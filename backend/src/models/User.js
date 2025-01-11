@@ -57,14 +57,13 @@ const User = {
         estado,
         rol,
         usuario,
-        contraseña,
         fechaCreacion,
         fechaModificacion
       FROM 
         usuario
       WHERE 
         idUsuario = ?;
-    `,
+      `,
       [idUsuario]
     );
     return rows[0];
