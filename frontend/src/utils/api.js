@@ -60,24 +60,31 @@ export const fetchUserDetails = async (id) => {
     const response = await API.get(`/user/${id}`);
     return response.data;
   } catch (error) {
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    throw new Error(
+      error.response?.data?.error || 'Error al obtener los detalles del usuario.'
+    );
   }
 };
 
 export const updateUser = async (id, updatedData) => {
   try {
-    const response = await API.put(`/user/${id}`, updatedData);
+    console.log("Datos enviados en la solicitud PUT:", updatedData); // Verificar datos enviados
+    const response = await API.put(`/user/${id}`, updatedData); // Llamar al endpoint
     return response.data;
   } catch (error) {
+    console.error("Error en la solicitud PUT:", error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
+
 export const removeUser = async (id) => {
   try {
-    const response = await API.delete(`/user/${id}`);
-    return response.data;
+    console.log(`Eliminando usuario con ID: ${id}`); // Depuración
+    const response = await API.delete(`/user/${id}`); // Llamar al endpoint DELETE
+    return response.data; // Retornar la respuesta del backend
   } catch (error) {
+    console.error("Error en la solicitud DELETE:", error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };

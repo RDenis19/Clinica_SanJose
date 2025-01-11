@@ -43,6 +43,14 @@
   color: #718096;
 }
 
+.actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
 /* Actions */
 .actions-container {
   display: flex;

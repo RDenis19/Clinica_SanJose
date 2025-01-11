@@ -7,38 +7,55 @@ import { fetchUserDetails } from '../../../utils/api';
 const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (userId) {
-      // Llama a la API para obtener los detalles del usuario
-      const fetchDetails = async () => {
-        try {
-          const response = await fetchUserDetails(userId);
-          if (response && response.usuario) {
-            setFormData(response.usuario);
-          } else {
-            console.error("No se encontró información para el usuario con ID:", userId);
-          }
-        } catch (error) {
-          console.error('Error al obtener detalles del usuario:', error);
+    const fetchDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchUserDetails(userId);
+        if (response && response.usuario) {
+          setFormData(response.usuario); // Establecer los datos del usuario
+        } else {
+          console.error("No se encontró información para el usuario con ID:", userId);
         }
-      };
+      } catch (error) {
+        console.error("Error al obtener detalles del usuario:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
       fetchDetails();
     }
   }, [userId]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   const handleSave = async () => {
     try {
-      await onUpdate(userId, formData);
+      // Reemplazar undefined con null para evitar errores
+      const sanitizedData = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value === undefined ? null : value])
+      );
+
+      console.log("Datos enviados al backend:", sanitizedData); // Depuración
+
+      await onUpdate(userId, sanitizedData); // Llamar a la función de actualización
       setIsEditing(false);
-      alert('Usuario actualizado correctamente.');
+      alert("Usuario actualizado correctamente.");
     } catch (error) {
-      console.error('Error al actualizar usuario:', error);
-      alert('Error al actualizar el usuario. Intente nuevamente.');
+      console.error("Error al actualizar usuario:", error);
+      alert("Error al actualizar el usuario. Intente nuevamente.");
     }
   };
 
-  if (!formData) return <p>Cargando...</p>;
+  if (loading) return <p>Cargando...</p>;
+  if (!formData) return <p>No se encontraron datos del usuario.</p>;
 
   return (
     <Modal onClose={onClose}>
@@ -52,66 +69,130 @@ const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
             <label>Identificación</label>
             <input
               type="text"
-              value={formData.identificacion}
-              onChange={(e) =>
-                setFormData({ ...formData, identificacion: e.target.value })
-              }
+              name="identificacion"
+              value={formData.identificacion || ''}
+              onChange={handleChange}
             />
           </div>
           <div className="form-field">
             <label>Nombres</label>
             <input
               type="text"
-              value={formData.nombres}
-              onChange={(e) =>
-                setFormData({ ...formData, nombres: e.target.value })
-              }
+              name="nombres"
+              value={formData.nombres || ''}
+              onChange={handleChange}
             />
           </div>
           <div className="form-field">
             <label>Apellidos</label>
             <input
               type="text"
-              value={formData.apellidos}
-              onChange={(e) =>
-                setFormData({ ...formData, apellidos: e.target.value })
-              }
+              name="apellidos"
+              value={formData.apellidos || ''}
+              onChange={handleChange}
             />
           </div>
           <div className="form-field">
-            <label>Correo Electrónico</label>
+            <label>Fecha de Nacimiento</label>
             <input
-              type="email"
-              value={formData.correo}
-              onChange={(e) =>
-                setFormData({ ...formData, correo: e.target.value })
-              }
+              type="date"
+              name="fechaNacimiento"
+              value={formData.fechaNacimiento?.split('T')[0] || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label>Dirección</label>
+            <input
+              type="text"
+              name="direccionDomicilio"
+              value={formData.direccionDomicilio || ''}
+              onChange={handleChange}
             />
           </div>
           <div className="form-field">
             <label>Teléfono</label>
             <input
               type="text"
-              value={formData.telefono}
-              onChange={(e) =>
-                setFormData({ ...formData, telefono: e.target.value })
-              }
+              name="telefono"
+              value={formData.telefono || ''}
+              onChange={handleChange}
             />
+          </div>
+          <div className="form-field">
+            <label>Sexo</label>
+            <select
+              name="sexo"
+              value={formData.sexo || ''}
+              onChange={handleChange}
+            >
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+          </div>
+          <div className="form-field">
+            <label>Correo Electrónico</label>
+            <input
+              type="email"
+              name="correo"
+              value={formData.correo || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label>Estado Civil</label>
+            <input
+              type="text"
+              name="estadoCivil"
+              value={formData.estadoCivil || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label>Especialidad</label>
+            <input
+              type="text"
+              name="especialidad"
+              value={formData.especialidad || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label>Consultorio</label>
+            <input
+              type="text"
+              name="consultorio"
+              value={formData.consultorio || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label>Rol</label>
+            <select
+              name="rol"
+              value={formData.rol || ''}
+              onChange={handleChange}
+            >
+              <option value="Doctor">Doctor</option>
+              <option value="Enfermera">Enfermera</option>
+              <option value="Admin">Administrador</option>
+            </select>
           </div>
           <div className="form-field">
             <label>Estado</label>
             <select
-              value={formData.estado}
-              onChange={(e) =>
-                setFormData({ ...formData, estado: e.target.value })
-              }
+              name="estado"
+              value={formData.estado || ''}
+              onChange={handleChange}
             >
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-              <option value="Suspendido">Suspendido</option>
+              <option value="Act">Activo</option>
+              <option value="Inact">Inactivo</option>
             </select>
           </div>
-          <Button label="Guardar Cambios" onClick={handleSave} />
+          <div className="actions">
+            <Button label="Guardar Cambios" onClick={handleSave} />
+            <Button label="Cancelar" onClick={() => setIsEditing(false)} />
+          </div>
         </form>
       ) : (
         <div className="user-details">
@@ -135,7 +216,7 @@ const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
             <Button
               label="Eliminar"
               onClick={() => {
-                if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                if (window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
                   onDelete(userId);
                 }
               }}
