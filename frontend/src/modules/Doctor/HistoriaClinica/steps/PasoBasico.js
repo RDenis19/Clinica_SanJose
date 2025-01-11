@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../../../components/common/Button';
-import { fetchPatients, createPatients } from '../../../../utils/api'; // Importa las funciones necesarias
+import { fetchPatients, createPatients, asignarFormularioAPaciente } from '../../../../utils/api';
 
 function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
   const [formData, setFormData] = useState({
@@ -19,24 +19,29 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
   };
 
   const handleBuscarPaciente = async () => {
-    if (!formData.cedula.trim()) {
-      alert('Por favor, ingresa una cédula.');
-      return;
-    }
-
     try {
+      if (!formData.cedula.trim()) {
+        alert('Por favor, ingresa una cédula.');
+        return;
+      }
+
       const pacientes = await fetchPatients();
-      const pacienteEncontrado = pacientes.find(
-        (p) => p.cedula === formData.cedula
-      );
+      const pacienteEncontrado = pacientes.find((p) => p.cedula === formData.cedula);
 
       if (pacienteEncontrado) {
         alert('Paciente encontrado.');
         setPacienteExistente(true);
         setPacienteId(pacienteEncontrado.id);
       } else {
-        alert('Paciente no encontrado. Completa el registro.');
-        setPacienteExistente(false);
+        try {
+          const nuevoPaciente = await createPatients(formData);
+          setPacienteId(nuevoPaciente.id);
+          alert('Paciente registrado exitosamente.');
+          setPacienteExistente(true);
+        } catch (error) {
+          console.error('Error al registrar paciente:', error);
+          alert('Hubo un error al registrar el paciente.');
+        }
       }
     } catch (error) {
       console.error('Error al buscar paciente:', error);
@@ -44,37 +49,17 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
     }
   };
 
-  const handleRegistrarPaciente = async () => {
-    if (!formData.nombre.trim() || !formData.apellidos.trim()) {
-      alert('Por favor, completa todos los campos antes de registrar.');
-      return;
-    }
-
-    try {
-      const nuevoPaciente = await createPatients({
-        cedula: formData.cedula,
-        nombre: formData.nombre,
-        apellidos: formData.apellidos,
-      });
-      setPacienteId(nuevoPaciente.id);
-      alert('Paciente registrado exitosamente.');
-      nextStep(); // Avanza al paso siguiente
-    } catch (error) {
-      console.error('Error al registrar paciente:', error);
-      alert('Hubo un error al registrar el paciente.');
-    }
-  };
-
   const handleAsignarFormulario = async () => {
     try {
-      await createPatients({
-        id: pacienteId,
-        tipoFormulario: tipoFormulario,
-      });
-      alert('Formulario asignado exitosamente.');
+      if (!pacienteId) {
+        alert('No se encontró un paciente válido para asignar el formulario.');
+        return;
+      }
+      await asignarFormularioAPaciente({ pacienteId, tipoFormulario });
+      alert('Formulario asignado exitosamente al paciente.');
       nextStep();
     } catch (error) {
-      console.error('Error al asignar formulario:', error);
+      console.error('Error al asignar el formulario:', error);
       alert('Hubo un error al asignar el formulario.');
     }
   };
@@ -82,56 +67,39 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
   return (
     <div>
       <h2>Registro Básico</h2>
-      <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem' }}>
-        <div>
-          <label>Cédula:</label>
-          <input
-            type="text"
-            name="cedula"
-            value={formData.cedula}
-            onChange={handleChange}
-            placeholder="Ej: 1723456789"
-          />
-        </div>
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <input
+          type="text"
+          name="cedula"
+          value={formData.cedula}
+          onChange={handleChange}
+          placeholder="Cédula"
+        />
         {!pacienteExistente && (
           <>
-            <div>
-              <label>Nombre:</label>
-              <input
-                type="text"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                placeholder="Ej: Juan"
-              />
-            </div>
-            <div>
-              <label>Apellidos:</label>
-              <input
-                type="text"
-                name="apellidos"
-                value={formData.apellidos}
-                onChange={handleChange}
-                placeholder="Ej: Pérez Morales"
-              />
-            </div>
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              placeholder="Nombre"
+            />
+            <input
+              type="text"
+              name="apellidos"
+              value={formData.apellidos}
+              onChange={handleChange}
+              placeholder="Apellidos"
+            />
           </>
         )}
       </div>
       <div style={{ marginTop: '1rem' }}>
         <Button label="Atrás" onClick={prevStep} className="secondary" />
         {!pacienteExistente ? (
-          <Button
-            label="Registrar Paciente"
-            onClick={handleRegistrarPaciente}
-            style={{ marginLeft: '10px' }}
-          />
+          <Button label="Buscar o Registrar" onClick={handleBuscarPaciente} />
         ) : (
-          <Button
-            label="Asignar Formulario"
-            onClick={handleAsignarFormulario}
-            style={{ marginLeft: '10px' }}
-          />
+          <Button label="Asignar Formulario" onClick={handleAsignarFormulario} />
         )}
       </div>
     </div>

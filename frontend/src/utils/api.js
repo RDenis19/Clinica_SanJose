@@ -1,25 +1,26 @@
 import axios from 'axios';
+import { isTokenExpired } from './authUtils';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3301',
-  timeout: 10000,
+    baseURL: 'http://localhost:3301',
+    timeout: 10000,
 });
 
 API.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('jwt_token'); 
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
+    (config) => {
+        const token = localStorage.getItem('jwt_token');
+        if (isTokenExpired(token)) {
+            return Promise.reject({ message: 'Token expirado. Por favor, inicie sesión nuevamente.' });
+        }
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
 );
 
 export default API;
-
 
 // Funciones para las peticiones
 // Petición para iniciar sesión
