@@ -1,36 +1,44 @@
 .search-bar-container {
-  position: relative;
   display: flex;
   align-items: center;
-  width: 100%; /* Ocupará todo el espacio disponible del contenedor */
-  max-width: 500px; /* Más ancho que antes */
-  border: 1px solid #e2e8f0;
-  border-radius: 8px; /* Bordes más suaves */
-  background: white;
-  padding: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera para resaltar */
-}
-
-.search-icon {
-  font-size: 20px;
-  color: #4a5568;
-  margin-left: 10px;
+  justify-content: space-between; /* Asegura que los elementos se alineen a los extremos */
+  width: 100%;
+  max-width: 300px;
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar {
   flex: 1;
-  padding: 12px; /* Más espacio interno para comodidad */
-  font-size: 16px;
   border: none;
   outline: none;
-  background: transparent;
+  font-size: 0.9rem;
+  font-family: 'Roboto', sans-serif;
+  color: #495057;
+  background-color: transparent;
+  padding: 0.2rem;
 }
 
 .search-bar::placeholder {
-  color: #a0aec0; /* Color más claro para el texto del placeholder */
+  color: #adb5bd;
+  font-size: 0.8rem;
 }
 
-.search-bar:focus {
-  outline: none;
-  border-radius: 8px; /* Se mantiene consistente */
+.search-icon {
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin-left: 0.5rem; /* Añade espacio entre el input y el icono */
+}
+
+.search-bar-container:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.search-bar-container:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }

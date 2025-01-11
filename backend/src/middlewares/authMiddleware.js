@@ -4,22 +4,29 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const verifyTokenMiddleware = (req, res, next) => {
-  // Obtener el token del encabezado Authorization
-  const authHeader = req.headers['authorization'];
-  
-  // El formato esperado es "Bearer <token>"
-  const token = authHeader && authHeader.split(' ')[1];
-  
+  const { authorization: authHeader = '' } = req.headers;
+
+  if (!authHeader.startsWith('Bearer ')) {
+    return res
+      .status(401)
+      .json({ mensaje: 'Acceso restringido. Falta token o formato inválido.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
   if (!token) {
-    return res.status(401).json({ mensaje: 'Acceso Restringido'});
+    return res.status(401).json({ mensaje: 'Acceso restringido. Falta token.' });
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET, { complete: false });
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = payload;
     next();
   } catch (error) {
     console.error('Error en la verificación de JWT:', error);
-    return res.status(403).json({ mensaje: 'Token inválido' });
+    return res
+      .status(403)
+      .json({ mensaje: 'Token inválido o expirado.' });
   }
 };
 

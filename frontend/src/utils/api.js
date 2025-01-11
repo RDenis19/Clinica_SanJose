@@ -1,25 +1,26 @@
 import axios from 'axios';
+import { isTokenExpired } from './authUtils';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3301',
-  timeout: 10000,
+    baseURL: 'http://localhost:3301',
+    timeout: 10000,
 });
 
 API.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('jwt_token'); 
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
+    (config) => {
+        const token = localStorage.getItem('jwt_token');
+        if (isTokenExpired(token)) {
+            return Promise.reject({ message: 'Token expirado. Por favor, inicie sesión nuevamente.' });
+        }
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
 );
 
 export default API;
-
 
 // Funciones para las peticiones
 // Petición para iniciar sesión
@@ -96,5 +97,46 @@ export const fetchPatients = async () => {
       : { error: 'Error en el servidor' };
   }
 };
+
+export const createPatients = async (userData) => {
+  try {
+    const response = await API.post('/patients', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al agregar paciente:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+//Doctor - Enfermera
+// Obtener formulario
+export const fetchFormularioEstructura = async (tipo) => {
+  try {
+    const response = await API.get(`/formularios/${tipo}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener la estructura del formulario:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+//Enfermera
+// asignar Formulario a Paciente 
+export const asignarFormularioAPaciente = async ({ pacienteId, tipoFormulario }) => {
+  const response = await fetch(`/api/pacientes/${pacienteId}/formularios`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ tipoFormulario }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al asignar el formulario');
+  }
+
+  return await response.json();
+};
+
+
+
 
 

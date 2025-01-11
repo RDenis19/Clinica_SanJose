@@ -8,26 +8,28 @@ dotenv.config();
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  // Validar que se recibieron email y password
   if (!email || !password) {
-    return res.status(400).json({ mensaje: 'Por favor, ingresa email y password.' });
+    return res.status(400).json({ mensaje: 'Ingresa email y password' });
   }
 
   try {
     const user = await User.findByEmail(email);
 
-    if (!user) {
-      return res.status(401).json({ mensaje: 'Credenciales inválidas.' });
+    if (user.estado == 'Ina' || user.estado == 'Sus') {
+      return res.status(401).json({ mensaje: 'Usuario no disponible' })
     }
 
-    // Comparar la contraseña proporcionada con la almacenada
+    if (email !== user.correo) {
+      return res.status(401).json({ mensaje: 'Correo invalido' });
+    }
+
     if (password !== user.contraseña) {
-      return res.status(401).json({ mensaje: 'Credenciales inválidas.' });
+      return res.status(401).json({ mensaje: 'Contraseña invalida' });
     }
 
     // Generar token JWT
     const token = jwt.sign(
-      { id: user.idUsuario, usuario: user.usuario, rol: user.rol },
+      { id: user.idUsuario },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );

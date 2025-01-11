@@ -1,7 +1,7 @@
 import React from 'react';
 import ComingSoon from '../../components/common/ComingSoon';
 
-const DashboardDoctor = () => {
+const PacientesEnfermera = () => {
   return (
     <div>
       <ComingSoon
@@ -12,4 +12,4 @@ const DashboardDoctor = () => {
   );
 };
 
-export default DashboardDoctor;
+export default PacientesEnfermera;

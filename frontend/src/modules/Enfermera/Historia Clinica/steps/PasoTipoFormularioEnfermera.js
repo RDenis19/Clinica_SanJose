@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../../../components/common/Button';
 import SearchBar from '../../../../components/common/SearchBar';
-import '../../../../styles/modules/Doctor/HistoriasClinicas/PasoTipoFormulario.css'; // Estilos actualizados
+import '../../../../styles/modules/Enfermera/PasoTipoFormularioEnfermera.css'; 
 
-const formulariosMock = [
-  'ALTA – EGRESO',
-  'ADMINISTRACIÓN DE MEDICAMENTOS',
+const formulariosEnfermera = [
+  'EMERGENCIA',
   'EVOLUCIÓN Y PRESCRIPCIONES',
   'SIGNOS VITALES',
-  'EMERGENCIA',
-  'CONSULTA EXTERNA - ANAMNESIS Y EXAMEN FÍSICO',
-  'EPICRISIS',
 ];
 
-function PasoTipoFormulario({ nextStep }) {
+function PasoTipoFormularioEnfermera({ nextStep }) {
   const [tipo, setTipo] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [formularios, setFormularios] = useState([]);
 
   useEffect(() => {
-    setFormularios(formulariosMock);
+    setFormularios(formulariosEnfermera); // Carga los formularios disponibles para enfermera
   }, []);
 
   const filteredFormularios = formularios.filter((formulario) =>
@@ -31,11 +27,11 @@ function PasoTipoFormulario({ nextStep }) {
       alert('Por favor, selecciona un tipo de formulario.');
       return;
     }
-    nextStep(tipo);
+    nextStep(tipo); // Pasa el tipo seleccionado al siguiente paso
   };
 
   return (
-    <div className="paso-tipo-formulario">
+    <div className="paso-tipo-formulario-enfermera">
       <h2 className="titulo-paso">Tipo de Formulario</h2>
       <div className="busqueda-contenedor">
         <SearchBar
@@ -68,4 +64,4 @@ function PasoTipoFormulario({ nextStep }) {
   );
 }
 
-export default PasoTipoFormulario;
+export default PasoTipoFormularioEnfermera;

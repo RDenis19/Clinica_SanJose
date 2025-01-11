@@ -20,11 +20,6 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
 
   const handleBuscarPaciente = async () => {
     try {
-      if (!formData.cedula.trim()) {
-        alert('Por favor, ingresa una cédula.');
-        return;
-      }
-
       const pacientes = await fetchPatients();
       const pacienteEncontrado = pacientes.find((p) => p.cedula === formData.cedula);
 
@@ -33,6 +28,7 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
         setPacienteExistente(true);
         setPacienteId(pacienteEncontrado.id);
       } else {
+        // Si el paciente no existe, regístralo automáticamente
         try {
           const nuevoPaciente = await createPatients(formData);
           setPacienteId(nuevoPaciente.id);
@@ -51,10 +47,6 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
 
   const handleAsignarFormulario = async () => {
     try {
-      if (!pacienteId) {
-        alert('No se encontró un paciente válido para asignar el formulario.');
-        return;
-      }
       await asignarFormularioAPaciente({ pacienteId, tipoFormulario });
       alert('Formulario asignado exitosamente al paciente.');
       nextStep();
