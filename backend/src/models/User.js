@@ -75,9 +75,9 @@ const User = {
     const [rows] = await pool.execute(
       `
       SELECT 
-        EXISTS(SELECT 1 FROM usuario WHERE identificacion = '?') AS identificacion,
-        EXISTS(SELECT 1 FROM usuario WHERE usuario = '?')  AS usuario,
-        EXISTS(SELECT 1 FROM usuario WHERE correo = '?') AS correo
+        EXISTS(SELECT 1 FROM usuario WHERE identificacion = ?) AS identificacion,
+        EXISTS(SELECT 1 FROM usuario WHERE usuario = ?)  AS usuario,
+        EXISTS(SELECT 1 FROM usuario WHERE correo = ?) AS correo
       FROM DUAL;
       `,
       [identificacion, usuario, correo]

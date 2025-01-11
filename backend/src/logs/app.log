@@ -506,3 +506,42 @@
 2025-01-11T07:28:45.259Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-11T07:28:51.962Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-11T07:29:54.777Z [INFO]: Creado nuevo usuario con idUsuario: 9
+2025-01-11T07:39:52.470Z [ERROR]: Error al crear usuario: Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:39:52.471Z [ERROR]: POST /user/ - Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:39:55.216Z [ERROR]: Error al crear usuario: Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:39:55.217Z [ERROR]: POST /user/ - Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:40:51.884Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:40:54.160Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:40:58.550Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:06.329Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:13.357Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:15.756Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:19.114Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:29.373Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:34.186Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:36.707Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:41:41.570Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:43:20.428Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:43:24.163Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:43:33.948Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:43:36.273Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:43:48.728Z [ERROR]: Error al crear usuario: Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:43:48.729Z [ERROR]: POST /user/ - Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:43:51.683Z [ERROR]: Error al crear usuario: Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:43:51.684Z [ERROR]: POST /user/ - Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:43:52.954Z [ERROR]: Error al crear usuario: Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:43:52.954Z [ERROR]: POST /user/ - Duplicate entry '1150262101' for key 'usuario.identificacion_UNIQUE'
+2025-01-11T07:47:35.085Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:47:37.266Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:47:38.981Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:47:40.088Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:47:41.352Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:47:42.613Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:48:57.585Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:03.268Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:24.848Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:27.173Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:29.319Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:34.005Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:36.248Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T07:49:38.319Z [INFO]: Servidor corriendo en el puerto 3301

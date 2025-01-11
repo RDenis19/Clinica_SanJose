@@ -69,16 +69,13 @@ exports.createUser = async (req, res, next) => {
     const checkUser = await User.checkBeforeCreateUsuer(identificacion, usuario, correo);
     console.log(checkUser);
 
-    if (checkUser.identificacion !== 0) {
-      throw createError(404, 'Cedula ya existente');
-    }
-
-    if (checkUser.usuario !== 0) {
-      throw createError(404, 'Usuario ya existente');
-    }
-
-    if (checkUser.correo !== 0) {
-      throw createError(404, 'Correo ya existente');
+    if (checkUser.identificacion || checkUser.usuario || checkUser.correo) {
+      return res.status(400).json({
+        mensaje: 'Hay campos que ya están en uso.',
+        identificacionExists: !!checkUser.identificacion,
+        usuarioExists: !!checkUser.usuario,
+        correoExists: !!checkUser.correo,
+      });
     }
 
 
