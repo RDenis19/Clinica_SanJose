@@ -16,14 +16,14 @@ DELETE FROM Usuario WHERE idUsuario = ?;
 
 -- Tabla Paciente
 -- Create
-INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones, HistoriaClinica_idHistoriaClinica) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 -- Read
 SELECT * FROM Paciente WHERE idPaciente = ?;
 SELECT * FROM Paciente;
 -- Update
 UPDATE Paciente 
-SET identificacion = ?, apellidoParteno = ?, apellidoMaterno = ?, primerNombre = ?, segundoNombre = ?, direccionResidenciaHab = ?, barrio = ?, parroquia = ?, canton = ?, provincia = ?, zona = ?, telefonoPaciente = ?, fechaNacimiento = ?, lugarNacimiento = ?, nacionalidad = ?, grupoCultural = ?, sexo = ?, estadoCivil = ?, instruccionUltimoAnioAprov = ?, direccionPaciente = ?, correo = ?, ocupacion = ?, empresaTrabajo = ?, tipoSeguroSalud = ?, alergias = ?, grupoSanguineo = ?, observaciones = ?
+SET identificacion = ?, apellidoParteno = ?, apellidoMaterno = ?, primerNombre = ?, segundoNombre = ?, direccionResidenciaHab = ?, barrio = ?, parroquia = ?, canton = ?, provincia = ?, zona = ?, telefonoPaciente = ?, fechaNacimiento = ?, lugarNacimiento = ?, nacionalidad = ?, grupoCultural = ?, sexo = ?, estadoCivil = ?, instruccionUltimoAnioAprov = ?, direccionPaciente = ?, correo = ?, ocupacion = ?, empresaTrabajo = ?, tipoSeguroSalud = ?, alergias = ?, grupoSanguineo = ?, observaciones = ?, HistoriaClinica_idHistoriaClinica = ?
 WHERE idPaciente = ?;
 -- Delete
 DELETE FROM Paciente WHERE idPaciente = ?;
@@ -31,14 +31,14 @@ DELETE FROM Paciente WHERE idPaciente = ?;
 
 -- Tabla HistoriaClinica
 -- Create
-INSERT INTO HistoriaClinica (Paciente_idPaciente) 
-VALUES (?);
+INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica) 
+VALUES (?, ?);
 -- Read
 SELECT * FROM HistoriaClinica WHERE idHistoriaClinica = ?;
 SELECT * FROM HistoriaClinica;
 -- Update
 UPDATE HistoriaClinica 
-SET Paciente_idPaciente = ?
+SET fechaCreacionHC = ?, nroHistoriaClinica = ?
 WHERE idHistoriaClinica = ?;
 -- Delete
 DELETE FROM HistoriaClinica WHERE idHistoriaClinica = ?;
