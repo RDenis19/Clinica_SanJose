@@ -13,8 +13,12 @@ const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
       // Llama a la API para obtener los detalles del usuario
       const fetchDetails = async () => {
         try {
-          const userDetails = await fetchUserDetails(userId);
-          setFormData(userDetails);
+          const response = await fetchUserDetails(userId);
+          if (response && response.usuario) {
+            setFormData(response.usuario);
+          } else {
+            console.error("No se encontró información para el usuario con ID:", userId);
+          }
         } catch (error) {
           console.error('Error al obtener detalles del usuario:', error);
         }
@@ -114,9 +118,18 @@ const UserProfileModal = ({ userId, onClose, onUpdate, onDelete }) => {
           <p><strong>Identificación:</strong> {formData.identificacion}</p>
           <p><strong>Nombres:</strong> {formData.nombres}</p>
           <p><strong>Apellidos:</strong> {formData.apellidos}</p>
-          <p><strong>Correo Electrónico:</strong> {formData.correo}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {new Date(formData.fechaNacimiento).toLocaleDateString()}</p>
+          <p><strong>Dirección:</strong> {formData.direccionDomicilio}</p>
           <p><strong>Teléfono:</strong> {formData.telefono}</p>
+          <p><strong>Sexo:</strong> {formData.sexo}</p>
+          <p><strong>Correo Electrónico:</strong> {formData.correo}</p>
+          <p><strong>Estado Civil:</strong> {formData.estadoCivil}</p>
+          <p><strong>Especialidad:</strong> {formData.especialidad}</p>
+          <p><strong>Consultorio:</strong> {formData.consultorio}</p>
+          <p><strong>Rol:</strong> {formData.rol}</p>
           <p><strong>Estado:</strong> {formData.estado}</p>
+          <p><strong>Fecha de Creación:</strong> {new Date(formData.fechaCreacion).toLocaleString()}</p>
+          <p><strong>Última Modificación:</strong> {new Date(formData.fechaModificacion).toLocaleString()}</p>
           <div className="actions">
             <Button label="Editar" onClick={() => setIsEditing(true)} />
             <Button

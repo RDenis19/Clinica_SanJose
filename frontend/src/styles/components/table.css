@@ -1,22 +1,41 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
 }
 
-.table th,
-.table td {
+.table th, .table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
 }
 
 .table th {
   background-color: #f4f4f4;
-  font-weight: bold;
 }
 
-.table .no-data {
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.table .table-action-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.table .table-action-button:hover {
+  color: #0056b3;
+}
+
+.no-data {
   text-align: center;
-  color: #888;
+  font-style: italic;
+  color: #999;
 }

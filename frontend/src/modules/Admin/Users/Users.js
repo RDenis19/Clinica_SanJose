@@ -46,7 +46,7 @@ const Users = () => {
   const handleAddUser = async (newUser) => {
     try {
       const addedUser = await createUser(newUser);
-      setUsers([...users, addedUser]);
+      setUsers((prevUsers) => [addedUser, ...prevUsers]); // Agregar al inicio
       setIsAddUserModalOpen(false);
     } catch (error) {
       console.error('Error al agregar usuario:', error);
@@ -88,10 +88,10 @@ const Users = () => {
       {/* Tabla de usuarios */}
       <Table
         columns={[
-          { label: 'Cédula', accessor: 'identificacion' },
-          { label: 'Nombre', accessor: 'nombres' },
+          { label: 'Identificación', accessor: 'identificacion' },
+          { label: 'Nombres', accessor: 'nombres' },
+          { label: 'Apellidos', accessor: 'apellidos' },
           { label: 'Correo', accessor: 'correo' },
-          { label: 'Teléfono', accessor: 'telefono' },
           { label: 'Rol', accessor: 'rol' },
           { label: 'Estado', accessor: 'estado' },
           {
