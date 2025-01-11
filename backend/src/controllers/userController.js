@@ -67,7 +67,6 @@ exports.createUser = async (req, res, next) => {
 
   try {
     const checkUser = await User.checkBeforeCreateUsuer(identificacion, usuario, correo);
-    console.log(checkUser);
 
     if (checkUser.identificacion || checkUser.usuario || checkUser.correo) {
       return res.status(400).json({
@@ -126,42 +125,29 @@ exports.updateUser = async (req, res, next) => {
     nombres,
     apellidos,
     fechaNacimiento,
-    direccion,
+    direccionDomicilio,
     telefono,
     sexo,
     correo,
     estadoCivil,
-    usuario,
-    contraseña,
     especialidad,
     fotografia,
     consultorio,
     estado,
     rol,
-    InternaClinica_idInternaClinica,
-    FirmaElectronica_idFirmaElec
+    usuario
   } = req.body;
 
   try {
-    // Obtener el usuario actual
-    const usuarioActual = await User.findById(idUsuario);
-    if (!usuarioActual) {
-      throw createError(404, 'Usuario no encontrado.');
-    }
+    const checkUser = await User.checkBeforeCreateUsuer(identificacion, usuario, correo);
 
-    // Verificar si el correo o nombre de usuario se están actualizando a uno existente
-    if (correo !== usuarioActual.correo) {
-      const [existingUserByCorreo] = await pool.execute('SELECT * FROM usuario WHERE correo = ?', [correo]);
-      if (existingUserByCorreo.length > 0) {
-        throw createError(409, 'El correo electrónico ya está en uso.');
-      }
-    }
-
-    if (usuario !== usuarioActual.usuario) {
-      const [existingUserByUsername] = await pool.execute('SELECT * FROM usuario WHERE usuario = ?', [usuario]);
-      if (existingUserByUsername.length > 0) {
-        throw createError(409, 'El nombre de usuario ya está en uso.');
-      }
+    if (checkUser.identificacion || checkUser.usuario || checkUser.correo) {
+      return res.status(400).json({
+        mensaje: 'Hay campos que ya están en uso.',
+        identificacionExists: !!checkUser.identificacion,
+        usuarioExists: !!checkUser.usuario,
+        correoExists: !!checkUser.correo,
+      });
     }
 
     // Actualizar el usuario
@@ -170,20 +156,17 @@ exports.updateUser = async (req, res, next) => {
       nombres,
       apellidos,
       fechaNacimiento,
-      direccion,
+      direccionDomicilio,
       telefono,
       sexo,
       correo,
       estadoCivil,
-      usuario,
-      contraseña,
       especialidad,
       fotografia,
       consultorio,
       estado,
       rol,
-      InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec
+      usuario
     });
 
     if (!updatedUser) {
@@ -194,7 +177,6 @@ exports.updateUser = async (req, res, next) => {
 
     res.status(200).json({
       mensaje: 'Usuario actualizado exitosamente.',
-      usuario: updatedUser
     });
   } catch (error) {
     logger.error(`Error al actualizar usuario: ${error.message}`);
@@ -207,11 +189,6 @@ exports.deleteUser = async (req, res, next) => {
   const { idUsuario } = req.params;
 
   try {
-    const usuario = await User.findById(idUsuario);
-    if (!usuario) {
-      throw createError(404, 'Usuario no encontrado.');
-    }
-
     const deleted = await User.delete(idUsuario);
     if (!deleted) {
       throw createError(500, 'No se pudo eliminar el usuario.');

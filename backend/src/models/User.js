@@ -151,27 +151,6 @@ const User = {
 
   // Actualizar un usuario por idUsuario
   update: async (idUsuario, data) => {
-    const {
-      identificacion,
-      nombres,
-      apellidos,
-      fechaNacimiento,
-      direccion,
-      telefono,
-      sexo,
-      correo,
-      estadoCivil,
-      usuario,
-      contraseña,
-      especialidad,
-      fotografia,
-      consultorio,
-      estado,
-      rol,
-      InternaClinica_idInternaClinica,
-      FirmaElectronica_idFirmaElec,
-    } = data;
-
     const [result] = await pool.execute(
       `
       UPDATE usuario SET 
@@ -179,42 +158,36 @@ const User = {
         nombres = ?, 
         apellidos = ?, 
         fechaNacimiento = ?, 
-        direccion = ?, 
+        direccionDomicilio = ?, 
         telefono = ?, 
         sexo = ?, 
         correo = ?, 
         estadoCivil = ?, 
-        usuario = ?, 
-        contraseña = ?, 
         especialidad = ?, 
         fotografia = ?, 
         consultorio = ?, 
         estado = ?, 
         rol = ?, 
-        InternaClinica_idInternaClinica = ?, 
-        FirmaElectronica_idFirmaElec = ?
+        usuario = ?
       WHERE idUsuario = ?
-    `,
+      `,
       [
         identificacion,
         nombres,
         apellidos,
         fechaNacimiento,
-        direccion,
+        direccionDomicilio,
         telefono,
         sexo,
         correo,
         estadoCivil,
-        usuario,
-        contraseña,
         especialidad,
         fotografia,
         consultorio,
         estado,
         rol,
-        InternaClinica_idInternaClinica,
-        FirmaElectronica_idFirmaElec,
-        idUsuario,
+        usuario,
+        idUsuario
       ]
     );
 
