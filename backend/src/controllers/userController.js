@@ -7,7 +7,6 @@ const logger = require('../utils/logger');
 exports.getAllUsers = async (req, res, next) => {
   try {
     const usuarios = await User.findAll();
-    logger.info('Obtenida lista de usuarios.');
     res.status(200).json({
       mensaje: 'Lista de usuarios obtenida exitosamente.',
       usuarios

@@ -1,33 +1,23 @@
 const pool = require("../config/db");
 
 const User = {
-  // Obtener todos los usuarios
+  // Obtener tabla basica de usuarios
   findAll: async () => {
     const [rows] = await pool.execute(`
       SELECT 
-        idUsuario, 
-        identificacion, 
-        nombres, 
-        apellidos, 
-        fechaNacimiento, 
-        direccion, 
-        telefono, 
-        sexo, 
-        correo, 
-        estadoCivil, 
-        usuario, 
-        especialidad, 
-        consultorio, 
-        estado, 
-        rol, 
-        InternaClinica_idInternaClinica, 
-        FirmaElectronica_idFirmaElec 
+      idUsuario,
+      identificacion,
+      nombres,
+      apellidos,
+      correo,
+      rol,
+      estado
       FROM usuario
     `);
     return rows;
   },
 
-  //Encontrar usuario por correo
+  //Buscar usuario por su correo
   findByEmail: async (email) => {
     const [rows] = await pool.execute(
       `

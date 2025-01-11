@@ -230,3 +230,45 @@
 2025-01-11T05:34:56.813Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-11T05:35:12.446Z [INFO]: Servidor corriendo en el puerto 3301
 2025-01-11T05:35:30.487Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:37:53.564Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:38:01.469Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:39:51.085Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:40:11.891Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:41:45.066Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:42:26.730Z [ERROR]: Error al obtener lista completa de usuarios: Unknown column 'direccion' in 'field list'
+2025-01-11T05:42:26.732Z [ERROR]: GET /user/ - Error al obtener lista completa de usuarios
+2025-01-11T05:42:54.707Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:42:57.082Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:42:58.812Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:27.293Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:33.531Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:35.207Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:37.620Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:39.990Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:42.055Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:43.577Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:47:45.807Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:48:15.908Z [ERROR]: Error al obtener lista completa de usuarios: Unknown column 'direccion' in 'field list'
+2025-01-11T05:48:15.909Z [ERROR]: GET /user/ - Error al obtener lista completa de usuarios
+2025-01-11T05:49:10.244Z [ERROR]: GET /usuarios - Ruta no encontrada.
+2025-01-11T05:49:10.249Z [ERROR]: GET /usuarios - Ruta no encontrada.
+2025-01-11T05:49:33.583Z [ERROR]: GET /auth/login - Ruta no encontrada.
+2025-01-11T05:51:05.327Z [ERROR]: Error al obtener lista completa de usuarios: Unknown column 'direccion' in 'field list'
+2025-01-11T05:51:05.328Z [ERROR]: GET /user/ - Error al obtener lista completa de usuarios
+2025-01-11T05:51:32.147Z [ERROR]: Error al obtener lista completa de usuarios: Unknown column 'direccion' in 'field list'
+2025-01-11T05:51:32.148Z [ERROR]: GET /user/ - Error al obtener lista completa de usuarios
+2025-01-11T05:53:18.707Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:27.440Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:28.733Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:32.332Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:33.697Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:45.500Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:53:53.420Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:54:01.774Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:13.252Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:26.004Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:27.094Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:37.944Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:55.417Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:55:58.669Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T05:56:23.355Z [INFO]: Servidor corriendo en el puerto 3301

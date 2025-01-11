@@ -26,7 +26,7 @@ const errorHandler = require("./middlewares/errorMiddleware");
 
 // Rutas
 app.use("/auth", authRoutes);
-app.use("/usuarios", userRoutes);
+app.use("/user", userRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {
