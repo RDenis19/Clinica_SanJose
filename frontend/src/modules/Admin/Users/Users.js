@@ -21,10 +21,12 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Cargar usuarios desde el backend
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const response = await fetchUsers();
+        console.log('Respuesta del backend:', response);
         if (response && response.usuarios && Array.isArray(response.usuarios)) {
           setUsers(response.usuarios);
           setFilteredUsers(response.usuarios);
@@ -99,43 +101,36 @@ const Users = () => {
         user.nombres.toLowerCase().includes(lowercasedValue)
     );
     setFilteredUsers(filtered);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reinicia la paginación al buscar
   };
 
   const handleFilterChange = (key, value) => {
-    const updatedFilters = { ...filters, [key]: value };
-    setFilters(updatedFilters);
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [key]: value };
 
-    const filtered = users.filter((user) => {
-      const matchEstado = updatedFilters.estado
-        ? user.estado === updatedFilters.estado
-        : true;
-      const matchRol = updatedFilters.rol
-        ? user.rol === updatedFilters.rol
-        : true;
-      return matchEstado && matchRol;
+      const filtered = users.filter((user) => {
+        const matchEstado = !updatedFilters.estado || user.estado === updatedFilters.estado;
+        const matchRol = !updatedFilters.rol || user.rol === updatedFilters.rol;
+        return matchEstado && matchRol;
+      });
+
+      setFilteredUsers(filtered);
+      setCurrentPage(1); // Reinicia la paginación al filtrar
+      return updatedFilters;
     });
-
-    setFilteredUsers(filtered);
-    setCurrentPage(1);
   };
 
+  const clearFilters = () => {
+    setFilters({ estado: '', rol: '' });
+    setFilteredUsers(users);
+    setCurrentPage(1); // Reinicia la paginación
+  };
+
+  // Lógica de paginación
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
-
-  const filterOptions = [
-    {
-      key: 'estado',
-      label: 'Estado',
-      values: ['Activo', 'Inactivo'],
-    },
-    {
-      key: 'rol',
-      label: 'Rol',
-      values: ['Doctor', 'Enfermera', 'Administrador'],
-    },
-  ];
 
   return (
     <div className="users-container">
@@ -154,12 +149,13 @@ const Users = () => {
             toggle={toggleFilter}
             filters={filters}
             setFilters={handleFilterChange}
-            options={filterOptions}
+            options={[
+              { key: 'estado', label: 'Estado', values: ['Act', 'Ina', 'Sus'] },
+              { key: 'rol', label: 'Rol', values: ['Doctor', 'Admin', 'Enfermera'] },
+            ]}
           />
-          <Button
-            label="Agregar Usuario"
-            onClick={() => setIsAddUserModalOpen(true)}
-          />
+          <Button label="Quitar Filtros" onClick={clearFilters} />
+          <Button label="Agregar Usuario" onClick={() => setIsAddUserModalOpen(true)} />
         </div>
       </div>
 
@@ -175,10 +171,7 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <Button
-                label="Detalles"
-                onClick={() => handleExpandUser(user.idUsuario)}
-              />
+              <Button label="Detalles" onClick={() => handleExpandUser(user.idUsuario)} />
             ),
           },
         ]}
@@ -187,7 +180,7 @@ const Users = () => {
 
       <Pagination
         currentPage={currentPage}
-        totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
+        totalPages={totalPages}
         onPageChange={(page) => setCurrentPage(page)}
       />
 
