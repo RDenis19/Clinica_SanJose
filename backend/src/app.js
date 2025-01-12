@@ -1,15 +1,16 @@
+require('express-async-errors');
 const express = require("express");
 const dotenv = require("dotenv");
 const createError = require("http-errors");
-const helmet = require("helmet");
 const cors = require("cors");
 const logger = require("./utils/logger");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
-
-const app = express();
+const patientRoutes = require("./routes/patientRoutes");
 
 dotenv.config();
+
+const app = express();
 
 // Middlewares globales
 app.use(
@@ -20,13 +21,12 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
-const errorHandler = require("./middlewares/errorMiddleware");
 
 // Rutas
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/patient", patientRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {
@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware de manejo de errores
+const errorHandler = require("./middlewares/errorMiddleware");
 app.use(errorHandler);
 
 // Iniciar el servidor

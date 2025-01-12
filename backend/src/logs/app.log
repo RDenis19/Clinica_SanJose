@@ -770,6 +770,7 @@
 2025-01-11T22:27:39.994Z [INFO]: Obtenido usuario con idUsuario: 12
 2025-01-11T22:27:40.002Z [INFO]: Obtenido usuario con idUsuario: 12
 2025-01-11T22:27:42.793Z [INFO]: Eliminado usuario con idUsuario: 12
+<<<<<<< Updated upstream
 2025-01-11T22:32:52.932Z [ERROR]: GET /patients - Ruta no encontrada.
 2025-01-11T22:32:52.946Z [ERROR]: GET /patients - Ruta no encontrada.
 2025-01-11T22:33:28.600Z [ERROR]: GET /patients - Ruta no encontrada.
@@ -886,3 +887,17 @@
 2025-01-12T03:55:25.711Z [INFO]: Obtenido usuario con idUsuario: 13
 2025-01-12T03:55:49.714Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
 2025-01-12T03:55:49.715Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+=======
+2025-01-12T03:14:20.037Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:24:11.820Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:24:29.072Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:28:25.833Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:49:10.683Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T04:52:45.771Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T04:53:33.051Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:23:15.824Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:23:45.470Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:16.271Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:23.558Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:34.906Z [INFO]: Servidor corriendo en el puerto 3301
+>>>>>>> Stashed changes
