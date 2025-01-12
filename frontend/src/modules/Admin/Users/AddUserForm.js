@@ -191,7 +191,8 @@ const AddUserForm = ({ onClose, onAdd }) => {
             onChange={(e) => setFormData({ ...formData, rol: e.target.value })}
           >
             <option value="Doctor">Doctor</option>
-            <option value="Admin">Administrador</option>
+            <option value="Admin">Enfermera</option>
+            <option value="Enfermera">Administrador</option>
           </select>
         </div>
         <div className="form-field">

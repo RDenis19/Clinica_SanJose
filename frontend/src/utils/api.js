@@ -33,16 +33,16 @@ export const loginRequest = async (credentials) => {
 };
 
 // Usuario
-export const fetchUsers = async () => {
+export const fetchUsers = async (page = 1, limit = 10) => {
   try {
-    const response = await API.get('/user/');
-    console.log('Respuesta del servidor:', response.data);
-    return response.data; // Esto debe ser un array
+    const response = await API.get(`/user?page=${page}&limit=${limit}`);
+    return response.data; // Asegúrate de que el backend devuelve { usuarios, total, totalPages }
   } catch (error) {
-    console.error('Error al obtener usuarios:', error.response?.data || error.message);
+    console.error('Error al obtener usuarios:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
 
 export const createUser = async (userData) => {
   try {
@@ -66,16 +66,22 @@ export const fetchUserDetails = async (id) => {
   }
 };
 
-export const updateUser = async (id, updatedData) => {
+export const updateUser = async (id, data) => {
   try {
-    console.log("Datos enviados en la solicitud PUT:", updatedData); // Verificar datos enviados
-    const response = await API.put(`/user/${id}`, updatedData); // Llamar al endpoint
+    const config = {};
+    if (data instanceof FormData) {
+      config.headers = { 'Content-Type': 'multipart/form-data' };
+    }
+
+    console.log("Datos enviados en la solicitud PUT:", data);
+    const response = await API.put(`/user/${id}`, data, config);
     return response.data;
   } catch (error) {
     console.error("Error en la solicitud PUT:", error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
 
 
 export const removeUser = async (id) => {

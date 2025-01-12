@@ -21,14 +21,13 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Cargar usuarios desde el backend
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const response = await fetchUsers();
         if (response && response.usuarios && Array.isArray(response.usuarios)) {
           setUsers(response.usuarios);
-          setFilteredUsers(response.usuarios); // Inicializar lista de usuarios filtrados
+          setFilteredUsers(response.usuarios);
         } else {
           console.error('La respuesta del servidor no contiene un array de usuarios:', response);
           setUsers([]);
@@ -91,7 +90,6 @@ const Users = () => {
     }
   };
 
-  // Función de búsqueda
   const handleSearch = (value) => {
     setSearchValue(value);
     const lowercasedValue = value.toLowerCase();
@@ -104,7 +102,6 @@ const Users = () => {
     setCurrentPage(1);
   };
 
-  // Función de filtrado
   const handleFilterChange = (key, value) => {
     const updatedFilters = { ...filters, [key]: value };
     setFilters(updatedFilters);
@@ -124,7 +121,8 @@ const Users = () => {
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
   const filterOptions = [
     {
@@ -142,19 +140,27 @@ const Users = () => {
   return (
     <div className="users-container">
       <div className="actions-container">
-        <SearchBar
-          placeholder="Buscar por nombre o cédula"
-          value={searchValue}
-          onChange={handleSearch}
-        />
-        <FilterDropdown
-          isOpen={isFilterOpen}
-          toggle={toggleFilter}
-          filters={filters}
-          setFilters={handleFilterChange}
-          options={filterOptions}
-        />
-        <Button label="Agregar Usuario" onClick={() => setIsAddUserModalOpen(true)} />
+        <div className="actions-row">
+          <div className="title-container">
+            <h2 className="title">Lista de Usuarios</h2>
+          </div>
+          <SearchBar
+            placeholder="Buscar por nombre o cédula"
+            value={searchValue}
+            onChange={handleSearch}
+          />
+          <FilterDropdown
+            isOpen={isFilterOpen}
+            toggle={toggleFilter}
+            filters={filters}
+            setFilters={handleFilterChange}
+            options={filterOptions}
+          />
+          <Button
+            label="Agregar Usuario"
+            onClick={() => setIsAddUserModalOpen(true)}
+          />
+        </div>
       </div>
 
       <Table
@@ -182,7 +188,7 @@ const Users = () => {
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => setCurrentPage(page)}
       />
 
       {expandedUser && (

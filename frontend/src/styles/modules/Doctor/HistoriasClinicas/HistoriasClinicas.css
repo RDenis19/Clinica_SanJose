@@ -6,13 +6,6 @@
   margin-top: -2rem; /* Reduce el espacio superior */
 }
 
-.search-bar {
-  width: 80%; /* Ampliar el ancho */
-  margin: 0 auto 1rem;
-  display: flex;
-  justify-content: center;
-}
-
 .options-list {
   width: 80%; /* Ampliar el ancho */
   margin: 0 auto;
