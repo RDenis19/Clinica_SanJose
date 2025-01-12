@@ -16,11 +16,12 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 // Rutas
@@ -38,7 +39,8 @@ const errorHandler = require("./middlewares/errorMiddleware");
 app.use(errorHandler);
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
   logger.info(`Servidor corriendo en el puerto ${PORT}`);
 });

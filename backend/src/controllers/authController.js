@@ -7,6 +7,7 @@ dotenv.config();
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
 
   if (!email || !password) {
     return res.status(400).json({ mensaje: 'Ingresa email y password' });
@@ -29,7 +30,7 @@ exports.login = async (req, res) => {
 
     // Generar token JWT
     const token = jwt.sign(
-      { id: user.idUsuario },
+      { id: user.idUsuario,},
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
@@ -39,6 +40,7 @@ exports.login = async (req, res) => {
       token,
       rol: user.rol
     });
+
   } catch (error) {
     console.error('Error en el login:', error);
     res.status(500).json({ mensaje: 'Error del servidor.' });
