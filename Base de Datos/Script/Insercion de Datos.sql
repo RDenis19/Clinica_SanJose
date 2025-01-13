@@ -13,13 +13,15 @@ VALUES
 ('0808080808', 'Elena', 'Ramírez', '1995-08-08', 'Av. Vida 404', '0987654328', 'F', 'elena.ramirez@clinica.com', 'Cas', '', NULL, 'B202', 'Act', 'Enfermera', 'elenar', 'password123');
 
 -- Tabla HistoriaClinica
-INSERT INTO HistoriaClinica (fechaCreacionHC) 
+-- Inserción de los Datos con nroHistoriaClinica en orden secuencial
+INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica) 
 VALUES 
-('2025-01-01'), ('2025-01-02'), 
-('2025-01-03'), ('2025-01-04'), 
-('2025-01-05'), ('2025-01-06'), 
-('2025-01-07'), ('2025-01-08'), 
-('2025-01-09'), ('2025-01-10');
+('2025-01-01', '000001'), 
+('2025-01-02', '000002'), 
+('2025-01-03', '000003'), 
+('2025-01-04', '000004'), 
+('2025-01-05', '000005');
+
 
 -- Tabla Paciente
 INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones, HistoriaClinica_idHistoriaClinica) 
