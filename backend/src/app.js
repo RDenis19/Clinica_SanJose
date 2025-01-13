@@ -1,5 +1,5 @@
-require('express-async-errors');
 const express = require("express");
+require('express-async-errors');
 const dotenv = require("dotenv");
 const createError = require("http-errors");
 const cors = require("cors");
@@ -39,7 +39,8 @@ const errorHandler = require("./middlewares/errorMiddleware");
 app.use(errorHandler);
 
 // Iniciar el servidor
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
+console.log(PORT);
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
   logger.info(`Servidor corriendo en el puerto ${PORT}`);

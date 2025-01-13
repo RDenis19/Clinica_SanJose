@@ -161,38 +161,60 @@ const User = {
       nombres,
       apellidos,
       fechaNacimiento,
+<<<<<<< HEAD
       direccionDomicilio,
+=======
+      direccion,
+>>>>>>> parent of db55132 (Correcion API user)
       telefono,
       sexo,
       correo,
       estadoCivil,
+<<<<<<< HEAD
+=======
+      usuario,
+      contraseña,
+>>>>>>> parent of db55132 (Correcion API user)
       especialidad,
       fotografia,
       consultorio,
       estado,
       rol,
+<<<<<<< HEAD
       usuario,
       // contraseña, // Asumiendo que la contraseña no se actualiza aquí
     } = data;
 
     const query = `
+=======
+      InternaClinica_idInternaClinica,
+      FirmaElectronica_idFirmaElec,
+    } = data;
+
+    const [result] = await pool.execute(
+      `
+>>>>>>> parent of db55132 (Correcion API user)
       UPDATE usuario SET 
         identificacion = ?, 
         nombres = ?, 
         apellidos = ?, 
         fechaNacimiento = ?, 
-        direccionDomicilio = ?, 
+        direccion = ?, 
         telefono = ?, 
         sexo = ?, 
         correo = ?, 
         estadoCivil = ?, 
+        usuario = ?, 
+        contraseña = ?, 
         especialidad = ?, 
         fotografia = ?, 
         consultorio = ?, 
         estado = ?, 
         rol = ?, 
-        usuario = ?
+        InternaClinica_idInternaClinica = ?, 
+        FirmaElectronica_idFirmaElec = ?
       WHERE idUsuario = ?
+<<<<<<< HEAD
     `;
     const params = [
       identificacion,
@@ -212,6 +234,31 @@ const User = {
       usuario,
       idUsuario,
     ];
+=======
+    `,
+      [
+        identificacion,
+        nombres,
+        apellidos,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        sexo,
+        correo,
+        estadoCivil,
+        usuario,
+        contraseña,
+        especialidad,
+        fotografia,
+        consultorio,
+        estado,
+        rol,
+        InternaClinica_idInternaClinica,
+        FirmaElectronica_idFirmaElec,
+        idUsuario,
+      ]
+    );
+>>>>>>> parent of db55132 (Correcion API user)
 
     const [result] = await pool.execute(query, params);
     return result.affectedRows > 0 ? { idUsuario, ...data } : null;

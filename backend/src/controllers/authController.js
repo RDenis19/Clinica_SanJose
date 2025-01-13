@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
     res.json({
       mensaje: 'Login exitoso.',
       token,
-      rol: user.rol
+      rol
     });
 
   } catch (error) {
