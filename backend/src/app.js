@@ -7,6 +7,7 @@ const userRoutes = require('./routes/usuario.routes');
 const titleRoutes = require('./routes/titulo.routes');
 const firmaElectronicaRoutes = require('./routes/firmaElectronica.routes');
 const jornadaRoutes = require('./routes/jornada.routes');
+const pacienteRoutes = require('./routes/paciente.routes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/user', userRoutes);
 app.use('/title', titleRoutes);
 app.use('/firmaelectronica', firmaElectronicaRoutes);
 app.use('/jornada', jornadaRoutes);
+app.use('/paciente', pacienteRoutes);
 
 const PORT = process.env.PORT || 3301;
 app.listen(PORT, () => {
