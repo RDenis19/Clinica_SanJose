@@ -15,7 +15,9 @@ function Login() {
         setError(''); // Limpiar errores previos
     
         try {
-            const data = await loginRequest({ email, password });
+            const correo = email;
+            const contraseña = password;
+            const data = await loginRequest({ correo, contraseña });
             if (!data || !data.token || !data.rol) {
                 throw new Error('Respuesta inválida del servidor.');
             }
