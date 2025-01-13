@@ -1,47 +1,21 @@
-const express = require("express");
-require('express-async-errors');
-const dotenv = require("dotenv");
-const createError = require("http-errors");
-const cors = require("cors");
-const logger = require("./utils/logger");
-const userRoutes = require("./routes/userRoutes");
-const authRoutes = require("./routes/authRoutes");
-const patientRoutes = require("./routes/patientRoutes");
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
 
-dotenv.config();
+const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/usuario.routes');
 
 const app = express();
 
 // Middlewares globales
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
-
+app.use(cors());
 app.use(express.json());
 
 // Rutas
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-app.use("/patient", patientRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes)
 
-// Manejo de errores 404
-app.use((req, res, next) => {
-  next(createError(404, "Ruta no encontrada."));
-});
-
-// Middleware de manejo de errores
-const errorHandler = require("./middlewares/errorMiddleware");
-app.use(errorHandler);
-
-// Iniciar el servidor
-const PORT = process.env.PORT
-console.log(PORT);
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-  logger.info(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
