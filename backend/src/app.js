@@ -5,6 +5,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/usuario.routes');
 const titleRoutes = require('./routes/titulo.routes');
+const firmaElectronicaRoutes = request('./routes/firmaElectronica.routes');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/title', titleRoutes);
+app.use('/firmaelectronica', firmaElectronicaRoutes);
 
 
 const PORT = process.env.PORT || 3000;
