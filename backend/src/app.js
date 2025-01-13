@@ -5,7 +5,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/usuario.routes');
 const titleRoutes = require('./routes/titulo.routes');
-const firmaElectronicaRoutes = request('./routes/firmaElectronica.routes');
+const firmaElectronicaRoutes = require('./routes/firmaElectronica.routes');
 
 const app = express();
 
