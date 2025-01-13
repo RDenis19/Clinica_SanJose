@@ -1,20 +1,22 @@
 -- Operaciones CRUD para todas las tablas en la base de datos clinica_sanjose
 -- Tabla Usuario
+
 -- Create
-INSERT INTO Usuario (identificacion, nombres, apellidos, fechaNacimiento, direccionDomicilio, telefono, sexo, correo, estadoCivil, especialidad, fotografia, consultorio, estado, rol, usuario, contraseña) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Usuario (identificacion, nombres, apellidos, fechaNacimiento, direccionDomicilio, telefono, sexo, correo, estadoCivil, especialidad, fotografia, consultorio, estado, rol, contraseña) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 -- Read
-SELECT * FROM Usuario WHERE idUsuario = ?;
+SELECT * FROM Usuario WHERE identificacion = ?;
 SELECT * FROM Usuario;
 -- Update
 UPDATE Usuario 
-SET identificacion = ?, nombres = ?, apellidos = ?, fechaNacimiento = ?, direccionDomicilio = ?, telefono = ?, sexo = ?, correo = ?, estadoCivil = ?, especialidad = ?, fotografia = ?, consultorio = ?, estado = ?, rol = ?, usuario = ?, contraseña = ?
-WHERE idUsuario = ?;
+SET identificacion = ?, nombres = ?, apellidos = ?, fechaNacimiento = ?, direccionDomicilio = ?, telefono = ?, sexo = ?, correo = ?, estadoCivil = ?, especialidad = ?, fotografia = ?, consultorio = ?, estado = ?, rol = ?, contraseña = ?
+WHERE identificacion = ?;
 -- Delete
-DELETE FROM Usuario WHERE idUsuario = ?;
+DELETE FROM Usuario WHERE identificacion = ?;
 
 
 -- Tabla Paciente
+
 -- Create
 INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones, HistoriaClinica_idHistoriaClinica) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -30,6 +32,7 @@ DELETE FROM Paciente WHERE idPaciente = ?;
 
 
 -- Tabla HistoriaClinica
+
 -- Create
 INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica) 
 VALUES (?, ?);
@@ -90,51 +93,56 @@ DELETE FROM Formulario WHERE idFormulario = ?;
 
 
 -- Tabla Titulo
+
 -- Create
-INSERT INTO Titulo (nombreTitulo, institucionEducacionSuperior, tipoTitulo, reconocidoPor, numeroRegistro, fechaRegistro, areaConocimiento, Usuario_idUsuario) 
+INSERT INTO Titulo (nombreTitulo, institucionEducacionSuperior, tipoTitulo, reconocidoPor, numeroRegistro, fechaRegistro, areaConocimiento, Usuario_identificacion) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 -- Read
 SELECT * FROM Titulo WHERE idTitulo = ?;
 SELECT * FROM Titulo;
 -- Update
 UPDATE Titulo 
-SET nombreTitulo = ?, institucionEducacionSuperior = ?, tipoTitulo = ?, reconocidoPor = ?, numeroRegistro = ?, fechaRegistro = ?, areaConocimiento = ?, Usuario_idUsuario = ?
+SET nombreTitulo = ?, institucionEducacionSuperior = ?, tipoTitulo = ?, reconocidoPor = ?, numeroRegistro = ?, fechaRegistro = ?, areaConocimiento = ?, Usuario_identificacion = ?
 WHERE idTitulo = ?;
 -- Delete
 DELETE FROM Titulo WHERE idTitulo = ?;
 
 
 -- Tabla Jornada
+
 -- Create
-INSERT INTO Jornada (supervisor, fechaContratacion, fechaFinContratacion, inicioJornada, finJornada, Usuario_idUsuario) 
+INSERT INTO Jornada (supervisor, fechaContratacion, fechaFinContratacion, inicioJornada, finJornada, Usuario_identificacion) 
 VALUES (?, ?, ?, ?, ?, ?);
 -- Read
 SELECT * FROM Jornada WHERE idJornada = ?;
 SELECT * FROM Jornada;
 -- Update
 UPDATE Jornada 
-SET supervisor = ?, fechaContratacion = ?, fechaFinContratacion = ?, inicioJornada = ?, finJornada = ?, Usuario_idUsuario = ?
+SET supervisor = ?, fechaContratacion = ?, fechaFinContratacion = ?, inicioJornada = ?, finJornada = ?, Usuario_identificacion = ?
 WHERE idJornada = ?;
 -- Delete
 DELETE FROM Jornada WHERE idJornada = ?;
 
 
 -- Tabla RegistroModificaciones
+
 -- Create
-INSERT INTO RegistroModificaciones (fechaCambio, accion, camposModificados, notas, Usuario_idUsuario, Formulario_idFormulario) 
+INSERT INTO RegistroModificaciones (fechaCambio, accion, camposModificados, notas, Usuario_identificacion, Formulario_idFormulario) 
 VALUES (?, ?, ?, ?, ?, ?);
 -- Read
 SELECT * FROM RegistroModificaciones WHERE idRegistroModificaciones = ?;
 SELECT * FROM RegistroModificaciones;
 -- Update
 UPDATE RegistroModificaciones 
-SET fechaCambio = ?, accion = ?, camposModificados = ?, notas = ?, Usuario_idUsuario = ?, Formulario_idFormulario = ?
+SET fechaCambio = ?, accion = ?, camposModificados = ?, notas = ?, Usuario_identificacion = ?, Formulario_idFormulario = ?
 WHERE idRegistroModificaciones = ?;
 -- Delete
 DELETE FROM RegistroModificaciones WHERE idRegistroModificaciones = ?;
 
 
+
 -- Tabla Referido
+
 -- Create
 INSERT INTO Referido (nombreReferido, parentescoReferido, direccionReferido, telefonoReferido, Paciente_idPaciente) 
 VALUES (?, ?, ?, ?, ?);
@@ -150,28 +158,33 @@ DELETE FROM Referido WHERE idReferido = ?;
 
 
 -- Tabla FirmaElectronica
+
 -- Create
-INSERT INTO FirmaElectronica (nombreCertificado, serialNumber, validoDesde, validoHasta, clavePublica, archivoCertificado, Usuario_idUsuario) 
+INSERT INTO FirmaElectronica (nombreCertificado, serialNumber, validoDesde, validoHasta, clavePublica, archivoCertificado, Usuario_identificacion) 
 VALUES (?, ?, ?, ?, ?, ?, ?);
 -- Read
 SELECT * FROM FirmaElectronica WHERE idFirmaElectronica = ?;
 SELECT * FROM FirmaElectronica;
 -- Update
 UPDATE FirmaElectronica 
-SET nombreCertificado = ?, serialNumber = ?, validoDesde = ?, validoHasta = ?, clavePublica = ?, archivoCertificado = ?, Usuario_idUsuario = ?
+SET nombreCertificado = ?, serialNumber = ?, validoDesde = ?, validoHasta = ?, clavePublica = ?, archivoCertificado = ?, Usuario_identificacion = ?
 WHERE idFirmaElectronica = ?;
 -- Delete
 DELETE FROM FirmaElectronica WHERE idFirmaElectronica = ?;
 
 
 -- Tabla Usuario_has_HistoriaClinica
+
 -- Create
-INSERT INTO Usuario_has_HistoriaClinica (Usuario_idUsuario, HistoriaClinica_idHistoriaClinica) 
+INSERT INTO Usuario_has_HistoriaClinica (Usuario_identificacion, HistoriaClinica_idHistoriaClinica) 
 VALUES (?, ?);
 -- Read
-SELECT * FROM Usuario_has_HistoriaClinica WHERE Usuario_idUsuario = ? AND HistoriaClinica_idHistoriaClinica = ?;
+SELECT * FROM Usuario_has_HistoriaClinica WHERE idUsuario_has_HistoriaClinica = ?;
 SELECT * FROM Usuario_has_HistoriaClinica;
 -- Update
 -- No aplica, generalmente es una tabla de relaciones.
+UPDATE Usuario_has_HistoriaClinica 
+SET Usuario_identificacion = ?, HistoriaClinica_idHistoriaClinica = ?
+WHERE idUsuario_has_HistoriaClinica = ?;
 -- Delete
-DELETE FROM Usuario_has_HistoriaClinica WHERE Usuario_idUsuario = ? AND HistoriaClinica_idHistoriaClinica = ?;
+DELETE FROM Usuario_has_HistoriaClinica WHERE Usuario_identificacion = ? AND HistoriaClinica_idHistoriaClinica = ?;
