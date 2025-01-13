@@ -43,7 +43,6 @@ export const fetchUsers = async (page = 1, limit = 10) => {
   }
 };
 
-
 export const createUser = async (userData) => {
   try {
     console.log("Datos enviados al backend (API):", userData);
@@ -58,7 +57,7 @@ export const createUser = async (userData) => {
 export const fetchUserDetails = async (id) => {
   try {
     const response = await API.get(`/user/${id}`);
-    return response.data;
+    return response.data; // Asegúrate de que `response.data` incluya `name` y `profilePic`
   } catch (error) {
     throw new Error(
       error.response?.data?.error || 'Error al obtener los detalles del usuario.'

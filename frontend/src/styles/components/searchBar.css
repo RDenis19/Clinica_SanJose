@@ -1,6 +1,4 @@
 .search-bar-container {
-  display: flex;
-  align-items: center;
   position: relative;
   width: 100%;
   max-width: 400px;
@@ -8,23 +6,21 @@
 
 .search-bar {
   width: 100%;
-  padding: 10px 40px 10px 15px; /* Add padding for the icon space */
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  font-size: 14px;
-  color: #333;
-  outline: none;
-  transition: border-color 0.3s ease;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: white;
+  transition: all 0.2s;
 }
 
 .search-bar:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+  border-color: #B0D4AE;
+  box-shadow: 0 0 0 2px rgba(176, 212, 174, 0.2);
 }
 
-.search-icon-right {
-  position: absolute;
-  right: 15px;
-  font-size: 18px;
-  color: #888;
+.search-bar::placeholder {
+  color: #9ca3af;
 }
+

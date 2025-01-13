@@ -1,9 +1,10 @@
-/* src/styles/layouts/sidebar.css */
 .sidebar {
   width: 250px;
   background: #F6FFED;
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos estén en columna */
+  height: 100vh; /* Asegura que ocupe toda la altura */
 }
-
 
 .sidebar-logo {
   padding: 20px;
@@ -19,6 +20,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1; /* Permite que el menú ocupe el espacio disponible */
 }
 
 .menu li {
@@ -34,8 +36,12 @@
   font-size: 1rem;
 }
 
+.menu li a .icon {
+  margin-right: 10px; /* Separación entre icono y texto */
+}
+
 .menu li a.active {
-  background: #E6F7FF;
+  background: #888d73;
   color: white;
   border-radius: 5px;
 }
@@ -44,32 +50,34 @@
   background: #b6c4a8;
 }
 
-
-.menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* Sección de Cerrar Sesión al final del sidebar */
+.logout-section {
+  margin-top: auto; /* Empuja el botón al final del sidebar */
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ddd; /* Línea para separar del menú */
 }
 
-.menu li {
-  margin: 15px 0;
-}
-
-.menu li a {
+.logout-button {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: #4a5568;
-  font-size: 1rem;
-}
-
-.menu li a.active {
-  background: #1d8f85;
+  justify-content: center;
+  gap: 10px; /* Espacio entre el icono y el texto */
+  padding: 10px;
+  background-color: #FF6F61;
   color: white;
+  font-size: 1rem;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+  width: 90%; /* Ajusta el ancho */
+  margin: auto;
 }
 
-.menu li a:hover {
-  background: #e2e8f0;
+.logout-button:hover {
+  background-color: #F6FFED;
+}
+
+.logout-icon {
+  font-size: 1.2rem;
 }

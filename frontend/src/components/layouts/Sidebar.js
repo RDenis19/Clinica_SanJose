@@ -1,9 +1,10 @@
 // src/components/layouts/Sidebar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { AiOutlineLogout } from 'react-icons/ai';
 import '../../styles/layouts/sidebar.css';
 
-function Sidebar({ links = [] }) {
+function Sidebar({ links = [], onLogout }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -19,11 +20,19 @@ function Sidebar({ links = [] }) {
               to={link.to}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              {link.icon} {link.label}
+              <span className="icon">{link.icon}</span>
+              {link.label}
             </NavLink>
           </li>
         ))}
       </ul>
+      {/* Cerrar Sesión */}
+      <div className="logout-section">
+        <button className="logout-button" onClick={onLogout}>
+          <AiOutlineLogout className="logout-icon" />
+          Cerrar Sesión
+        </button>
+      </div>
     </aside>
   );
 }

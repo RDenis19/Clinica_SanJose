@@ -154,8 +154,8 @@ const Users = () => {
               { key: 'rol', label: 'Rol', values: ['Doctor', 'Admin', 'Enfermera'] },
             ]}
           />
-          <Button label="Quitar Filtros" onClick={clearFilters} />
-          <Button label="Agregar Usuario" onClick={() => setIsAddUserModalOpen(true)} />
+          <Button label="Quitar Filtros" onClick={clearFilters} className="secondary" />
+          <Button label="Agregar Usuario" onClick={() => setIsAddUserModalOpen(true)} className="primary" />
         </div>
       </div>
 
@@ -171,7 +171,12 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <Button label="Detalles" onClick={() => handleExpandUser(user.idUsuario)} />
+              <button
+                className="action-button"
+                onClick={() => handleExpandUser(user.idUsuario)}
+              >
+                →
+              </button>
             ),
           },
         ]}
@@ -195,7 +200,10 @@ const Users = () => {
       )}
 
       {isAddUserModalOpen && (
-        <AddUserForm onClose={() => setIsAddUserModalOpen(false)} onAdd={handleAddUser} />
+        <AddUserForm
+          onClose={() => setIsAddUserModalOpen(false)}
+          onAdd={handleAddUser}
+        />
       )}
     </div>
   );
