@@ -1,5 +1,4 @@
 -- Inserción de datos actualizada
-
 -- Tabla Usuario
 INSERT INTO Usuario (identificacion, nombres, apellidos, fechaNacimiento, direccionDomicilio, telefono, sexo, correo, estadoCivil, especialidad, fotografia, consultorio, estado, rol, contraseña) 
 VALUES 
@@ -12,39 +11,39 @@ VALUES
 ('0707070707', 'Laura', 'Torres', '1992-07-07', 'Calle Salud 303', '0987654327', 'F', 'laura.torres@clinica.com', 'Sol', '', NULL, 'B201', 'Act', 'Enfermera', 'password123'),
 ('0808080808', 'Elena', 'Ramírez', '1995-08-08', 'Av. Vida 404', '0987654328', 'F', 'elena.ramirez@clinica.com', 'Cas', '', NULL, 'B202', 'Act', 'Enfermera', 'password123');
 
--- Tabla HistoriaClinica
--- Inserción de los Datos con nroHistoriaClinica en orden secuencial
-INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica) 
-VALUES 
-('2025-01-01', '000001'), 
-('2025-01-02', '000002'), 
-('2025-01-03', '000003'), 
-('2025-01-04', '000004'), 
-('2025-01-05', '000005'),
-('2025-01-06', '000006'),
-('2025-01-07', '000007'),
-('2025-01-08', '000008'),
-('2025-01-09', '000009'),
-('2025-01-10', '000010');
-
 
 -- Tabla Paciente
-INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones, HistoriaClinica_idHistoriaClinica) 
+INSERT INTO Paciente (identificacion, apellidoParteno, apellidoMaterno, primerNombre, segundoNombre, direccionResidenciaHab, barrio, parroquia, canton, provincia, zona, telefonoPaciente, fechaNacimiento, lugarNacimiento, nacionalidad, grupoCultural, sexo, estadoCivil, instruccionUltimoAnioAprov, direccionPaciente, correo, ocupacion, empresaTrabajo, tipoSeguroSalud, alergias, grupoSanguineo, observaciones) 
 VALUES 
-('1101010101', 'Vásquez', 'Pérez', 'Carlos', 'Andrés', 101, 'San Juan', 'Centro', 'Quito', 'Pichincha', 'U', '0999999991', '1990-01-01', 'Quito', 'Ecuatoriana', 'Ninguno', 'M', 'Sol', 'Secundaria', 'Av. Amazonas 123', 'carlos@dominio.com', 'Ingeniero', 'Empresa 1', 'IESS', 'Ninguna', 'O+', 'Ninguna', 1),
-('1102020202', 'López', 'González', 'María', 'José', 102, 'San Pedro', 'Sur', 'Quito', 'Pichincha', 'U', '0999999992', '1992-02-02', 'Quito', 'Ecuatoriana', 'Montubio', 'F', 'Cas', 'Superior', 'Calle 10 de Agosto', 'maria@dominio.com', 'Doctora', 'Empresa 2', 'Privado', 'Penicilina', 'A+', 'Ninguna', 2),
-('1103030303', 'Martínez', 'Paredes', 'Luis', 'Fernando', 103, 'San José', 'Norte', 'Quito', 'Pichincha', 'U', '0999999993', '1993-03-03', 'Quito', 'Ecuatoriana', 'Afroecuatoriano', 'M', 'Sol', 'Superior', 'Av. Naciones Unidas', 'luis@dominio.com', 'Ingeniero', 'Empresa 3', 'Privado', 'Polvo', 'B+', 'Ninguna', 3),
-('1104040404', 'Salazar', 'Quispe', 'Andrea', 'Gabriela', 104, 'San Blas', 'Este', 'Quito', 'Pichincha', 'U', '0999999994', '1994-04-04', 'Quito', 'Ecuatoriana', 'Indígena', 'F', 'Uni', 'Secundaria', 'Calle Versalles', 'andrea@dominio.com', 'Arquitecta', 'Empresa 4', 'IESS', 'Polen', 'AB+', 'Ninguna', 4),
-('1105050505', 'Hidalgo', 'Torres', 'Santiago', 'Ramiro', 105, 'San Francisco', 'Oeste', 'Quito', 'Pichincha', 'U', '0999999995', '1995-05-05', 'Quito', 'Ecuatoriana', 'Montubio', 'M', 'Cas', 'Primaria', 'Av. 6 de Diciembre', 'santiago@dominio.com', 'Técnico', 'Empresa 5', 'IESS', 'Látex', 'O-', 'Ninguna', 5);
+('1101010101', 'Vásquez', 'Pérez', 'Carlos', 'Andrés', 101, 'San Juan', 'Centro', 'Quito', 'Pichincha', 'U', '0999999991', '1990-01-01', 'Quito', 'Ecuatoriana', 'Ninguno', 'M', 'Sol', 'Secundaria', 'Av. Amazonas 123', 'carlos@dominio.com', 'Ingeniero', 'Empresa 1', 'IESS', 'Ninguna', 'O+', 'Ninguna'),
+('1102020202', 'López', 'González', 'María', 'José', 102, 'San Pedro', 'Sur', 'Quito', 'Pichincha', 'U', '0999999992', '1992-02-02', 'Quito', 'Ecuatoriana', 'Montubio', 'F', 'Cas', 'Superior', 'Calle 10 de Agosto', 'maria@dominio.com', 'Doctora', 'Empresa 2', 'Privado', 'Penicilina', 'A+', 'Ninguna'),
+('1103030303', 'Martínez', 'Paredes', 'Luis', 'Fernando', 103, 'San José', 'Norte', 'Quito', 'Pichincha', 'U', '0999999993', '1993-03-03', 'Quito', 'Ecuatoriana', 'Afroecuatoriano', 'M', 'Sol', 'Superior', 'Av. Naciones Unidas', 'luis@dominio.com', 'Ingeniero', 'Empresa 3', 'Privado', 'Polvo', 'B+', 'Ninguna'),
+('1104040404', 'Salazar', 'Quispe', 'Andrea', 'Gabriela', 104, 'San Blas', 'Este', 'Quito', 'Pichincha', 'U', '0999999994', '1994-04-04', 'Quito', 'Ecuatoriana', 'Indígena', 'F', 'Uni', 'Secundaria', 'Calle Versalles', 'andrea@dominio.com', 'Arquitecta', 'Empresa 4', 'IESS', 'Polen', 'AB+', 'Ninguna'),
+('1105050505', 'Hidalgo', 'Torres', 'Santiago', 'Ramiro', 105, 'San Francisco', 'Oeste', 'Quito', 'Pichincha', 'U', '0999999995', '1995-05-05', 'Quito', 'Ecuatoriana', 'Montubio', 'M', 'Cas', 'Primaria', 'Av. 6 de Diciembre', 'santiago@dominio.com', 'Técnico', 'Empresa 5', 'IESS', 'Látex', 'O-', 'Ninguna');
+
+-- Tabla HistoriaClinica
+-- Inserción de los Datos con nroHistoriaClinica en orden secuencial
+INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica, Paciente_identificacion) 
+VALUES 
+('2025-01-01', '000001','1101010101'), 
+('2025-01-02', '000002','1101010101'), 
+('2025-01-03', '000003','1102020202'), 
+('2025-01-04', '000004','1102020202'), 
+('2025-01-05', '000005','1103030303'),
+('2025-01-06', '000006','1103030303'),
+('2025-01-07', '000007','1104040404'),
+('2025-01-08', '000008','1104040404'),
+('2025-01-09', '000009','1105050505'),
+('2025-01-10', '000010','1105050505');
 
 -- Tabla Referido
-INSERT INTO Referido (nombreReferido, parentescoReferido, direccionReferido, telefonoReferido, Paciente_idPaciente) 
+INSERT INTO Referido (nombreReferido, parentescoReferido, direccionReferido, telefonoReferido, Paciente_identificacion) 
 VALUES 
-('Luis Pérez', 'Hermano', 'Av. Siempre Viva 456', '0998888881', 1),
-('Ana López', 'Madre', 'Calle Luna 789', '0998888882', 2),
-('Carlos Ramírez', 'Padre', 'Av. Sol 101', '0998888883', 3),
-('María González', 'Hermana', 'Calle Estrella 202', '0998888884', 4),
-('Sofía Torres', 'Esposa', 'Av. Libertad 303', '0998888885', 5);
+('Luis Pérez', 'Hermano', 'Av. Siempre Viva 456', '0998888881', 1101010101),
+('Ana López', 'Madre', 'Calle Luna 789', '0998888882', 1102020202),
+('Carlos Ramírez', 'Padre', 'Av. Sol 101', '0998888883', 1103030303),
+('María González', 'Hermana', 'Calle Estrella 202', '0998888884', 1104040404),
+('Sofía Torres', 'Esposa', 'Av. Libertad 303', '0998888885', 1105050505);
 
 -- Tabla Usuario_has_HistoriaClinica
 INSERT INTO Usuario_has_HistoriaClinica (Usuario_identificacion, HistoriaClinica_idHistoriaClinica) 
