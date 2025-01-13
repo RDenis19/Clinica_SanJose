@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import Formulario from '../../../../components/common/FormularioG';
 import Button from '../../../../components/common/Button';
 import { fetchFormularioEstructura } from '../../../../utils/api';
@@ -41,3 +41,4 @@ function PasoFormulario({ prevStep, nextStep, tipoFormulario }) {
 }
 
 export default PasoFormulario;
+ */

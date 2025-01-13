@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import Button from '../../../../components/common/Button';
 import SearchBar from '../../../../components/common/SearchBar';
 import '../../../../styles/modules/Enfermera/PasoTipoFormularioEnfermera.css'; 
@@ -65,3 +65,4 @@ function PasoTipoFormularioEnfermera({ nextStep }) {
 }
 
 export default PasoTipoFormularioEnfermera;
+ */

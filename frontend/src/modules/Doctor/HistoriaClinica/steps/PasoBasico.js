@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import Button from '../../../../components/common/Button';
 import { fetchPatients, createPatients, asignarFormularioAPaciente } from '../../../../utils/api';
 
@@ -107,3 +107,4 @@ function PasoBasico({ prevStep, nextStep, tipoFormulario }) {
 }
 
 export default PasoBasico;
+ */
