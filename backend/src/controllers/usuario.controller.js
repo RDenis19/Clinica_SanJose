@@ -1,10 +1,4 @@
-const {
-    findAllUsuarios,
-    findUsuarioById,
-    createUsuario,
-    updateUsuario,
-    deleteUsuario,
-} = require('../models/usuario.model');
+const { findAllUsuarios, findUsuarioById, createUsuario, updateUsuario, deleteUsuario, } = require('../models/usuario.model');
 
 // Obtener todos los usuarios
 async function getUsuarios(req, res) {
@@ -23,7 +17,7 @@ async function getUsuarios(req, res) {
     }
 }
 
-// Obtener un usuario por identificacion (PK)
+// Obtener un usuario por identificacion
 async function getUsuario(req, res) {
     try {
         const { identificacion } = req.params;
@@ -51,7 +45,6 @@ async function getUsuario(req, res) {
 async function postUsuario(req, res) {
     try {
         const newUserData = req.body;
-        // Podrías hacer validaciones extra aquí
         const insertedId = await createUsuario(newUserData);
         return res.status(201).json({
             success: true,
