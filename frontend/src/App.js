@@ -8,7 +8,7 @@ import DoctorLayout from './components/layouts/DoctorLayout';
 import EnfermeraLayout from './components/layouts/EnfermeraLayout';
 import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users/Users';
-import Patients from './modules/Admin/Patients';
+import Patients from './modules/Admin/Patients/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
 import Formulario from './modules/Admin/Formulario/Form';
 import DashboardDoctor from './modules/Doctor/DashboardDoctor';

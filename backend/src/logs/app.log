@@ -573,3 +573,331 @@
 2025-01-11T08:33:57.520Z [INFO]: Obtenido usuario con idUsuario: 1
 2025-01-11T08:33:57.711Z [INFO]: Obtenido usuario con idUsuario: 1
 2025-01-11T08:33:57.899Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:24:06.966Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-11T18:28:30.455Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:28:31.015Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:28:31.322Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-11T18:28:34.283Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:43:25.384Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:43:29.464Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:48:59.360Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T18:49:20.165Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T18:49:20.892Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:00:47.769Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:00:49.712Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T19:00:50.074Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-11T19:00:50.490Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T19:00:51.493Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:01:01.936Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:01:22.646Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T19:04:37.348Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:08:49.655Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:25:48.772Z [INFO]: Creado nuevo usuario con idUsuario: 10
+2025-01-11T19:25:53.889Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:25:53.901Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:25:53.907Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:27:07.153Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:27:07.165Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:27:07.171Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:34:22.879Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:34:22.889Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:34:22.894Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T19:34:32.307Z [INFO]: Obtenido usuario con idUsuario: 10
+2025-01-11T19:34:32.317Z [INFO]: Obtenido usuario con idUsuario: 10
+2025-01-11T19:34:32.336Z [INFO]: Obtenido usuario con idUsuario: 10
+2025-01-11T19:34:35.172Z [INFO]: Eliminado usuario con idUsuario: 10
+2025-01-11T19:34:40.097Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:34:40.107Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:34:40.112Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:36:22.384Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:36:22.394Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:36:22.399Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:36:27.587Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:36:27.606Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:36:27.616Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:38:26.692Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:38:26.702Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:38:26.711Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T19:41:17.933Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:41:17.953Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:41:17.959Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:41:27.613Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:41:27.623Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:41:27.629Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T19:48:20.633Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:48:20.644Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:48:20.649Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T19:48:26.506Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-11T19:48:26.517Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-11T19:48:26.522Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-11T20:01:05.037Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T20:01:05.049Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T20:01:05.053Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T20:01:16.883Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T20:01:16.888Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T20:01:22.320Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:01:22.331Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:01:22.337Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:04:56.446Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:04:56.455Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:04:56.461Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:20.756Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:20.767Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:20.772Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:34.714Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:34.726Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:34.731Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:55.461Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:55.472Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:05:55.478Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:07:45.852Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:07:45.861Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:07:45.865Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T20:07:48.715Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:07:48.723Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:07:48.726Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:07:50.798Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:07:50.808Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:07:50.816Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:08:00.080Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:08:00.087Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:08:00.091Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:35:55.160Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:35:55.171Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:35:55.175Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:34.511Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:34.519Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:34.523Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:49.796Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:49.803Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:36:49.807Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:37:04.130Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:37:04.138Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:37:04.141Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:37:37.264Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:37:37.274Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:37:37.283Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:41:09.390Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:41:09.401Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:41:09.407Z [INFO]: Obtenido usuario con idUsuario: 4
+2025-01-11T20:41:26.295Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:41:26.305Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:41:26.312Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T20:43:14.938Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:43:14.950Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:43:14.956Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:48:59.441Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:48:59.452Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:48:59.457Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:54:53.328Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:54:53.339Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:54:53.345Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:55:30.418Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-11T20:55:30.419Z [ERROR]: PUT /user/7 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-11T20:55:42.375Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:55:42.386Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:55:42.391Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T20:56:08.355Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-11T20:56:08.355Z [ERROR]: PUT /user/7 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-11T21:06:17.211Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:06:17.222Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:06:17.228Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:11:55.648Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:12:08.847Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:12:08.856Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:12:08.863Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:12:42.718Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:12:42.732Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:12:42.741Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:13:27.012Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:13:27.022Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:13:27.028Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:14:10.646Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:14:10.657Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:14:10.661Z [INFO]: Obtenido usuario con idUsuario: 8
+2025-01-11T21:14:13.373Z [INFO]: Eliminado usuario con idUsuario: 8
+2025-01-11T21:14:28.605Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:28.616Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:28.622Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:30.939Z [ERROR]: Error al eliminar usuario: Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:14:30.939Z [ERROR]: DELETE /user/5 - Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:14:49.533Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:49.542Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:49.550Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:51.692Z [ERROR]: Error al eliminar usuario: Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:14:51.694Z [ERROR]: DELETE /user/5 - Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:14:55.273Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:55.287Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:55.315Z [INFO]: Obtenido usuario con idUsuario: 5
+2025-01-11T21:14:57.643Z [ERROR]: Error al eliminar usuario: Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:14:57.644Z [ERROR]: DELETE /user/5 - Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:15:01.625Z [ERROR]: Error al eliminar usuario: Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:15:01.625Z [ERROR]: DELETE /user/5 - Cannot delete or update a parent row: a foreign key constraint fails (`clinica_sanjose`.`firmaelectronica`, CONSTRAINT `fk_FirmaElectronica_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`))
+2025-01-11T21:16:50.142Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T21:16:50.153Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T21:16:50.158Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T21:16:57.744Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:16:57.755Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:16:57.760Z [INFO]: Obtenido usuario con idUsuario: 7
+2025-01-11T21:17:00.988Z [INFO]: Eliminado usuario con idUsuario: 7
+2025-01-11T21:20:36.446Z [INFO]: Creado nuevo usuario con idUsuario: 11
+2025-01-11T22:20:13.988Z [INFO]: Creado nuevo usuario con idUsuario: 12
+2025-01-11T22:20:58.082Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-11T22:20:58.091Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-11T22:20:58.097Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-11T22:21:51.091Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T22:21:51.104Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T22:21:51.115Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-11T22:25:11.391Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T22:25:11.404Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T22:25:11.413Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-11T22:27:17.736Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:17.752Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:17.767Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:25.602Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-11T22:27:25.616Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-11T22:27:25.622Z [INFO]: Obtenido usuario con idUsuario: 2
+2025-01-11T22:27:27.215Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:27.228Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:27.234Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:29.319Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:29.329Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:29.334Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:31.096Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:31.105Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:31.121Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-11T22:27:39.983Z [INFO]: Obtenido usuario con idUsuario: 12
+2025-01-11T22:27:39.994Z [INFO]: Obtenido usuario con idUsuario: 12
+2025-01-11T22:27:40.002Z [INFO]: Obtenido usuario con idUsuario: 12
+2025-01-11T22:27:42.793Z [INFO]: Eliminado usuario con idUsuario: 12
+<<<<<<< Updated upstream
+2025-01-11T22:32:52.932Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T22:32:52.946Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T22:33:28.600Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T22:33:28.608Z [ERROR]: GET /patients - Ruta no encontrada.
+2025-01-11T23:04:52.990Z [INFO]: Creado nuevo usuario con idUsuario: 13
+2025-01-11T23:07:31.700Z [INFO]: Creado nuevo usuario con idUsuario: 14
+2025-01-12T00:26:02.732Z [INFO]: Obtenido usuario con idUsuario: 14
+2025-01-12T00:26:02.768Z [INFO]: Obtenido usuario con idUsuario: 14
+2025-01-12T00:26:02.779Z [INFO]: Obtenido usuario con idUsuario: 14
+2025-01-12T00:26:05.435Z [INFO]: Eliminado usuario con idUsuario: 14
+2025-01-12T02:12:08.369Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:12:08.394Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:12:08.401Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:13:47.419Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:13:47.432Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:13:47.440Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:16:10.584Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:16:10.589Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:16:18.222Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:16:18.228Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:17:29.837Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:17:29.840Z [ERROR]: GET /formularios/undefined - Ruta no encontrada.
+2025-01-12T02:30:52.418Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:30:52.427Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:30:52.433Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:32:38.729Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:32:38.738Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:32:38.743Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:32:49.721Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:32:49.731Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:32:49.737Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:33:15.735Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:33:15.744Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:33:15.748Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:47:06.143Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:47:06.155Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:47:06.160Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:47:12.878Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:47:12.886Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:47:12.895Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T02:47:34.215Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T02:47:34.215Z [ERROR]: PUT /user/9 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T02:53:15.357Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-12T02:53:15.365Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-12T02:53:15.372Z [INFO]: Obtenido usuario con idUsuario: 6
+2025-01-12T02:56:03.724Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:56:03.755Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T02:56:03.761Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:00:12.161Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:00:12.170Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:00:12.174Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:00:42.599Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:00:42.623Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:00:42.629Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:01:14.764Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:01:14.765Z [ERROR]: PUT /user/9 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:04:51.202Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:04:51.213Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:04:51.220Z [INFO]: Obtenido usuario con idUsuario: 9
+2025-01-12T03:05:07.475Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:05:07.476Z [ERROR]: PUT /user/9 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:08:02.636Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:08:02.647Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:08:02.654Z [INFO]: Obtenido usuario con idUsuario: 3
+2025-01-12T03:08:10.459Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:08:10.468Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:08:10.476Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:08:32.057Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:08:32.057Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:15:08.860Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:15:08.874Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:15:08.880Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:15:13.820Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:15:13.827Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:15:13.832Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:15:29.270Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:15:29.270Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:15:47.614Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:15:47.621Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:15:47.627Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:16:01.960Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:16:01.961Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:33:05.392Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:33:05.424Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:33:05.431Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:33:10.789Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:33:10.801Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:33:10.809Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:33:20.478Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:33:20.480Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:33:57.799Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:33:57.814Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:33:57.824Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:38:40.018Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-12T03:38:40.036Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-12T03:38:40.045Z [INFO]: Obtenido usuario con idUsuario: 11
+2025-01-12T03:38:52.214Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:38:52.226Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:38:52.234Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:51:23.502Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:51:23.517Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:51:23.524Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:52:59.636Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:52:59.646Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:52:59.650Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:54:49.030Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:54:49.039Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:54:49.048Z [INFO]: Obtenido usuario con idUsuario: 1
+2025-01-12T03:54:56.096Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:54:56.105Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:54:56.113Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:55:25.695Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:55:25.704Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:55:25.711Z [INFO]: Obtenido usuario con idUsuario: 13
+2025-01-12T03:55:49.714Z [ERROR]: Error al actualizar usuario: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+2025-01-12T03:55:49.715Z [ERROR]: PUT /user/13 - Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+=======
+2025-01-12T03:14:20.037Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:24:11.820Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:24:29.072Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:28:25.833Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T03:49:10.683Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T04:52:45.771Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T04:53:33.051Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:23:15.824Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:23:45.470Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:16.271Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:23.558Z [INFO]: Servidor corriendo en el puerto 3301
+2025-01-12T05:25:34.906Z [INFO]: Servidor corriendo en el puerto 3301
+>>>>>>> Stashed changes

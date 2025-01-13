@@ -41,7 +41,7 @@ function Login() {
             }
         } catch (err) {
             console.error('Error en el login:', err); // Depuración
-            setError(err.message || 'Error en el servidor.');
+            setError(err.message || 'Usuario No Reconocido.');
         }
     };
     return (
@@ -59,7 +59,6 @@ function Login() {
                     <input
                         type="email"
                         id="email"
-                        placeholder="example@gmail.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -68,7 +67,6 @@ function Login() {
                     <input
                         type="password"
                         id="password"
-                        placeholder="example"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required

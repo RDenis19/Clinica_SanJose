@@ -1,18 +1,26 @@
+/* Tabla */
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  text-align: left;
-}
-
-.table th, .table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .table th {
-  background-color: #f4f4f4;
+  background-color: #f5f5f5;
+  color: #333;
+  text-align: left;
+  padding: 10px;
+  font-size: 14px;
+  border-bottom: 2px solid #ddd;
+}
+
+.table td {
+  padding: 10px;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #eee;
 }
 
 .table tr:nth-child(even) {
@@ -23,19 +31,18 @@
   background-color: #f1f1f1;
 }
 
-.table .table-action-button {
-  background: none;
+/* Acciones en la tabla */
+.table .action-button {
+  background-color: #28a745;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
   border: none;
-  color: #007bff;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
 }
 
-.table .table-action-button:hover {
-  color: #0056b3;
-}
-
-.no-data {
-  text-align: center;
-  font-style: italic;
-  color: #999;
+.table .action-button:hover {
+  background-color: #218838;
 }

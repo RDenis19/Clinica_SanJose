@@ -1,14 +1,20 @@
 const logger = require('../utils/logger');
 
 const errorHandler = (err, req, res, next) => {
+  // Establecer el código de estado
   const statusCode = err.status || 500;
-  const message = err.message || 'Error del servidor.';
 
-  // Log del error
-  logger.error(`${req.method} ${req.originalUrl} - ${message}`);
+  // Log del error con Winston
+  logger.error(
+    `${statusCode} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+  );
 
+  // Respuesta al cliente
   res.status(statusCode).json({
-    mensaje: message
+    success: false,
+    message: err.message || 'Error interno del servidor.',
+    // Incluir la pila de errores solo en desarrollo
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };
 

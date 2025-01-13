@@ -1,10 +1,9 @@
-// src/components/BackButton.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai'; // Icono de react-icons
 import '../../styles/components/BackButton.css'; // Opcional para estilos
 
-const BackButton = ({ to, label = 'Regresar', className = '' }) => {
+const BackButton = ({ to, label = 'Volver', className = '' }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {

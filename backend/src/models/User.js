@@ -1,26 +1,26 @@
-const pool = require("../config/db");
+const pool = require('../config/db');
 
 const User = {
-  // Obtener tabla basica de usuarios
+  // Obtener todos los usuarios básicos
   findAll: async () => {
-    const [rows] = await pool.execute(`
+    const query = `
       SELECT 
-      idUsuario,
-      identificacion,
-      nombres,
-      apellidos,
-      correo,
-      rol,
-      estado
+        idUsuario,
+        identificacion,
+        nombres,
+        apellidos,
+        correo,
+        rol,
+        estado
       FROM usuario
-    `);
+    `;
+    const [rows] = await pool.execute(query);
     return rows;
   },
 
-  //Buscar usuario por su correo
-  findByEmail: async (email) => {
-    const [rows] = await pool.execute(
-      `
+  // Buscar usuario por su correo
+  findByEmail: async (correo) => {
+    const query = `
       SELECT
         idUsuario,
         correo,
@@ -29,17 +29,14 @@ const User = {
         rol
       FROM usuario
       WHERE correo = ?
-    `,
-      [email]
-    );
-
+    `;
+    const [rows] = await pool.execute(query, [correo]);
     return rows[0];
   },
 
   // Obtener un usuario por idUsuario
   findById: async (idUsuario) => {
-    const [rows] = await pool.execute(
-      `
+    const query = `
       SELECT 
         idUsuario,
         identificacion,
@@ -62,25 +59,34 @@ const User = {
       FROM 
         usuario
       WHERE 
-        idUsuario = ?;
-      `,
-      [idUsuario]
-    );
+        idUsuario = ?
+    `;
+    const [rows] = await pool.execute(query, [idUsuario]);
     return rows[0];
   },
 
-  //Verificar si existe una cedula, usuario y correo
-  checkBeforeCreateUsuer: async (identificacion, usuario, correo) => {
-    const [rows] = await pool.execute(
-      `
+  // Verificar si existe una identificación, usuario o correo
+  checkBeforeCreateUser: async (identificacion, usuario, correo, idUsuario = null) => {
+    let query = `
       SELECT 
-        EXISTS(SELECT 1 FROM usuario WHERE identificacion = ?) AS identificacion,
-        EXISTS(SELECT 1 FROM usuario WHERE usuario = ?)  AS usuario,
-        EXISTS(SELECT 1 FROM usuario WHERE correo = ?) AS correo
-      FROM DUAL;
-      `,
-      [identificacion, usuario, correo]
-    );
+        EXISTS(SELECT 1 FROM usuario WHERE identificacion = ?) AS identificacionExists,
+        EXISTS(SELECT 1 FROM usuario WHERE usuario = ?) AS usuarioExists,
+        EXISTS(SELECT 1 FROM usuario WHERE correo = ?) AS correoExists
+    `;
+    const params = [identificacion, usuario, correo];
+
+    // Si se está actualizando, excluir el usuario actual de la verificación
+    if (idUsuario) {
+      query = `
+        SELECT 
+          EXISTS(SELECT 1 FROM usuario WHERE identificacion = ? AND idUsuario != ?) AS identificacionExists,
+          EXISTS(SELECT 1 FROM usuario WHERE usuario = ? AND idUsuario != ?) AS usuarioExists,
+          EXISTS(SELECT 1 FROM usuario WHERE correo = ? AND idUsuario != ?) AS correoExists
+      `;
+      params.push(idUsuario, usuario, idUsuario, correo, idUsuario);
+    }
+
+    const [rows] = await pool.execute(query, params);
     return rows[0];
   },
 
@@ -105,8 +111,7 @@ const User = {
       contraseña,
     } = data;
 
-    const [result] = await pool.execute(
-      `
+    const query = `
       INSERT INTO usuario (
         identificacion,
         nombres,
@@ -125,34 +130,52 @@ const User = {
         usuario,
         contraseña
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `,
-      [
-        identificacion,
-        nombres,
-        apellidos,
-        fechaNacimiento,
-        direccionDomicilio,
-        telefono,
-        sexo,
-        correo,
-        estadoCivil,
-        especialidad,
-        fotografia,
-        consultorio,
-        estado,
-        rol,
-        usuario,
-        contraseña,
-      ]
-    );
+    `;
+    const params = [
+      identificacion,
+      nombres,
+      apellidos,
+      fechaNacimiento,
+      direccionDomicilio,
+      telefono,
+      sexo,
+      correo,
+      estadoCivil,
+      especialidad,
+      fotografia,
+      consultorio,
+      estado,
+      rol,
+      usuario,
+      contraseña,
+    ];
 
+    const [result] = await pool.execute(query, params);
     return { idUsuario: result.insertId, ...data };
   },
 
   // Actualizar un usuario por idUsuario
   update: async (idUsuario, data) => {
-    const [result] = await pool.execute(
-      `
+    const {
+      identificacion,
+      nombres,
+      apellidos,
+      fechaNacimiento,
+      direccionDomicilio,
+      telefono,
+      sexo,
+      correo,
+      estadoCivil,
+      especialidad,
+      fotografia,
+      consultorio,
+      estado,
+      rol,
+      usuario,
+      // contraseña, // Asumiendo que la contraseña no se actualiza aquí
+    } = data;
+
+    const query = `
       UPDATE usuario SET 
         identificacion = ?, 
         nombres = ?, 
@@ -170,38 +193,36 @@ const User = {
         rol = ?, 
         usuario = ?
       WHERE idUsuario = ?
-      `,
-      [
-        identificacion,
-        nombres,
-        apellidos,
-        fechaNacimiento,
-        direccionDomicilio,
-        telefono,
-        sexo,
-        correo,
-        estadoCivil,
-        especialidad,
-        fotografia,
-        consultorio,
-        estado,
-        rol,
-        usuario,
-        idUsuario
-      ]
-    );
+    `;
+    const params = [
+      identificacion,
+      nombres,
+      apellidos,
+      fechaNacimiento,
+      direccionDomicilio,
+      telefono,
+      sexo,
+      correo,
+      estadoCivil,
+      especialidad,
+      fotografia,
+      consultorio,
+      estado,
+      rol,
+      usuario,
+      idUsuario,
+    ];
 
+    const [result] = await pool.execute(query, params);
     return result.affectedRows > 0 ? { idUsuario, ...data } : null;
   },
 
   // Eliminar un usuario por idUsuario
   delete: async (idUsuario) => {
-    const [result] = await pool.execute(
-      `
+    const query = `
       DELETE FROM usuario WHERE idUsuario = ?
-    `,
-      [idUsuario]
-    );
+    `;
+    const [result] = await pool.execute(query, [idUsuario]);
     return result.affectedRows > 0;
   },
 };

@@ -2,20 +2,38 @@ import React from 'react';
 import '../../styles/components/pagination.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const handlePageClick = (page) => {
+    if (page > 0 && page <= totalPages) {
+      onPageChange(page);
+    }
+  };
+
+  if (totalPages <= 1) return null; // No mostrar si solo hay una página
+
   return (
-    <div className="pagination-container">
+    <div className="pagination">
       <button
-        onClick={() => onPageChange(currentPage - 1)}
+        className="arrow"
+        onClick={() => handlePageClick(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        Anterior
+        &lt;
       </button>
-      <span>Página {currentPage} de {totalPages}</span>
+      {Array.from({ length: totalPages }, (_, index) => (
+        <button
+          key={index + 1}
+          className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+          onClick={() => handlePageClick(index + 1)}
+        >
+          {index + 1}
+        </button>
+      ))}
       <button
-        onClick={() => onPageChange(currentPage + 1)}
+        className="arrow"
+        onClick={() => handlePageClick(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        Siguiente
+        &gt;
       </button>
     </div>
   );
