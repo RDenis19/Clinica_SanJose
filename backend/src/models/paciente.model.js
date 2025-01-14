@@ -23,7 +23,6 @@ async function createPaciente(pacienteData) {
         apellidoMaterno,
         primerNombre,
         segundoNombre,
-        direccionResidenciaHab,
         barrio,
         parroquia,
         canton,
@@ -55,7 +54,7 @@ async function createPaciente(pacienteData) {
       apellidoMaterno,
       primerNombre,
       segundoNombre,
-      direccionResidenciaHab,
+      ,
       barrio,
       parroquia,
       canton,
@@ -79,7 +78,7 @@ async function createPaciente(pacienteData) {
       grupoSanguineo,
       observaciones
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
     const values = [
@@ -88,7 +87,6 @@ async function createPaciente(pacienteData) {
         apellidoMaterno || null,
         primerNombre || null,
         segundoNombre || null,
-        direccionResidenciaHab || null,
         barrio || null,
         parroquia || null,
         canton || null,
@@ -123,7 +121,6 @@ async function updatePaciente(identificacion, pacienteData) {
         apellidoMaterno,
         primerNombre,
         segundoNombre,
-        direccionResidenciaHab,
         barrio,
         parroquia,
         canton,
@@ -154,7 +151,6 @@ async function updatePaciente(identificacion, pacienteData) {
       apellidoMaterno = ?,
       primerNombre = ?,
       segundoNombre = ?,
-      direccionResidenciaHab = ?,
       barrio = ?,
       parroquia = ?,
       canton = ?,
@@ -184,7 +180,6 @@ async function updatePaciente(identificacion, pacienteData) {
         apellidoMaterno || null,
         primerNombre || null,
         segundoNombre || null,
-        direccionResidenciaHab || null,
         barrio || null,
         parroquia || null,
         canton || null,
