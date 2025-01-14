@@ -12,7 +12,13 @@ import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users/Users';
 import Patients from './modules/Admin/Patients/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
-import Formulario from './modules/Admin/Formulario/Form';
+import Formulario from './modules/Admin/Form';
+
+// Submenús de administrador Usuarios
+import FirmaElectronica from './modules/Admin/SubMenu/FirmaEletronica/FirmaElectronica';
+import Jornada from './modules/Admin/SubMenu/Jornada/Jornada';
+import Titulo from './modules/Admin/SubMenu/Titulo/Titulo';
+
 import DashboardDoctor from './modules/Doctor/DashboardDoctor';
 import PacientesDoctor from './modules/Doctor/PacientesDoctor';
 import HistoriasDoctor from './modules/Doctor/HistoriaClinica/HistoriasDoctor';
@@ -40,7 +46,16 @@ function App() {
       const roleLinks = {
         Admin: [
           { to: '/admin/dashboard', label: 'Dashboard', icon: <i className="fas fa-tachometer-alt"></i> },
-          { to: '/admin/users', label: 'Usuarios', icon: <i className="fas fa-users"></i> },
+          {
+            to: '/admin/users',
+            label: 'Usuarios',
+            icon: <i className="fas fa-users"></i>,
+            subMenu: [
+              { to: '/admin/users/firma-electronica', label: 'Firma Electrónica' },
+              { to: '/admin/users/jornada', label: 'Jornada' },
+              { to: '/admin/users/titulo', label: 'Título' },
+            ],
+          },
           { to: '/admin/patients', label: 'Pacientes', icon: <i className="fas fa-user-injured"></i> },
           { to: '/admin/change', label: 'Solicitudes de Cambio', icon: <i className="fas fa-exchange-alt"></i> },
           { to: '/admin/form', label: 'Formulario', icon: <i className="fas fa-file-alt"></i> },
@@ -74,18 +89,15 @@ function App() {
 
       {/* Rutas autenticadas */}
       {isAuthenticated && (
-        <>
-          {/* Sidebar y Header visibles solo en rutas autenticadas */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <Header />
-                <Sidebar links={links} onLogout={handleLogout} />
-              </>
-            }
-          />
-        </>
+        <Route
+          path="/*"
+          element={
+            <>
+              <Header />
+              <Sidebar links={links} onLogout={handleLogout} />
+            </>
+          }
+        />
       )}
 
       {/* Rutas del Administrador */}
@@ -105,6 +117,20 @@ function App() {
           </AdminLayout>
         }
       />
+      {/* Submenús del Administrador */}
+      <Route
+        path="/admin/users/firma-electronica"
+        element={<AdminLayout><FirmaElectronica /></AdminLayout>}
+      />
+      <Route
+        path="/admin/users/jornada"
+        element={<AdminLayout><Jornada /></AdminLayout>}
+      />
+      <Route
+        path="/admin/users/titulo"
+        element={<AdminLayout><Titulo /></AdminLayout>}
+      />
+
       <Route
         path="/admin/patients"
         element={

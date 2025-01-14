@@ -50,6 +50,104 @@
   background: #b6c4a8;
 }
 
+/* Estilos para los submenús desplegables */
+.menu-item {
+  position: relative; /* Necesario para manejar el submenú */
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Para alinear texto e íconos de despliegue */
+  cursor: pointer; /* Indica que se puede interactuar */
+}
+
+.menu-link:hover {
+  background: #b6c4a8;
+  border-radius: 5px; /* Mantén consistencia con el estilo existente */
+}
+
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.toggleButton {
+  font-size: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.toggleButton:hover {
+  color: #1d8f85;
+}
+
+.submenu {
+  margin-left: 20px;
+  list-style: none;
+  padding: 0;
+  border-left: 2px solid #ccc;
+  margin-top: 5px;
+}
+
+.submenu li {
+  margin-bottom: 5px;
+}
+
+.submenu li a {
+  text-decoration: none;
+  color: #555;
+  font-size: 0.9rem;
+  padding: 5px;
+  display: block;
+  border-radius: 3px;
+}
+
+.submenu li a.active {
+  color: white;
+  background-color: #1d8f85;
+  font-weight: bold;
+}
+
+.submenu li a:hover {
+  background-color: #1d8f85;
+  color: white;
+}
+
+.logoutSection {
+  margin-top: auto;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #ff6f61;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 90%;
+  margin: auto;
+}
+
+.logoutButton:hover {
+  background-color: #f56c6c;
+}
+
+.logoutIcon {
+  font-size: 1.2rem;
+}
+
 /* Sección de Cerrar Sesión al final del sidebar */
 .logout-section {
   margin-top: auto; /* Empuja el botón al final del sidebar */

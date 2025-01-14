@@ -89,6 +89,135 @@ export const removeUser = async (identificacion) => {
   }
 };
 
+// Firma Electronica 
+
+export const fetchFirmas = async () => {
+  try {
+    const response = await API.get('/firmaelectronica');
+    return response.data.data; // Asumiendo que `data` contiene las firmas.
+  } catch (error) {
+    console.error('Error al obtener firmas electrónicas:', error);
+    throw error;
+  }
+};
+
+export const createFirma = async (firmaData) => {
+  try {
+    const response = await API.post('/firmaelectronica', firmaData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear firma electrónica:', error);
+    throw error;
+  }
+};
+
+export const updateFirma = async (id, firmaData) => {
+  try {
+    const response = await API.put(`/firmaelectronica/${id}`, firmaData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar firma electrónica:', error);
+    throw error;
+  }
+};
+
+export const deleteFirma = async (id, usuarioId) => {
+  try {
+    const response = await API.delete(`/firmaelectronica/${id}/${usuarioId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar firma electrónica:', error);
+    throw error;
+  }
+};
+
+
+// Jornadas
+
+export const fetchJornadas = async () => {
+  try {
+    const response = await API.get('/jornada');
+    return response.data.data; // Asumiendo que `data` contiene las jornadas.
+  } catch (error) {
+    console.error('Error al obtener jornadas:', error);
+    throw error;
+  }
+};
+
+export const createJornada = async (jornadaData) => {
+  try {
+    const response = await API.post('/jornada', jornadaData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear jornada:', error);
+    throw error;
+  }
+};
+
+export const updateJornada = async (id, usuarioId, jornadaData) => {
+  try {
+    const response = await API.put(`/jornada/${id}/${usuarioId}`, jornadaData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar jornada:', error);
+    throw error;
+  }
+};
+
+export const deleteJornada = async (id, usuarioId) => {
+  try {
+    const response = await API.delete(`/jornada/${id}/${usuarioId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar jornada:', error);
+    throw error;
+  }
+};
+
+// Titulo
+export const fetchTitulos = async () => {
+  try {
+    const response = await API.get('/titulo'); // Endpoint correcto según el backend
+    return response.data.data;
+  } catch (error) {
+    console.error('Error al obtener títulos:', error);
+    throw error;
+  }
+};
+
+
+export const createTitulo = async (tituloData) => {
+  try {
+    const response = await API.post('/titulo', tituloData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear título:', error);
+    throw error;
+  }
+};
+
+export const updateTitulo = async (idTitulo, usuarioId, tituloData) => {
+  try {
+    const response = await API.put(`/titulo/${idTitulo}/${usuarioId}`, tituloData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar título:', error);
+    throw error;
+  }
+};
+
+
+export const deleteTitulo = async (idTitulo, usuarioIdentificacion) => {
+  try {
+    const response = await API.delete(`/titulo/${idTitulo}/${usuarioIdentificacion}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar título:', error);
+    throw error;
+  }
+};
+
+
 
 // Paciente
 // Obtener lista de pacientes con paginación
