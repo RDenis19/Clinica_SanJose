@@ -9,7 +9,6 @@ const AddPatientForm = ({ onClose, onAdd }) => {
     apellidoMaterno: "",
     primerNombre: "",
     segundoNombre: "",
-    direccionResidenciaHab: "",
     barrio: "",
     parroquia: "",
     canton: "",
@@ -30,7 +29,7 @@ const AddPatientForm = ({ onClose, onAdd }) => {
     empresaTrabajo: "",
     tipoSeguroSalud: "",
     alergias: "",
-    grupoSanguineo: "",
+    grupoSanguineo: "", // Se selecciona del ENUM
     observaciones: "",
   });
 
@@ -50,6 +49,7 @@ const AddPatientForm = ({ onClose, onAdd }) => {
       newErrors.correo = "El correo electrónico no es válido.";
     if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
     if (!formData.telefonoPaciente) newErrors.telefonoPaciente = "El teléfono es obligatorio.";
+    if (!formData.grupoSanguineo) newErrors.grupoSanguineo = "El grupo sanguíneo es obligatorio.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -120,15 +120,6 @@ const AddPatientForm = ({ onClose, onAdd }) => {
           />
         </div>
         <div className="form-field">
-          <label>Dirección de Residencia</label>
-          <input
-            type="text"
-            name="direccionResidenciaHab"
-            value={formData.direccionResidenciaHab}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
           <label>Barrio</label>
           <input
             type="text"
@@ -181,6 +172,7 @@ const AddPatientForm = ({ onClose, onAdd }) => {
             value={formData.telefonoPaciente}
             onChange={handleInputChange}
           />
+          {errors.telefonoPaciente && <span className="error">{errors.telefonoPaciente}</span>}
         </div>
         <div className="form-field">
           <label>Fecha de Nacimiento</label>
@@ -190,6 +182,7 @@ const AddPatientForm = ({ onClose, onAdd }) => {
             value={formData.fechaNacimiento}
             onChange={handleInputChange}
           />
+          {errors.fechaNacimiento && <span className="error">{errors.fechaNacimiento}</span>}
         </div>
         <div className="form-field">
           <label>Lugar de Nacimiento</label>
@@ -306,12 +299,22 @@ const AddPatientForm = ({ onClose, onAdd }) => {
         </div>
         <div className="form-field">
           <label>Grupo Sanguíneo</label>
-          <input
-            type="text"
+          <select
             name="grupoSanguineo"
             value={formData.grupoSanguineo}
             onChange={handleInputChange}
-          />
+          >
+            <option value="">Seleccione</option>
+            <option value="O-">O-</option>
+            <option value="O+">O+</option>
+            <option value="A−">A−</option>
+            <option value="A+">A+</option>
+            <option value="B−">B−</option>
+            <option value="B+">B+</option>
+            <option value="AB−">AB−</option>
+            <option value="AB+">AB+</option>
+          </select>
+          {errors.grupoSanguineo && <span className="error">{errors.grupoSanguineo}</span>}
         </div>
         <div className="form-field">
           <label>Observaciones</label>
@@ -328,4 +331,3 @@ const AddPatientForm = ({ onClose, onAdd }) => {
 };
 
 export default AddPatientForm;
-

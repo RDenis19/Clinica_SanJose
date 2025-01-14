@@ -35,15 +35,19 @@ function AdminLayout({ children }) {
       icon: <AiOutlineTool />,
     },
     {
-      label: 'Formulario',
-      to: '/admin/form',
+      label: 'Historia Clínica',
+      to: '/admin/historia-clinica',
       icon: <BiBookContent />,
+      subMenu: [
+        { label: 'Establecimiento', to: '/admin/historia-clinica/establecimiento' },
+        { label: 'Plantillas', to: '/admin/historia-clinica/plantillas' },
+        { label: 'Formularios', to: '/admin/historia-clinica/formularios' },
+      ],
     },
   ];
 
   return (
     <div className="admin-layout">
-      {/* Sidebar con enlaces dinámicos */}
       <Sidebar links={adminLinks} />
       <div className="admin-main">
         <Header username="Administrador" profilePic="https://via.placeholder.com/40" />

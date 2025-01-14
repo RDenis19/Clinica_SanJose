@@ -33,7 +33,6 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
 
   return (
     <Modal onClose={onClose}>
-      <h2>Agregar Firma Electrónica</h2>
       <form className="form-grid" onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Nombre Certificado</label>

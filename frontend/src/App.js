@@ -12,7 +12,12 @@ import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users/Users';
 import Patients from './modules/Admin/Patients/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
-import Formulario from './modules/Admin/Form';
+import HistoriaClinica from './modules/Admin/HistoriaClinica/HistoriaClinica';
+
+// Submenús de Historia Clínica
+import Establecimiento from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento';
+import Plantillas from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantillas';
+import Formularios from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formularios';
 
 // Submenús de administrador Usuarios
 import FirmaElectronica from './modules/Admin/SubMenu/FirmaEletronica/FirmaElectronica';
@@ -58,7 +63,16 @@ function App() {
           },
           { to: '/admin/patients', label: 'Pacientes', icon: <i className="fas fa-user-injured"></i> },
           { to: '/admin/change', label: 'Solicitudes de Cambio', icon: <i className="fas fa-exchange-alt"></i> },
-          { to: '/admin/form', label: 'Formulario', icon: <i className="fas fa-file-alt"></i> },
+          {
+            to: '/admin/historia-clinica',
+            label: 'Historia Clínica',
+            icon: <i className="fas fa-book-medical"></i>,
+            subMenu: [
+              { to: '/admin/historia-clinica/establecimiento', label: 'Establecimiento' },
+              { to: '/admin/historia-clinica/plantillas', label: 'Plantillas' },
+              { to: '/admin/historia-clinica/formularios', label: 'Formularios' },
+            ],
+          },
         ],
         Doctor: [
           { to: '/doctor/dashboard', label: 'Dashboard', icon: <i className="fas fa-tachometer-alt"></i> },
@@ -101,112 +115,29 @@ function App() {
       )}
 
       {/* Rutas del Administrador */}
-      <Route
-        path="/admin/dashboard"
-        element={
-          <AdminLayout>
-            <Dashboard />
-          </AdminLayout>
-        }
-      />
-      <Route
-        path="/admin/users"
-        element={
-          <AdminLayout>
-            <Users />
-          </AdminLayout>
-        }
-      />
-      {/* Submenús del Administrador */}
-      <Route
-        path="/admin/users/firma-electronica"
-        element={<AdminLayout><FirmaElectronica /></AdminLayout>}
-      />
-      <Route
-        path="/admin/users/jornada"
-        element={<AdminLayout><Jornada /></AdminLayout>}
-      />
-      <Route
-        path="/admin/users/titulo"
-        element={<AdminLayout><Titulo /></AdminLayout>}
-      />
+      <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+      <Route path="/admin/users" element={<AdminLayout><Users /></AdminLayout>} />
+      <Route path="/admin/users/firma-electronica" element={<AdminLayout><FirmaElectronica /></AdminLayout>} />
+      <Route path="/admin/users/jornada" element={<AdminLayout><Jornada /></AdminLayout>} />
+      <Route path="/admin/users/titulo" element={<AdminLayout><Titulo /></AdminLayout>} />
+      <Route path="/admin/patients" element={<AdminLayout><Patients /></AdminLayout>} />
+      <Route path="/admin/change" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
+      <Route path="/admin/historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
+      <Route path="/admin/historia-clinica/establecimiento" element={<AdminLayout><Establecimiento /></AdminLayout>} />
+      <Route path="/admin/historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
+      <Route path="/admin/historia-clinica/formularios" element={<AdminLayout><Formularios /></AdminLayout>} />
 
-      <Route
-        path="/admin/patients"
-        element={
-          <AdminLayout>
-            <Patients />
-          </AdminLayout>
-        }
-      />
-      <Route
-        path="/admin/change"
-        element={
-          <AdminLayout>
-            <ChangeRequest />
-          </AdminLayout>
-        }
-      />
-      <Route
-        path="/admin/form"
-        element={
-          <AdminLayout>
-            <Formulario />
-          </AdminLayout>
-        }
-      />
+   
 
       {/* Rutas del Doctor */}
-      <Route
-        path="/doctor/dashboard"
-        element={
-          <DoctorLayout>
-            <DashboardDoctor />
-          </DoctorLayout>
-        }
-      />
-      <Route
-        path="/doctor/pacientes"
-        element={
-          <DoctorLayout>
-            <PacientesDoctor />
-          </DoctorLayout>
-        }
-      />
-      <Route
-        path="/doctor/historias"
-        element={
-          <DoctorLayout>
-            <HistoriasDoctor />
-          </DoctorLayout>
-        }
-      />
+      <Route path="/doctor/dashboard" element={<DoctorLayout><DashboardDoctor /></DoctorLayout>} />
+      <Route path="/doctor/pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />
+      <Route path="/doctor/historias" element={<DoctorLayout><HistoriasDoctor /></DoctorLayout>} />
 
       {/* Rutas de la Enfermera */}
-      <Route
-        path="/enfermera/dashboard"
-        element={
-          <EnfermeraLayout>
-            <DashboardEnfermera />
-          </EnfermeraLayout>
-        }
-      />
-      <Route
-        path="/enfermera/paciente"
-        element={
-          <EnfermeraLayout>
-            <PacientesEnfermera />
-          </EnfermeraLayout>
-        }
-      />
-      <Route
-        path="/enfermera/historias"
-        element={
-          <EnfermeraLayout>
-            <HistoriasEnfermera />
-          </EnfermeraLayout>
-        }
-      />
+      <Route path="/enfermera/dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/paciente" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
 
       {/* 404 si la ruta no existe */}
       <Route path="*" element={<h1>404 - Página no encontrada</h1>} />

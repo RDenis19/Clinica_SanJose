@@ -177,7 +177,7 @@ export const deleteJornada = async (id, usuarioId) => {
 // Titulo
 export const fetchTitulos = async () => {
   try {
-    const response = await API.get('/titulo'); // Endpoint correcto según el backend
+    const response = await API.get('/title/'); // Endpoint correcto según el backend
     return response.data.data;
   } catch (error) {
     console.error('Error al obtener títulos:', error);
@@ -188,7 +188,7 @@ export const fetchTitulos = async () => {
 
 export const createTitulo = async (tituloData) => {
   try {
-    const response = await API.post('/titulo', tituloData);
+    const response = await API.post('/title/', tituloData);
     return response.data;
   } catch (error) {
     console.error('Error al crear título:', error);
@@ -198,7 +198,7 @@ export const createTitulo = async (tituloData) => {
 
 export const updateTitulo = async (idTitulo, usuarioId, tituloData) => {
   try {
-    const response = await API.put(`/titulo/${idTitulo}/${usuarioId}`, tituloData);
+    const response = await API.put(`/title/${idTitulo}/${usuarioId}`, tituloData);
     return response.data;
   } catch (error) {
     console.error('Error al actualizar título:', error);
@@ -209,7 +209,7 @@ export const updateTitulo = async (idTitulo, usuarioId, tituloData) => {
 
 export const deleteTitulo = async (idTitulo, usuarioIdentificacion) => {
   try {
-    const response = await API.delete(`/titulo/${idTitulo}/${usuarioIdentificacion}`);
+    const response = await API.delete(`/title/${idTitulo}/${usuarioIdentificacion}`);
     return response.data;
   } catch (error) {
     console.error('Error al eliminar título:', error);
@@ -235,7 +235,7 @@ export const fetchPatients = async (page = 1, limit = 10) => {
 export const createPatient = async (patientData) => {
   try {
     console.log('Datos enviados al backend (API):', patientData);
-    const response = await API.post('/paciente', patientData);
+    const response = await API.post('/paciente/', patientData);
     return response.data;
   } catch (error) {
     console.error('Error al agregar paciente:', error.response?.data || error.message);
