@@ -54,7 +54,6 @@ async function createPaciente(pacienteData) {
       apellidoMaterno,
       primerNombre,
       segundoNombre,
-      ,
       barrio,
       parroquia,
       canton,
