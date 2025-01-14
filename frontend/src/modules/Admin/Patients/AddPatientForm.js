@@ -1,200 +1,331 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from '../../../components/common/SearchBar';
-import FilterDropdown from '../../../components/common/FilterDropdown';
-import Pagination from '../../../components/common/Pagination';
-import Table from '../../../components/common/Table';
-import AddPatientForm from './AddPatientForm';
-import PatientProfileModal from './PatientProfileModal';
-import '../../../styles/modules/Administrador/patient/addPatientForm.css';
-import Button from '../../../components/common/Button';
-import { fetchPatient, fetchPatientDetails, removePatient, createPatient, updatePatient } from '../../../utils/api';
+import React, { useState } from "react";
+import Modal from "../../../components/common/Modal";
+import Button from "../../../components/common/Button";
 
-const Patient = () => {
-  const [patients, setPatients] = useState([]);
-  const [filteredPatients, setFilteredPatients] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
-  const [filters, setFilters] = useState({ estado: '' });
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
-  const [expandedPatient, setExpandedPatient] = useState(null);
-  const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+const AddPatientForm = ({ onClose, onAdd }) => {
+  const [formData, setFormData] = useState({
+    identificacion: "",
+    apellidoParteno: "",
+    apellidoMaterno: "",
+    primerNombre: "",
+    segundoNombre: "",
+    direccionResidenciaHab: "",
+    barrio: "",
+    parroquia: "",
+    canton: "",
+    provincia: "",
+    zona: "",
+    telefonoPaciente: "",
+    fechaNacimiento: "",
+    lugarNacimiento: "",
+    nacionalidad: "",
+    grupoCultural: "",
+    sexo: "M", // Valor predeterminado
+    estadoCivil: "Sol", // Valor predeterminado
+    instruccionUltimoAnioAprov: "",
+    direccionPaciente: "",
+    correo: "",
+    fechaCreacion: new Date().toISOString().split("T")[0], // Fecha actual predeterminada
+    ocupacion: "",
+    empresaTrabajo: "",
+    tipoSeguroSalud: "",
+    alergias: "",
+    grupoSanguineo: "",
+    observaciones: "",
+  });
 
-  // Cargar pacientes desde el backend
-  useEffect(() => {
-    const loadPatients = async () => {
-      try {
-        const response = await fetchPatient();
-        if (response && response.pacientes && Array.isArray(response.pacientes)) {
-          setPatients(response.pacientes);
-          setFilteredPatients(response.pacientes);
-        } else {
-          console.error('La respuesta del servidor no contiene un array de pacientes:', response);
-          setPatients([]);
-        }
-      } catch (error) {
-        console.error('Error al cargar los pacientes:', error);
-        setPatients([]);
-      }
-    };
-    loadPatients();
-  }, []);
+  const [errors, setErrors] = useState({});
 
-  const toggleFilter = () => setIsFilterOpen((prev) => !prev);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleExpandPatient = async (id) => {
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.identificacion) newErrors.identificacion = "La identificación es obligatoria.";
+    if (!formData.primerNombre) newErrors.primerNombre = "El primer nombre es obligatorio.";
+    if (!formData.apellidoParteno) newErrors.apellidoParteno = "El apellido paterno es obligatorio.";
+    if (!formData.correo || !/\S+@\S+\.\S+/.test(formData.correo))
+      newErrors.correo = "El correo electrónico no es válido.";
+    if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
+    if (!formData.telefonoPaciente) newErrors.telefonoPaciente = "El teléfono es obligatorio.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
     try {
-      const patientDetails = await fetchPatientDetails(id);
-      setExpandedPatient(patientDetails);
-      setSelectedPatientId(id);
+      await onAdd(formData);
+      onClose(); // Cierra el modal si el paciente se agrega correctamente
     } catch (error) {
-      console.error('Error al obtener detalles del paciente:', error);
+      console.error("Error al agregar el paciente:", error);
+      setErrors({ general: "Ocurrió un error al agregar el paciente. Intente nuevamente." });
     }
   };
-
-  const handleDeletePatient = async (id) => {
-    try {
-      await removePatient(id);
-      setPatients((prevPatients) => prevPatients.filter((patient) => patient.idPaciente !== id));
-      setFilteredPatients((prevPatients) => prevPatients.filter((patient) => patient.idPaciente !== id));
-      alert('Paciente eliminado correctamente.');
-    } catch (error) {
-      console.error('Error al eliminar paciente:', error);
-      alert('Error al eliminar el paciente. Intente nuevamente.');
-    }
-  };
-
-  const handleUpdatePatient = async (id, updatedData) => {
-    try {
-      const updatedPatient = await updatePatient(id, updatedData);
-      setPatients((prevPatients) =>
-        prevPatients.map((patient) => (patient.idPaciente === id ? { ...patient, ...updatedPatient } : patient))
-      );
-      setFilteredPatients((prevPatients) =>
-        prevPatients.map((patient) => (patient.idPaciente === id ? { ...patient, ...updatedPatient } : patient))
-      );
-      setExpandedPatient(null);
-    } catch (error) {
-      console.error('Error al actualizar paciente:', error);
-    }
-  };
-
-  const handleAddPatient = async (newPatient) => {
-    try {
-      const addedPatient = await createPatient(newPatient);
-      setPatients((prevPatients) => [addedPatient, ...prevPatients]);
-      setFilteredPatients((prevPatients) => [addedPatient, ...prevPatients]);
-      setIsAddPatientModalOpen(false);
-    } catch (error) {
-      console.error('Error al agregar paciente:', error);
-    }
-  };
-
-  const handleSearch = (value) => {
-    setSearchValue(value);
-    const lowercasedValue = value.toLowerCase();
-    const filtered = patients.filter(
-      (patient) =>
-        patient.identificacion.toLowerCase().includes(lowercasedValue) ||
-        patient.primerNombre.toLowerCase().includes(lowercasedValue)
-    );
-    setFilteredPatients(filtered);
-    setCurrentPage(1); // Reinicia la paginación al buscar
-  };
-
-  const handleFilterChange = (key, value) => {
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [key]: value };
-
-      const filtered = patients.filter((patient) => {
-        const matchEstado = !updatedFilters.estado || patient.estado === updatedFilters.estado;
-        return matchEstado;
-      });
-
-      setFilteredPatients(filtered);
-      setCurrentPage(1); // Reinicia la paginación al filtrar
-      return updatedFilters;
-    });
-  };
-
-  const clearFilters = () => {
-    setFilters({ estado: '' });
-    setFilteredPatients(patients);
-    setCurrentPage(1); // Reinicia la paginación
-  };
-
-  // Lógica de paginación
-  const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedPatients = filteredPatients.slice(startIndex, endIndex);
 
   return (
-    <div className="patients-container">
-      <div className="actions-container">
-        <div className="actions-row">
-          <div className="title-container">
-            <h2 className="title">Lista de Pacientes</h2>
-          </div>
-          <SearchBar
-            placeholder="Buscar por nombre o cédula"
-            value={searchValue}
-            onChange={handleSearch}
+    <Modal onClose={onClose}>
+      <h2>Agregar Paciente</h2>
+      <form className="form-grid" onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label>Identificación</label>
+          <input
+            type="text"
+            name="identificacion"
+            value={formData.identificacion}
+            onChange={handleInputChange}
           />
-          <FilterDropdown
-            isOpen={isFilterOpen}
-            toggle={toggleFilter}
-            filters={filters}
-            setFilters={handleFilterChange}
-            options={[
-              { key: 'estado', label: 'Estado', values: ['Act', 'Ina'] },
-            ]}
-          />
-          <Button label="Quitar Filtros" onClick={clearFilters} />
-          <Button label="Agregar Paciente" onClick={() => setIsAddPatientModalOpen(true)} />
+          {errors.identificacion && <span className="error">{errors.identificacion}</span>}
         </div>
-      </div>
-
-      <Table
-        columns={[
-          { label: 'Identificación', accessor: 'identificacion' },
-          { label: 'Primer Nombre', accessor: 'primerNombre' },
-          { label: 'Apellido Paterno', accessor: 'apellidoPaterno' },
-          { label: 'Correo', accessor: 'correo' },
-          { label: 'Estado', accessor: 'estado' },
-          {
-            label: 'Acción',
-            accessor: 'acciones',
-            render: (patient) => (
-              <Button label="Detalles" onClick={() => handleExpandPatient(patient.idPaciente)} />
-            ),
-          },
-        ]}
-        data={paginatedPatients}
-      />
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
-
-      {expandedPatient && (
-        <PatientProfileModal
-          patientId={selectedPatientId}
-          patient={expandedPatient}
-          onClose={() => setExpandedPatient(null)}
-          onDelete={handleDeletePatient}
-          onUpdate={handleUpdatePatient}
-        />
-      )}
-
-      {isAddPatientModalOpen && (
-        <AddPatientForm onClose={() => setIsAddPatientModalOpen(false)} onAdd={handleAddPatient} />
-      )}
-    </div>
+        <div className="form-field">
+          <label>Primer Nombre</label>
+          <input
+            type="text"
+            name="primerNombre"
+            value={formData.primerNombre}
+            onChange={handleInputChange}
+          />
+          {errors.primerNombre && <span className="error">{errors.primerNombre}</span>}
+        </div>
+        <div className="form-field">
+          <label>Apellido Paterno</label>
+          <input
+            type="text"
+            name="apellidoParteno"
+            value={formData.apellidoParteno}
+            onChange={handleInputChange}
+          />
+          {errors.apellidoParteno && <span className="error">{errors.apellidoParteno}</span>}
+        </div>
+        <div className="form-field">
+          <label>Apellido Materno</label>
+          <input
+            type="text"
+            name="apellidoMaterno"
+            value={formData.apellidoMaterno}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Segundo Nombre</label>
+          <input
+            type="text"
+            name="segundoNombre"
+            value={formData.segundoNombre}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Dirección de Residencia</label>
+          <input
+            type="text"
+            name="direccionResidenciaHab"
+            value={formData.direccionResidenciaHab}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Barrio</label>
+          <input
+            type="text"
+            name="barrio"
+            value={formData.barrio}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Parroquia</label>
+          <input
+            type="text"
+            name="parroquia"
+            value={formData.parroquia}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Cantón</label>
+          <input
+            type="text"
+            name="canton"
+            value={formData.canton}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Provincia</label>
+          <input
+            type="text"
+            name="provincia"
+            value={formData.provincia}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Zona</label>
+          <input
+            type="text"
+            name="zona"
+            value={formData.zona}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Teléfono</label>
+          <input
+            type="text"
+            name="telefonoPaciente"
+            value={formData.telefonoPaciente}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Fecha de Nacimiento</label>
+          <input
+            type="date"
+            name="fechaNacimiento"
+            value={formData.fechaNacimiento}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Lugar de Nacimiento</label>
+          <input
+            type="text"
+            name="lugarNacimiento"
+            value={formData.lugarNacimiento}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Nacionalidad</label>
+          <input
+            type="text"
+            name="nacionalidad"
+            value={formData.nacionalidad}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Grupo Cultural</label>
+          <input
+            type="text"
+            name="grupoCultural"
+            value={formData.grupoCultural}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Sexo</label>
+          <select
+            name="sexo"
+            value={formData.sexo}
+            onChange={handleInputChange}
+          >
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+        <div className="form-field">
+          <label>Estado Civil</label>
+          <select
+            name="estadoCivil"
+            value={formData.estadoCivil}
+            onChange={handleInputChange}
+          >
+            <option value="Sol">Soltero</option>
+            <option value="Cas">Casado</option>
+            <option value="Div">Divorciado</option>
+            <option value="Viudo">Viudo</option>
+          </select>
+        </div>
+        <div className="form-field">
+          <label>Instrucción Último Año Aprobado</label>
+          <input
+            type="text"
+            name="instruccionUltimoAnioAprov"
+            value={formData.instruccionUltimoAnioAprov}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Dirección del Paciente</label>
+          <input
+            type="text"
+            name="direccionPaciente"
+            value={formData.direccionPaciente}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Correo</label>
+          <input
+            type="email"
+            name="correo"
+            value={formData.correo}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Ocupación</label>
+          <input
+            type="text"
+            name="ocupacion"
+            value={formData.ocupacion}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Empresa de Trabajo</label>
+          <input
+            type="text"
+            name="empresaTrabajo"
+            value={formData.empresaTrabajo}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Tipo de Seguro de Salud</label>
+          <input
+            type="text"
+            name="tipoSeguroSalud"
+            value={formData.tipoSeguroSalud}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Alergias</label>
+          <textarea
+            name="alergias"
+            value={formData.alergias}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Grupo Sanguíneo</label>
+          <input
+            type="text"
+            name="grupoSanguineo"
+            value={formData.grupoSanguineo}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Observaciones</label>
+          <textarea
+            name="observaciones"
+            value={formData.observaciones}
+            onChange={handleInputChange}
+          />
+        </div>
+        <Button type="submit" label="Agregar Paciente" className="primary" />
+      </form>
+    </Modal>
   );
 };
 
-export default Patient;
+export default AddPatientForm;
+

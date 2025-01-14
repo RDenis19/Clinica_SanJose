@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 import SearchBar from '../../../components/common/SearchBar';
 import FilterDropdown from '../../../components/common/FilterDropdown';
 import Pagination from '../../../components/common/Pagination';
 import Table from '../../../components/common/Table';
+import Button from '../../../components/common/Button';
 import AddPatientForm from './AddPatientForm';
+import EditPatientForm from './EditPatientForm';
 import PatientProfileModal from './PatientProfileModal';
 import '../../../styles/modules/Administrador/patient/patient.css';
-import Button from '../../../components/common/Button';
-import { fetchPatient, fetchPatientDetails, removePatient, createPatient, updatePatient } from '../../../utils/api';
+import { fetchPatients, fetchPatientDetails, removePatient, createPatient, updatePatient } from '../../../utils/api';
 
-const Patient = () => {
+const Patients = () => {
   const [patients, setPatients] = useState([]);
   const [filteredPatients, setFilteredPatients] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({ estado: '' });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
   const [expandedPatient, setExpandedPatient] = useState(null);
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
+  const [isEditPatientModalOpen, setIsEditPatientModalOpen] = useState(false);
+  const [currentEditPatient, setCurrentEditPatient] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Cargar pacientes desde el backend
   useEffect(() => {
     const loadPatients = async () => {
       try {
-        const response = await fetchPatient();
-        if (response && response.pacientes && Array.isArray(response.pacientes)) {
-          setPatients(response.pacientes);
-          setFilteredPatients(response.pacientes);
+        const response = await fetchPatients();
+        if (response && response.data && Array.isArray(response.data)) {
+          setPatients(response.data);
+          setFilteredPatients(response.data);
         } else {
-          console.error('La respuesta del servidor no contiene un array de pacientes:', response);
           setPatients([]);
         }
       } catch (error) {
@@ -41,42 +42,46 @@ const Patient = () => {
     loadPatients();
   }, []);
 
-  const toggleFilter = () => setIsFilterOpen((prev) => !prev);
-
-  const handleExpandPatient = async (id) => {
-    try {
-      const patientDetails = await fetchPatientDetails(id);
-      setExpandedPatient(patientDetails);
-      setSelectedPatientId(id);
-    } catch (error) {
-      console.error('Error al obtener detalles del paciente:', error);
-    }
+  const handleSearch = (value) => {
+    setSearchValue(value);
+    const lowercasedValue = value.toLowerCase();
+    const filtered = patients.filter(
+      (patient) =>
+        patient.identificacion.toLowerCase().includes(lowercasedValue) ||
+        patient.primerNombre.toLowerCase().includes(lowercasedValue)
+    );
+    setFilteredPatients(filtered);
+    setCurrentPage(1);
   };
 
-  const handleDeletePatient = async (id) => {
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [key]: value };
+      const filtered = patients.filter((patient) => {
+        const matchEstado = !updatedFilters.estado || patient.estado === updatedFilters.estado;
+        return matchEstado;
+      });
+      setFilteredPatients(filtered);
+      setCurrentPage(1);
+      return updatedFilters;
+    });
+  };
+
+  const clearFilters = () => {
+    setFilters({ estado: '' });
+    setFilteredPatients(patients);
+    setCurrentPage(1);
+  };
+
+  const handleDeletePatient = async (identificacion) => {
     try {
-      await removePatient(id);
-      setPatients((prevPatients) => prevPatients.filter((patient) => patient.idPaciente !== id));
-      setFilteredPatients((prevPatients) => prevPatients.filter((patient) => patient.idPaciente !== id));
+      await removePatient(identificacion);
+      setPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
+      setFilteredPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
       alert('Paciente eliminado correctamente.');
     } catch (error) {
       console.error('Error al eliminar paciente:', error);
       alert('Error al eliminar el paciente. Intente nuevamente.');
-    }
-  };
-
-  const handleUpdatePatient = async (id, updatedData) => {
-    try {
-      const updatedPatient = await updatePatient(id, updatedData);
-      setPatients((prevPatients) =>
-        prevPatients.map((patient) => (patient.idPaciente === id ? { ...patient, ...updatedPatient } : patient))
-      );
-      setFilteredPatients((prevPatients) =>
-        prevPatients.map((patient) => (patient.idPaciente === id ? { ...patient, ...updatedPatient } : patient))
-      );
-      setExpandedPatient(null);
-    } catch (error) {
-      console.error('Error al actualizar paciente:', error);
     }
   };
 
@@ -87,44 +92,50 @@ const Patient = () => {
       setFilteredPatients((prevPatients) => [addedPatient, ...prevPatients]);
       setIsAddPatientModalOpen(false);
     } catch (error) {
-      console.error('Error al agregar paciente:', error);
+      console.error("Error al agregar paciente:", error);
+      alert("No se pudo agregar el paciente. Verifica los datos e inténtalo de nuevo.");
     }
   };
 
-  const handleSearch = (value) => {
-    setSearchValue(value);
-    const lowercasedValue = value.toLowerCase();
-    const filtered = patients.filter(
-      (patient) =>
-        patient.identificacion.toLowerCase().includes(lowercasedValue) ||
-        patient.primerNombre.toLowerCase().includes(lowercasedValue)
-    );
-    setFilteredPatients(filtered);
-    setCurrentPage(1); // Reinicia la paginación al buscar
+  const handleExpandPatient = async (identificacion) => {
+    try {
+      const patientDetails = await fetchPatientDetails(identificacion);
+      setExpandedPatient(patientDetails);
+    } catch (error) {
+      console.error('Error al obtener detalles del paciente:', error);
+    }
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [key]: value };
-
-      const filtered = patients.filter((patient) => {
-        const matchEstado = !updatedFilters.estado || patient.estado === updatedFilters.estado;
-        return matchEstado;
-      });
-
-      setFilteredPatients(filtered);
-      setCurrentPage(1); // Reinicia la paginación al filtrar
-      return updatedFilters;
-    });
+  const handleEditPatient = async (identificacion) => {
+    try {
+      const patientDetails = await fetchPatientDetails(identificacion);
+      setCurrentEditPatient(patientDetails);
+      setIsEditPatientModalOpen(true);
+    } catch (error) {
+      console.error('Error al obtener detalles del paciente para editar:', error);
+    }
   };
 
-  const clearFilters = () => {
-    setFilters({ estado: '' });
-    setFilteredPatients(patients);
-    setCurrentPage(1); // Reinicia la paginación
+  const handleUpdatePatient = async (updatedPatient) => {
+    try {
+      await updatePatient(updatedPatient.identificacion, updatedPatient);
+      setPatients((prevPatients) =>
+        prevPatients.map((patient) =>
+          patient.identificacion === updatedPatient.identificacion ? updatedPatient : patient
+        )
+      );
+      setFilteredPatients((prevPatients) =>
+        prevPatients.map((patient) =>
+          patient.identificacion === updatedPatient.identificacion ? updatedPatient : patient
+        )
+      );
+      setIsEditPatientModalOpen(false);
+      alert('Paciente actualizado correctamente.');
+    } catch (error) {
+      console.error('Error al actualizar paciente:', error);
+    }
   };
 
-  // Lógica de paginación
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -134,25 +145,23 @@ const Patient = () => {
     <div className="patients-container">
       <div className="actions-container">
         <div className="actions-row">
-          <div className="title-container">
-            <h2 className="title">Lista de Pacientes</h2>
-          </div>
+          <h2 className="title">Lista de Pacientes</h2>
           <SearchBar
-            placeholder="Buscar por nombre o cédula"
+            placeholder="Buscar por nombre o identificación"
             value={searchValue}
             onChange={handleSearch}
           />
           <FilterDropdown
             isOpen={isFilterOpen}
-            toggle={toggleFilter}
+            toggle={() => setIsFilterOpen((prev) => !prev)}
             filters={filters}
             setFilters={handleFilterChange}
             options={[
-              { key: 'estado', label: 'Estado', values: ['Act', 'Ina'] },
+              { key: 'estado', label: 'Estado', values: ['Activo', 'Inactivo'] },
             ]}
           />
-          <Button label="Quitar Filtros" onClick={clearFilters} />
-          <Button label="Agregar Paciente" onClick={() => setIsAddPatientModalOpen(true)} />
+          <Button label="Quitar Filtros" onClick={clearFilters} className="secondary" />
+          <Button label="Agregar Paciente" onClick={() => setIsAddPatientModalOpen(true)} className="primary" />
         </div>
       </div>
 
@@ -160,14 +169,30 @@ const Patient = () => {
         columns={[
           { label: 'Identificación', accessor: 'identificacion' },
           { label: 'Primer Nombre', accessor: 'primerNombre' },
-          { label: 'Apellido Paterno', accessor: 'apellidoPaterno' },
+          { label: 'Apellido Paterno', accessor: 'apellidoParteno' },
           { label: 'Correo', accessor: 'correo' },
           { label: 'Estado', accessor: 'estado' },
           {
             label: 'Acción',
             accessor: 'acciones',
             render: (patient) => (
-              <Button label="Detalles" onClick={() => handleExpandPatient(patient.idPaciente)} />
+              <div className="action-buttons">
+                <FaEye
+                  className="icon-view"
+                  onClick={() => handleExpandPatient(patient.identificacion)}
+                  title="Ver detalles"
+                />
+                <FaEdit
+                  className="icon-edit"
+                  onClick={() => handleEditPatient(patient.identificacion)}
+                  title="Editar paciente"
+                />
+                <FaTrash
+                  className="icon-delete"
+                  onClick={() => handleDeletePatient(patient.identificacion)}
+                  title="Eliminar paciente"
+                />
+              </div>
             ),
           },
         ]}
@@ -182,19 +207,27 @@ const Patient = () => {
 
       {expandedPatient && (
         <PatientProfileModal
-          patientId={selectedPatientId}
-          patient={expandedPatient}
+          patientId={expandedPatient.identificacion}
           onClose={() => setExpandedPatient(null)}
-          onDelete={handleDeletePatient}
-          onUpdate={handleUpdatePatient}
         />
       )}
 
       {isAddPatientModalOpen && (
-        <AddPatientForm onClose={() => setIsAddPatientModalOpen(false)} onAdd={handleAddPatient} />
+        <AddPatientForm
+          onClose={() => setIsAddPatientModalOpen(false)}
+          onAdd={handleAddPatient}
+        />
+      )}
+
+      {isEditPatientModalOpen && currentEditPatient && (
+        <EditPatientForm
+          onClose={() => setIsEditPatientModalOpen(false)}
+          onUpdate={handleUpdatePatient}
+          initialData={currentEditPatient}
+        />
       )}
     </div>
   );
 };
 
-export default Patient;
+export default Patients;
