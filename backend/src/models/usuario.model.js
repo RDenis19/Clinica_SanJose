@@ -70,7 +70,7 @@ async function createUsuario(usuarioData) {
     telefono,
     sexo,
     estadoCivil,
-    especialidad,
+    especialidad || null,
     fotografia || null,
     consultorio || null,
     estado,
