@@ -1,27 +1,32 @@
-import React, { useState } from "react";
-import Modal from "../../../components/common/Modal";
-import Button from "../../../components/common/Button";
+import React, { useState, useEffect } from 'react';
+import Modal from '../../../components/common/Modal';
+import Button from '../../../components/common/Button';
 
-const AddUserForm = ({ onClose, onAdd }) => {
+const EditUserForm = ({ onClose, onUpdate, initialData }) => {
   const [formData, setFormData] = useState({
-    identificacion: "",
-    correo: "",
-    contraseña: "",
-    nombres: "",
-    apellidos: "",
-    fechaNacimiento: "",
-    direccionDomicilio: "",
-    telefono: "",
-    sexo: "M", // Valor predeterminado
-    estadoCivil: "Sol", // Valor predeterminado
-    especialidad: "", // Opcional
-    fotografia: null, // Opcional (Base64)
-    consultorio: "", // Opcional
-    estado: "Act", // Valor predeterminado
-    rol: "Doctor", // Valor predeterminado
+    identificacion: '',
+    nombres: '',
+    apellidos: '',
+    fechaNacimiento: '',
+    direccionDomicilio: '',
+    telefono: '',
+    sexo: '',
+    correo: '',
+    estadoCivil: '',
+    especialidad: '',
+    fotografia: null,
+    consultorio: '',
+    estado: '',
+    rol: '',
+    contraseña: '',
   });
 
-  const [errors, setErrors] = useState({});
+  // Cargar datos iniciales al abrir el formulario
+  useEffect(() => {
+    if (initialData) {
+      setFormData({ ...initialData });
+    }
+  }, [initialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,44 +38,21 @@ const AddUserForm = ({ onClose, onAdd }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Blob = reader.result.split(",")[1];
+        const base64Blob = reader.result.split(',')[1];
         setFormData({ ...formData, fotografia: base64Blob });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.identificacion) newErrors.identificacion = "La identificación es obligatoria.";
-    if (!formData.correo || !/\S+@\S+\.\S+/.test(formData.correo))
-      newErrors.correo = "El correo electrónico no es válido.";
-    if (!formData.contraseña || formData.contraseña.length < 6)
-      newErrors.contraseña = "La contraseña debe tener al menos 6 caracteres.";
-    if (!formData.nombres) newErrors.nombres = "Los nombres son obligatorios.";
-    if (!formData.apellidos) newErrors.apellidos = "Los apellidos son obligatorios.";
-    if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
-    try {
-      await onAdd(formData);
-      onClose(); // Cierra el modal si el usuario se agrega correctamente
-    } catch (error) {
-      console.error("Error al agregar el usuario:", error);
-      setErrors({ general: "Ocurrió un error al agregar el usuario. Intente nuevamente." });
-    }
+    onUpdate(formData);
   };
 
   return (
     <Modal onClose={onClose}>
-      <h2>Agregar Usuario</h2>
+      <h2>Editar Usuario</h2>
       <form className="form-grid" onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Identificación</label>
@@ -78,29 +60,8 @@ const AddUserForm = ({ onClose, onAdd }) => {
             type="text"
             name="identificacion"
             value={formData.identificacion}
-            onChange={handleInputChange}
+            disabled // No se permite editar este campo
           />
-          {errors.identificacion && <span className="error">{errors.identificacion}</span>}
-        </div>
-        <div className="form-field">
-          <label>Correo</label>
-          <input
-            type="email"
-            name="correo"
-            value={formData.correo}
-            onChange={handleInputChange}
-          />
-          {errors.correo && <span className="error">{errors.correo}</span>}
-        </div>
-        <div className="form-field">
-          <label>Contraseña</label>
-          <input
-            type="password"
-            name="contraseña"
-            value={formData.contraseña}
-            onChange={handleInputChange}
-          />
-          {errors.contraseña && <span className="error">{errors.contraseña}</span>}
         </div>
         <div className="form-field">
           <label>Nombres</label>
@@ -110,7 +71,6 @@ const AddUserForm = ({ onClose, onAdd }) => {
             value={formData.nombres}
             onChange={handleInputChange}
           />
-          {errors.nombres && <span className="error">{errors.nombres}</span>}
         </div>
         <div className="form-field">
           <label>Apellidos</label>
@@ -120,7 +80,6 @@ const AddUserForm = ({ onClose, onAdd }) => {
             value={formData.apellidos}
             onChange={handleInputChange}
           />
-          {errors.apellidos && <span className="error">{errors.apellidos}</span>}
         </div>
         <div className="form-field">
           <label>Fecha de Nacimiento</label>
@@ -130,7 +89,6 @@ const AddUserForm = ({ onClose, onAdd }) => {
             value={formData.fechaNacimiento}
             onChange={handleInputChange}
           />
-          {errors.fechaNacimiento && <span className="error">{errors.fechaNacimiento}</span>}
         </div>
         <div className="form-field">
           <label>Dirección</label>
@@ -152,14 +110,31 @@ const AddUserForm = ({ onClose, onAdd }) => {
         </div>
         <div className="form-field">
           <label>Sexo</label>
-          <select name="sexo" value={formData.sexo} onChange={handleInputChange}>
+          <select
+            name="sexo"
+            value={formData.sexo}
+            onChange={handleInputChange}
+          >
             <option value="M">Masculino</option>
             <option value="F">Femenino</option>
           </select>
         </div>
         <div className="form-field">
+          <label>Correo</label>
+          <input
+            type="email"
+            name="correo"
+            value={formData.correo}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-field">
           <label>Estado Civil</label>
-          <select name="estadoCivil" value={formData.estadoCivil} onChange={handleInputChange}>
+          <select
+            name="estadoCivil"
+            value={formData.estadoCivil}
+            onChange={handleInputChange}
+          >
             <option value="Sol">Soltero</option>
             <option value="Cas">Casado</option>
             <option value="Div">Divorciado</option>
@@ -177,7 +152,11 @@ const AddUserForm = ({ onClose, onAdd }) => {
         </div>
         <div className="form-field">
           <label>Fotografía</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </div>
         <div className="form-field">
           <label>Consultorio</label>
@@ -190,23 +169,40 @@ const AddUserForm = ({ onClose, onAdd }) => {
         </div>
         <div className="form-field">
           <label>Estado</label>
-          <select name="estado" value={formData.estado} onChange={handleInputChange}>
+          <select
+            name="estado"
+            value={formData.estado}
+            onChange={handleInputChange}
+          >
             <option value="Act">Activo</option>
             <option value="Ina">Inactivo</option>
           </select>
         </div>
         <div className="form-field">
           <label>Rol</label>
-          <select name="rol" value={formData.rol} onChange={handleInputChange}>
+          <select
+            name="rol"
+            value={formData.rol}
+            onChange={handleInputChange}
+          >
             <option value="Doctor">Doctor</option>
             <option value="Admin">Administrador</option>
             <option value="Enfermera">Enfermera</option>
           </select>
         </div>
-        <Button type="submit" label="Agregar Usuario" className="primary" />
+        <div className="form-field">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            name="contraseña"
+            value={formData.contraseña}
+            onChange={handleInputChange}
+          />
+        </div>
+        <Button type="submit" label="Guardar Cambios" className="primary" />
       </form>
     </Modal>
   );
 };
 
-export default AddUserForm;
+export default EditUserForm;

@@ -36,63 +36,59 @@ export const loginRequest = async (credentials) => {
 export const fetchUsers = async (page = 1, limit = 10) => {
   try {
     const response = await API.get(`/user?page=${page}&limit=${limit}`);
-    return response.data; // Asegúrate de que el backend devuelve { usuarios, total, totalPages }
+    return response.data;
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
+
 export const createUser = async (userData) => {
   try {
-    console.log("Datos enviados al backend (API):", userData);
-    const response = await API.post('/user/', userData);
-    return response.data;
+    const response = await API.post("/user/", userData);
+    return response.data.data;
   } catch (error) {
-    console.error('Error al agregar usuario:', error.response?.data || error.message);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    console.error("Error en createUser:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al crear usuario.");
   }
 };
 
-export const fetchUserDetails = async (id) => {
-  try {
-    const response = await API.get(`/user/${id}`);
-    return response.data; // Asegúrate de que `response.data` incluya `name` y `profilePic`
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.error || 'Error al obtener los detalles del usuario.'
-    );
-  }
-};
 
-export const updateUser = async (id, data) => {
+export const fetchUserDetails = async (identificacion) => {
   try {
-    const config = {};
-    if (data instanceof FormData) {
-      config.headers = { 'Content-Type': 'multipart/form-data' };
+    const response = await API.get(`/user/${identificacion}`);
+    if (response.data.success) {
+      return response.data.data;
     }
+    throw new Error('Usuario no encontrado');
+  } catch (error) {
+    console.error('Error al obtener los detalles del usuario:', error);
+    throw error;
+  }
+};
 
-    console.log("Datos enviados en la solicitud PUT:", data);
-    const response = await API.put(`/user/${id}`, data, config);
+
+export const updateUser = async (identificacion, data) => {
+  try {
+    const response = await API.put(`/user/${identificacion}`, data);
     return response.data;
   } catch (error) {
-    console.error("Error en la solicitud PUT:", error.response?.data || error.message);
+    console.error('Error en la solicitud PUT:', error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-
-
-export const removeUser = async (id) => {
+export const removeUser = async (identificacion) => {
   try {
-    console.log(`Eliminando usuario con ID: ${id}`); // Depuración
-    const response = await API.delete(`/user/${id}`); // Llamar al endpoint DELETE
-    return response.data; // Retornar la respuesta del backend
+    const response = await API.delete(`/user/${identificacion}`);
+    return response.data;
   } catch (error) {
-    console.error("Error en la solicitud DELETE:", error.response?.data || error.message);
+    console.error('Error en la solicitud DELETE:', error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
 
 // Paciente
 export const fetchPatient = async (page = 1, limit = 10) => {

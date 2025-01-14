@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 import SearchBar from '../../../components/common/SearchBar';
 import FilterDropdown from '../../../components/common/FilterDropdown';
 import Pagination from '../../../components/common/Pagination';
 import Table from '../../../components/common/Table';
 import AddUserForm from './AddUserForm';
+import EditUserForm from './EditUserForm';
 import UserProfileModal from './UserProfileModal';
 import '../../../styles/modules/Administrador/user/users.css';
 import Button from '../../../components/common/Button';
@@ -15,23 +17,21 @@ const Users = () => {
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({ estado: '', rol: '' });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
   const [expandedUser, setExpandedUser] = useState(null);
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
+  const [currentEditUser, setCurrentEditUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Cargar usuarios desde el backend
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const response = await fetchUsers();
-        console.log('Respuesta del backend:', response);
-        if (response && response.usuarios && Array.isArray(response.usuarios)) {
-          setUsers(response.usuarios);
-          setFilteredUsers(response.usuarios);
+        if (response && response.data && Array.isArray(response.data)) {
+          setUsers(response.data);
+          setFilteredUsers(response.data);
         } else {
-          console.error('La respuesta del servidor no contiene un array de usuarios:', response);
           setUsers([]);
         }
       } catch (error) {
@@ -42,42 +42,40 @@ const Users = () => {
     loadUsers();
   }, []);
 
-  const toggleFilter = () => setIsFilterOpen((prev) => !prev);
-
-  const handleExpandUser = async (id) => {
+  const handleExpandUser = async (identificacion) => {
     try {
-      const userDetails = await fetchUserDetails(id);
+      const userDetails = await fetchUserDetails(identificacion);
       setExpandedUser(userDetails);
-      setSelectedUserId(id);
     } catch (error) {
       console.error('Error al obtener detalles del usuario:', error);
     }
   };
 
-  const handleDeleteUser = async (id) => {
+  const handleEditUser = async (identificacion) => {
     try {
-      await removeUser(id);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.idUsuario !== id));
-      setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.idUsuario !== id));
+      const userDetails = await fetchUserDetails(identificacion);
+      console.log(userDetails);
+      setCurrentEditUser(userDetails);
+      setIsEditUserModalOpen(true);
+    } catch (error) {
+      console.error('Error al obtener detalles del usuario para editar:', error);
+    }
+  };
+
+  const handleClose = () => {
+    setIsEditUserModalOpen(false);
+    setCurrentEditUser(null);
+  };
+
+  const handleDeleteUser = async (identificacion) => {
+    try {
+      await removeUser(identificacion);
+      setUsers((prevUsers) => prevUsers.filter((user) => user.identificacion !== identificacion));
+      setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.identificacion !== identificacion));
       alert('Usuario eliminado correctamente.');
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
       alert('Error al eliminar el usuario. Intente nuevamente.');
-    }
-  };
-
-  const handleUpdateUser = async (id, updatedData) => {
-    try {
-      const updatedUser = await updateUser(id, updatedData);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) => (user.idUsuario === id ? { ...user, ...updatedUser } : user))
-      );
-      setFilteredUsers((prevUsers) =>
-        prevUsers.map((user) => (user.idUsuario === id ? { ...user, ...updatedUser } : user))
-      );
-      setExpandedUser(null);
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
     }
   };
 
@@ -92,6 +90,26 @@ const Users = () => {
     }
   };
 
+  const handleUpdateUser = async (updatedUser) => {
+    try {
+      await updateUser(updatedUser.identificacion, updatedUser);
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.identificacion === updatedUser.identificacion ? updatedUser : user
+        )
+      );
+      setFilteredUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.identificacion === updatedUser.identificacion ? updatedUser : user
+        )
+      );
+      setIsEditUserModalOpen(false);
+      alert('Usuario actualizado correctamente.');
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
+    }
+  };
+
   const handleSearch = (value) => {
     setSearchValue(value);
     const lowercasedValue = value.toLowerCase();
@@ -101,21 +119,19 @@ const Users = () => {
         user.nombres.toLowerCase().includes(lowercasedValue)
     );
     setFilteredUsers(filtered);
-    setCurrentPage(1); // Reinicia la paginación al buscar
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, [key]: value };
-
       const filtered = users.filter((user) => {
         const matchEstado = !updatedFilters.estado || user.estado === updatedFilters.estado;
         const matchRol = !updatedFilters.rol || user.rol === updatedFilters.rol;
         return matchEstado && matchRol;
       });
-
       setFilteredUsers(filtered);
-      setCurrentPage(1); // Reinicia la paginación al filtrar
+      setCurrentPage(1);
       return updatedFilters;
     });
   };
@@ -123,10 +139,9 @@ const Users = () => {
   const clearFilters = () => {
     setFilters({ estado: '', rol: '' });
     setFilteredUsers(users);
-    setCurrentPage(1); // Reinicia la paginación
+    setCurrentPage(1);
   };
 
-  // Lógica de paginación
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -136,9 +151,7 @@ const Users = () => {
     <div className="users-container">
       <div className="actions-container">
         <div className="actions-row">
-          <div className="title-container">
-            <h2 className="title">Lista de Usuarios</h2>
-          </div>
+          <h2 className="title">Lista de Usuarios</h2>
           <SearchBar
             placeholder="Buscar por nombre o cédula"
             value={searchValue}
@@ -146,7 +159,7 @@ const Users = () => {
           />
           <FilterDropdown
             isOpen={isFilterOpen}
-            toggle={toggleFilter}
+            toggle={() => setIsFilterOpen((prev) => !prev)}
             filters={filters}
             setFilters={handleFilterChange}
             options={[
@@ -171,12 +184,23 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <button
-                className="action-button"
-                onClick={() => handleExpandUser(user.idUsuario)}
-              >
-                →
-              </button>
+              <div className="action-buttons">
+                <FaEye
+                  className="icon-view"
+                  onClick={() => handleExpandUser(user.identificacion)}
+                  title="Ver detalles"
+                />
+                <FaEdit
+                  className="icon-edit"
+                  onClick={() => handleEditUser(user.identificacion)}
+                  title="Editar usuario"
+                />
+                <FaTrash
+                  className="icon-delete"
+                  onClick={() => handleDeleteUser(user.identificacion)}
+                  title="Eliminar usuario"
+                />
+              </div>
             ),
           },
         ]}
@@ -191,11 +215,8 @@ const Users = () => {
 
       {expandedUser && (
         <UserProfileModal
-          userId={selectedUserId}
-          user={expandedUser}
+          userId={expandedUser.identificacion}
           onClose={() => setExpandedUser(null)}
-          onDelete={handleDeleteUser}
-          onUpdate={handleUpdateUser}
         />
       )}
 
@@ -205,6 +226,15 @@ const Users = () => {
           onAdd={handleAddUser}
         />
       )}
+
+      {isEditUserModalOpen && currentEditUser && (
+        <EditUserForm
+          onClose={handleClose}
+          onUpdate={handleUpdateUser}
+          initialData={currentEditUser} // Pasa los datos al formulario
+        />
+      )}
+
     </div>
   );
 };
