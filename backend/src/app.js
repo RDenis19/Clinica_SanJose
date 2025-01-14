@@ -9,6 +9,7 @@ const firmaElectronicaRoutes = require('./routes/firmaElectronica.routes');
 const jornadaRoutes = require('./routes/jornada.routes');
 const pacienteRoutes = require('./routes/paciente.routes');
 const establecimientoRoutes = require('./routes/establecimiento.routes');
+const plantillaFormularioRoutes = require('./routes/plantillaFormulario.routes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/firmaelectronica', firmaElectronicaRoutes);
 app.use('/jornada', jornadaRoutes);
 app.use('/paciente', pacienteRoutes);
 app.use('/establecimiento', establecimientoRoutes);
+app.use('/plantilla_formulario', plantillaFormularioRoutes);
 
 const PORT = process.env.PORT || 3301;
 app.listen(PORT, () => {
