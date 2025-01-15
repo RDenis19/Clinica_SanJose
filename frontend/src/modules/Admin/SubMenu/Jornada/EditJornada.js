@@ -14,7 +14,6 @@ const EditJornada = ({ onClose, initialData }) => {
   });
 
   useEffect(() => {
-    // Inicializa los datos del formulario con los datos iniciales proporcionados
     if (initialData) {
       setFormData({ ...initialData });
     }
@@ -32,7 +31,7 @@ const EditJornada = ({ onClose, initialData }) => {
       const { idJornada, Usuario_identificacion } = formData;
       await updateJornada(idJornada, Usuario_identificacion, formData);
       alert('Jornada actualizada con éxito.');
-      onClose(); // Cierra el modal después de actualizar
+      onClose();
     } catch (error) {
       console.error('Error al actualizar la jornada:', error);
       alert('Hubo un error al actualizar la jornada.');

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../../../../components/common/Modal";
+import Modal from "../../../../../components/common/Modal";
 import AddPlantilla from "./AddPlantilla";
 import EditPlantilla from "./EditPlantilla";
-import { fetchPlantillas, deletePlantilla } from "../../../../utils/api";
-import Table from "../../../../components/common/Table";
-import Button from "../../../../components/common/Button";
+import { fetchPlantillas, deletePlantilla } from "../../../../../utils/api";
+import Table from "../../../../../components/common/Table";
+import Button from "../../../../../components/common/Button";
 
 function Plantillas() {
   const [plantillas, setPlantillas] = useState([]);

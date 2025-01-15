@@ -12,13 +12,13 @@ const AddUserForm = ({ onClose, onAdd }) => {
     fechaNacimiento: "",
     direccionDomicilio: "",
     telefono: "",
-    sexo: "M", // Valor predeterminado
-    estadoCivil: "Sol", // Valor predeterminado
-    especialidad: "", // Opcional
-    fotografia: null, // Opcional (Base64)
-    consultorio: "", // Opcional
-    estado: "Act", // Valor predeterminado
-    rol: "Doctor", // Valor predeterminado
+    sexo: "M", 
+    estadoCivil: "Sol", 
+    especialidad: "",
+    fotografia: null, 
+    consultorio: "",
+    estado: "Act",
+    rol: "Doctor",
   });
 
   const [errors, setErrors] = useState({});
@@ -61,7 +61,7 @@ const AddUserForm = ({ onClose, onAdd }) => {
 
     try {
       await onAdd(formData);
-      onClose(); // Cierra el modal si el usuario se agrega correctamente
+      onClose(); 
     } catch (error) {
       console.error("Error al agregar el usuario:", error);
       setErrors({ general: "Ocurrió un error al agregar el usuario. Intente nuevamente." });

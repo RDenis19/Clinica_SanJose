@@ -1,4 +1,3 @@
-// src/components/layouts/Header.js
 import React from 'react';
 import { AiOutlineBell } from 'react-icons/ai';
 import '../../styles/layouts/header.css'; // si gustas separar sus estilos

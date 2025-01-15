@@ -53,7 +53,7 @@ const Titulo = () => {
       try {
         await deleteTitulo(idTitulo, usuarioIdentificacion);
         alert('Título eliminado con éxito.');
-        const data = await fetchTitulos(); // Recargar la lista de títulos
+        const data = await fetchTitulos();  
         setTitulos(data);
         setFilteredTitulos(data);
       } catch (error) {

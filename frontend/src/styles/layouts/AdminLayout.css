@@ -1,19 +1,14 @@
-/* src/styles/layouts/AdminLayout.css */
-
-/* Contenedor global con 2 columnas: sidebar izquierda, y .admin-main derecha */
 .admin-layout {
-  display: flex;       /* 2 columnas */
-  height: 100vh;       /* ocupar pantalla completa (opcional) */
+  display: flex;     
+  height: 100vh;       
 }
 
-/* Columna derecha */
 .admin-main {
   display: flex;
-  flex-direction: column; /* Header arriba, contenido abajo */
-  flex: 1;                /* expandir para ocupar el resto de espacio */
+  flex-direction: column; 
+  flex: 1;              
 }
 
-/* El header: altura fija, sin position fixed */
 .header {
   height: 60px;
   background: #fff;
@@ -24,9 +19,8 @@
   padding: 0 20px;
 }
 
-/* Contenido principal, debajo del header */
 .admin-content {
-  flex: 1;            /* crece para ocupar espacio vertical */
+  flex: 1;            
   background: #f8f9fa;
   padding: 20px;
   overflow-y: hidden;

@@ -21,7 +21,7 @@ const Table = ({ columns, data, onRowAction }) => {
               {columns.map((column) => (
                 <td key={column.accessor}>
                   {column.render
-                    ? column.render(row) // Si hay render personalizado
+                    ? column.render(row)
                     : row[column.accessor]}
                 </td>
               ))}

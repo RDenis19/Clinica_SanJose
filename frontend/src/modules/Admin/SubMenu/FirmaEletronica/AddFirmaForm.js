@@ -23,7 +23,7 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
     e.preventDefault();
     try {
       await createFirma(formData);
-      onAdd(); // Actualizar lista en la vista principal
+      onAdd(); 
       onClose();
     } catch (error) {
       console.error('Error al crear la firma:', error);

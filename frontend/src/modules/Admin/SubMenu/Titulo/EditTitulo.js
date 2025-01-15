@@ -16,7 +16,6 @@ const EditTitulo = ({ onClose, initialData }) => {
   });
 
   useEffect(() => {
-    // Cargar los datos iniciales en el formulario
     if (initialData) {
       setFormData({ ...initialData });
     }

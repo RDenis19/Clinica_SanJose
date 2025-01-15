@@ -19,17 +19,17 @@ const AddPatientForm = ({ onClose, onAdd }) => {
     lugarNacimiento: "",
     nacionalidad: "",
     grupoCultural: "",
-    sexo: "M", // Valor predeterminado
-    estadoCivil: "Sol", // Valor predeterminado
+    sexo: "M", 
+    estadoCivil: "Sol", 
     instruccionUltimoAnioAprov: "",
     direccionPaciente: "",
     correo: "",
-    fechaCreacion: new Date().toISOString().split("T")[0], // Fecha actual predeterminada
+    fechaCreacion: new Date().toISOString().split("T")[0], 
     ocupacion: "",
     empresaTrabajo: "",
     tipoSeguroSalud: "",
     alergias: "",
-    grupoSanguineo: "", // Se selecciona del ENUM
+    grupoSanguineo: "", 
     observaciones: "",
   });
 
@@ -60,7 +60,7 @@ const AddPatientForm = ({ onClose, onAdd }) => {
 
     try {
       await onAdd(formData);
-      onClose(); // Cierra el modal si el paciente se agrega correctamente
+      onClose(); 
     } catch (error) {
       console.error("Error al agregar el paciente:", error);
       setErrors({ general: "Ocurrió un error al agregar el paciente. Intente nuevamente." });

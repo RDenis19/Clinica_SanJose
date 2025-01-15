@@ -45,7 +45,7 @@ function Login() {
         throw new Error("Rol no reconocido.");
       }
     } catch (err) {
-      console.error("Error en el login:", err); // Depuración
+      console.error("Error en el login:", err); 
       setError(err.message || "Usuario No Reconocido.");
     }
   };

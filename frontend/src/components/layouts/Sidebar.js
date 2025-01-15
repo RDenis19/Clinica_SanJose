@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Importar los íconos de flechas
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import '../../styles/layouts/sidebar.css';
 
 function Sidebar({ links = [], onLogout }) {
@@ -23,21 +23,18 @@ function Sidebar({ links = [], onLogout }) {
         {links.map((link) =>
           link.subMenu ? (
             <li key={link.label} className="menu-item">
-              <div className="menu-link">
+              <div
+                className={`menu-link ${expandedMenu === link.label ? 'active' : ''}`}
+                onClick={() => toggleSubMenu(link.label)}
+              >
                 <NavLink
-                  to={link.to} // Navegación a la ruta principal de "Usuarios"
+                  to={link.to}
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
                   <span className="icon">{link.icon}</span>
                   {link.label}
                 </NavLink>
-                <button
-                  className="submenu-toggle"
-                  onClick={(e) => {
-                    e.preventDefault(); // Evita la navegación al hacer clic en la flecha
-                    toggleSubMenu(link.label);
-                  }}
-                >
+                <button className="toggleButton">
                   {expandedMenu === link.label ? <FaChevronUp /> : <FaChevronDown />}
                 </button>
               </div>

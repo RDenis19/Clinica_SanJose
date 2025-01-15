@@ -1,10 +1,8 @@
-// src/components/layouts/DoctorLayout.js
 import React from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import '../../styles/layouts/DoctorLayout.css';
 
-// Íconos (doctor)
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { FaBookMedical } from 'react-icons/fa';

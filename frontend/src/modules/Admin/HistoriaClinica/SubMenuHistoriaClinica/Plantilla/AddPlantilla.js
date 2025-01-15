@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { createPlantilla } from "../../../../utils/api";
-import Button from "../../../../components/common/Button";
+import { createPlantilla } from "../../../../../utils/api";
+import Button from "../../../../../components/common/Button";
 import { FaTrashAlt } from "react-icons/fa"; // Ícono de eliminación
-import "../../../../styles/modules/Administrador/Formulario/AddPlantilla.css";
+import "../../../../../styles/modules/Administrador/Formulario/AddPlantilla.css";
 
 function AddFormulario({ onClose, onRefresh }) {
   const [nroTipoFormulario, setNroTipoFormulario] = useState("");

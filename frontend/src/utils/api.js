@@ -351,6 +351,48 @@ export const updatePlantilla = async (id, plantillaData) => {
   }
 };
 
+// Establecimientos
+export const fetchEstablecimientos = async () => {
+  try {
+    const response = await API.get("/establecimiento");
+    return response.data.data; // Ajusta según la estructura de tu respuesta
+  } catch (error) {
+    console.error("Error al obtener establecimientos:", error);
+    throw error;
+  }
+};
+
+export const createEstablecimiento = async (establecimientoData) => {
+  try {
+    const response = await API.post("/establecimiento", establecimientoData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear establecimiento:", error);
+    throw error;
+  }
+};
+
+export const updateEstablecimiento = async (idEstablecimiento, data) => {
+  try {
+    const response = await API.put(`/establecimiento/${idEstablecimiento}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar establecimiento:", error);
+    throw error;
+  }
+};
+
+export const deleteEstablecimiento = async (idEstablecimiento) => {
+  try {
+    const response = await API.delete(`/establecimiento/${idEstablecimiento}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar establecimiento:", error);
+    throw error;
+  }
+};
+
+
 
 
 export const deletePlantilla = async (id) => {

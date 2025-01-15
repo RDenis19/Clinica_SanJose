@@ -22,7 +22,6 @@ const EditPatientForm = ({ onClose, onUpdate, initialData }) => {
     observaciones: "",
   });
 
-  // Cargar datos iniciales al abrir el formulario
   useEffect(() => {
     if (initialData) {
       setFormData({ ...initialData });

@@ -8,9 +8,9 @@ const BackButton = ({ to, label = 'Volver', className = '' }) => {
 
   const handleBack = () => {
     if (to) {
-      navigate(to); // Navegar a una ruta específica
+      navigate(to); 
     } else {
-      navigate(-1); // Retroceder en el historial
+      navigate(-1); /
     }
   };
 

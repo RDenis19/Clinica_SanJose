@@ -4,7 +4,7 @@ import '../../styles/components/filterDropdown.css';
 
 const FilterDropdown = ({ isOpen, toggle, filters, setFilters, options }) => {
   const handleChange = (key, value) => {
-    setFilters(key, value); // Llama a la función de filtro actualizada
+    setFilters(key, value); 
   };
 
   return (

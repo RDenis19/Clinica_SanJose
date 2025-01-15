@@ -1,4 +1,3 @@
-// src/modules/Doctor/steps/NavigationSteps.js
 import React from 'react';
 import '../../styles/components/NavigationSteps.css'; // si gustas un CSS
 

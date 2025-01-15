@@ -15,8 +15,8 @@ import ChangeRequest from './modules/Admin/ChangeRequest';
 import HistoriaClinica from './modules/Admin/HistoriaClinica/HistoriaClinica';
 
 // Submenús de Historia Clínica
-import Establecimiento from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento';
-import Plantillas from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantillas';
+import Establecimiento from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento';
+import Plantillas from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/Plantillas';
 import Formularios from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formularios';
 
 // Submenús de administrador Usuarios

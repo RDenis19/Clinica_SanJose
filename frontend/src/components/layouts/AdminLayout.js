@@ -3,7 +3,6 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import '../../styles/layouts/AdminLayout.css';
 
-// Importar íconos desde react-icons
 import { AiOutlineDashboard, AiOutlineUser, AiOutlineTeam, AiOutlineTool } from 'react-icons/ai';
 import { BiBookContent } from 'react-icons/bi';
 

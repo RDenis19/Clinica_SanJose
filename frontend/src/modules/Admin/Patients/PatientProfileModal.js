@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../../../components/common/Modal';
-import '../../../styles/modules/Administrador/patient/patientProfileModal.css'; // Asegúrate de tener un CSS adaptado
+import '../../../styles/modules/Administrador/patient/patientProfileModal.css';
 import { fetchPatientDetails } from '../../../utils/api'; // Correcta función importada
 
 
@@ -12,7 +12,7 @@ const PatientProfileModal = ({ patientId, onClose }) => {
     const fetchDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetchPatientDetails(patientId); // Cambia a la función de API para pacientes
+        const response = await fetchPatientDetails(patientId); 
         setFormData(response);
       } catch (error) {
         console.error('Error al obtener detalles del paciente:', error);

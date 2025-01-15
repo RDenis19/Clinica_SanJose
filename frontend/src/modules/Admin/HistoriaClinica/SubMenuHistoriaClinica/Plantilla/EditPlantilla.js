@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { updatePlantilla } from "../../../../utils/api";
-import Button from "../../../../components/common/Button";
-import "../../../../styles/modules/Administrador/Formulario/EditPlantilla.css";
+import { updatePlantilla } from "../../../../../utils/api";
+import Button from "../../../../../components/common/Button";
+import "../../../../../styles/modules/Administrador/Formulario/EditPlantilla.css";
 
 function EditPlantilla({ plantilla, onClose, onRefresh }) {
   const [formData, setFormData] = useState({

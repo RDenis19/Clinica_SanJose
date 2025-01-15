@@ -1,11 +1,13 @@
+/* Sidebar General Styles */
 .sidebar {
   width: 250px;
   background: #F6FFED;
   display: flex;
-  flex-direction: column; /* Asegura que los elementos estén en columna */
-  height: 100vh; /* Asegura que ocupe toda la altura */
+  flex-direction: column;
+  height: 100vh;
 }
 
+/* Logo Section */
 .sidebar-logo {
   padding: 20px;
   text-align: center;
@@ -14,13 +16,15 @@
 .sidebar-logo h1 {
   font-size: 1.25rem;
   color: #1d8f85;
+  margin: 0; /* Elimina el margen predeterminado */
 }
 
+/* Menu Section */
 .menu {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Permite que el menú ocupe el espacio disponible */
+  flex-grow: 1;
 }
 
 .menu li {
@@ -34,57 +38,41 @@
   text-decoration: none;
   color: #4a5568;
   font-size: 1rem;
+  border-radius: 5px; /* Uniformidad con el diseño */
+  transition: background 0.3s, color 0.3s; /* Transiciones suaves */
 }
 
 .menu li a .icon {
-  margin-right: 10px; /* Separación entre icono y texto */
+  margin-right: 10px;
+  font-size: 1.2rem;
 }
 
 .menu li a.active {
   background: #888d73;
   color: white;
-  border-radius: 5px;
+  z-index: 2;
 }
 
 .menu li a:hover {
   background: #b6c4a8;
+  color: white; /* Mejora la visibilidad */
 }
 
-/* Estilos para los submenús desplegables */
-.menu-item {
-  position: relative; /* Necesario para manejar el submenú */
-}
-
+/* Menu Link Wrapper */
 .menu-link {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Para alinear texto e íconos de despliegue */
-  cursor: pointer; /* Indica que se puede interactuar */
+  justify-content: space-between;
+  cursor: pointer;
+  gap: 10px;
 }
 
 .menu-link:hover {
   background: #b6c4a8;
-  border-radius: 5px; /* Mantén consistencia con el estilo existente */
+  border-radius: 5px;
 }
 
-
-.icon {
-  margin-right: 10px;
-  font-size: 1.2rem;
-}
-
-.toggleButton {
-  font-size: 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: #333;
-}
-
-.toggleButton:hover {
-  color: #1d8f85;
-}
-
+/* Submenu Section */
 .submenu {
   margin-left: 20px;
   list-style: none;
@@ -104,6 +92,7 @@
   padding: 5px;
   display: block;
   border-radius: 3px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .submenu li a.active {
@@ -117,6 +106,7 @@
   color: white;
 }
 
+/* Logout Section */
 .logoutSection {
   margin-top: auto;
   padding: 20px;
@@ -138,44 +128,35 @@
   cursor: pointer;
   width: 90%;
   margin: auto;
+  transition: background 0.3s, transform 0.2s; /* Transiciones suaves */
 }
 
 .logoutButton:hover {
   background-color: #f56c6c;
+  transform: scale(1.05); /* Efecto visual al pasar el cursor */
 }
 
 .logoutIcon {
   font-size: 1.2rem;
 }
 
-/* Sección de Cerrar Sesión al final del sidebar */
-.logout-section {
-  margin-top: auto; /* Empuja el botón al final del sidebar */
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid #ddd; /* Línea para separar del menú */
-}
-
-.logout-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px; /* Espacio entre el icono y el texto */
-  padding: 10px;
-  background-color: #FF6F61;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 90%; /* Ajusta el ancho */
-  margin: auto;
-}
-
-.logout-button:hover {
-  background-color: #F6FFED;
-}
-
-.logout-icon {
+/* Utility Styles */
+.icon {
   font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.toggleButton {
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 2;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.toggleButton:hover {
+  color: #1d8f85;
 }

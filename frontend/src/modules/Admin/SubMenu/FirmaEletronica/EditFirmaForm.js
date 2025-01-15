@@ -29,8 +29,8 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
     e.preventDefault();
     try {
       await updateFirma(formData.idFirmaElectronica, formData);
-      const updatedFirmas = await fetchFirmas(); // Actualiza la lista completa
-      onUpdate(updatedFirmas); // Pasa la lista actualizada al padre
+      const updatedFirmas = await fetchFirmas();
+      onUpdate(updatedFirmas);
       onClose();
     } catch (error) {
       console.error('Error al actualizar la firma:', error);

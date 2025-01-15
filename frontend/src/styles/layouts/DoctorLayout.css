@@ -1,7 +1,5 @@
-/* src/styles/layouts/DoctorLayout.css */
-
 .doctor-layout {
-    display: flex;   /* 2 columnas: sidebar izq, main der */
+    display: flex;
     height: 100vh;
   }
   

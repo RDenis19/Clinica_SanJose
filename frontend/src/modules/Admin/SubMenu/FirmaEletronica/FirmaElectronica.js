@@ -18,7 +18,7 @@ const FirmaElectronica = () => {
     const cargarFirmas = async () => {
       const data = await fetchFirmas();
       setFirmas(data);
-      setFilteredFirmas(data); // Inicializar con la lista completa
+      setFilteredFirmas(data); 
     };
     cargarFirmas();
   }, []);
@@ -26,8 +26,7 @@ const FirmaElectronica = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     if (term.trim() === '') {
-      setFilteredFirmas(firmas); // Restablecer la lista completa si no hay término
-    } else {
+      setFilteredFirmas(firmas);
       const filtered = firmas.filter((firma) =>
         firma.nombreCertificado.toLowerCase().includes(term.toLowerCase())
       );
@@ -51,7 +50,7 @@ const FirmaElectronica = () => {
         alert('Firma eliminada con éxito.');
         const data = await fetchFirmas();
         setFirmas(data);
-        setFilteredFirmas(data); // Actualizar también la lista filtrada
+        setFilteredFirmas(data); 
       } catch (error) {
         console.error('Error al eliminar la firma:', error);
         alert('Hubo un error al eliminar la firma.');
@@ -65,7 +64,7 @@ const FirmaElectronica = () => {
     setCurrentFirma(null);
     fetchFirmas().then((data) => {
       setFirmas(data);
-      setFilteredFirmas(data); // Recargar y restablecer la búsqueda
+      setFilteredFirmas(data); 
     });
   };
 

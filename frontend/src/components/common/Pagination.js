@@ -8,7 +8,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     }
   };
 
-  if (totalPages <= 1) return null; // No mostrar si solo hay una página
+  if (totalPages <= 1) return null; 
 
   return (
     <div className="pagination">
