@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { loginRequest } from "../../utils/api";
 import "./login.css";
+import Button from "../../components/common/Button"; 
 import logo from "../../assets/images/LogoCorazon.png";
 import doctors from "../../assets/images/DoctoresLogin.png";
 
@@ -45,7 +46,7 @@ function Login() {
         throw new Error("Rol no reconocido.");
       }
     } catch (err) {
-      console.error("Error en el login:", err); 
+      console.error("Error en el login:", err);
       setError(err.message || "Usuario No Reconocido.");
     }
   };
@@ -78,7 +79,8 @@ function Login() {
             required
           />
           {error && <p className="error">{error}</p>}
-          <button type="submit">Ingresar</button>
+          {/* Replace the button element with the reusable Button component */}
+          <Button label="Ingresar" onClick={handleLogin} className="primary" />
         </form>
       </div>
     </div>
