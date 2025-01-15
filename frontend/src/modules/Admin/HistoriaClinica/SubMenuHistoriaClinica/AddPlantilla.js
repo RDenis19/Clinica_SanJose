@@ -5,6 +5,7 @@ import { FaTrashAlt } from "react-icons/fa"; // Ícono de eliminación
 import "../../../../styles/modules/Administrador/Formulario/AddPlantilla.css";
 
 function AddFormulario({ onClose, onRefresh }) {
+  const [nroTipoFormulario, setNroTipoFormulario] = useState("");
   const [title, setTitle] = useState("");
   const [sections, setSections] = useState([]);
 
@@ -45,13 +46,14 @@ function AddFormulario({ onClose, onRefresh }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
+      nroTipoFormulario,
       title,
       sections,
     };
 
     try {
       await createPlantilla({
-        nroTipoFormulario: "1", // Ajusta este valor si es necesario
+        nroTipoFormulario,
         nombreTipoFormulario: title,
         Estructura: JSON.stringify(formData),
       });
@@ -68,6 +70,17 @@ function AddFormulario({ onClose, onRefresh }) {
     <div className="add-plantilla-container">
       <h2 className="add-plantilla-title">Crear Nuevo Formulario</h2>
       <form onSubmit={handleSubmit} className="add-plantilla-form">
+        <div className="form-group">
+          <label htmlFor="nroTipoFormulario">Número del Formulario:</label>
+          <input
+            type="text"
+            id="nroTipoFormulario"
+            value={nroTipoFormulario}
+            onChange={(e) => setNroTipoFormulario(e.target.value)}
+            className="form-input"
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="title">Título del Formulario:</label>
           <input
@@ -109,7 +122,7 @@ function AddFormulario({ onClose, onRefresh }) {
                     </div>
                     <input
                       type="text"
-                      placeholder="Nombre del Campo"
+                      placeholder="Nombre del Campo (para backend)"
                       value={field.name}
                       onChange={(e) =>
                         handleFieldChange(
@@ -124,7 +137,7 @@ function AddFormulario({ onClose, onRefresh }) {
                     />
                     <input
                       type="text"
-                      placeholder="Etiqueta del Campo"
+                      placeholder="Etiqueta del Campo (visible para el usuario)"
                       value={field.label}
                       onChange={(e) =>
                         handleFieldChange(
@@ -158,7 +171,7 @@ function AddFormulario({ onClose, onRefresh }) {
                     </div>
                     <input
                       type="text"
-                      placeholder="Placeholder"
+                      placeholder="Placeholder (guía para el usuario)"
                       value={field.placeholder}
                       onChange={(e) =>
                         handleFieldChange(

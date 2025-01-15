@@ -339,18 +339,18 @@ export const createPlantilla = async (plantillaData) => {
 
 export const updatePlantilla = async (id, plantillaData) => {
   if (!id) {
-    console.error("El ID es indefinido:", id); // Log para depurar
-    throw new Error("El ID de la plantilla no se ha proporcionado.");
+      console.error("El ID es indefinido:", id);
+      throw new Error("El ID de la plantilla no se ha proporcionado.");
   }
-
   try {
-    const response = await API.put(`/plantilla_formulario/${id}`, plantillaData);
-    return response.data;
+      const response = await API.put(`/plantilla_formulario/${id}`, plantillaData);
+      return response.data;
   } catch (error) {
-    console.error("Error al actualizar plantilla:", error);
-    throw error.response ? error.response.data : { error: "Error en el servidor" };
+      console.error("Error al actualizar plantilla:", error);
+      throw error.response ? error.response.data : { error: "Error en el servidor" };
   }
 };
+
 
 
 export const deletePlantilla = async (id) => {
