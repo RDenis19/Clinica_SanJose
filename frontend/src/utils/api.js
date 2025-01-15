@@ -273,7 +273,6 @@ export const updatePatient = async (identificacion, patientData) => {
   }
 };
 
-// Eliminar un paciente por su identificación
 export const removePatient = async (identificacion) => {
   try {
     console.log(`Eliminando paciente con identificación: ${identificacion}`);
@@ -285,7 +284,6 @@ export const removePatient = async (identificacion) => {
   }
 };
 
-// Buscar pacientes por criterios (por ejemplo, nombre, identificación)
 export const searchPatients = async (criteria) => {
   try {
     const response = await API.get(`/paciente/search`, { params: criteria });
@@ -296,13 +294,71 @@ export const searchPatients = async (criteria) => {
   }
 };
 
-// Obtener un resumen de pacientes (por ejemplo, estadísticas generales)
 export const fetchPatientSummary = async () => {
   try {
     const response = await API.get(`/paciente/summary`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener el resumen de pacientes:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+// Plantilla
+export const fetchPlantillas = async () => {
+  try {
+    const response = await API.get('/plantilla_formulario/');
+    return response.data.data;
+  } catch (error) {
+    console.error('Error al obtener plantillas:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+
+export const fetchPlantilla = async (id) => {
+  try {
+    const response = await API.get(`/plantilla_formulario/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener plantilla:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+export const createPlantilla = async (plantillaData) => {
+  try {
+    const response = await API.post("/plantilla_formulario", plantillaData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear plantilla:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+
+export const updatePlantilla = async (id, plantillaData) => {
+  if (!id) {
+    console.error("El ID es indefinido:", id); // Log para depurar
+    throw new Error("El ID de la plantilla no se ha proporcionado.");
+  }
+
+  try {
+    const response = await API.put(`/plantilla_formulario/${id}`, plantillaData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar plantilla:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+
+export const deletePlantilla = async (id) => {
+  try {
+    const response = await API.delete(`/plantilla_formulario/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar plantilla:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };

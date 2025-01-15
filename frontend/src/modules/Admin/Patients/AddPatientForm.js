@@ -157,13 +157,16 @@ const AddPatientForm = ({ onClose, onAdd }) => {
         </div>
         <div className="form-field">
           <label>Zona</label>
-          <input
-            type="text"
+          <select
             name="zona"
             value={formData.zona}
             onChange={handleInputChange}
-          />
+          >
+            <option value="U">Urbano</option>
+            <option value="R">Rural</option>
+            </select>
         </div>
+
         <div className="form-field">
           <label>Teléfono</label>
           <input
