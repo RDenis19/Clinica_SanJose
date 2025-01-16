@@ -465,8 +465,6 @@ export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion)
 };
 
 
-
-
 //Doctor - Enfermera
 // Obtener formulario
 export const fetchFormularioEstructura = async (tipo) => {

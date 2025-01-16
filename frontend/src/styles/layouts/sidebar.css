@@ -1,61 +1,107 @@
 /* Sidebar General Styles */
 .sidebar {
   width: 250px;
-  background: #F6FFED;
+  background: linear-gradient(to bottom, #f8fff4, #F6FFED);
   display: flex;
   flex-direction: column;
   height: 100vh;
+  border-right: 1px solid rgba(29, 143, 133, 0.1);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03);
 }
 
 /* Logo Section */
 .sidebar-logo {
-  padding: 20px;
+  padding: 24px 20px;
   text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(29, 143, 133, 0.1);
+  margin-bottom: 8px;
 }
 
 .sidebar-logo h1 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   color: #1d8f85;
-  margin: 0; /* Elimina el margen predeterminado */
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
+}
+
+.sidebar-logo span {
+  color: #156b63;
+}
+
+.sidebar-logo p {
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
 /* Menu Section */
 .menu {
   list-style: none;
-  padding: 0;
+  padding: 8px;
   margin: 0;
   flex-grow: 1;
+  overflow-y: auto;
+}
+
+.menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu::-webkit-scrollbar-thumb {
+  background: rgba(29, 143, 133, 0.2);
+  border-radius: 4px;
 }
 
 .menu li {
-  margin: 15px 0;
+  margin: 4px 0;
 }
 
+/* Menu Links */
 .menu li a {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 12px;
   text-decoration: none;
   color: #4a5568;
-  font-size: 1rem;
-  border-radius: 5px; /* Uniformidad con el diseño */
-  transition: background 0.3s, color 0.3s; /* Transiciones suaves */
+  font-size: 0.95rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin: 2px 0;
 }
 
 .menu li a .icon {
-  margin-right: 10px;
-  font-size: 1.2rem;
-}
-
-.menu li a.active {
-  background: #888d73;
-  color: white;
-  z-index: 2;
+  margin-right: 12px;
+  font-size: 1.25rem;
+  color: #1d8f85;
+  transition: all 0.2s ease;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .menu li a:hover {
-  background: #b6c4a8;
-  color: white; /* Mejora la visibilidad */
+  background: rgba(182, 196, 168, 0.15);
+  color: #1d8f85;
+  transform: translateX(2px);
+}
+
+.menu li a.active {
+  background: #1d8f85;
+  color: white;
+  box-shadow: 0 2px 8px rgba(29, 143, 133, 0.2);
+}
+
+.menu li a.active .icon {
+  color: white;
 }
 
 /* Menu Link Wrapper */
@@ -63,100 +109,154 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px;
   cursor: pointer;
-  gap: 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin: 2px 0;
 }
 
 .menu-link:hover {
-  background: #b6c4a8;
-  border-radius: 5px;
+  background: rgba(182, 196, 168, 0.15);
+  color: #1d8f85;
+}
+
+.menu-link.active {
+  background: #1d8f85;
+  color: white;
+}
+
+.menu-link a {
+  padding: 0 !important;
+  margin: 0 !important;
+  flex: 1;
+}
+
+/* Toggle Button */
+.toggleButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+  margin-left: 8px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.toggleButton:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* Submenu Section */
 .submenu {
-  margin-left: 20px;
   list-style: none;
-  padding: 0;
-  border-left: 2px solid #ccc;
-  margin-top: 5px;
+  margin: 4px 0 4px 36px;
+  padding: 4px 0;
+  border-left: 2px solid rgba(29, 143, 133, 0.2);
+  animation: slideDown 0.3s ease-out;
 }
 
 .submenu li {
-  margin-bottom: 5px;
+  margin: 2px 0;
 }
 
-.submenu li a {
-  text-decoration: none;
-  color: #555;
-  font-size: 0.9rem;
-  padding: 5px;
+.submenu a {
   display: block;
-  border-radius: 3px;
-  transition: background 0.3s, color 0.3s;
+  padding: 8px 12px !important;
+  color: #4a5568;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
-.submenu li a.active {
-  color: white;
-  background-color: #1d8f85;
-  font-weight: bold;
+.submenu a:hover {
+  background: rgba(29, 143, 133, 0.1);
+  color: #1d8f85;
+  transform: translateX(2px);
 }
 
-.submenu li a:hover {
-  background-color: #1d8f85;
-  color: white;
+.submenu a.active {
+  background: rgba(29, 143, 133, 0.15);
+  color: #1d8f85;
+  font-weight: 600;
 }
 
 /* Logout Section */
-.logoutSection {
+.logout-section {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(29, 143, 133, 0.1);
   margin-top: auto;
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid #ddd;
 }
 
-.logoutButton {
+.logout-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  background-color: #ff6f61;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #ff6b6b, #ff8787);
   color: white;
-  font-size: 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  width: 90%;
-  margin: auto;
-  transition: background 0.3s, transform 0.2s; /* Transiciones suaves */
+  font-size: 0.95rem;
+  font-weight: 500;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.2);
 }
 
-.logoutButton:hover {
-  background-color: #f56c6c;
-  transform: scale(1.05); /* Efecto visual al pasar el cursor */
+.logout-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  background: linear-gradient(45deg, #ff5252, #ff6b6b);
 }
 
-.logoutIcon {
+.logout-icon {
   font-size: 1.2rem;
 }
 
-/* Utility Styles */
-.icon {
-  font-size: 1.2rem;
-  margin-right: 10px;
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.toggleButton {
-  padding: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 2;
-  color: #333;
-  transition: color 0.3s;
+/* Active States and Hover Effects */
+.menu-link:hover .icon,
+.menu-link.active .icon {
+  transform: scale(1.1);
 }
 
-.toggleButton:hover {
-  color: #1d8f85;
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .menu {
+    padding: 8px;
+  }
+
+  .submenu {
+    margin-left: 32px;
+  }
 }
+
