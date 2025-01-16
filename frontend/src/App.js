@@ -12,7 +12,7 @@ import Dashboard from './modules/Admin/Dashboard';
 import Users from './modules/Admin/Users/Users';
 import Patients from './modules/Admin/Patients/Patients';
 import ChangeRequest from './modules/Admin/ChangeRequest';
-import HistoriaClinica from './modules/Admin/HistoriaClinica/HistoriaClinica';
+import HistoriaClinica from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/HistoriaClinica/HistoriaClinica';
 
 // Submenús de Historia Clínica
 import Establecimiento from './modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento';

@@ -405,6 +405,66 @@ export const deletePlantilla = async (id) => {
   }
 };
 
+//Historia Clinica
+export const fetchHistorias = async (pacienteIdentificacion = null) => {
+  try {
+    const params = pacienteIdentificacion ? { pacienteIdentificacion } : {};
+    const response = await API.get("/historia", { params });
+    return response.data.data;
+  } catch (error) {
+    console.error("Error al obtener historias clínicas:", error);
+    throw error;
+  }
+};
+
+export const fetchHistoriaById = async (idHistoriaClinica, pacienteIdentificacion) => {
+  try {
+    const response = await API.get(`/historia/${idHistoriaClinica}/${pacienteIdentificacion}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error al obtener la historia clínica:", error);
+    throw error;
+  }
+};
+
+
+export const createHistoria = async (historiaData) => {
+  try {
+    const response = await API.post("/historia", historiaData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear historia clínica:", error);
+    throw error.response
+      ? error.response.data
+      : { message: "Error al crear historia clínica." };
+  }
+};
+
+
+export const updateHistoria = async (idHistoriaClinica, pacienteIdentificacion, data) => {
+  try {
+    const response = await API.put(`/historia/${idHistoriaClinica}/${pacienteIdentificacion}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar historia clínica:", error);
+    throw error;
+  }
+};
+
+export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion) => {
+  try {
+    const response = await API.delete(`/historia/${idHistoriaClinica}/${Paciente_identificacion}`);
+    console.log("Respuesta de eliminación:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar historia clínica:", error);
+    throw error.response
+      ? error.response.data
+      : { message: "Error al eliminar historia clínica." };
+  }
+};
+
+
 
 
 //Doctor - Enfermera
