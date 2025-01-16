@@ -171,7 +171,7 @@ const Patients = () => {
           { label: 'Primer Nombre', accessor: 'primerNombre' },
           { label: 'Apellido Paterno', accessor: 'apellidoParteno' },
           { label: 'Correo', accessor: 'correo' },
-          { label: 'Estado', accessor: 'estado' },
+          { label: 'Telefono', accessor: 'telefonoPaciente' },
           {
             label: 'Acción',
             accessor: 'acciones',
