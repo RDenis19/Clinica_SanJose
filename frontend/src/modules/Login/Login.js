@@ -50,7 +50,6 @@ function Login() {
       setError(err.message || "Usuario No Reconocido.");
     }
   };
-
   return (
     <div className="login-container">
       <div className="login-left">
@@ -58,33 +57,35 @@ function Login() {
         <img src={doctors} alt="Doctores" className="doctors" />
       </div>
       <div className="login-right">
-        <h1>
-          Clínica Hospital <span>San José</span>
-        </h1>
-        <form onSubmit={handleLogin}>
-          <label htmlFor="email">Correo</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <label htmlFor="password">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {error && <p className="error">{error}</p>}
-          {/* Replace the button element with the reusable Button component */}
-          <Button label="Ingresar" onClick={handleLogin} className="primary" />
-        </form>
+        <div className="login-box">
+          <h1>
+            Clínica Hospital <span>San José</span>
+          </h1>
+          <form onSubmit={handleLogin}>
+            <label htmlFor="email">Correo</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {error && <p className="error">{error}</p>}
+            <Button label="Ingresar" onClick={handleLogin} className="primary" />
+          </form>
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default Login;
