@@ -85,13 +85,14 @@ function Establecimiento() {
 
   return (
     <div>
-      <h1>Gestión de Establecimientos</h1>
-      <SearchBar
-        placeholder="Buscar por nombre"
-        value={searchQuery}
-        onChange={setSearchQuery}
-      />
-      <Button label="Agregar Establecimiento" onClick={() => setModalOpen(true)} />
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+        <SearchBar
+          placeholder="Buscar por nombre"
+          value={searchQuery}
+          onChange={setSearchQuery}
+        />
+        <Button label="Agregar Establecimiento" onClick={() => setModalOpen(true)} />
+      </div>
       <Table columns={columns} data={filteredEstablecimientos} />
       {isModalOpen && (
         <Modal onClose={() => setModalOpen(false)}>

@@ -176,21 +176,24 @@ const Patients = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (patient) => (
-              <div className="action-buttons">
+              <div className="action-buttons" style={{ display: "flex", gap: "10px" }}>
                 <FaEye
                   className="icon-view"
                   onClick={() => handleExpandPatient(patient.identificacion)}
                   title="Ver detalles"
+                  style={{ cursor: "pointer", color: "#007bff" }}
                 />
                 <FaEdit
                   className="icon-edit"
                   onClick={() => handleEditPatient(patient.identificacion)}
                   title="Editar paciente"
+                  style={{ cursor: "pointer", color: "#ffc107" }}
                 />
                 <FaTrash
                   className="icon-delete"
                   onClick={() => handleDeletePatient(patient.identificacion)}
                   title="Eliminar paciente"
+                  style={{ cursor: "pointer", color: "#dc3545" }}
                 />
               </div>
             ),

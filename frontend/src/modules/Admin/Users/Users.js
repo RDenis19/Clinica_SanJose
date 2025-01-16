@@ -184,21 +184,24 @@ const Users = () => {
             label: 'Acción',
             accessor: 'acciones',
             render: (user) => (
-              <div className="action-buttons">
+              <div className="action-buttons" style={{ display: "flex", gap: "10px" }}>
                 <FaEye
                   className="icon-view"
                   onClick={() => handleExpandUser(user.identificacion)}
                   title="Ver detalles"
+                  style={{ cursor: "pointer", color: "#007bff" }}
                 />
                 <FaEdit
                   className="icon-edit"
                   onClick={() => handleEditUser(user.identificacion)}
                   title="Editar usuario"
+                  style={{ cursor: "pointer", color: "#ffc107" }}
                 />
                 <FaTrash
                   className="icon-delete"
                   onClick={() => handleDeleteUser(user.identificacion)}
                   title="Eliminar usuario"
+                  style={{ cursor: "pointer", color: "#dc3545" }} 
                 />
               </div>
             ),

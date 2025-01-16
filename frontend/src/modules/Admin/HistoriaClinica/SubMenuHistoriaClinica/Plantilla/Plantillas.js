@@ -79,7 +79,6 @@ function Plantillas() {
 
   return (
     <div>
-      <h1>Gestión de Plantillas</h1>
       <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
 
       <Table columns={columns} data={plantillas} />

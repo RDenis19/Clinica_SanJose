@@ -93,7 +93,7 @@ const Jornada = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
         <SearchBar
           placeholder="Buscar por supervisor"
           value={searchTerm}
