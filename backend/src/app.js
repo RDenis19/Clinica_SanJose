@@ -12,6 +12,7 @@ const establecimientoRoutes = require('./routes/establecimiento.routes');
 const plantillaFormularioRoutes = require('./routes/plantillaFormulario.routes');
 const referidoRoutes = require('./routes/referido.routes');
 const historiaRoutes = require('./routes/historiaClinica.routes');
+const formularioRoutes = require('./routes/formulario.routes');
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.use('/establecimiento', establecimientoRoutes);
 app.use('/plantilla_formulario', plantillaFormularioRoutes);
 app.use('/referido', referidoRoutes);
 app.use('/historia', historiaRoutes);
+app.use('/formulario', formularioRoutes);
+
 
 const PORT = process.env.PORT || 3301;
 app.listen(PORT, () => {
