@@ -220,6 +220,21 @@ export const deleteTitulo = async (idTitulo, usuarioIdentificacion) => {
 
 
 // Paciente
+
+export const findPacienteById = async (identificacion) => {
+  try {
+    const response = await API.get(`/paciente/${identificacion}`); // Asegúrate que esta ruta coincide con el backend
+    return response.data; // Devuelve el paciente si existe
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return null; // Paciente no encontrado
+    }
+    throw error; // Error en el servidor u otro problema
+  }
+};
+
+
+
 // Obtener lista de pacientes con paginación
 export const fetchPatients = async (page = 1, limit = 10) => {
   try {

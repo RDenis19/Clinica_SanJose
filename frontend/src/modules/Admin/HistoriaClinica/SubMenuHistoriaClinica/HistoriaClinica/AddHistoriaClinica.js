@@ -1,28 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../../../../components/common/Button";
-import { createHistoria } from "../../../../../utils/api";
+import { createHistoria, fetchPatients } from "../../../../../utils/api";
+import SearchBar from "../../../../../components/common/SearchBar";
+import "../../../../../styles/modules/Administrador/autocomplete.css"; // Asegúrate de tener este archivo CSS
 
 function AddHistoriaClinica({ onClose, onRefresh }) {
   const [formData, setFormData] = useState({
     nroHistoriaClinica: "",
     Paciente_identificacion: "",
   });
+  const [pacientes, setPacientes] = useState([]); // Lista completa de pacientes
+  const [filteredPacientes, setFilteredPacientes] = useState([]); // Lista filtrada según la búsqueda
+  const [pacienteExiste, setPacienteExiste] = useState(null); // null, true o false
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  useEffect(() => {
+    // Cargar todos los pacientes al montar el componente
+    const loadPacientes = async () => {
+      try {
+        const data = await fetchPatients(); // Asume que fetchPatients ya está configurado para usar la ruta GET /paciente
+        setPacientes(data.data || []); // Almacena la lista completa de pacientes
+      } catch (error) {
+        console.error("Error al cargar pacientes:", error);
+      }
+    };
+    loadPacientes();
+  }, []);
+
+  const handleInputChange = (value) => {
+    setFormData({ ...formData, Paciente_identificacion: value });
+
+    // Filtrar pacientes según el valor ingresado
+    const filtered = pacientes.filter((paciente) =>
+      paciente.identificacion.startsWith(value)
+    );
+    setFilteredPacientes(filtered);
+
+    // Verificar si el valor completo corresponde a un paciente existente
+    const existe = pacientes.some(
+      (paciente) => paciente.identificacion === value
+    );
+    setPacienteExiste(existe);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!formData.nroHistoriaClinica || !formData.Paciente_identificacion) {
       alert("Por favor, completa todos los campos requeridos.");
       return;
     }
-  
-    console.log("Datos enviados al backend:", formData);
-  
+
+    if (pacienteExiste === false) {
+      alert("El paciente no existe. Por favor, créalo primero.");
+      return;
+    }
+
     try {
       await createHistoria(formData);
       alert("Historia clínica creada exitosamente");
@@ -35,8 +67,6 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
       );
     }
   };
-  
-  
 
   return (
     <div>
@@ -49,20 +79,47 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
             name="nroHistoriaClinica"
             id="nroHistoriaClinica"
             value={formData.nroHistoriaClinica}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({ ...formData, nroHistoriaClinica: e.target.value })
+            }
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="Paciente_identificacion">Identificación del Paciente:</label>
-          <input
-            type="text"
-            name="Paciente_identificacion"
-            id="Paciente_identificacion"
+          <label htmlFor="Paciente_identificacion">
+            Identificación del Paciente:
+          </label>
+          <SearchBar
+            placeholder="Buscar identificación del paciente"
             value={formData.Paciente_identificacion}
-            onChange={handleChange}
-            required
+            onChange={handleInputChange}
           />
+          {filteredPacientes.length > 0 && (
+            <ul className="autocomplete-list">
+              {filteredPacientes.map((paciente) => (
+                <li
+                  key={paciente.identificacion}
+                  onClick={() =>
+                    setFormData({
+                      ...formData,
+                      Paciente_identificacion: paciente.identificacion,
+                    })
+                  }
+                >
+                  <span className="id">{paciente.identificacion}</span>
+                  <span className="name">
+                    {paciente.primerNombre} {paciente.apellidoMaterno}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {pacienteExiste === true && (
+            <p style={{ color: "green" }}>Paciente encontrado.</p>
+          )}
+          {pacienteExiste === false && (
+            <p style={{ color: "red" }}>Paciente no encontrado.</p>
+          )}
         </div>
         <div className="form-buttons">
           <Button type="submit" label="Guardar" />

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import "../../styles/components/modal.css";
 
-const Modal = ({ children, onClose }) => {
-  // Bloquea el scroll del fondo cuando el modal está abierto
+const Modal = ({ children, onClose, title }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -13,10 +12,13 @@ const Modal = ({ children, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <button className="modal-close-button" onClick={onClose}>
-          ×
-        </button>
-        {children}
+        <div className="modal-header">
+          <h2>{title}</h2>
+          <button className="modal-close-button" onClick={onClose}>
+            ×
+          </button>
+        </div>
+        <div className="modal-content">{children}</div>
       </div>
     </div>
   );
