@@ -24,18 +24,21 @@ VALUES
 
 -- Tabla HistoriaClinica
 -- Inserción de los Datos con nroHistoriaClinica en orden secuencial
-INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica, Paciente_identificacion) 
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
 VALUES 
-('2025-01-01', '000001','1101010101'), 
-('2025-01-02', '000002','1101010101'), 
-('2025-01-03', '000003','1102020202'), 
-('2025-01-04', '000004','1102020202'), 
-('2025-01-05', '000005','1103030303'),
-('2025-01-06', '000006','1103030303'),
-('2025-01-07', '000007','1104040404'),
-('2025-01-08', '000008','1104040404'),
-('2025-01-09', '000009','1105050505'),
-('2025-01-10', '000010','1105050505');
+('1101010101');
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
+VALUES 
+('1102020202'); 
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
+VALUES 
+('1103030303');
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
+VALUES 
+('1104040404');
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
+VALUES 
+('1105050505');
 
 -- Tabla Referido
 INSERT INTO Referido (nombreReferido, parentescoReferido, direccionReferido, telefonoReferido, Paciente_identificacion) 
@@ -49,8 +52,7 @@ VALUES
 -- Tabla Usuario_has_HistoriaClinica
 INSERT INTO Usuario_has_HistoriaClinica (Usuario_identificacion, HistoriaClinica_idHistoriaClinica) 
 VALUES 
-('0101010101', 1), ('0101010101', 2), ('0202020202', 3), ('0202020202', 4), ('0303030303', 5), ('0303030303', 6), ('0404040404', 7), ('0404040404', 8), 
-('0505050505', 9), ('0505050505', 10);
+('0101010101', 1), ('0101010101', 2), ('0202020202', 3), ('0202020202', 4), ('0303030303', 5);
 
 
 -- Tabla Plantilla_Formulario

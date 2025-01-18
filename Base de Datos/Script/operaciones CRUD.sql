@@ -30,12 +30,23 @@ WHERE idPaciente = ?;
 -- Delete
 DELETE FROM Paciente WHERE idPaciente = ?;
 
+/*        // 2. Obtener el ID recién insertado
+        const newId = result.insertId;
 
+        // 3. Calcular el nroHistoriaClinica usando LPAD
+        const nroHistoriaClinica = newId.toString().padStart(6, '0');
+
+        // 4. Actualizar la tabla con el valor calculado
+        await connection.execute(
+            `UPDATE HistoriaClinica
+             SET nroHistoriaClinica = ?
+             WHERE idHistoriaClinica = ?`,
+            [nroHistoriaClinica, newId]
+        );*/
 -- Tabla HistoriaClinica
-
 -- Create
-INSERT INTO HistoriaClinica (fechaCreacionHC, nroHistoriaClinica) 
-VALUES (?, ?);
+INSERT INTO HistoriaClinica (Paciente_identificacion) 
+VALUES (?);
 -- Read
 SELECT * FROM HistoriaClinica WHERE idHistoriaClinica = ?;
 SELECT * FROM HistoriaClinica;
