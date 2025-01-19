@@ -169,7 +169,7 @@ const Patients = () => {
         columns={[
           { label: "Identificación", accessor: "identificacion" },
           { label: "Primer Nombre", accessor: "primerNombre" },
-          { label: "Apellido Paterno", accessor: "apellidoPaterno" },
+          { label: "Apellido Paterno", accessor: "apellidoParteno" },
           { label: "Correo", accessor: "correo" },
           { label: "Teléfono", accessor: "telefonoPaciente" },
           {

@@ -21,7 +21,7 @@ import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Establecimiento from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento";
 import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/Plantillas";
-import TipoFormularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/TipoFormularios";
+import Formularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/Formularios";
 import FirmaElectronica from "./modules/Admin/SubMenu/FirmaEletronica/FirmaElectronica";
 import Jornada from "./modules/Admin/SubMenu/Jornada/Jornada";
 import Titulo from "./modules/Admin/SubMenu/Titulo/Titulo";
@@ -130,7 +130,7 @@ function App() {
       <Route path="/admin/historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
       <Route path="/admin/historia-clinica/establecimiento" element={<AdminLayout><Establecimiento /></AdminLayout>} />
       <Route path="/admin/historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
-      <Route path="/admin/historia-clinica/TipoFormularios" element={<AdminLayout><TipoFormularios /></AdminLayout>} />
+      <Route path="/admin/historia-clinica/Formularios" element={<AdminLayout><Formularios /></AdminLayout>} />
 
       <Route
         path="/admin/patients/:identificacion"

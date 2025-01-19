@@ -344,6 +344,7 @@ export const fetchPlantilla = async (id) => {
 };
 
 
+
 export const createPlantilla = async (plantillaData) => {
   try {
     const response = await API.post("/plantilla_formulario", plantillaData);
@@ -482,6 +483,53 @@ export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion)
   }
 };
 
+//formularios
+// Obtener todos los formularios
+export const fetchFormularios = async () => {
+  try {
+    const response = await API.get('/formulario'); // Ruta del endpoint
+    console.log('Datos recibidos:', response.data); // Verifica qué datos llegan
+    return response.data.data; // Devuelve los datos esperados
+  } catch (error) {
+    console.error('Error al obtener formularios:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+
+// Crear un nuevo formulario
+export const createFormulario = async (formularioData) => {
+  try {
+    const response = await API.post("/formulario", formularioData);
+    return response.data.data; // Ajustar según la respuesta del backend
+  } catch (error) {
+    console.error("Error al crear formulario:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+
+// Actualizar un formulario existente
+export const updateFormulario = async (idFormulario, formularioData) => {
+  try {
+    const response = await API.put(`/formulario/${idFormulario}`, formularioData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar formulario:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+// Eliminar un formulario
+export const deleteFormulario = async (idFormulario) => {
+  try {
+    const response = await API.delete(`/formulario/${idFormulario}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar formulario:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
 
 //Doctor - Enfermera
 // Obtener formulario
