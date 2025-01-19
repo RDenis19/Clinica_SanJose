@@ -484,6 +484,27 @@ export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion)
 };
 
 //formularios
+
+//
+export const fetchFormulariosByHistoriaClinica = async (idHistoriaClinica) => {
+  try {
+    const response = await API.get(`/formulario/${idHistoriaClinica}`);
+    console.log("Formularios asociados:", response.data);
+
+    if (response.data && response.data.success) {
+      return response.data.data;
+    } else {
+      throw new Error("La respuesta no contiene datos válidos.");
+    }
+  } catch (error) {
+    console.error("Error al obtener formularios por historia clínica:", error);
+    throw error.response
+      ? error.response.data
+      : { error: "Error en el servidor al obtener los formularios." };
+  }
+};
+
+
 // Obtener todos los formularios
 export const fetchFormularios = async () => {
   try {

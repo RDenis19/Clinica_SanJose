@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Importamos useNavigate
 import { FaUser, FaPhone, FaBirthdayCake, FaMapMarkerAlt, FaGlobe, FaVenusMars, FaTint, FaAllergies } from "react-icons/fa";
 import { fetchPatientDetails, fetchHistorias } from "../../../utils/api";
 import SearchBar from "../../../components/common/SearchBar";
@@ -10,6 +10,7 @@ import BackButton from "../../../components/common/BackButton";
 
 const PatientProfilePage = () => {
   const { identificacion } = useParams();
+  const navigate = useNavigate(); // Inicializamos useNavigate
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -93,7 +94,7 @@ const PatientProfilePage = () => {
           />
           <Button
             label="Agregar Historia Clínica"
-            onClick={() => alert("Función de agregar historia no implementada")}
+            onClick={() => navigate("/admin/historia-clinica")} // Redirección al componente HistoriaClinica
           />
         </div>
 
