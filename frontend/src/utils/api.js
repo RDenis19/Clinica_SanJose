@@ -333,13 +333,16 @@ export const fetchPlantillas = async () => {
 
 export const fetchPlantilla = async (id) => {
   try {
+    console.log('ID enviado a la API:', id);
     const response = await API.get(`/plantilla_formulario/${id}`);
+    console.log('Datos recibidos de la API:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error al obtener plantilla:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
 
 export const createPlantilla = async (plantillaData) => {
   try {

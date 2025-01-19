@@ -40,7 +40,7 @@ function AdminLayout({ children }) {
       subMenu: [
         { label: 'Establecimiento', to: '/admin/historia-clinica/establecimiento' },
         { label: 'Plantillas', to: '/admin/historia-clinica/plantillas' },
-        { label: 'Formularios', to: '/admin/historia-clinica/formularios' },
+        { label: 'TipoFormularios', to: '/admin/historia-clinica/TipoFormularios' },
       ],
     },
   ];

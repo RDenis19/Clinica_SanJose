@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
-import SearchBar from '../../../components/common/SearchBar';
-import FilterDropdown from '../../../components/common/FilterDropdown';
-import Pagination from '../../../components/common/Pagination';
-import Table from '../../../components/common/Table';
-import Button from '../../../components/common/Button';
-import AddPatientForm from './AddPatientForm';
-import EditPatientForm from './EditPatientForm';
-import PatientProfileModal from './PatientProfileModal';
-import '../../../styles/modules/Administrador/patient/patient.css';
-import { fetchPatients, fetchPatientDetails, removePatient, createPatient, updatePatient } from '../../../utils/api';
+import React, { useState, useEffect } from "react";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "../../../components/common/SearchBar";
+import FilterDropdown from "../../../components/common/FilterDropdown";
+import Pagination from "../../../components/common/Pagination";
+import Table from "../../../components/common/Table";
+import Button from "../../../components/common/Button";
+import AddPatientForm from "./AddPatientForm";
+import EditPatientForm from "./EditPatientForm";
+import "../../../styles/modules/Administrador/patient/patient.css";
+import { fetchPatients, removePatient, createPatient, updatePatient } from "../../../utils/api";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
-  const [filters, setFilters] = useState({ estado: '' });
+  const [searchValue, setSearchValue] = useState("");
+  const [filters, setFilters] = useState({ estado: "" });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [expandedPatient, setExpandedPatient] = useState(null);
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
   const [isEditPatientModalOpen, setIsEditPatientModalOpen] = useState(false);
   const [currentEditPatient, setCurrentEditPatient] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const navigate = useNavigate();
 
+  // Cargar pacientes al inicio
   useEffect(() => {
     const loadPatients = async () => {
       try {
@@ -35,13 +36,14 @@ const Patients = () => {
           setPatients([]);
         }
       } catch (error) {
-        console.error('Error al cargar los pacientes:', error);
+        console.error("Error al cargar los pacientes:", error);
         setPatients([]);
       }
     };
     loadPatients();
   }, []);
 
+  // Manejo de búsqueda
   const handleSearch = (value) => {
     setSearchValue(value);
     const lowercasedValue = value.toLowerCase();
@@ -54,6 +56,7 @@ const Patients = () => {
     setCurrentPage(1);
   };
 
+  // Manejo de filtros
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, [key]: value };
@@ -68,23 +71,25 @@ const Patients = () => {
   };
 
   const clearFilters = () => {
-    setFilters({ estado: '' });
+    setFilters({ estado: "" });
     setFilteredPatients(patients);
     setCurrentPage(1);
   };
 
+  // Manejo de eliminación de paciente
   const handleDeletePatient = async (identificacion) => {
     try {
       await removePatient(identificacion);
       setPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
       setFilteredPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
-      alert('Paciente eliminado correctamente.');
+      alert("Paciente eliminado correctamente.");
     } catch (error) {
-      console.error('Error al eliminar paciente:', error);
-      alert('Error al eliminar el paciente. Intente nuevamente.');
+      console.error("Error al eliminar paciente:", error);
+      alert("Error al eliminar el paciente. Intente nuevamente.");
     }
   };
 
+  // Manejo de agregar paciente
   const handleAddPatient = async (newPatient) => {
     try {
       const addedPatient = await createPatient(newPatient);
@@ -97,22 +102,14 @@ const Patients = () => {
     }
   };
 
-  const handleExpandPatient = async (identificacion) => {
-    try {
-      const patientDetails = await fetchPatientDetails(identificacion);
-      setExpandedPatient(patientDetails);
-    } catch (error) {
-      console.error('Error al obtener detalles del paciente:', error);
-    }
-  };
-
+  // Manejo de edición de paciente
   const handleEditPatient = async (identificacion) => {
     try {
-      const patientDetails = await fetchPatientDetails(identificacion);
+      const patientDetails = await fetchPatients(identificacion);
       setCurrentEditPatient(patientDetails);
       setIsEditPatientModalOpen(true);
     } catch (error) {
-      console.error('Error al obtener detalles del paciente para editar:', error);
+      console.error("Error al obtener detalles del paciente para editar:", error);
     }
   };
 
@@ -130,10 +127,15 @@ const Patients = () => {
         )
       );
       setIsEditPatientModalOpen(false);
-      alert('Paciente actualizado correctamente.');
+      alert("Paciente actualizado correctamente.");
     } catch (error) {
-      console.error('Error al actualizar paciente:', error);
+      console.error("Error al actualizar paciente:", error);
     }
+  };
+
+  // Navegación al perfil del paciente
+  const handleViewPatient = (identificacion) => {
+    navigate(`/admin/patients/${identificacion}`);
   };
 
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
@@ -156,9 +158,7 @@ const Patients = () => {
             toggle={() => setIsFilterOpen((prev) => !prev)}
             filters={filters}
             setFilters={handleFilterChange}
-            options={[
-              { key: 'estado', label: 'Estado', values: ['Activo', 'Inactivo'] },
-            ]}
+            options={[{ key: "estado", label: "Estado", values: ["Activo", "Inactivo"] }]}
           />
           <Button label="Quitar Filtros" onClick={clearFilters} className="secondary" />
           <Button label="Agregar Paciente" onClick={() => setIsAddPatientModalOpen(true)} className="primary" />
@@ -167,19 +167,19 @@ const Patients = () => {
 
       <Table
         columns={[
-          { label: 'Identificación', accessor: 'identificacion' },
-          { label: 'Primer Nombre', accessor: 'primerNombre' },
-          { label: 'Apellido Paterno', accessor: 'apellidoParteno' },
-          { label: 'Correo', accessor: 'correo' },
-          { label: 'Telefono', accessor: 'telefonoPaciente' },
+          { label: "Identificación", accessor: "identificacion" },
+          { label: "Primer Nombre", accessor: "primerNombre" },
+          { label: "Apellido Paterno", accessor: "apellidoPaterno" },
+          { label: "Correo", accessor: "correo" },
+          { label: "Teléfono", accessor: "telefonoPaciente" },
           {
-            label: 'Acción',
-            accessor: 'acciones',
+            label: "Acción",
+            accessor: "acciones",
             render: (patient) => (
               <div className="action-buttons" style={{ display: "flex", gap: "10px" }}>
                 <FaEye
                   className="icon-view"
-                  onClick={() => handleExpandPatient(patient.identificacion)}
+                  onClick={() => handleViewPatient(patient.identificacion)}
                   title="Ver detalles"
                   style={{ cursor: "pointer", color: "#007bff" }}
                 />
@@ -207,13 +207,6 @@ const Patients = () => {
         totalPages={totalPages}
         onPageChange={(page) => setCurrentPage(page)}
       />
-
-      {expandedPatient && (
-        <PatientProfileModal
-          patientId={expandedPatient.identificacion}
-          onClose={() => setExpandedPatient(null)}
-        />
-      )}
 
       {isAddPatientModalOpen && (
         <AddPatientForm

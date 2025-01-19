@@ -1,25 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineArrowLeft } from 'react-icons/ai'; // Icono de react-icons
-import '../../styles/components/BackButton.css'; // Opcional para estilos
+import { FaArrowLeft } from 'react-icons/fa';
+import '../../styles/components/BackButton.css';
 
-const BackButton = ({ to, label = 'Volver', className = '' }) => {
+function BackButton({ to, onClick }) {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    if (to) {
-      navigate(to); 
+    if (onClick) {
+      onClick();
+    } else if (to) {
+      navigate(to);
     } else {
-      navigate(-1); /
+      navigate(-1); // Regresa a la página anterior
     }
   };
 
   return (
-    <button className={`back-button ${className}`} onClick={handleBack}>
-      <AiOutlineArrowLeft size={20} style={{ marginRight: '8px' }} />
-      {label}
+    <button className="back-button" onClick={handleBack}>
+      <FaArrowLeft className="back-icon" />
     </button>
   );
-};
+}
 
 export default BackButton;
