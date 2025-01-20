@@ -19,33 +19,14 @@ async function getFormularios(req, res) {
 
 async function getFormulario(req, res) {
     try {
-        const {
-            idFormulario,
-            idHistoriaClinica,
-            idPlantilla,
-            idEstablecimiento,
-        } = req.params;
-
-        const formulario = await findFormularioById(
-            idFormulario,
-            idHistoriaClinica,
-            idPlantilla,
-            idEstablecimiento
-        );
-
-        if (!formulario) {
-            return res.status(404).json({
-                success: false,
-                message: 'Formulario no encontrado',
-            });
-        }
-
+        const { idHistoriaClinica } = req.params;
+        const formularios = await findFormularioById(idHistoriaClinica);
         return res.json({
             success: true,
-            data: formulario,
+            data: formularios,
         });
     } catch (error) {
-        console.error('Error en getFormulario:', error);
+        console.error('Error en getFormularioByHistoriaClinica:', error);
         return res.status(500).json({
             success: false,
             message: 'Error interno del servidor',
