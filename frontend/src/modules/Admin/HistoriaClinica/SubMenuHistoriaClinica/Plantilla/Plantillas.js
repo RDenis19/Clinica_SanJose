@@ -5,9 +5,14 @@ import EditPlantilla from "./EditPlantilla";
 import { fetchPlantillas, deletePlantilla } from "../../../../../utils/api";
 import Table from "../../../../../components/common/Table";
 import Button from "../../../../../components/common/Button";
+import SearchBar from "../../../../../components/common/SearchBar";
+
+// IMPORTA LOS ICONOS DE react-icons
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 function Plantillas() {
   const [plantillas, setPlantillas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [currentPlantilla, setCurrentPlantilla] = useState(null);
@@ -31,13 +36,13 @@ function Plantillas() {
     );
 
     if (!confirmDelete) {
-      return; // Cancelar si el usuario no confirma
+      return;
     }
 
     try {
-      const response = await deletePlantilla(id); // Llama a la API para eliminar
+      const response = await deletePlantilla(id);
       alert(response.message || "Plantilla eliminada exitosamente");
-      loadPlantillas(); // Refresca la lista de plantillas
+      loadPlantillas();
     } catch (error) {
       console.error("Error al eliminar plantilla:", error);
       alert(
@@ -48,11 +53,12 @@ function Plantillas() {
   };
 
   const handleEdit = (plantilla) => {
-    console.log("Plantilla seleccionada:", plantilla); // Depuración
+    console.log("Plantilla seleccionada:", plantilla);
     setCurrentPlantilla(plantilla);
     setEditModalOpen(true);
   };
-  
+
+  // Definición de columnas para la tabla
   const columns = [
     { label: "ID", accessor: "idPlantilla_Formulario" },
     { label: "Numero Tipo Formulario", accessor: "nroTipoFormulario" },
@@ -61,27 +67,44 @@ function Plantillas() {
       label: "Acciones",
       accessor: "acciones",
       render: (row) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            label="Editar"
-            className="secondary"
-            onClick={() => handleEdit(row)} // Manejar clic en el botón de editar
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          {/* ICONO DE EDITAR */}
+          <FaEdit
+            onClick={() => handleEdit(row)}
+            title="Editar plantilla"
+            style={{ cursor: "pointer", color: "#ffc107" }}
           />
-          <Button
-            label="Eliminar"
-            className="danger"
-            onClick={() => handleDelete(row.idPlantilla_Formulario)} // Asegúrate de usar el campo correcto para el ID
+          {/* ICONO DE ELIMINAR */}
+          <FaTrash
+            onClick={() => handleDelete(row.idPlantilla_Formulario)}
+            title="Eliminar plantilla"
+            style={{ cursor: "pointer", color: "#dc3545" }}
           />
         </div>
       ),
     },
   ];
 
+  // Filtramos las plantillas según el texto ingresado en la barra de búsqueda
+  const filteredPlantillas = plantillas.filter((plantilla) =>
+    plantilla.nombreTipoFormulario
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
+      {/* Barra de búsqueda */}
+      <SearchBar
+        placeholder="Buscar por nombre de formulario..."
+        value={searchTerm}
+        onChange={(valor) => setSearchTerm(valor)}
+      />
+
       <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
 
-      <Table columns={columns} data={plantillas} />
+      {/* Mostramos la tabla con los datos ya filtrados */}
+      <Table columns={columns} data={filteredPlantillas} />
 
       {isAddModalOpen && (
         <Modal onClose={() => setAddModalOpen(false)}>

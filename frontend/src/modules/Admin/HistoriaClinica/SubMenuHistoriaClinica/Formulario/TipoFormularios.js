@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import NavigationSteps from "../../../../../components/common/NavigationSteps";
 import BackButton from "../../../../../components/common/BackButton";
 import Table from "../../../../../components/common/Table";
 import Pagination from "../../../../../components/common/Pagination";
 import { fetchPlantillas, fetchPlantilla } from "../../../../../utils/api";
 import "../../../../../styles/modules/Administrador/tipoFormulario.css";
+import { FaArrowRight } from "react-icons/fa"; // Importa el ícono de flecha que prefieras
 
 function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
   const [plantillas, setPlantillas] = useState([]);
@@ -41,18 +41,18 @@ function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
   const handlePlantillaSelect = async (plantilla) => {
     try {
       const response = await fetchPlantilla(plantilla.idPlantilla_Formulario);
-  
+
       // Verificar si la estructura está definida y es un objeto
       let estructura = response.data.Estructura;
       if (!estructura || typeof estructura !== "object") {
         throw new Error("Estructura no válida o inexistente");
       }
-  
+
       // Validar que tenga la propiedad sections
       if (!estructura.sections || !Array.isArray(estructura.sections)) {
         throw new Error("La estructura no contiene secciones válidas");
       }
-  
+
       const transformedData = {
         idPlantilla_Formulario: plantilla.idPlantilla_Formulario,
         nombreTipoFormulario: estructura.title || "Formulario Sin Título",
@@ -61,14 +61,16 @@ function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
           campos: section.fields || [],
         })),
       };
-  
+
       onPlantillaSeleccionada(transformedData);
     } catch (error) {
       console.error("Error al cargar la plantilla seleccionada:", error);
-      alert("No se pudo cargar la plantilla. Verifica la información e intenta nuevamente.");
+      alert(
+        "No se pudo cargar la plantilla. Verifica la información e intenta nuevamente."
+      );
     }
   };
-  
+
   const paginatedPlantillas = filteredPlantillas.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -76,7 +78,6 @@ function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
 
   return (
     <div className="tipo-formularios-container">
-      <NavigationSteps step={1} />
       <div className="tipo-formularios-header">
         <BackButton onClick={onBack} />
         <h2 className="tipo-formularios-title">Seleccionar Plantilla</h2>
@@ -101,7 +102,7 @@ function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
                 className="table-action-button"
                 onClick={() => handlePlantillaSelect(row)}
               >
-                →
+                <FaArrowRight />
               </button>
             ),
           },

@@ -5,6 +5,7 @@ import SearchBar from '../../../../../components/common/SearchBar';
 import AddFirmaForm from './AddFirmaForm';
 import EditFirmaForm from './EditFirmaForm';
 import { fetchFirmas, deleteFirma } from '../../../../../utils/api';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const FirmaElectronica = () => {
   const [firmas, setFirmas] = useState([]);
@@ -18,7 +19,7 @@ const FirmaElectronica = () => {
     const cargarFirmas = async () => {
       const data = await fetchFirmas();
       setFirmas(data);
-      setFilteredFirmas(data); 
+      setFilteredFirmas(data);
     };
     cargarFirmas();
   }, []);
@@ -27,6 +28,7 @@ const FirmaElectronica = () => {
     setSearchTerm(term);
     if (term.trim() === '') {
       setFilteredFirmas(firmas);
+    } else {
       const filtered = firmas.filter((firma) =>
         firma.nombreCertificado.toLowerCase().includes(term.toLowerCase())
       );
@@ -50,7 +52,7 @@ const FirmaElectronica = () => {
         alert('Firma eliminada con éxito.');
         const data = await fetchFirmas();
         setFirmas(data);
-        setFilteredFirmas(data); 
+        setFilteredFirmas(data);
       } catch (error) {
         console.error('Error al eliminar la firma:', error);
         alert('Hubo un error al eliminar la firma.');
@@ -64,7 +66,7 @@ const FirmaElectronica = () => {
     setCurrentFirma(null);
     fetchFirmas().then((data) => {
       setFirmas(data);
-      setFilteredFirmas(data); 
+      setFilteredFirmas(data);
     });
   };
 
@@ -78,12 +80,16 @@ const FirmaElectronica = () => {
       label: 'Acciones',
       accessor: 'acciones',
       render: (firma) => (
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <Button label="Editar" onClick={() => handleEdit(firma)} />
-          <Button
-            label="Eliminar"
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <FaEdit
+            onClick={() => handleEdit(firma)}
+            title="Editar firma"
+            style={{ cursor: 'pointer', color: '#ffc107' }}
+          />
+          <FaTrash
             onClick={() => handleDelete(firma.idFirmaElectronica, firma.Usuario_identificacion)}
-            className="danger"
+            title="Eliminar firma"
+            style={{ cursor: 'pointer', color: '#dc3545' }}
           />
         </div>
       ),
@@ -92,7 +98,7 @@ const FirmaElectronica = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around'}}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
         <SearchBar
           placeholder="Buscar por nombre de certificado"
           value={searchTerm}

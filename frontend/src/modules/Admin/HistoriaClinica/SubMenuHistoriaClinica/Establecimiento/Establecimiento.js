@@ -6,6 +6,7 @@ import AddEstablecimiento from "./AddEstablecimiento";
 import Modal from "../../../../../components/common/Modal";
 import EditEstablecimiento from "./EditEstablecimiento";
 import { fetchEstablecimientos, deleteEstablecimiento } from "../../../../../utils/api";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 function Establecimiento() {
   const [establecimientos, setEstablecimientos] = useState([]);
@@ -67,15 +68,15 @@ function Establecimiento() {
       label: "Acciones",
       accessor: "acciones",
       render: (row) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            label="Editar"
-            className="secondary"
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <FaEdit
+            title="Editar establecimiento"
+            style={{ cursor: "pointer", color: "#ffc107" }}
             onClick={() => handleEdit(row)}
           />
-          <Button
-            label="Eliminar"
-            className="danger"
+          <FaTrash
+            title="Eliminar establecimiento"
+            style={{ cursor: "pointer", color: "#dc3545" }}
             onClick={() => handleDelete(row.idEstablecimiento)}
           />
         </div>
@@ -85,7 +86,7 @@ function Establecimiento() {
 
   return (
     <div>
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
         <SearchBar
           placeholder="Buscar por nombre"
           value={searchQuery}

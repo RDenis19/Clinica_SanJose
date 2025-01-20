@@ -5,6 +5,7 @@ import SearchBar from '../../../../../components/common/SearchBar';
 import AddTitulo from './AddTitulo';
 import EditTitulo from './EditTitulo';
 import { fetchTitulos, deleteTitulo } from '../../../../../utils/api';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Titulo = () => {
   const [titulos, setTitulos] = useState([]);
@@ -83,12 +84,16 @@ const Titulo = () => {
       label: 'Acciones',
       accessor: 'acciones',
       render: (titulo) => (
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <Button label="Editar" onClick={() => handleEdit(titulo)} />
-          <Button
-            label="Eliminar"
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <FaEdit
+            onClick={() => handleEdit(titulo)}
+            title="Editar título"
+            style={{ cursor: 'pointer', color: '#ffc107' }}
+          />
+          <FaTrash
             onClick={() => handleDelete(titulo.idTitulo, titulo.Usuario_identificacion)}
-            className="danger"
+            title="Eliminar título"
+            style={{ cursor: 'pointer', color: '#dc3545' }}
           />
         </div>
       ),
@@ -97,7 +102,7 @@ const Titulo = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around'}}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
         <SearchBar
           placeholder="Buscar por nombre de título"
           value={searchTerm}

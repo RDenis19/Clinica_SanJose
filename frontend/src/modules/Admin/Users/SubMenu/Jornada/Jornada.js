@@ -5,6 +5,7 @@ import SearchBar from '../../../../../components/common/SearchBar';
 import AddJornada from './AddJornada';
 import EditJornada from './EditJornada';
 import { fetchJornadas, deleteJornada } from '../../../../../utils/api';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Jornada = () => {
   const [jornadas, setJornadas] = useState([]);
@@ -79,12 +80,16 @@ const Jornada = () => {
       label: 'Acciones',
       accessor: 'acciones',
       render: (jornada) => (
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <Button label="Editar" onClick={() => handleEdit(jornada)} />
-          <Button
-            label="Eliminar"
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <FaEdit
+            onClick={() => handleEdit(jornada)}
+            title="Editar jornada"
+            style={{ cursor: 'pointer', color: '#ffc107' }}
+          />
+          <FaTrash
             onClick={() => handleDelete(jornada.idJornada, jornada.Usuario_identificacion)}
-            className="danger"
+            title="Eliminar jornada"
+            style={{ cursor: 'pointer', color: '#dc3545' }}
           />
         </div>
       ),
