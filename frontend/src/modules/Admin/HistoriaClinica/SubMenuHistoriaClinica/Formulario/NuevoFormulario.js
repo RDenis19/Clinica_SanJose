@@ -1,30 +1,27 @@
 import React, { useState } from "react";
 import { createFormulario } from "../../../../../utils/api";
+import Button from "../../../../../components/common/Button"; // Asegúrate de que la ruta al componente sea correcta
 
 const NuevoFormulario = ({ plantilla, onBack }) => {
-  // Estado inicial del formulario
   const [formValues, setFormValues] = useState({
-    HistoriaClinica_idHistoriaClinica: "", // Obligatorio
-    Establecimiento_idEstablecimiento: "", // Obligatorio
-    Plantilla_Formulario_idPlantilla_Formulario: plantilla.idPlantilla_Formulario, // Asociado a la plantilla
-    contenido: {}, // Campos dinámicos según la plantilla
-    estadoFormulario: "", // Opcional
-    notas: "", // Opcional
-    observaciones: "", // Opcional
+    HistoriaClinica_idHistoriaClinica: "",
+    Establecimiento_idEstablecimiento: "",
+    Plantilla_Formulario_idPlantilla_Formulario: plantilla.idPlantilla_Formulario,
+    contenido: {},
+    estadoFormulario: "",
+    notas: "",
+    observaciones: "",
   });
 
-  // Manejo de cambios en los campos
   const handleChange = (fieldName, value) => {
     if (plantilla.secciones.some((section) =>
         section.campos.some((campo) => campo.name === fieldName)
     )) {
-      // Si el campo pertenece al contenido dinámico
       setFormValues((prev) => ({
         ...prev,
         contenido: { ...prev.contenido, [fieldName]: value },
       }));
     } else {
-      // Si es un campo directo del formulario
       setFormValues((prev) => ({
         ...prev,
         [fieldName]: value,
@@ -32,15 +29,13 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
     }
   };
 
-  // Manejo del envío del formulario
   const handleSubmit = async () => {
     try {
       const payload = {
         ...formValues,
-        contenido: JSON.stringify(formValues.contenido || {}), // Serializar contenido
+        contenido: JSON.stringify(formValues.contenido || {}),
       };
 
-      // Validación de campos obligatorios
       if (!payload.HistoriaClinica_idHistoriaClinica) {
         alert("El campo 'Historia Clínica' es obligatorio.");
         return;
@@ -50,7 +45,6 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
         return;
       }
 
-      // Enviar solicitud al backend
       await createFormulario(payload);
       alert("Formulario creado exitosamente");
       onBack();
@@ -64,7 +58,6 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
     <div>
       <h2>{plantilla.nombreTipoFormulario || "Formulario Sin Título"}</h2>
 
-      {/* Campos para los datos obligatorios y opcionales */}
       <div style={{ marginBottom: "20px" }}>
         <label htmlFor="HistoriaClinica_idHistoriaClinica">Historia Clínica (Obligatorio):</label>
         <input
@@ -116,7 +109,6 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
         />
       </div>
 
-      {/* Campos dinámicos basados en la plantilla */}
       {plantilla.secciones.map((section, index) => (
         <div key={index} style={{ marginBottom: "20px" }}>
           <h3>{section.nombre || `Sección ${index + 1}`}</h3>
@@ -138,10 +130,8 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
       ))}
 
       <div style={{ marginTop: "20px" }}>
-        <button onClick={handleSubmit} style={{ marginRight: "10px" }}>
-          Guardar Formulario
-        </button>
-        <button onClick={onBack}>Volver</button>
+        <Button label="Guardar Formulario" onClick={handleSubmit} className="primary" />
+        <Button label="Volver" onClick={onBack} className="secondary" />
       </div>
     </div>
   );
