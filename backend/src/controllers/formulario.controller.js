@@ -17,7 +17,7 @@ async function getFormularios(req, res) {
     }
 }
 
-async function getFormulario(req, res) {
+async function getFormulario(req, res) {    
     try {
         const { idHistoriaClinica } = req.params;
         const formularios = await findFormularioById(idHistoriaClinica);

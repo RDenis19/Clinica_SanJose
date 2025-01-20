@@ -20,10 +20,8 @@ async function findFormularioById(idHistoriaClinica) {
     WHERE
       HistoriaClinica_idHistoriaClinica = ?
   `;
-  const [rows] = await pool.query(query, [
-    idHistoriaClinica,
-  ]);
-  return rows[0] || null;
+  const [rows] = await pool.query(query, [idHistoriaClinica]);
+  return rows || null;
 }
 
 async function createFormulario(formData) {
