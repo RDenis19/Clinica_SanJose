@@ -20,7 +20,7 @@ async function findHistoriaById(pacienteIdentificacion) {
     WHERE Paciente_identificacion = ?
   `;
     const [rows] = await pool.query(query, [pacienteIdentificacion]);
-    return rows[0] || null;
+    return rows || null;
 }
 
 async function createHistoria(historiaData) {

@@ -6,7 +6,7 @@ const router = Router();
 // GET /historia -> Obtiene todas las historias clínicas
 router.get('/', getHistorias);
 
-// GET /historia/:idHistoriaClinica/:pacienteIdentificacion -> Obtiene una historia específica
+// GET /historia/:pacienteIdentificacion -> Obtiene la historia clinica segun el paciente
 router.get('/:pacienteIdentificacion', getHistoria);
 
 // POST /historia -> Crea una nueva historia clínica
