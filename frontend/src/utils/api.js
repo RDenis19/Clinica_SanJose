@@ -443,9 +443,9 @@ export const fetchHistorias = async (pacienteIdentificacion = null) => {
   }
 };
 
-export const fetchHistoriaById = async (idHistoriaClinica, pacienteIdentificacion) => {
+export const fetchHistoriaById = async (pacienteIdentificacion) => {
   try {
-    const response = await API.get(`/historia/${idHistoriaClinica}/${pacienteIdentificacion}`);
+    const response = await API.get(`/historia/${pacienteIdentificacion}`);
     return response.data.data;
   } catch (error) {
     console.error("Error al obtener la historia clínica:", error);
