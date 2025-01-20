@@ -23,7 +23,7 @@ const AddUserForm = ({ onClose, onAdd }) => {
   });
 
   const [errors, setErrors] = useState({});
-  const [activeTab, setActiveTab] = useState("personal"); // Estado para controlar la pestaña activa
+  const [activeTab, setActiveTab] = useState("personal"); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -241,12 +241,11 @@ const AddUserForm = ({ onClose, onAdd }) => {
                 <option value="Enfermera">Enfermera</option>
               </select>
             </div>
+            <div className="form-actions">
+              <Button type="submit" label="Agregar Usuario" className="primary" />
+            </div>
           </div>
         )}
-
-        <div className="form-actions">
-          <Button type="submit" label="Agregar Usuario" className="primary" />
-        </div>
       </form>
     </Modal>
   );
