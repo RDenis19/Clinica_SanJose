@@ -4,6 +4,8 @@ import SearchBar from "../../../../../components/common/SearchBar";
 import Button from "../../../../../components/common/Button";
 import Table from "../../../../../components/common/Table";
 import TipoFormularios from "./TipoFormularios";
+import NuevoFormulario from "./NuevoFormulario"; // Importamos el nuevo componente
+import VerFormulario from "./VerFormulario"; // Importar el componente para visualizar
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
 
 const Formulario = () => {
@@ -11,6 +13,8 @@ const Formulario = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedPlantilla, setSelectedPlantilla] = useState(null); // Para manejar la plantilla seleccionada
+  const [selectedFormulario, setSelectedFormulario] = useState(null); // Para manejar el formulario seleccionado para visualizar
 
   useEffect(() => {
     const loadFormularios = async () => {
@@ -28,11 +32,21 @@ const Formulario = () => {
   }, []);
 
   const handleCreateFormulario = () => {
-    setCurrentStep(2); // Cambiar al paso de TipoFormularios
+    setCurrentStep(2); // Cambiar al paso de selección de tipo de formulario
+  };
+
+  const handleViewFormulario = (idFormulario) => {
+    setSelectedFormulario(idFormulario); // Guardar el ID del formulario seleccionado
+    setCurrentStep(4); // Cambiar al paso de visualización
   };
 
   const handleBackToFormularios = () => {
     setCurrentStep(1); // Volver a la lista de Formularios
+  };
+
+  const handlePlantillaSeleccionada = (plantilla) => {
+    setCurrentStep(3); // Cambiar al paso de llenado del formulario
+    setSelectedPlantilla(plantilla); // Guardar la plantilla seleccionada
   };
 
   const handleDeleteFormulario = async (id) => {
@@ -65,7 +79,7 @@ const Formulario = () => {
       render: (formulario) => (
         <div style={{ display: "flex", gap: "10px" }}>
           <FaEye
-            onClick={() => console.log("Ver formulario con ID:", formulario.idFormulario)}
+            onClick={() => handleViewFormulario(formulario.idFormulario)} // Llamada al manejador de visualización
             title="Ver formulario"
             style={{ cursor: "pointer", color: "#007bff" }}
           />
@@ -108,7 +122,18 @@ const Formulario = () => {
           <Table columns={columns} data={filteredFormularios} />
         </>
       )}
-      {currentStep === 2 && <TipoFormularios onBack={handleBackToFormularios} />}
+      {currentStep === 2 && (
+        <TipoFormularios
+          onBack={handleBackToFormularios}
+          onPlantillaSeleccionada={handlePlantillaSeleccionada}
+        />
+      )}
+      {currentStep === 3 && (
+        <NuevoFormulario plantilla={selectedPlantilla} onBack={handleBackToFormularios} />
+      )}
+      {currentStep === 4 && (
+        <VerFormulario idFormulario={selectedFormulario} onBack={handleBackToFormularios} />
+      )}
     </div>
   );
 };

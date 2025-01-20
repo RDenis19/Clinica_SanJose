@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import NavigationSteps from "../../../../../components/common/NavigationSteps";
 import BackButton from "../../../../../components/common/BackButton";
 import Table from "../../../../../components/common/Table";
-import Pagination from "../../../../../components/common/Pagination"; 
-import PlantillaFormulario from "./PlantillaFormulario"; 
-import { fetchPlantillas, fetchPlantilla } from "../../../../../utils/api"; // Importamos fetchPlantilla
+import Pagination from "../../../../../components/common/Pagination";
+import { fetchPlantillas, fetchPlantilla } from "../../../../../utils/api";
 import "../../../../../styles/modules/Administrador/tipoFormulario.css";
 
-function TipoFormularios({ onBack }) {
+function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
   const [plantillas, setPlantillas] = useState([]);
   const [filteredPlantillas, setFilteredPlantillas] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedPlantilla, setSelectedPlantilla] = useState(null); // Para mostrar la plantilla seleccionada
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -43,41 +41,38 @@ function TipoFormularios({ onBack }) {
   const handlePlantillaSelect = async (plantilla) => {
     try {
       const response = await fetchPlantilla(plantilla.idPlantilla_Formulario);
-      console.log("Datos de la plantilla seleccionada:", response);
   
-      // Adaptamos la estructura esperada
+      // Verificar si la estructura está definida y es un objeto
+      let estructura = response.data.Estructura;
+      if (!estructura || typeof estructura !== "object") {
+        throw new Error("Estructura no válida o inexistente");
+      }
+  
+      // Validar que tenga la propiedad sections
+      if (!estructura.sections || !Array.isArray(estructura.sections)) {
+        throw new Error("La estructura no contiene secciones válidas");
+      }
+  
       const transformedData = {
-        nombreTipoFormulario: response.data.Estructura.title,
-        secciones: response.data.Estructura.sections.map((section) => ({
-          nombre: section.title,
-          contenido: section.content,
-          campos: section.fields // Incluimos los campos directamente
+        idPlantilla_Formulario: plantilla.idPlantilla_Formulario,
+        nombreTipoFormulario: estructura.title || "Formulario Sin Título",
+        secciones: estructura.sections.map((section) => ({
+          nombre: section.title || "Sección Sin Título",
+          campos: section.fields || [],
         })),
       };
   
-      setSelectedPlantilla(transformedData);
+      onPlantillaSeleccionada(transformedData);
     } catch (error) {
       console.error("Error al cargar la plantilla seleccionada:", error);
-      alert("No se pudo cargar la plantilla. Inténtalo nuevamente.");
+      alert("No se pudo cargar la plantilla. Verifica la información e intenta nuevamente.");
     }
   };
   
-  
-
   const paginatedPlantillas = filteredPlantillas.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  if (selectedPlantilla) {
-    // Mostrar PlantillaFormulario si se selecciona una plantilla
-    return (
-      <PlantillaFormulario
-        plantilla={selectedPlantilla}
-        onBack={() => setSelectedPlantilla(null)} // Volver a la lista de plantillas
-      />
-    );
-  }
 
   return (
     <div className="tipo-formularios-container">
