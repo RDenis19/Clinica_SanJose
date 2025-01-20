@@ -13,9 +13,7 @@ async function findAllFormularios(estadoFormulario = null) {
   return rows;
 }
 
-async function findFormularioById(
-  idHistoriaClinica,
-) {
+async function findFormularioById(idHistoriaClinica) {
   const query = `
     SELECT *
     FROM Formulario
@@ -23,10 +21,7 @@ async function findFormularioById(
       HistoriaClinica_idHistoriaClinica = ?
   `;
   const [rows] = await pool.query(query, [
-    idFormulario,
     idHistoriaClinica,
-    idPlantilla,
-    idEstablecimiento,
   ]);
   return rows[0] || null;
 }
