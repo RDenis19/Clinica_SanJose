@@ -492,26 +492,6 @@ export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion)
 
 //formularios
 
-//
-export const fetchFormulariosByHistoriaClinica = async (idHistoriaClinica) => {
-  try {
-    const response = await API.get(`/formulario/${idHistoriaClinica}`);
-    console.log("Formularios asociados:", response.data);
-
-    if (response.data && response.data.success) {
-      return response.data.data;
-    } else {
-      throw new Error("La respuesta no contiene datos válidos.");
-    }
-  } catch (error) {
-    console.error("Error al obtener formularios por historia clínica:", error);
-    throw error.response
-      ? error.response.data
-      : { error: "Error en el servidor al obtener los formularios." };
-  }
-};
-
-
 // Obtener todos los formularios
 export const fetchFormularios = async () => {
   try {
@@ -521,6 +501,23 @@ export const fetchFormularios = async () => {
   } catch (error) {
     console.error('Error al obtener formularios:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+export const fetchFormularioById = async (idHistoriaClinica) => {
+  try {
+    const response = await fetch(`/api/formulario/${idHistoriaClinica}`, {
+      method: "GET",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data.data;
+    } else {
+      throw new Error(data.message || "Error al cargar los formularios.");
+    }
+  } catch (error) {
+    console.error("Error en fetchFormularios:", error);
+    throw error;
   }
 };
 

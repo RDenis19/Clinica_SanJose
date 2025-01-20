@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Importamos useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaBirthdayCake, FaMapMarkerAlt, FaGlobe, FaVenusMars, FaTint, FaAllergies } from "react-icons/fa";
 import { fetchPatientDetails, fetchHistorias } from "../../../utils/api";
 import SearchBar from "../../../components/common/SearchBar";
 import Button from "../../../components/common/Button";
-import HistoriasClinicasTable from "./HistoriasClinicasTable";
+import HistoriasClinicasTable from "./FormularioClinicaTable"; // Actualización para reflejar el nuevo nombre del componente
 import "../../../styles/modules/Administrador/patientProfilePage.css";
 import BackButton from "../../../components/common/BackButton";
 
 const PatientProfilePage = () => {
   const { identificacion } = useParams();
-  const navigate = useNavigate(); // Inicializamos useNavigate
+  const navigate = useNavigate();
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -94,7 +94,7 @@ const PatientProfilePage = () => {
           />
           <Button
             label="Agregar Historia Clínica"
-            onClick={() => navigate("/admin/historia-clinica")} // Redirección al componente HistoriaClinica
+            onClick={() => navigate("/admin/historia-clinica")}
           />
         </div>
 
