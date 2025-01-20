@@ -13,13 +13,13 @@ async function findAllHistorias(pacienteIdentificacion = null) {
     return rows;
 }
 
-async function findHistoriaById(idHistoriaClinica, pacienteIdentificacion) {
+async function findHistoriaById(pacienteIdentificacion) {
     const query = `
     SELECT *
     FROM HistoriaClinica
-    WHERE idHistoriaClinica = ? AND Paciente_identificacion = ?
+    WHERE Paciente_identificacion = ?
   `;
-    const [rows] = await pool.query(query, [idHistoriaClinica, pacienteIdentificacion]);
+    const [rows] = await pool.query(query, [pacienteIdentificacion]);
     return rows[0] || null;
 }
 

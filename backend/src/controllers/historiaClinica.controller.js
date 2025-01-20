@@ -19,13 +19,13 @@ async function getHistorias(req, res) {
 
 async function getHistoria(req, res) {
     try {
-        const { idHistoriaClinica, pacienteIdentificacion } = req.params;
-        const historia = await findHistoriaById(idHistoriaClinica, pacienteIdentificacion);
+        const {pacienteIdentificacion } = req.params;
+        const historia = await findHistoriaById(pacienteIdentificacion);
 
         if (!historia) {
             return res.status(404).json({
                 success: false,
-                message: 'Historia clínica no encontrada',
+                message: 'Historia clínica del paciente no encontrada',
             });
         }
 

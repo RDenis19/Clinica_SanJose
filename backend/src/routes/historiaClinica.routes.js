@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', getHistorias);
 
 // GET /historia/:idHistoriaClinica/:pacienteIdentificacion -> Obtiene una historia específica
-router.get('/:idHistoriaClinica/:pacienteIdentificacion', getHistoria);
+router.get('/::pacienteIdentificacion', getHistoria);
 
 // POST /historia -> Crea una nueva historia clínica
 router.post('/', postHistoria);
