@@ -6,21 +6,19 @@ import { fetchPlantillas, deletePlantilla } from "../../../../../utils/api";
 import Table from "../../../../../components/common/Table";
 import Button from "../../../../../components/common/Button";
 import SearchBar from "../../../../../components/common/SearchBar";
-
-// IMPORTA LOS ICONOS DE react-icons
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function Plantillas() {
   const [plantillas, setPlantillas] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [currentPlantilla, setCurrentPlantilla] = useState(null);
 
   useEffect(() => {
     loadPlantillas();
   }, []);
 
+  // Carga inicial de plantillas
   const loadPlantillas = async () => {
     try {
       const data = await fetchPlantillas();
@@ -30,14 +28,13 @@ function Plantillas() {
     }
   };
 
+  // Manejo de eliminación de una plantilla
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que deseas eliminar esta plantilla?"
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     try {
       const response = await deletePlantilla(id);
@@ -52,29 +49,31 @@ function Plantillas() {
     }
   };
 
+  // Manejo de edición de una plantilla (ahora sin modal)
   const handleEdit = (plantilla) => {
-    console.log("Plantilla seleccionada:", plantilla);
     setCurrentPlantilla(plantilla);
-    setEditModalOpen(true);
   };
 
-  // Definición de columnas para la tabla
+  // Manejo para volver a la lista (regresar)
+  const handleBackToList = () => {
+    setCurrentPlantilla(null);
+  };
+
+  // Columnas de la tabla
   const columns = [
     { label: "ID", accessor: "idPlantilla_Formulario" },
-    { label: "Numero Tipo Formulario", accessor: "nroTipoFormulario" },
+    { label: "Número Tipo Formulario", accessor: "nroTipoFormulario" },
     { label: "Nombre", accessor: "nombreTipoFormulario" },
     {
       label: "Acciones",
       accessor: "acciones",
       render: (row) => (
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          {/* ICONO DE EDITAR */}
           <FaEdit
             onClick={() => handleEdit(row)}
             title="Editar plantilla"
             style={{ cursor: "pointer", color: "#ffc107" }}
           />
-          {/* ICONO DE ELIMINAR */}
           <FaTrash
             onClick={() => handleDelete(row.idPlantilla_Formulario)}
             title="Eliminar plantilla"
@@ -85,44 +84,42 @@ function Plantillas() {
     },
   ];
 
-  // Filtramos las plantillas según el texto ingresado en la barra de búsqueda
+  // Filtrado de plantillas según la barra de búsqueda
   const filteredPlantillas = plantillas.filter((plantilla) =>
     plantilla.nombreTipoFormulario
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
 
+  // Si se está editando una plantilla, renderizamos la vista de edición
+  if (currentPlantilla) {
+    return (
+      <EditPlantilla
+        plantilla={currentPlantilla}
+        onClose={handleBackToList}
+        onRefresh={loadPlantillas}
+      />
+    );
+  }
+
+  // De lo contrario, mostramos la tabla de plantillas
   return (
     <div>
-      {/* Barra de búsqueda */}
-      <div className="actions-row">
-        <h2>Gestión de Plantillas de Formularios</h2>
-        <SearchBar
-          placeholder="Buscar por nombre de formulario..."
-          value={searchTerm}
-          onChange={(valor) => setSearchTerm(valor)}
-        />
+      <SearchBar
+        placeholder="Buscar por nombre de formulario..."
+        value={searchTerm}
+        onChange={(valor) => setSearchTerm(valor)}
+      />
 
-        <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
-      </div>
+      <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
 
-      {/* Mostramos la tabla con los datos ya filtrados */}
       <Table columns={columns} data={filteredPlantillas} />
 
+      {/* Modal para Agregar Plantilla (opcional, si lo quieres conservar) */}
       {isAddModalOpen && (
         <Modal onClose={() => setAddModalOpen(false)}>
           <AddPlantilla
             onClose={() => setAddModalOpen(false)}
-            onRefresh={loadPlantillas}
-          />
-        </Modal>
-      )}
-
-      {isEditModalOpen && currentPlantilla && (
-        <Modal onClose={() => setEditModalOpen(false)}>
-          <EditPlantilla
-            plantilla={currentPlantilla}
-            onClose={() => setEditModalOpen(false)}
             onRefresh={loadPlantillas}
           />
         </Modal>
