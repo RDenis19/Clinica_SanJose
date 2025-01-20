@@ -9,7 +9,7 @@ import Button from "../../../components/common/Button";
 import AddPatientForm from "./AddPatientForm";
 import EditPatientForm from "./EditPatientForm";
 import "../../../styles/modules/Administrador/patient/patient.css";
-import { fetchPatients, removePatient, createPatient, updatePatient } from "../../../utils/api";
+import { fetchPatients, removePatient, createPatient, updatePatient, fetchPatientDetails } from "../../../utils/api";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
@@ -78,17 +78,28 @@ const Patients = () => {
 
   // Manejo de eliminación de paciente
   const handleDeletePatient = async (identificacion) => {
+    console.log("Identificación para eliminar:", identificacion); // Verifica este valor
+    if (!window.confirm("¿Estás seguro de que deseas eliminar este paciente?")) {
+      return;
+    }
+  
     try {
-      await removePatient(identificacion);
-      setPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
-      setFilteredPatients((prevPatients) => prevPatients.filter((patient) => patient.identificacion !== identificacion));
-      alert("Paciente eliminado correctamente.");
+      const result = await removePatient(identificacion);
+      if (result.success) {
+        setPatients((prevPatients) =>
+          prevPatients.filter((patient) => patient.identificacion !== identificacion)
+        );
+        setFilteredPatients((prevPatients) =>
+          prevPatients.filter((patient) => patient.identificacion !== identificacion)
+        );
+        alert("Paciente eliminado correctamente.");
+      }
     } catch (error) {
       console.error("Error al eliminar paciente:", error);
-      alert("Error al eliminar el paciente. Intente nuevamente.");
+      alert(error.message || "Error al eliminar el paciente. Intenta de nuevo.");
     }
   };
-
+  
   // Manejo de agregar paciente
   const handleAddPatient = async (newPatient) => {
     try {
@@ -105,13 +116,14 @@ const Patients = () => {
   // Manejo de edición de paciente
   const handleEditPatient = async (identificacion) => {
     try {
-      const patientDetails = await fetchPatients(identificacion);
+      const patientDetails = await fetchPatientDetails(identificacion);
       setCurrentEditPatient(patientDetails);
       setIsEditPatientModalOpen(true);
     } catch (error) {
       console.error("Error al obtener detalles del paciente para editar:", error);
     }
   };
+
 
   const handleUpdatePatient = async (updatedPatient) => {
     try {
@@ -222,6 +234,7 @@ const Patients = () => {
           initialData={currentEditPatient}
         />
       )}
+
     </div>
   );
 };

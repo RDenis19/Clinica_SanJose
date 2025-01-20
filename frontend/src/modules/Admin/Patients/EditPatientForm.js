@@ -8,7 +8,6 @@ const EditPatientForm = ({ onClose, onUpdate, initialData }) => {
     primerNombre: "",
     apellidoParteno: "",
     apellidoMaterno: "",
-    direccionResidenciaHab: "",
     telefonoPaciente: "",
     correo: "",
     sexo: "",
@@ -23,10 +22,13 @@ const EditPatientForm = ({ onClose, onUpdate, initialData }) => {
   });
 
   useEffect(() => {
-    if (initialData) {
+    console.log("Datos iniciales recibidos en EditPatientForm:", initialData);
+    if (initialData && Object.keys(initialData).length > 0) {
       setFormData({ ...initialData });
     }
   }, [initialData]);
+  
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,15 +77,6 @@ const EditPatientForm = ({ onClose, onUpdate, initialData }) => {
             type="text"
             name="apellidoMaterno"
             value={formData.apellidoMaterno}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Dirección de Residencia</label>
-          <input
-            type="text"
-            name="direccionResidenciaHab"
-            value={formData.direccionResidenciaHab}
             onChange={handleInputChange}
           />
         </div>

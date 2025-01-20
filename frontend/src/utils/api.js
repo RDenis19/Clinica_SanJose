@@ -223,13 +223,13 @@ export const deleteTitulo = async (idTitulo, usuarioIdentificacion) => {
 
 export const findPacienteById = async (identificacion) => {
   try {
-    const response = await API.get(`/paciente/${identificacion}`); // Asegúrate que esta ruta coincide con el backend
-    return response.data; // Devuelve el paciente si existe
+    const response = await API.get(`/paciente/${identificacion}`);
+    return response.data; 
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      return null; // Paciente no encontrado
+      return null; 
     }
-    throw error; // Error en el servidor u otro problema
+    throw error; 
   }
 };
 
@@ -239,7 +239,7 @@ export const findPacienteById = async (identificacion) => {
 export const fetchPatients = async (page = 1, limit = 10) => {
   try {
     const response = await API.get(`/paciente?page=${page}&limit=${limit}`);
-    return response.data; // Asegúrate de que el backend devuelve { pacientes, total, totalPages }
+    return response.data;
   } catch (error) {
     console.error('Error al obtener pacientes:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
@@ -290,14 +290,21 @@ export const updatePatient = async (identificacion, patientData) => {
 
 export const removePatient = async (identificacion) => {
   try {
-    console.log(`Eliminando paciente con identificación: ${identificacion}`);
+    console.log(`Iniciando eliminación para: ${identificacion}`);
     const response = await API.delete(`/paciente/${identificacion}`);
+    console.log("Respuesta completa:", response);
     return response.data;
   } catch (error) {
-    console.error('Error al eliminar paciente:', error.response?.data || error.message);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    console.error("Error al eliminar paciente:", {
+      mensaje: error.response?.data || error.message,
+      estado: error.response?.status,
+      completo: error,
+    });
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
   }
 };
+
+
 
 export const searchPatients = async (criteria) => {
   try {
