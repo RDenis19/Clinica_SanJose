@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../../components/common/Table';
-import Button from '../../../../components/common/Button';
-import SearchBar from '../../../../components/common/SearchBar';
+import Table from '../../../../../components/common/Table';
+import Button from '../../../../../components/common/Button';
+import SearchBar from '../../../../../components/common/SearchBar';
 import AddJornada from './AddJornada';
 import EditJornada from './EditJornada';
-import { fetchJornadas, deleteJornada } from '../../../../utils/api';
+import { fetchJornadas, deleteJornada } from '../../../../../utils/api';
 
 const Jornada = () => {
   const [jornadas, setJornadas] = useState([]);

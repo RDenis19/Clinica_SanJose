@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../../../../../components/common/Modal";
-import { fetchHistoriaById } from "../../../../../utils/api";
+import Modal from "../../../../components/common/Modal";
+import { fetchHistoriaById } from "../../../../utils/api";
 
 function HistoriaClinicaProfile({ idHistoriaClinica, pacienteIdentificacion, onClose }) {
   const [historia, setHistoria] = useState(null);

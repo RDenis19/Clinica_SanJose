@@ -18,13 +18,13 @@ import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
 import PatientProfilePage from "./modules/Admin/Patients/PatientProfilePage";
 import ChangeRequest from "./modules/Admin/ChangeRequest";
-import HistoriaClinica from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/HistoriaClinica/HistoriaClinica";
+import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Establecimiento from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento";
 import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/Plantillas";
 import Formularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/Formularios";
-import FirmaElectronica from "./modules/Admin/SubMenu/FirmaEletronica/FirmaElectronica";
-import Jornada from "./modules/Admin/SubMenu/Jornada/Jornada";
-import Titulo from "./modules/Admin/SubMenu/Titulo/Titulo";
+import FirmaElectronica from "./modules/Admin/Users/SubMenu/FirmaEletronica/FirmaElectronica";
+import Jornada from "./modules/Admin/Users/SubMenu/Jornada/Jornada";
+import Titulo from "./modules/Admin/Users/SubMenu/Titulo/Titulo";
 
 // Módulos del Doctor
 import DashboardDoctor from "./modules/Doctor/DashboardDoctor";
@@ -134,7 +134,7 @@ function App() {
 
       <Route
         path="/admin/patients/:identificacion"
-        element={<PatientProfilePage />} // Sin AdminLayout
+        element={<PatientProfilePage />}
       />
 
 

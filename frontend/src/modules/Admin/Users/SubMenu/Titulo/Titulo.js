@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../../components/common/Table';
-import Button from '../../../../components/common/Button';
-import SearchBar from '../../../../components/common/SearchBar';
+import Table from '../../../../../components/common/Table';
+import Button from '../../../../../components/common/Button';
+import SearchBar from '../../../../../components/common/SearchBar';
 import AddTitulo from './AddTitulo';
 import EditTitulo from './EditTitulo';
-import { fetchTitulos, deleteTitulo } from '../../../../utils/api';
+import { fetchTitulos, deleteTitulo } from '../../../../../utils/api';
 
 const Titulo = () => {
   const [titulos, setTitulos] = useState([]);

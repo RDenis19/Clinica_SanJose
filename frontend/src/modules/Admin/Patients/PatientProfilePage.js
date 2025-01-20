@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaUser, FaPhone, FaBirthdayCake, FaMapMarkerAlt, FaGlobe, FaVenusMars, FaTint, FaAllergies } from "react-icons/fa";
 import { fetchPatientDetails, fetchHistorias } from "../../../utils/api";
-import SearchBar from "../../../components/common/SearchBar";
-import Button from "../../../components/common/Button";
 import HistoriasClinicasTable from "./FormularioClinicaTable"; // Actualización para reflejar el nuevo nombre del componente
 import "../../../styles/modules/Administrador/patientProfilePage.css";
 import BackButton from "../../../components/common/BackButton";
 
 const PatientProfilePage = () => {
   const { identificacion } = useParams();
-  const navigate = useNavigate();
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [historias, setHistorias] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,16 +31,6 @@ const PatientProfilePage = () => {
 
     fetchData();
   }, [identificacion]);
-
-  const handleSearch = (value) => {
-    setSearchValue(value);
-  };
-
-  const filteredHistorias = historias.filter((historia) =>
-    Object.values(historia).some((field) =>
-      String(field).toLowerCase().includes(searchValue.toLowerCase())
-    )
-  );
 
   if (loading) {
     return <p>Cargando...</p>;
@@ -86,19 +72,7 @@ const PatientProfilePage = () => {
       </div>
 
       <div className="patient-content">
-        <div className="actions-row">
-          <SearchBar
-            placeholder="Buscar historias clínicas"
-            value={searchValue}
-            onChange={handleSearch}
-          />
-          <Button
-            label="Agregar Historia Clínica"
-            onClick={() => navigate("/admin/historia-clinica")}
-          />
-        </div>
-
-        <HistoriasClinicasTable historias={filteredHistorias} />
+        <HistoriasClinicasTable historias={historias} />
       </div>
     </div>
   );

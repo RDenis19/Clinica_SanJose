@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../../../../components/common/Modal';
-import Button from '../../../../components/common/Button';
-import { updateTitulo } from '../../../../utils/api';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import { updateTitulo } from '../../../../../utils/api';
 
 const EditTitulo = ({ onClose, initialData }) => {
   const [formData, setFormData] = useState({

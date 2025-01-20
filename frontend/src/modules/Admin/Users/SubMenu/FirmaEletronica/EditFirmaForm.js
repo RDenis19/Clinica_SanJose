@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Modal from '../../../../components/common/Modal';
-import Button from '../../../../components/common/Button';
-import { createFirma } from '../../../../utils/api';
+import React, { useState, useEffect } from 'react';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import { updateFirma, fetchFirmas } from '../../../../../utils/api';
 
-const AddFirmaForm = ({ onClose, onAdd }) => {
+const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
   const [formData, setFormData] = useState({
     nombreCertificado: '',
     serialNumber: '',
@@ -14,6 +14,12 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
     Usuario_identificacion: '',
   });
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData({ ...initialData });
+    }
+  }, [initialData]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -22,12 +28,13 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createFirma(formData);
-      onAdd(); 
+      await updateFirma(formData.idFirmaElectronica, formData);
+      const updatedFirmas = await fetchFirmas();
+      onUpdate(updatedFirmas);
       onClose();
     } catch (error) {
-      console.error('Error al crear la firma:', error);
-      alert('Error al crear la firma.');
+      console.error('Error al actualizar la firma:', error);
+      alert('Error al actualizar la firma.');
     }
   };
 
@@ -70,10 +77,10 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
             onChange={handleInputChange}
           />
         </div>
-        <Button type="submit" label="Guardar" className="primary" />
+        <Button type="submit" label="Actualizar" className="primary" />
       </form>
     </Modal>
   );
 };
 
-export default AddFirmaForm;
+export default EditFirmaForm;

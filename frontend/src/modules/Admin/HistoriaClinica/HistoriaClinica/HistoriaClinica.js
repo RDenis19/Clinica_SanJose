@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../../../../components/common/Table";
-import Button from "../../../../../components/common/Button";
-import SearchBar from "../../../../../components/common/SearchBar";
+import Table from "../../../../components/common/Table";
+import Button from "../../../../components/common/Button";
+import SearchBar from "../../../../components/common/SearchBar";
 import AddHistoriaClinica from "./AddHistoriaClinica";
 import EditHistoriaClinica from "./EditHistoriaClinica";
 import HistoriaClinicaProfile from "./HistoriaClinicaProfile";
-import Modal from "../../../../../components/common/Modal";
-import { fetchHistorias, deleteHistoria } from "../../../../../utils/api";
+import Modal from "../../../../components/common/Modal";
+import { fetchHistorias, deleteHistoria } from "../../../../utils/api";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 
 function HistoriaClinica() {

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../../components/common/Table";
 import Button from "../../../components/common/Button";
-import { fetchFormularioById } from "../../../utils/api"; // Actualizado con el nuevo nombre
+import SearchBar from "../../../components/common/SearchBar";
+import { fetchFormularioById } from "../../../utils/api";
 
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 const FormularioClinicaTable = ({ idHistoriaClinica, onBack }) => {
   const [formularios, setFormularios] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const loadFormularios = async () => {
@@ -19,6 +21,16 @@ const FormularioClinicaTable = ({ idHistoriaClinica, onBack }) => {
     };
     loadFormularios();
   }, [idHistoriaClinica]);
+
+  const handleSearch = (value) => {
+    setSearchValue(value);
+  };
+
+  const filteredFormularios = formularios.filter((formulario) =>
+    Object.values(formulario).some((field) =>
+      String(field).toLowerCase().includes(searchValue.toLowerCase())
+    )
+  );
 
   const handleView = (idFormulario) => {
     alert(`Visualizando formulario ${idFormulario}`);
@@ -66,9 +78,19 @@ const FormularioClinicaTable = ({ idHistoriaClinica, onBack }) => {
 
   return (
     <div>
-      <Button label="Volver" onClick={onBack} />
       <h3>Formularios Asociados</h3>
-      <Table columns={columns} data={formularios} />
+      <div className="actions-row">
+        <SearchBar
+          placeholder="Buscar formularios"
+          value={searchValue}
+          onChange={handleSearch}
+        />
+        <Button
+          label="Agregar Formulario"
+          onClick={() => alert("Agregar nuevo formulario")}
+        />
+      </div>
+      <Table columns={columns} data={filteredFormularios} />
     </div>
   );
 };

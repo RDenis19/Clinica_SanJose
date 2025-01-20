@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../../../../components/common/Modal';
-import Button from '../../../../components/common/Button';
-import { updateJornada } from '../../../../utils/api';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import { updateJornada } from '../../../../../utils/api';
 
 const EditJornada = ({ onClose, initialData }) => {
   const [formData, setFormData] = useState({

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Modal from '../../../../components/common/Modal';
-import Button from '../../../../components/common/Button';
-import { updateFirma, fetchFirmas } from '../../../../utils/api';
+import React, { useState } from 'react';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import { createFirma } from '../../../../../utils/api';
 
-const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
+const AddFirmaForm = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
     nombreCertificado: '',
     serialNumber: '',
@@ -14,12 +14,6 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
     Usuario_identificacion: '',
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({ ...initialData });
-    }
-  }, [initialData]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -28,13 +22,12 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateFirma(formData.idFirmaElectronica, formData);
-      const updatedFirmas = await fetchFirmas();
-      onUpdate(updatedFirmas);
+      await createFirma(formData);
+      onAdd(); 
       onClose();
     } catch (error) {
-      console.error('Error al actualizar la firma:', error);
-      alert('Error al actualizar la firma.');
+      console.error('Error al crear la firma:', error);
+      alert('Error al crear la firma.');
     }
   };
 
@@ -77,10 +70,10 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
             onChange={handleInputChange}
           />
         </div>
-        <Button type="submit" label="Actualizar" className="primary" />
+        <Button type="submit" label="Guardar" className="primary" />
       </form>
     </Modal>
   );
 };
 
-export default EditFirmaForm;
+export default AddFirmaForm;

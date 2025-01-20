@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Modal from '../../../../components/common/Modal';
-import Button from '../../../../components/common/Button';
-import { createJornada } from '../../../../utils/api';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import { createJornada } from '../../../../../utils/api';
 
 const AddJornada = ({ onClose }) => {
   const [formData, setFormData] = useState({
