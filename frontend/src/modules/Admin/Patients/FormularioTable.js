@@ -9,10 +9,8 @@ const FormulariosTable = ({ idHistoriaClinica }) => {
 
     useEffect(() => {
         const loadFormularios = async () => {
-            console.log("ID Historial Clinico recibido en Formulario:", idHistoriaClinica);
             try {
                 const data = await fetchFormularioById(idHistoriaClinica);
-                console.log("Respuesta de la API fetchFormularioById:", data);
                 setFormularios(data);
             } catch (err) {
                 setError(`Error al cargar los formularios. ${err}`);

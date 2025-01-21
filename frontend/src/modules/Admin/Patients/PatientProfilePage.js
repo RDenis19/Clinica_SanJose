@@ -31,7 +31,6 @@ const PatientProfilePage = () => {
     const fetchDataHistoria = async () => {
       try {
         const response = await fetchHistoriaById(identificacion);
-        console.log(response)
         if (response && Array.isArray(response) && response.length > 0) {
           setHistoriaData(response);
         } else {
