@@ -262,7 +262,7 @@ export const createPatient = async (patientData) => {
 export const fetchPatientDetails = async (identificacion) => {
   try {
     const response = await API.get(`/paciente/${identificacion}`);
-    return response.data.data; // Asume que el backend envía { success: true, data: paciente }
+    return response.data.data;
   } catch (error) {
     console.error('Error al obtener detalles del paciente:', error);
     throw error.response
@@ -446,6 +446,7 @@ export const fetchHistorias = async (pacienteIdentificacion = null) => {
 export const fetchHistoriaById = async (pacienteIdentificacion) => {
   try {
     const response = await API.get(`/historia/${pacienteIdentificacion}`);
+    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Error al obtener la historia clínica:", error);
@@ -495,9 +496,9 @@ export const deleteHistoria = async (idHistoriaClinica, Paciente_identificacion)
 // Obtener todos los formularios
 export const fetchFormularios = async () => {
   try {
-    const response = await API.get('/formulario'); // Ruta del endpoint
-    console.log('Datos recibidos:', response.data); // Verifica qué datos llegan
-    return response.data.data; // Devuelve los datos esperados
+    const response = await API.get('/formulario');
+    console.log('Datos recibidos:', response.data);
+    return response.data.data;
   } catch (error) {
     console.error('Error al obtener formularios:', error);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
@@ -506,14 +507,15 @@ export const fetchFormularios = async () => {
 
 export const fetchFormularioById = async (idHistoriaClinica) => {
   try {
-    const response = await fetch(`/api/formulario/${idHistoriaClinica}`, {
+    const response = await fetch(`/formulario/${idHistoriaClinica}`, {
       method: "GET",
     });
     const data = await response.json();
     if (response.ok) {
+      console.log(data.)
       return data.data;
     } else {
-      throw new Error(data.message || "Error al cargar los formularios.");
+      throw new Error(data.message || "Error API al cargar los formularios.");
     }
   } catch (error) {
     console.error("Error en fetchFormularios:", error);
