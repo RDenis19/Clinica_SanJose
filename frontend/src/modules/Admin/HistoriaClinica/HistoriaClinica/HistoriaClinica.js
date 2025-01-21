@@ -91,13 +91,16 @@ function HistoriaClinica() {
 
   return (
     <div>
-      <h1>Gestión de Historias Clínicas</h1>
-      <SearchBar
-        placeholder="Buscar por identificación del paciente"
-        value={searchQuery}
-        onChange={setSearchQuery}
-      />
-      <Button label="Agregar Historia Clínica" onClick={() => setAddModalOpen(true)} />
+      <div className="actions-row">
+        <h2>Gestión de Historias Clínicas</h2>
+        <SearchBar
+          placeholder="Buscar por identificación del paciente"
+          value={searchQuery}
+          onChange={setSearchQuery}
+        />
+        <Button label="Agregar Historia Clínica" onClick={() => setAddModalOpen(true)} />
+      </div>
+
       <Table columns={columns} data={filteredHistorias} />
       {isAddModalOpen && (
         <Modal onClose={() => setAddModalOpen(false)}>

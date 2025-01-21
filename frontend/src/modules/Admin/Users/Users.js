@@ -151,7 +151,7 @@ const Users = () => {
     <div className="users-container">
       <div className="actions-container">
         <div className="actions-row">
-          <h2 className="title">Lista de Usuarios</h2>
+          <h2 className="title">Gestión de Usuarios</h2>
           <SearchBar
             placeholder="Buscar por nombre o cédula"
             value={searchValue}

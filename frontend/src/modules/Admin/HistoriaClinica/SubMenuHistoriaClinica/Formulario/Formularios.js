@@ -107,7 +107,7 @@ const Formulario = () => {
       {currentStep === 1 && (
         <>
           <div className="actions-row">
-            <h2>Lista de Formularios</h2>
+            <h2>Gestión de Formularios</h2>
             <SearchBar
               placeholder="Buscar por número de historia clínica"
               value={searchValue}

@@ -98,7 +98,8 @@ const Jornada = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
+      <div className="actions-row">
+        <h2>Gestión de Jornada</h2>
         <SearchBar
           placeholder="Buscar por supervisor"
           value={searchTerm}

@@ -98,7 +98,8 @@ const FirmaElectronica = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
+      <div className="actions-row">
+        <h2>Gestión de Firma Electronica</h2>
         <SearchBar
           placeholder="Buscar por nombre de certificado"
           value={searchTerm}

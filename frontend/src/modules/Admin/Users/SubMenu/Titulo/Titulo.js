@@ -102,7 +102,8 @@ const Titulo = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '10px', justifyContent: 'space-around' }}>
+      <div className="actions-row">
+        <h2>Gestión de Título</h2>
         <SearchBar
           placeholder="Buscar por nombre de título"
           value={searchTerm}

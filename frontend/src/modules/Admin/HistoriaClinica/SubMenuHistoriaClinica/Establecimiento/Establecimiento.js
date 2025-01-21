@@ -86,7 +86,8 @@ function Establecimiento() {
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+      <div className="actions-row">
+        <h2>Gestión de Establecimiento</h2>
         <SearchBar
           placeholder="Buscar por nombre"
           value={searchQuery}

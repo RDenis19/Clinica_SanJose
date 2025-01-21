@@ -208,7 +208,7 @@ const SolicitudCambioGrid = () => {
 
   return (
     <div style={containerStyle}>
-      <h2 style={titleStyle}>Solicitud de Cambio (Vista 5×5)</h2>
+      <h2 style={titleStyle}>Solicitud de Cambio </h2>
 
       <div style={gridStyle}>
         {Array(TOTAL_CUADROS)

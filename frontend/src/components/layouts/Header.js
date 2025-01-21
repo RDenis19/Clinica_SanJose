@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineBell } from 'react-icons/ai';
-import '../../styles/layouts/header.css'; // si gustas separar sus estilos
+import '../../styles/layouts/header.css'; 
 
 function Header({ username, profilePic }) {
   return (
