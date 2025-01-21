@@ -105,13 +105,17 @@ function Plantillas() {
   // De lo contrario, mostramos la tabla de plantillas
   return (
     <div>
-      <SearchBar
-        placeholder="Buscar por nombre de formulario..."
-        value={searchTerm}
-        onChange={(valor) => setSearchTerm(valor)}
-      />
+      <div className="actions-row">
+        <h2>Gestión de Plantillas de Formularios</h2>
+        <SearchBar
+          placeholder="Buscar por nombre de formulario..."
+          value={searchTerm}
+          onChange={(valor) => setSearchTerm(valor)}
+        />
 
-      <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
+        <Button label="Agregar Plantilla" onClick={() => setAddModalOpen(true)} />
+      </div>
+
 
       <Table columns={columns} data={filteredPlantillas} />
 
