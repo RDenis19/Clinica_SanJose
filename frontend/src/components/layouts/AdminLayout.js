@@ -27,6 +27,9 @@ function AdminLayout({ children }) {
       label: 'Pacientes',
       to: '/admin/patients',
       icon: <AiOutlineTeam />,
+      subMenu: [
+        { label: 'Referido', to: '/admin/patients/referido' }, 
+      ],
     },
     {
       label: 'Solicitudes de Cambio',

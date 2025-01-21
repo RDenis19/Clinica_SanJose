@@ -311,6 +311,19 @@ export const fetchPatientSummary = async () => {
   }
 };
 
+// Referidos
+export const fetchReferidos = async (pacienteIdentificacion = null) => {
+  try {
+    const params = pacienteIdentificacion ? { pacienteIdentificacion } : {};
+    const response = await API.get('/referido', { params });
+    return response.data.data; // Asume que la respuesta tiene un objeto `data` con los referidos
+  } catch (error) {
+    console.error('Error al obtener referidos:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+
 // Plantilla
 export const fetchPlantillas = async () => {
   try {

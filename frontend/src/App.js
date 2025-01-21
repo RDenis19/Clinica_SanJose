@@ -17,6 +17,7 @@ import Dashboard from "./modules/Admin/Dashboard";
 import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
 import PatientProfilePage from "./modules/Admin/Patients/PatientProfilePage";
+import Referido from "./modules/Admin/Patients/Referido/Referido"
 import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Establecimiento from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento";
@@ -66,7 +67,14 @@ function App() {
               { to: "/admin/users/titulo", label: "Título" },
             ],
           },
-          { to: "/admin/patients", label: "Pacientes", icon: <i className="fas fa-user-injured"></i> },
+          {
+            to: "/admin/patients",
+            label: "Pacientes",
+            icon: <i className="fas fa-user-injured"></i>,
+            subMenu: [
+              { to: "/admin/patients/referido", label: "Referido" }, // Nuevo submenú agregado
+            ],
+          },
           { to: "/admin/change", label: "Solicitudes de Cambio", icon: <i className="fas fa-exchange-alt"></i> },
           {
             to: "/admin/historia-clinica",
@@ -126,6 +134,8 @@ function App() {
       <Route path="/admin/users/jornada" element={<AdminLayout><Jornada /></AdminLayout>} />
       <Route path="/admin/users/titulo" element={<AdminLayout><Titulo /></AdminLayout>} />
       <Route path="/admin/patients" element={<AdminLayout><Patients /></AdminLayout>} />
+      <Route path="/admin/patients/referido" element={<AdminLayout><Referido /></AdminLayout>}/>
+
       <Route path="/admin/change" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
       <Route path="/admin/historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
       <Route path="/admin/historia-clinica/establecimiento" element={<AdminLayout><Establecimiento /></AdminLayout>} />
