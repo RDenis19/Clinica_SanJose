@@ -68,16 +68,25 @@ const Users = () => {
   };
 
   const handleDeleteUser = async (identificacion) => {
+    // Confirmación antes de eliminar
+    if (!window.confirm(`¿Estás seguro de que deseas eliminar al usuario con identificación ${identificacion}?`)) {
+      return; // No procede si el usuario cancela la acción
+    }
     try {
+      // Llamada a la API para eliminar el usuario
       await removeUser(identificacion);
+  
+      // Actualizar el estado eliminando el usuario de la lista
       setUsers((prevUsers) => prevUsers.filter((user) => user.identificacion !== identificacion));
       setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.identificacion !== identificacion));
+  
       alert('Usuario eliminado correctamente.');
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
-      alert('Error al eliminar el usuario. Intente nuevamente.');
+      alert('No se pudo eliminar el usuario. Por favor, inténtalo de nuevo.');
     }
   };
+  
 
   const handleAddUser = async (newUser) => {
     try {

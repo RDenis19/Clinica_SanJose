@@ -81,13 +81,16 @@ export const updateUser = async (identificacion, data) => {
 
 export const removeUser = async (identificacion) => {
   try {
+    // Asegúrate de que la URL esté correctamente formada como string
     const response = await API.delete(`/user/${identificacion}`);
+    console.log(`Iniciando eliminación para: ${identificacion}`); // Log para depurar
     return response.data;
   } catch (error) {
     console.error('Error en la solicitud DELETE:', error.response?.data || error.message);
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
 
 // Firma Electronica 
 
