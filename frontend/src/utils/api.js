@@ -323,6 +323,17 @@ export const fetchReferidos = async (pacienteIdentificacion = null) => {
   }
 };
 
+export const createReferido = async (referidoData) => {
+  try {
+    const response = await API.post('/referido', referidoData);
+    return response.data.data; // Devuelve los datos del referido creado
+  } catch (error) {
+    console.error('Error al agregar referido:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+
 
 // Plantilla
 export const fetchPlantillas = async () => {
