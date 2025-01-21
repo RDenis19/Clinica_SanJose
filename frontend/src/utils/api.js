@@ -491,15 +491,8 @@ export const fetchFormularios = async () => {
 
 export const fetchFormularioById = async (idHistoriaClinica) => {
   try {
-    const response = await fetch(`/api/formulario/${idHistoriaClinica}`, {
-      method: "GET",
-    });
-    const data = await response.json();
-    if (response.ok) {
-      return data.data;
-    } else {
-      throw new Error(data.message || "Error al cargar los formularios.");
-    }
+    const response = await API.get(`/formulario/${idHistoriaClinica}`);
+    return response.data.data;
   } catch (error) {
     console.error("Error en fetchFormularios:", error);
     throw error;

@@ -8,13 +8,9 @@ const HistoriaClinicaTable = ({ pacienteIdentificacion }) => {
   useEffect(() => {
     const loadHistoriasClinicas = async () => {
       try {
-        console.log("Paciente Identificación recibido en HistoriasClinicasTable:", pacienteIdentificacion);
-
         const response = await fetchHistoriaById(pacienteIdentificacion);
-        console.log("Respuesta de la API fetchHistoriaById:", response);
-
         if (response && Array.isArray(response) && response.length > 0) {
-          setHistoriasClinicas(response); // Guardar directamente las historias clínicas
+          setHistoriasClinicas(response);
         } else {
           console.error("Error: No se encontraron historias clínicas.");
         }

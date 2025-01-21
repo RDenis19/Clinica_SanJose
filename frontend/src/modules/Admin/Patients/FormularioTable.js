@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Table from "../../../components/common/Table"; // Asegúrate de usar la ruta correcta
-import { fetchFormularioById } from "../../../utils/api"; // Aquí importas tu API
+import Table from "../../../components/common/Table";
+import { fetchFormularioById } from "../../../utils/api";
 
 const FormulariosTable = ({ idHistoriaClinica }) => {
     const [formularios, setFormularios] = useState([]);
@@ -9,13 +9,13 @@ const FormulariosTable = ({ idHistoriaClinica }) => {
 
     useEffect(() => {
         const loadFormularios = async () => {
-            console.log("Paciente Identificación recibido en Formulario:", idHistoriaClinica);
+            console.log("ID Historial Clinico recibido en Formulario:", idHistoriaClinica);
             try {
                 const data = await fetchFormularioById(idHistoriaClinica);
                 console.log("Respuesta de la API fetchFormularioById:", data);
                 setFormularios(data);
             } catch (err) {
-                setError("Error al cargar los formularios.");
+                setError(`Error al cargar los formularios. ${err}`);
                 console.error(err);
             } finally {
                 setLoading(false);

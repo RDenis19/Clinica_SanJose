@@ -30,12 +30,15 @@ const PatientProfilePage = () => {
 
     const fetchDataHistoria = async () => {
       try {
-        const historiaClinica = await fetchHistoriaById(identificacion);
-        setHistoriaData(historiaClinica);
-      } catch (err) {
-        setError("No se pudieron cargar datos.");
-      } finally {
-        setLoading(false);
+        const response = await fetchHistoriaById(identificacion);
+        console.log(response)
+        if (response && Array.isArray(response) && response.length > 0) {
+          setHistoriaData(response);
+        } else {
+          console.error("Error: No se encontraron historias clínicas.");
+        }
+      } catch (error) {
+        console.error("Error al cargar las historias clínicas:", error);
       }
     };
 
@@ -116,7 +119,7 @@ const PatientProfilePage = () => {
         />
       </div>
 
-      <div>
+      <div className="patient-content">
         <FormulariosTable idHistoriaClinica={historiaData[0].idHistoriaClinica} />
       </div>
     </div>
