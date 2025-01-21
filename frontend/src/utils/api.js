@@ -291,24 +291,6 @@ export const updatePatient = async (identificacion, patientData) => {
   }
 };
 
-export const removePatient = async (identificacion) => {
-  try {
-    console.log(`Iniciando eliminación para: ${identificacion}`);
-    const response = await API.delete(`/paciente/${identificacion}`);
-    console.log("Respuesta completa:", response);
-    return response.data;
-  } catch (error) {
-    console.error("Error al eliminar paciente:", {
-      mensaje: error.response?.data || error.message,
-      estado: error.response?.status,
-      completo: error,
-    });
-    throw error.response ? error.response.data : { error: "Error en el servidor" };
-  }
-};
-
-
-
 export const searchPatients = async (criteria) => {
   try {
     const response = await API.get(`/paciente/search`, { params: criteria });

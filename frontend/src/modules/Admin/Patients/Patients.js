@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../../components/common/SearchBar";
 import FilterDropdown from "../../../components/common/FilterDropdown";
@@ -9,7 +9,7 @@ import Button from "../../../components/common/Button";
 import AddPatientForm from "./AddPatientForm";
 import EditPatientForm from "./EditPatientForm";
 import "../../../styles/modules/Administrador/patient/patient.css";
-import { fetchPatients, removePatient, createPatient, updatePatient, fetchPatientDetails } from "../../../utils/api";
+import { fetchPatients, createPatient, updatePatient, fetchPatientDetails } from "../../../utils/api";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
@@ -76,30 +76,6 @@ const Patients = () => {
     setCurrentPage(1);
   };
 
-  // Manejo de eliminación de paciente
-  const handleDeletePatient = async (identificacion) => {
-    console.log("Identificación para eliminar:", identificacion); // Verifica este valor
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este paciente?")) {
-      return;
-    }
-  
-    try {
-      const result = await removePatient(identificacion);
-      if (result.success) {
-        setPatients((prevPatients) =>
-          prevPatients.filter((patient) => patient.identificacion !== identificacion)
-        );
-        setFilteredPatients((prevPatients) =>
-          prevPatients.filter((patient) => patient.identificacion !== identificacion)
-        );
-        alert("Paciente eliminado correctamente.");
-      }
-    } catch (error) {
-      console.error("Error al eliminar paciente:", error);
-      alert(error.message || "Error al eliminar el paciente. Intenta de nuevo.");
-    }
-  };
-  
   // Manejo de agregar paciente
   const handleAddPatient = async (newPatient) => {
     try {
@@ -123,7 +99,6 @@ const Patients = () => {
       console.error("Error al obtener detalles del paciente para editar:", error);
     }
   };
-
 
   const handleUpdatePatient = async (updatedPatient) => {
     try {
@@ -201,12 +176,6 @@ const Patients = () => {
                   title="Editar paciente"
                   style={{ cursor: "pointer", color: "#ffc107" }}
                 />
-                <FaTrash
-                  className="icon-delete"
-                  onClick={() => handleDeletePatient(patient.identificacion)}
-                  title="Eliminar paciente"
-                  style={{ cursor: "pointer", color: "#dc3545" }}
-                />
               </div>
             ),
           },
@@ -234,7 +203,6 @@ const Patients = () => {
           initialData={currentEditPatient}
         />
       )}
-
     </div>
   );
 };
