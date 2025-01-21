@@ -512,6 +512,7 @@ export const fetchFormularioById = async (idHistoriaClinica) => {
     });
     const data = await response.json();
     if (response.ok) {
+      console.log(data.)
       return data.data;
     } else {
       throw new Error(data.message || "Error API al cargar los formularios.");
