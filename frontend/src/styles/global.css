@@ -17,4 +17,10 @@ body {
     top: 0; /* Para que se adhiera a la parte superior cuando se hace scroll */
     z-index: 100; /* Asegura que esté por encima del contenido */
   }
+
+  h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
   
