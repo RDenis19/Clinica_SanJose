@@ -111,16 +111,18 @@ const PatientProfilePage = () => {
           </p>
         </div>
       </div>
+      <div>
+        <div className="patient-content">
+          <HistoriasClinicasTable
+            pacienteIdentificacion={patientData.identificacion}
+          />
+        </div>
 
-      <div className="patient-content">
-        <HistoriasClinicasTable
-          pacienteIdentificacion={patientData.identificacion}
-        />
+        <div className="patient-content">
+          <FormulariosTable idHistoriaClinica={historiaData[0].idHistoriaClinica} />
+        </div>
       </div>
 
-      <div className="patient-content">
-        <FormulariosTable idHistoriaClinica={historiaData[0].idHistoriaClinica} />
-      </div>
     </div>
   );
 };
