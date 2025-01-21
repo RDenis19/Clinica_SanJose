@@ -16,10 +16,10 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 60%; 
-  max-width: 800px;
-  max-height: 90%;
-  overflow-y: auto;
+  width: 60%; /* Ajusta el ancho del modal */
+  max-width: 800px; /* Máximo ancho */
+  max-height: 90%; /* Máximo alto */
+  overflow-y: auto; /* Permite desplazamiento si es necesario */
   position: relative;
 }
 
@@ -41,7 +41,7 @@
 
 .modal-content {
   overflow-y: auto;
-  max-height: calc(90vh - 100px); 
+  max-height: calc(90vh - 100px); /* Evita que el contenido exceda la ventana */
 }
 
 
