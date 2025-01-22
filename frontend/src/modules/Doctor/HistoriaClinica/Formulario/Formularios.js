@@ -9,7 +9,7 @@ import VerFormulario from "./VerFormulario";
 import EditFormulario from "./EditFormulario";
 import { fetchFormularios, deleteFormulario } from "../../../../utils/api";
 
-const FormularioEnfermera = () => {
+const Formulario = () => {
   const [formularios, setFormularios] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
@@ -151,4 +151,4 @@ const FormularioEnfermera = () => {
   );
 };
 
-export default FormularioEnfermera;
+export default Formulario;

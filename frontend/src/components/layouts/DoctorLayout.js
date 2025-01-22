@@ -27,7 +27,7 @@ function DoctorLayout({ children }) {
             to: '/doctor/historias', 
             icon: <FaBookMedical />,
             subMenu: [
-              { label: 'Formulario', to: '/doctor/historias/formularioDoctor' }, 
+              { label: 'Formulario', to: '/doctor/historias/formulariosDoctor' }, 
             ],
           }
         ]}

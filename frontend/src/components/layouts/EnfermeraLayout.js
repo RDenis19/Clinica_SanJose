@@ -26,7 +26,7 @@ function EnfermeraLayout({ children }) {
             to: '/enfermera/historias', 
             icon: <FaBookMedical />,
             subMenu: [
-              { label: 'Formulario', to: '/enfermera/historias/formularioEnfermera' }, 
+              { label: 'Formulario', to: '/enfermera/historias/formulariosEnfermera' }, 
             ], 
           }
         ]}

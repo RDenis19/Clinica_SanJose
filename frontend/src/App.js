@@ -32,14 +32,14 @@ import DashboardDoctor from "./modules/Doctor/DashboardDoctor";
 import PacientesDoctor from "./modules/Doctor/Pacientes/PacientesDoctor";
 import ReferidoDoctor from "./modules/Doctor/Pacientes/Referidos/ReferidoDoctor";
 import HistoriasDoctor from "./modules/Doctor/HistoriaClinica/HistoriasDoctor";
-import FormularioDoctor from "./modules/Doctor/HistoriaClinica/Formulario/FromularioDoctor";
+import FormulariosDoctor from "./modules/Doctor/HistoriaClinica/Formulario/Formularios";
 
 // Módulos de la Enfermera
 import DashboardEnfermera from "./modules/Enfermera/DashboardEnfermera";
 import PacientesEnfermera from "./modules/Enfermera/PacientesEnfermera/PacientesEnfermera";
 import ReferidoEnfermera from "./modules/Enfermera/PacientesEnfermera/Referido/ReferidoEnfermera";
 import HistoriasEnfermera from "./modules/Enfermera/HistoriaClinica/HistoriasEnfermera";
-import FormularioEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioEnfermera";
+import FormulariosEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioEnfermera";
 
 
 function App() {
@@ -186,14 +186,14 @@ function App() {
       <Route path="/doctor/pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />
       <Route path="/doctor/pacientes/referidoDoctor" element={<DoctorLayout><ReferidoDoctor /></DoctorLayout>} />
       <Route path="/doctor/historias" element={<DoctorLayout><HistoriasDoctor /></DoctorLayout>} />
-      <Route path="/doctor/historias/formularioDoctor" element={<DoctorLayout><FormularioDoctor /></DoctorLayout>} />
+      <Route path="/doctor/historias/formulariosDoctor" element={<DoctorLayout><FormulariosDoctor /></DoctorLayout>} />
 
       {/* Rutas de la Enfermera */}
       <Route path="/enfermera/dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
       <Route path="/enfermera/pacientes" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
       <Route path="/enfermera/pacientes/referidoEnfermera" element={<EnfermeraLayout><ReferidoEnfermera /></EnfermeraLayout>} />
       <Route path="/enfermera/historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
-      <Route path="/enfermera/historias/formularioEnfermera" element={<EnfermeraLayout><FormularioEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/historias/formulariosEnfermera" element={<EnfermeraLayout><FormulariosEnfermera /></EnfermeraLayout>} />
 
       {/* 404 si la ruta no existe */}
       <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
