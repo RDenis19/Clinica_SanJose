@@ -494,15 +494,17 @@ export const fetchHistoriaById = async (pacienteIdentificacion) => {
 
 export const createHistoria = async (historiaData) => {
   try {
+    console.log("Datos enviados al backend (API):", historiaData); // Log para depuración
     const response = await API.post("/historia", historiaData);
     return response.data;
   } catch (error) {
-    console.error("Error al crear historia clínica:", error);
+    console.error("Error al crear historia clínica:", error.response?.data || error.message);
     throw error.response
       ? error.response.data
       : { message: "Error al crear historia clínica." };
   }
 };
+
 
 
 export const updateHistoria = async (idHistoriaClinica, pacienteIdentificacion, data) => {

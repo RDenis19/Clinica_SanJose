@@ -41,10 +41,6 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
         alert("El campo 'Establecimiento' es obligatorio.");
         return;
       }
-      if (!formValues.nroHistoriaClinica) {
-        alert("El campo 'Número de Historia Clínica' es obligatorio.");
-        return;
-      }
   
       const payload = {
         ...formValues,
@@ -76,16 +72,6 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
                 onChange={(e) => handleChange("HistoriaClinica_idHistoriaClinica", e.target.value)}
               />
             </div>
-            <div className="form-group">
-              <label>Número de Historia Clínica (Obligatorio):</label>
-              <input
-               type="text"
-                placeholder="Ingrese el número de historia clínica"
-                value={formValues.nroHistoriaClinica}
-                onChange={(e) => handleChange("nroHistoriaClinica", e.target.value)}
-              />
-            </div>
-
             <div className="form-group">
               <label>Establecimiento (Obligatorio):</label>
               <input

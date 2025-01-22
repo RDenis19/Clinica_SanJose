@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../../../components/common/Button";
-import { createHistoria, fetchPatients } from "../../../../utils/api";
+import { createHistoria, fetchPatients, fetchHistorias } from "../../../../utils/api";
 import SearchBar from "../../../../components/common/SearchBar";
-import "../../../../styles/modules/Administrador/autocomplete.css"; // Asegúrate de tener este archivo CSS
+import "../../../../styles/modules/Administrador/autocomplete.css";
 
 function AddHistoriaClinica({ onClose, onRefresh }) {
   const [formData, setFormData] = useState({
@@ -14,16 +14,42 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
   const [pacienteExiste, setPacienteExiste] = useState(null); // null, true o false
 
   useEffect(() => {
-    // Cargar todos los pacientes al montar el componente
+    // Obtener la lista de pacientes
     const loadPacientes = async () => {
       try {
-        const data = await fetchPatients(); // Asume que fetchPatients ya está configurado para usar la ruta GET /paciente
-        setPacientes(data.data || []); // Almacena la lista completa de pacientes
+        const data = await fetchPatients();
+        setPacientes(data.data || []); // Almacenar la lista completa de pacientes
       } catch (error) {
         console.error("Error al cargar pacientes:", error);
       }
     };
+
+    // Obtener el último número de historia clínica
+    const fetchUltimoNumeroHistoria = async () => {
+      try {
+        const historias = await fetchHistorias();
+        const ultimoNumero = historias?.length > 0
+          ? Math.max(
+              ...historias
+                .map((h) => parseInt(h.nroHistoriaClinica, 10))
+                .filter((num) => !isNaN(num)) // Filtrar valores no válidos
+            )
+          : 0;
+        setFormData((prev) => ({
+          ...prev,
+          nroHistoriaClinica: (ultimoNumero || 0) + 1, // Incrementar el número automáticamente
+        }));
+      } catch (error) {
+        console.error("Error al obtener el último número de historia clínica:", error);
+        setFormData((prev) => ({
+          ...prev,
+          nroHistoriaClinica: 1, // Asignar 1 si hay un error o no hay datos
+        }));
+      }
+    };
+
     loadPacientes();
+    fetchUltimoNumeroHistoria();
   }, []);
 
   const handleInputChange = (value) => {
@@ -55,8 +81,15 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
       return;
     }
 
+    // Asegurarse de que los datos enviados sean válidos
+    const dataToSend = {
+      ...formData,
+      nroHistoriaClinica: String(formData.nroHistoriaClinica || ""), // Convertir a cadena válida
+    };
+
     try {
-      await createHistoria(formData);
+      console.log("Datos enviados al backend:", dataToSend); // Depuración
+      await createHistoria(dataToSend);
       alert("Historia clínica creada exitosamente");
       onRefresh();
       onClose();
@@ -78,11 +111,8 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
             type="text"
             name="nroHistoriaClinica"
             id="nroHistoriaClinica"
-            value={formData.nroHistoriaClinica}
-            onChange={(e) =>
-              setFormData({ ...formData, nroHistoriaClinica: e.target.value })
-            }
-            required
+            value={String(formData.nroHistoriaClinica)} // Convertir el valor a cadena
+            readOnly // El campo es de solo lectura
           />
         </div>
         <div className="form-group">
