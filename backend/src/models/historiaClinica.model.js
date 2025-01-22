@@ -23,6 +23,17 @@ async function findHistoriaById(pacienteIdentificacion) {
     return rows || null;
 }
 
+async function findIdHistoria() {
+    const query = `
+    SELECT *
+    FROM historiaclinica
+    ORDER BY idHistoriaClinica DESC
+    LIMIT 1
+    `
+    const [rows] = await pool.query(query);
+    return rows || null;
+}
+
 async function createHistoria(historiaData) {
     const { nroHistoriaClinica, Paciente_identificacion } = historiaData;
 
@@ -65,6 +76,7 @@ async function deleteHistoria(idHistoriaClinica, pacienteIdentificacion) {
 module.exports = {
     findAllHistorias,
     findHistoriaById,
+    findIdHistoria,
     createHistoria,
     updateHistoria,
     deleteHistoria,

@@ -1,4 +1,4 @@
-const { findAllHistorias, findHistoriaById, createHistoria, updateHistoria, deleteHistoria, } = require('../models/historiaClinica.model');
+const { findAllHistorias, findHistoriaById, findIdHistoria, createHistoria, updateHistoria, deleteHistoria, } = require('../models/historiaClinica.model');
 
 async function getHistorias(req, res) {
     try {
@@ -19,7 +19,7 @@ async function getHistorias(req, res) {
 
 async function getHistoria(req, res) {
     try {
-        const {pacienteIdentificacion } = req.params;
+        const { pacienteIdentificacion } = req.params;
         const historia = await findHistoriaById(pacienteIdentificacion);
 
         if (!historia) {
@@ -35,6 +35,22 @@ async function getHistoria(req, res) {
         });
     } catch (error) {
         console.error('Error en getHistoria:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+        });
+    }
+}
+
+async function getIdHistoria(req, res) {
+    try {
+        const idHistoria = await findAllHistorias();
+        return res.json({
+            success: true,
+            data: idHistoria
+        });
+    } catch (error) {
+        console.error('Error en getIdHistoria:', error);
         return res.status(500).json({
             success: false,
             message: 'Error interno del servidor',
@@ -124,6 +140,7 @@ async function deleteHistoriaById(req, res) {
 module.exports = {
     getHistorias,
     getHistoria,
+    getIdHistoria,
     postHistoria,
     putHistoria,
     deleteHistoriaById,

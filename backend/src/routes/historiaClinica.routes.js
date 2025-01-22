@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getHistorias, getHistoria, postHistoria, putHistoria, deleteHistoriaById, } = require('../controllers/historiaClinica.controller');
+const { getHistorias, getHistoria, getIdHistoria, postHistoria, putHistoria, deleteHistoriaById, } = require('../controllers/historiaClinica.controller');
 
 const router = Router();
 
@@ -8,6 +8,9 @@ router.get('/', getHistorias);
 
 // GET /historia/:pacienteIdentificacion -> Obtiene la historia clinica segun el paciente
 router.get('/:pacienteIdentificacion', getHistoria);
+
+//GET /historia/id/ -> Obtener indice de ultima historia clinica
+router.get('/id/', getIdHistoria);
 
 // POST /historia -> Crea una nueva historia clínica
 router.post('/', postHistoria);
