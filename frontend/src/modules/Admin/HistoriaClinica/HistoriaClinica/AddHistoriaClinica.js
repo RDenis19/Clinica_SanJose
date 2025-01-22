@@ -8,23 +8,21 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
   const [formData, setFormData] = useState({
     Paciente_identificacion: "",
   });
-  const [pacientes, setPacientes] = useState([]); // Lista completa de pacientes
-  const [filteredPacientes, setFilteredPacientes] = useState([]); // Lista filtrada según la búsqueda
-  const [pacienteExiste, setPacienteExiste] = useState(null); // null, true o false
-  const [ultimoNumeroHistoria, setUltimoNumeroHistoria] = useState(0); // Último número de historia clínica
+  const [pacientes, setPacientes] = useState([]);
+  const [filteredPacientes, setFilteredPacientes] = useState([]);
+  const [pacienteExiste, setPacienteExiste] = useState(null);
+  const [ultimoNumeroHistoria, setUltimoNumeroHistoria] = useState(0);
 
   useEffect(() => {
-    // Obtener la lista de pacientes
     const loadPacientes = async () => {
       try {
         const data = await fetchPatients();
-        setPacientes(data.data || []); // Almacenar la lista completa de pacientes
+        setPacientes(data.data || []);
       } catch (error) {
         console.error("Error al cargar pacientes:", error);
       }
     };
 
-    // Obtener el último número de historia clínica
     const fetchUltimoNumeroHistoria = async () => {
       try {
         const historias = await fetchHistorias();
@@ -32,13 +30,13 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
           ? Math.max(
               ...historias
                 .map((h) => parseInt(h.nroHistoriaClinica, 10))
-                .filter((num) => !isNaN(num)) // Filtrar valores no válidos
+                .filter((num) => !isNaN(num))
             )
           : 0;
-        setUltimoNumeroHistoria(ultimoNumero + 1); // Incrementar automáticamente
+        setUltimoNumeroHistoria(ultimoNumero + 1);
       } catch (error) {
         console.error("Error al obtener el último número de historia clínica:", error);
-        setUltimoNumeroHistoria(1); // Asignar 1 si hay un error o no hay datos
+        setUltimoNumeroHistoria(1);
       }
     };
 
@@ -46,16 +44,18 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
     fetchUltimoNumeroHistoria();
   }, []);
 
+  const formatHistoriaClinicaNumber = (number) => {
+    return number.toString().padStart(6, '0');
+  };
+
   const handleInputChange = (value) => {
     setFormData({ ...formData, Paciente_identificacion: value });
 
-    // Filtrar pacientes según el valor ingresado
     const filtered = pacientes.filter((paciente) =>
       paciente.identificacion.startsWith(value)
     );
     setFilteredPacientes(filtered);
 
-    // Verificar si el valor completo corresponde a un paciente existente
     const existe = pacientes.some(
       (paciente) => paciente.identificacion === value
     );
@@ -75,14 +75,13 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
       return;
     }
 
-    // Agregar el número de historia clínica calculado
     const dataToSend = {
       ...formData,
-      nroHistoriaClinica: ultimoNumeroHistoria.toString(),
+      nroHistoriaClinica: formatHistoriaClinicaNumber(ultimoNumeroHistoria),
     };
 
     try {
-      console.log("Datos enviados al backend:", dataToSend); // Depuración
+      console.log("Datos enviados al backend:", dataToSend);
       await createHistoria(dataToSend);
       alert("Historia Clínica Agregada");
       onRefresh();
