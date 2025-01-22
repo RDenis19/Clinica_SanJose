@@ -33,20 +33,24 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
 
   const handleSubmit = async () => {
     try {
+      if (!formValues.HistoriaClinica_idHistoriaClinica) {
+        alert("El campo 'Historia Clínica' es obligatorio.");
+        return;
+      }
+      if (!formValues.Establecimiento_idEstablecimiento) {
+        alert("El campo 'Establecimiento' es obligatorio.");
+        return;
+      }
+      if (!formValues.nroHistoriaClinica) {
+        alert("El campo 'Número de Historia Clínica' es obligatorio.");
+        return;
+      }
+  
       const payload = {
         ...formValues,
         contenido: JSON.stringify(formValues.contenido || {}),
       };
-
-      if (!payload.HistoriaClinica_idHistoriaClinica) {
-        alert("El campo 'Historia Clínica' es obligatorio.");
-        return;
-      }
-      if (!payload.Establecimiento_idEstablecimiento) {
-        alert("El campo 'Establecimiento' es obligatorio.");
-        return;
-      }
-
+  
       await createFormulario(payload);
       alert("Formulario creado exitosamente");
       onBack();
@@ -55,6 +59,7 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
       alert(error.response?.data?.message || "Error al crear el formulario. Intenta nuevamente.");
     }
   };
+  
 
   const renderSection = () => {
     if (activeSection === "Campos Obligatorios") {
@@ -71,6 +76,16 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
                 onChange={(e) => handleChange("HistoriaClinica_idHistoriaClinica", e.target.value)}
               />
             </div>
+            <div className="form-group">
+              <label>Número de Historia Clínica (Obligatorio):</label>
+              <input
+               type="text"
+                placeholder="Ingrese el número de historia clínica"
+                value={formValues.nroHistoriaClinica}
+                onChange={(e) => handleChange("nroHistoriaClinica", e.target.value)}
+              />
+            </div>
+
             <div className="form-group">
               <label>Establecimiento (Obligatorio):</label>
               <input

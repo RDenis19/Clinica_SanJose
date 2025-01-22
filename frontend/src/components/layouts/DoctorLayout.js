@@ -14,12 +14,25 @@ function DoctorLayout({ children }) {
       <Sidebar
         links={[
           { label: 'Dashboard', to: '/doctor/dashboard', icon: <AiOutlineDashboard /> },
-          { label: 'Pacientes', to: '/doctor/pacientes', icon: <BiUserCircle /> },
-          { label: 'Historias Clínicas', to: '/doctor/historias', icon: <FaBookMedical /> }
+          { 
+            label: 'Pacientes', 
+            to: '/doctor/pacientes', 
+            icon: <BiUserCircle />, 
+            subMenu: [
+              { label: 'Referidos', to: '/doctor/pacientes/referidoDoctor' }, 
+            ],
+          },
+          { 
+            label: 'Historias Clínicas', 
+            to: '/doctor/historias', 
+            icon: <FaBookMedical />,
+            subMenu: [
+              { label: 'Formulario', to: '/doctor/historias/formularioDoctor' }, 
+            ],
+          }
         ]}
       />
 
-      {/* Columna Derecha: Header arriba + contenido abajo */}
       <div className="doctor-main">
         <Header username="Doctor" profilePic="https://via.placeholder.com/40" />
 

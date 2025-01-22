@@ -4,8 +4,9 @@ import SearchBar from "../../../../../components/common/SearchBar";
 import Button from "../../../../../components/common/Button";
 import Table from "../../../../../components/common/Table";
 import TipoFormularios from "./TipoFormularios";
-import NuevoFormulario from "./NuevoFormulario"; // Importamos el nuevo componente
-import VerFormulario from "./VerFormulario"; // Importar el componente para visualizar
+import NuevoFormulario from "./NuevoFormulario";
+import VerFormulario from "./VerFormulario";
+import EditFormulario from "./EditFormulario";
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
 
 const Formulario = () => {
@@ -13,8 +14,8 @@ const Formulario = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedPlantilla, setSelectedPlantilla] = useState(null); // Para manejar la plantilla seleccionada
-  const [selectedFormulario, setSelectedFormulario] = useState(null); // Para manejar el formulario seleccionado para visualizar
+  const [selectedPlantilla, setSelectedPlantilla] = useState(null);
+  const [selectedFormulario, setSelectedFormulario] = useState(null);
 
   useEffect(() => {
     const loadFormularios = async () => {
@@ -32,21 +33,26 @@ const Formulario = () => {
   }, []);
 
   const handleCreateFormulario = () => {
-    setCurrentStep(2); // Cambiar al paso de selección de tipo de formulario
+    setCurrentStep(2);
+  };
+
+  const handleEditFormulario = (formulario) => {
+    setSelectedFormulario(formulario);
+    setCurrentStep(5); // Cambiar al paso de edición
   };
 
   const handleViewFormulario = (idFormulario) => {
-    setSelectedFormulario(idFormulario); // Guardar el ID del formulario seleccionado
-    setCurrentStep(4); // Cambiar al paso de visualización
+    setSelectedFormulario(idFormulario);
+    setCurrentStep(4);
   };
 
   const handleBackToFormularios = () => {
-    setCurrentStep(1); // Volver a la lista de Formularios
+    setCurrentStep(1);
   };
 
   const handlePlantillaSeleccionada = (plantilla) => {
-    setCurrentStep(3); // Cambiar al paso de llenado del formulario
-    setSelectedPlantilla(plantilla); // Guardar la plantilla seleccionada
+    setCurrentStep(3);
+    setSelectedPlantilla(plantilla);
   };
 
   const handleDeleteFormulario = async (id) => {
@@ -79,12 +85,12 @@ const Formulario = () => {
       render: (formulario) => (
         <div style={{ display: "flex", gap: "10px" }}>
           <FaEye
-            onClick={() => handleViewFormulario(formulario.idFormulario)} // Llamada al manejador de visualización
+            onClick={() => handleViewFormulario(formulario.idFormulario)}
             title="Ver formulario"
             style={{ cursor: "pointer", color: "#007bff" }}
           />
           <FaEdit
-            onClick={() => console.log("Editar formulario con ID:", formulario.idFormulario)}
+            onClick={() => handleEditFormulario(formulario)}
             title="Editar formulario"
             style={{ cursor: "pointer", color: "#ffc107" }}
           />
@@ -133,6 +139,13 @@ const Formulario = () => {
       )}
       {currentStep === 4 && (
         <VerFormulario idFormulario={selectedFormulario} onBack={handleBackToFormularios} />
+      )}
+      {currentStep === 5 && selectedFormulario && (
+        <EditFormulario
+          formulario={selectedFormulario}
+          onBack={handleBackToFormularios}
+          onUpdate={handleBackToFormularios}
+        />
       )}
     </div>
   );

@@ -10,12 +10,25 @@ import { FaBookMedical } from 'react-icons/fa';
 function EnfermeraLayout({ children }) {
   return (
     <div className="enfermera-layout">
-      {/* Columna Izquierda */}
       <Sidebar
         links={[
           { label: 'Dashboard', to: '/enfermera/dashboard', icon: <AiOutlineDashboard /> },
-          { label: 'Pacientes', to: '/enfermera/pacientes', icon: <BiUserCircle /> },
-          { label: 'Historias Clínicas', to: '/enfermera/historias', icon: <FaBookMedical /> }
+          { 
+            label: 'Pacientes', 
+            to: '/enfermera/pacientes', 
+            icon: <BiUserCircle />,
+            subMenu: [
+              { label: 'Referidos', to: '/enfermera/pacientes/referidoEnfermera' }, 
+            ],
+          },
+          { 
+            label: 'Historias Clínicas', 
+            to: '/enfermera/historias', 
+            icon: <FaBookMedical />,
+            subMenu: [
+              { label: 'Formulario', to: '/enfermera/historias/formularioEnfermera' }, 
+            ], 
+          }
         ]}
       />
 

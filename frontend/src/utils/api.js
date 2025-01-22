@@ -333,6 +333,35 @@ export const createReferido = async (referidoData) => {
   }
 };
 
+export const updateReferido = async (idReferido, pacienteIdentificacion, referidoData) => {
+  try {
+    const response = await API.put(`/referido/${idReferido}/${pacienteIdentificacion}`, referidoData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar referido:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+export const fetchReferidoById = async (idReferido, pacienteIdentificacion) => {
+  try {
+    const response = await API.get(`/referido/${idReferido}/${pacienteIdentificacion}`);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error al obtener detalles del referido:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
+
+export const deleteReferido = async (idReferido, pacienteIdentificacion) => {
+  try {
+    const response = await API.delete(`/referido/${idReferido}/${pacienteIdentificacion}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar referido:', error);
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+  }
+};
 
 
 // Plantilla

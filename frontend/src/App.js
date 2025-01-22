@@ -29,13 +29,18 @@ import Titulo from "./modules/Admin/Users/SubMenu/Titulo/Titulo";
 
 // Módulos del Doctor
 import DashboardDoctor from "./modules/Doctor/DashboardDoctor";
-import PacientesDoctor from "./modules/Doctor/PacientesDoctor";
+import PacientesDoctor from "./modules/Doctor/Pacientes/PacientesDoctor";
+import ReferidoDoctor from "./modules/Doctor/Pacientes/Referidos/ReferidoDoctor";
 import HistoriasDoctor from "./modules/Doctor/HistoriaClinica/HistoriasDoctor";
+import FormularioDoctor from "./modules/Doctor/HistoriaClinica/Formulario/FromularioDoctor";
 
 // Módulos de la Enfermera
 import DashboardEnfermera from "./modules/Enfermera/DashboardEnfermera";
-import PacientesEnfermera from "./modules/Enfermera/PacientesEnfermera";
-import HistoriasEnfermera from "./modules/Enfermera/Historia Clinica/HistoriasEnfermera";
+import PacientesEnfermera from "./modules/Enfermera/PacientesEnfermera/PacientesEnfermera";
+import ReferidoEnfermera from "./modules/Enfermera/PacientesEnfermera/Referido/ReferidoEnfermera";
+import HistoriasEnfermera from "./modules/Enfermera/HistoriaClinica/HistoriasEnfermera";
+import FormularioEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioEnfermera";
+
 
 function App() {
   const navigate = useNavigate();
@@ -72,7 +77,7 @@ function App() {
             label: "Pacientes",
             icon: <i className="fas fa-user-injured"></i>,
             subMenu: [
-              { to: "/admin/patients/referido", label: "Referido" }, // Nuevo submenú agregado
+              { to: "/admin/patients/referido", label: "Referidos" }, 
             ],
           },
           { to: "/admin/change", label: "Solicitudes de Cambio", icon: <i className="fas fa-exchange-alt"></i> },
@@ -89,13 +94,41 @@ function App() {
         ],
         Doctor: [
           { to: "/doctor/dashboard", label: "Dashboard", icon: <i className="fas fa-tachometer-alt"></i> },
-          { to: "/doctor/pacientes", label: "Pacientes", icon: <i className="fas fa-user-injured"></i> },
-          { to: "/doctor/historias", label: "Historias Clínicas", icon: <i className="fas fa-notes-medical"></i> },
+          { 
+            to: "/doctor/pacientes", 
+            label: "Pacientes", 
+            icon: <i className="fas fa-user-injured"></i>, 
+            subMenu: [
+              { to: "/doctor/pacientes/referidoDoctor", label: "Referidos" }, 
+            ],
+          },
+          { 
+            to: "/doctor/historias", 
+            label: "Historias Clínicas", 
+            icon: <i className="fas fa-notes-medical"></i>, 
+            subMenu: [
+              { to: "/pacientes/historias/formulariosDoctor", label: "Formularios" },
+            ],
+          },
         ],
         Enfermera: [
           { to: "/enfermera/dashboard", label: "Dashboard", icon: <i className="fas fa-tachometer-alt"></i> },
-          { to: "/enfermera/paciente", label: "Pacientes", icon: <i className="fas fa-user-injured"></i> },
-          { to: "/enfermera/historias", label: "Historias Clínicas", icon: <i className="fas fa-notes-medical"></i> },
+          { 
+            to: "/enfermera/paciente", 
+            label: "Pacientes", 
+            icon: <i className="fas fa-user-injured"></i>,
+            subMenu: [
+              { to: "/enfermera/paciente/referidoEnfermera", label: "Referidos" }, 
+            ], 
+          },
+          { 
+            to: "/enfermera/historias", 
+            label: "Historias Clínicas", 
+            icon: <i className="fas fa-notes-medical"></i>,
+            subMenu: [
+              { to: "/enfermera/historias/formularioEnfermera", label: "Formularios" },
+            ], 
+          },
         ],
       };
 
@@ -151,12 +184,16 @@ function App() {
       {/* Rutas del Doctor */}
       <Route path="/doctor/dashboard" element={<DoctorLayout><DashboardDoctor /></DoctorLayout>} />
       <Route path="/doctor/pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />
+      <Route path="/doctor/pacientes/referidoDoctor" element={<DoctorLayout><ReferidoDoctor /></DoctorLayout>} />
       <Route path="/doctor/historias" element={<DoctorLayout><HistoriasDoctor /></DoctorLayout>} />
+      <Route path="/doctor/historias/formularioDoctor" element={<DoctorLayout><FormularioDoctor /></DoctorLayout>} />
 
       {/* Rutas de la Enfermera */}
       <Route path="/enfermera/dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
-      <Route path="/enfermera/paciente" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/pacientes" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/pacientes/referidoEnfermera" element={<EnfermeraLayout><ReferidoEnfermera /></EnfermeraLayout>} />
       <Route path="/enfermera/historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
+      <Route path="/enfermera/historias/formularioEnfermera" element={<EnfermeraLayout><FormularioEnfermera /></EnfermeraLayout>} />
 
       {/* 404 si la ruta no existe */}
       <Route path="*" element={<h1>404 - Página no encontrada</h1>} />

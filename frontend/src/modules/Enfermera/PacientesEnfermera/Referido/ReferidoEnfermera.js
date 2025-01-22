@@ -3,12 +3,12 @@ import { fetchReferidos, createReferido, updateReferido, deleteReferido, fetchRe
 import SearchBar from '../../../../components/common/SearchBar';
 import Table from '../../../../components/common/Table';
 import Button from '../../../../components/common/Button';
-import AddReferido from './AddReferido';
-import EditReferido from './EditReferido';
-import ReferidoProfile from './ReferidoProfile';
+import AddReferidoEnfermera from './AddReferidoEnfermera';
+import EditReferidoEnfermera from './EditReferidoEnfermera';
+import ReferidoProfileEnfermera from './ReferidoProfileEnfermera';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
-function Referido() {
+function ReferidoEmfermera() {
   const [referidos, setReferidos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -138,20 +138,20 @@ function Referido() {
         <Table columns={columns} data={filteredReferidos} />
       )}
       {showAddModal && (
-        <AddReferido
+        <AddReferidoEnfermera
           onClose={() => setShowAddModal(false)}
           onAdd={handleAddReferido}
         />
       )}
       {showEditModal && (
-        <EditReferido
+        <EditReferidoEnfermera
           onClose={() => setShowEditModal(false)}
           onUpdate={handleEditReferido}
           initialData={currentReferido}
         />
       )}
       {showViewModal && currentReferido && (
-        <ReferidoProfile
+        <ReferidoProfileEnfermera
           referido={currentReferido}
           onClose={() => setShowViewModal(false)}
         />
@@ -160,4 +160,4 @@ function Referido() {
   );
 }
 
-export default Referido;
+export default ReferidoEmfermera;

@@ -28,7 +28,7 @@ function AdminLayout({ children }) {
       to: '/admin/patients',
       icon: <AiOutlineTeam />,
       subMenu: [
-        { label: 'Referido', to: '/admin/patients/referido' }, 
+        { label: 'Referidos', to: '/admin/patients/referido' },
       ],
     },
     {
