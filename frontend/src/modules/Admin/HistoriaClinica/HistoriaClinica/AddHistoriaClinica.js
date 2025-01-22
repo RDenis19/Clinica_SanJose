@@ -6,12 +6,12 @@ import "../../../../styles/modules/Administrador/autocomplete.css";
 
 function AddHistoriaClinica({ onClose, onRefresh }) {
   const [formData, setFormData] = useState({
-    nroHistoriaClinica: "",
     Paciente_identificacion: "",
   });
   const [pacientes, setPacientes] = useState([]); // Lista completa de pacientes
   const [filteredPacientes, setFilteredPacientes] = useState([]); // Lista filtrada según la búsqueda
   const [pacienteExiste, setPacienteExiste] = useState(null); // null, true o false
+  const [ultimoNumeroHistoria, setUltimoNumeroHistoria] = useState(0); // Último número de historia clínica
 
   useEffect(() => {
     // Obtener la lista de pacientes
@@ -35,16 +35,10 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
                 .filter((num) => !isNaN(num)) // Filtrar valores no válidos
             )
           : 0;
-        setFormData((prev) => ({
-          ...prev,
-          nroHistoriaClinica: (ultimoNumero || 0) + 1, // Incrementar el número automáticamente
-        }));
+        setUltimoNumeroHistoria(ultimoNumero + 1); // Incrementar automáticamente
       } catch (error) {
         console.error("Error al obtener el último número de historia clínica:", error);
-        setFormData((prev) => ({
-          ...prev,
-          nroHistoriaClinica: 1, // Asignar 1 si hay un error o no hay datos
-        }));
+        setUltimoNumeroHistoria(1); // Asignar 1 si hay un error o no hay datos
       }
     };
 
@@ -71,8 +65,8 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.nroHistoriaClinica || !formData.Paciente_identificacion) {
-      alert("Por favor, completa todos los campos requeridos.");
+    if (!formData.Paciente_identificacion) {
+      alert("Por favor, completa la identificación del paciente.");
       return;
     }
 
@@ -81,16 +75,16 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
       return;
     }
 
-    // Asegurarse de que los datos enviados sean válidos
+    // Agregar el número de historia clínica calculado
     const dataToSend = {
       ...formData,
-      nroHistoriaClinica: String(formData.nroHistoriaClinica || ""), // Convertir a cadena válida
+      nroHistoriaClinica: ultimoNumeroHistoria.toString(),
     };
 
     try {
       console.log("Datos enviados al backend:", dataToSend); // Depuración
       await createHistoria(dataToSend);
-      alert("Historia clínica creada exitosamente");
+      alert("Historia Clínica Agregada");
       onRefresh();
       onClose();
     } catch (error) {
@@ -105,16 +99,6 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
     <div>
       <h2>Agregar Nueva Historia Clínica</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="nroHistoriaClinica">Número de Historia Clínica:</label>
-          <input
-            type="text"
-            name="nroHistoriaClinica"
-            id="nroHistoriaClinica"
-            value={String(formData.nroHistoriaClinica)} // Convertir el valor a cadena
-            readOnly // El campo es de solo lectura
-          />
-        </div>
         <div className="form-group">
           <label htmlFor="Paciente_identificacion">
             Identificación del Paciente:
