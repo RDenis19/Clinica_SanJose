@@ -24,21 +24,21 @@ VALUES
 
 -- Tabla HistoriaClinica
 -- Inserción de los Datos con nroHistoriaClinica en orden secuencial
+INSERT INTO HistoriaClinica (nroHistoriaClinica,Paciente_identificacion) 
+VALUES 
+('000001','1101010101');
 INSERT INTO HistoriaClinica (Paciente_identificacion) 
 VALUES 
-('1101010101');
+('000002','1102020202'); 
 INSERT INTO HistoriaClinica (Paciente_identificacion) 
 VALUES 
-('1102020202'); 
+('000003','1103030303');
 INSERT INTO HistoriaClinica (Paciente_identificacion) 
 VALUES 
-('1103030303');
+('000004','1104040404');
 INSERT INTO HistoriaClinica (Paciente_identificacion) 
 VALUES 
-('1104040404');
-INSERT INTO HistoriaClinica (Paciente_identificacion) 
-VALUES 
-('1105050505');
+('000005','1105050505');
 
 -- Tabla Referido
 INSERT INTO Referido (nombreReferido, parentescoReferido, direccionReferido, telefonoReferido, Paciente_identificacion) 
