@@ -124,14 +124,16 @@ function ReferidoDoctor() {
 
   return (
     <div>
-      <h1>Gestión de Referidos</h1>
-      {notification && <p className="notification">{notification}</p>}
-      <Button label="Agregar Referido" onClick={() => setShowAddModal(true)} />
-      <SearchBar
-        placeholder="Buscar por Identificación o Nombre del Referido"
-        value={searchTerm}
-        onChange={setSearchTerm}
-      />
+      <div className='actions-row'>
+        <h2>Gestión de Referidos</h2>
+        {notification && <p className="notification">{notification}</p>}
+        <SearchBar
+          placeholder="Buscar por Identificación o Nombre del Referido"
+          value={searchTerm}
+          onChange={setSearchTerm}
+        />
+        <Button label="Agregar Referido" onClick={() => setShowAddModal(true)} />
+      </div>
       {loading ? (
         <p>Cargando...</p>
       ) : (
