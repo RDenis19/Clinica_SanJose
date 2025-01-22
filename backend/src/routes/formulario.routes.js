@@ -3,13 +3,13 @@ const {getFormularios,getFormulario,postFormulario,putFormulario,deleteFormulari
 
 const router = Router();
 
-// GET /formulario -> Obtiene todos los formularios
+// GET /formulario/ -> Obtiene todos los formularios
 router.get('/', getFormularios);
 
 //GET /formulario/:idHistoriaClinica -> Obtener todos los formularios asociados a una historia clinica
 router.get('/:idHistoriaClinica', getFormulario);
 
-// POST /formulario -> Crea un nuevo formulario
+// POST /formulario/ -> Crea un nuevo formulario
 router.post('/', postFormulario);
 
 // PUT /formulario/:idFormulario/:idHistoriaClinica/:idPlantilla/:idEstablecimiento
