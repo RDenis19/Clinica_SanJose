@@ -97,23 +97,23 @@ VALUES
 (3, 'Centro de Salud Norte', '0003', 'IESS', 103, 3, 33);
 
 -- Tabla Formulario
-INSERT INTO Formulario (nroHistoriaClinica, fechaCreacionF, contenido, estadoFormulario, notas, observaciones, HistoriaClinica_idHistoriaClinica, Plantilla_Formulario_idPlantilla_Formulario, Establecimiento_idEstablecimiento) 
+INSERT INTO Formulario (fechaCreacionF, contenido, estadoFormulario, notas, observaciones, HistoriaClinica_idHistoriaClinica, Plantilla_Formulario_idPlantilla_Formulario, Establecimiento_idEstablecimiento) 
 VALUES 
-(101, '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 1', 'Observación 1', 1, 1, 1),
-(102, '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 2', 'Observación 2', 1, 2, 2),
-(103, '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 3', 'Observación 3', 1, 3, 3),
-(104, '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 4', 'Observación 4', 2, 4, 1),
-(105, '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 5', 'Observación 5', 2, 5, 2),
-(106, '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 6', 'Observación 6', 2, 6, 3),
-(107, '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 7', 'Observación 7', 3, 7, 1),
-(108, '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 8', 'Observación 8', 3, 1, 2),
-(109, '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 9', 'Observación 9', 3, 2, 3),
-(110, '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 10', 'Observación 10', 4, 3, 1),
-(111, '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 11', 'Observación 11', 4, 4, 2),
-(112, '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 12', 'Observación 12', 4, 5, 3),
-(113, '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 13', 'Observación 13', 5, 6, 1),
-(114, '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 14', 'Observación 14', 5, 7, 2),
-(115, '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 15', 'Observación 15', 5, 1, 3);
+( '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 1', 'Observación 1', 1, 1, 1),
+( '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 2', 'Observación 2', 1, 2, 2),
+( '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 3', 'Observación 3', 1, 3, 3),
+( '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 4', 'Observación 4', 2, 4, 1),
+( '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 5', 'Observación 5', 2, 5, 2),
+( '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 6', 'Observación 6', 2, 6, 3),
+( '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 7', 'Observación 7', 3, 7, 1),
+( '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 8', 'Observación 8', 3, 1, 2),
+( '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 9', 'Observación 9', 3, 2, 3),
+( '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 10', 'Observación 10', 4, 3, 1),
+( '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 11', 'Observación 11', 4, 4, 2),
+( '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 12', 'Observación 12', 4, 5, 3),
+( '2025-01-01', '{"campo1": "valor1"}', 'Abierto', 'Nota 13', 'Observación 13', 5, 6, 1),
+( '2025-01-02', '{"campo2": "valor2"}', 'Cerrado', 'Nota 14', 'Observación 14', 5, 7, 2),
+( '2025-01-03', '{"campo3": "valor3"}', 'Cancelado', 'Nota 15', 'Observación 15', 5, 1, 3);
 
 
 -- Tabla RegistroModificaciones
