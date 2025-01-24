@@ -1,3 +1,4 @@
+// Frontend: HistoriaClinica.js
 import React, { useState, useEffect } from "react";
 import Table from "../../../../components/common/Table";
 import Button from "../../../../components/common/Button";
@@ -36,6 +37,7 @@ function HistoriaClinica() {
       setFilteredHistorias(data);
     } catch (error) {
       console.error("Error al cargar historias clínicas:", error);
+      alert("Error al cargar historias clínicas. Por favor, intenta nuevamente.");
     }
   };
 
@@ -48,15 +50,17 @@ function HistoriaClinica() {
     try {
       await deleteHistoria(idHistoriaClinica, pacienteIdentificacion);
       alert("Historia clínica eliminada exitosamente");
-      loadHistorias();
+
+      // Actualizar la lista de historias directamente
+      setHistorias((prev) => prev.filter(historia => historia.idHistoriaClinica !== idHistoriaClinica));
+      setFilteredHistorias((prev) => prev.filter(historia => historia.idHistoriaClinica !== idHistoriaClinica));
     } catch (error) {
       console.error("Error al eliminar historia clínica:", error);
       alert(
-        error.message || "Error al eliminar historia clínica."
+        error.message || "Ocurrió un error inesperado al eliminar la historia clínica."
       );
     }
   };
-
 
   const handleEdit = (historia) => {
     setCurrentHistoria(historia);

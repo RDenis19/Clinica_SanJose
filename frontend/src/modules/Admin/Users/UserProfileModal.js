@@ -11,7 +11,7 @@ const UserProfileModal = ({ userId, onClose }) => {
     const fetchDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetchUserDetails(userId); // Cambiamos id a userId para usar identificación
+        const response = await fetchUserDetails(userId); 
         setFormData(response);
       } catch (error) {
         console.error("Error al obtener detalles del usuario:", error);

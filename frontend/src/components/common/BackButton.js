@@ -12,7 +12,7 @@ function BackButton({ to, onClick }) {
     } else if (to) {
       navigate(to);
     } else {
-      navigate(-1); // Regresa a la página anterior
+      navigate(-1); 
     }
   };
 

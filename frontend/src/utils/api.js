@@ -106,23 +106,30 @@ export const fetchFirmas = async () => {
 
 export const createFirma = async (firmaData) => {
   try {
-    const response = await API.post('/firmaelectronica', firmaData);
+    const response = await API.post('/firmaelectronica', firmaData, {
+      headers: { 'Content-Type': 'multipart/form-data' }, 
+    });
     return response.data;
   } catch (error) {
     console.error('Error al crear firma electrónica:', error);
-    throw error;
+    throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
 
-export const updateFirma = async (id, firmaData) => {
+
+export const updateFirma = async (id, usuarioIdentificacion, firmaData) => {
   try {
-    const response = await API.put(`/firmaelectronica/${id}`, firmaData);
+    const response = await API.put(
+      `/firmaelectronica/${id}/${usuarioIdentificacion}`,
+      firmaData
+    );
     return response.data;
   } catch (error) {
     console.error('Error al actualizar firma electrónica:', error);
     throw error;
   }
 };
+
 
 export const deleteFirma = async (id, usuarioId) => {
   try {
@@ -227,12 +234,12 @@ export const deleteTitulo = async (idTitulo, usuarioIdentificacion) => {
 export const findPacienteById = async (identificacion) => {
   try {
     const response = await API.get(`/paciente/${identificacion}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      return null; 
+      return null;
     }
-    throw error; 
+    throw error;
   }
 };
 
@@ -403,15 +410,15 @@ export const createPlantilla = async (plantillaData) => {
 
 export const updatePlantilla = async (id, plantillaData) => {
   if (!id) {
-      console.error("El ID es indefinido:", id);
-      throw new Error("El ID de la plantilla no se ha proporcionado.");
+    console.error("El ID es indefinido:", id);
+    throw new Error("El ID de la plantilla no se ha proporcionado.");
   }
   try {
-      const response = await API.put(`/plantilla_formulario/${id}`, plantillaData);
-      return response.data;
+    const response = await API.put(`/plantilla_formulario/${id}`, plantillaData);
+    return response.data;
   } catch (error) {
-      console.error("Error al actualizar plantilla:", error);
-      throw error.response ? error.response.data : { error: "Error en el servidor" };
+    console.error("Error al actualizar plantilla:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
   }
 };
 
@@ -455,9 +462,6 @@ export const deleteEstablecimiento = async (idEstablecimiento) => {
     throw error;
   }
 };
-
-
-
 
 export const deletePlantilla = async (id) => {
   try {
