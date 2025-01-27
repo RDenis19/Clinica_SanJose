@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
 import { Modal, Typography, Spin, Space, Tag, Divider } from "antd";
 import { FileTextOutlined, CalendarOutlined, IdcardOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { fetchHistoriaById } from "../../../../utils/api";
@@ -80,3 +80,4 @@ function HistoriaClinicaProfile({ idHistoriaClinica, pacienteIdentificacion, onC
 }
 
 export default HistoriaClinicaProfile;
+ */

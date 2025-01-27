@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import Button from "../../../components/common/Button";
 import { updateHistoria } from "../../../utils/api";
 
@@ -95,3 +95,4 @@ function EditHistoriaClinica({ onClose, onRefresh, historia }) {
 }
 
 export default EditHistoriaClinica;
+ */

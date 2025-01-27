@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import Button from "../../../../components/common/Button";
 import { updateFormulario } from "../../../../utils/api";
 
@@ -161,3 +161,4 @@ const EditFormulario = ({ formulario, onBack, onUpdate }) => {
 };
 
 export default EditFormulario;
+ */

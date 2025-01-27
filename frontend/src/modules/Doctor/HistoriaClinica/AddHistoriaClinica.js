@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import Button from "../../../components/common/Button";
 import { createHistoria, fetchPatients } from "../../../utils/api";
 import SearchBar from "../../../components/common/SearchBar";
@@ -131,3 +131,4 @@ function AddHistoriaClinica({ onClose, onRefresh }) {
 }
 
 export default AddHistoriaClinica;
+ */

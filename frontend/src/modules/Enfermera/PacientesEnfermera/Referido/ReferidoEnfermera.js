@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import { fetchReferidos, createReferido, updateReferido, deleteReferido, fetchReferidoById } from '../../../../utils/api';
 import SearchBar from '../../../../components/common/SearchBar';
 import Table from '../../../../components/common/Table';
@@ -161,3 +161,4 @@ function ReferidoEmfermera() {
 }
 
 export default ReferidoEmfermera;
+ */

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaUser, FaPhone, FaBirthdayCake, FaMapMarkerAlt, FaGlobe, FaVenusMars, FaTint, FaAllergies } from "react-icons/fa";
 import { fetchHistoriaById, fetchPatientDetails } from "../../../utils/api";
@@ -127,4 +127,4 @@ const PatientProfilePage = () => {
   );
 };
 
-export default PatientProfilePage;
+export default PatientProfilePage; */

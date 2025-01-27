@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import { createFormulario } from "../../../../utils/api";
 import Button from "../../../../components/common/Button"; 
 import "../../../../styles/modules/Administrador/NuevoFormulario.css"; 
@@ -180,3 +180,4 @@ const NuevoFormulario = ({ plantilla, onBack }) => {
 };
 
 export default NuevoFormulario;
+ */

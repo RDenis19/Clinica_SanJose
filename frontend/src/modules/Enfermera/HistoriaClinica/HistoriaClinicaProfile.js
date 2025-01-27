@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
 import Modal from "../../../components/common/Modal";
 import { fetchHistoriaById } from "../../../utils/api";
 
@@ -49,3 +49,4 @@ function HistoriaClinicaProfile({ idHistoriaClinica, pacienteIdentificacion, onC
 }
 
 export default HistoriaClinicaProfile;
+ */

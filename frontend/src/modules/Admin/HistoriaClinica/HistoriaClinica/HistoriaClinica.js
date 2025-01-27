@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Modal, notification, Popconfirm, Space } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import AddHistoriaClinica from "./AddHistoriaClinica";
@@ -161,3 +161,4 @@ function HistoriaClinica() {
 }
 
 export default HistoriaClinica;
+ */

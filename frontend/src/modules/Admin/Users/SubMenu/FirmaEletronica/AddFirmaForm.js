@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import Modal from '../../../../../components/common/Modal';
 import Button from '../../../../../components/common/Button';
 import { createFirma } from '../../../../../utils/api';
@@ -77,3 +77,4 @@ const AddFirmaForm = ({ onClose, onAdd }) => {
 };
 
 export default AddFirmaForm;
+ */

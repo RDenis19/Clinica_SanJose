@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import Modal from '../../../../components/common/Modal';
 import Button from '../../../../components/common/Button';
 
@@ -99,3 +99,4 @@ const AddReferido = ({ onClose, onAdd }) => {
 };
 
 export default AddReferido;
+ */

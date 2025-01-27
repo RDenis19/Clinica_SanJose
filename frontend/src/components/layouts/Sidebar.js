@@ -72,7 +72,10 @@ function Sidebar({ links = [], onLogout }) {
             >
               {link.subMenu.map((subLink) => (
                 <Menu.Item key={subLink.to}>
-                  <NavLink to={subLink.to} activeClassName="active">
+                  <NavLink
+                    to={subLink.to}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
                     {subLink.label}
                   </NavLink>
                 </Menu.Item>
@@ -80,7 +83,10 @@ function Sidebar({ links = [], onLogout }) {
             </SubMenu>
           ) : (
             <Menu.Item key={link.to}>
-              <NavLink to={link.to} activeClassName="active">
+              <NavLink
+                to={link.to}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 <span style={{ display: "flex", alignItems: "center" }}>
                   <span className="icon" style={{ marginRight: collapsed ? "0" : "8px" }}>
                     {link.icon}

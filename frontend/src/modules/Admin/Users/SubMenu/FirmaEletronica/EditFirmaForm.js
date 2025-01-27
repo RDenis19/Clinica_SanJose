@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import Modal from '../../../../../components/common/Modal';
 import Button from '../../../../../components/common/Button';
 import { updateFirma, fetchFirmas } from '../../../../../utils/api';
@@ -84,3 +84,4 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
 };
 
 export default EditFirmaForm;
+ */

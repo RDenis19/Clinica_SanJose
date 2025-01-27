@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import SearchBar from "../../../../components/common/SearchBar";
 import Button from "../../../../components/common/Button";
@@ -152,3 +152,4 @@ const FormularioEnfermera = () => {
 };
 
 export default FormularioEnfermera;
+ */

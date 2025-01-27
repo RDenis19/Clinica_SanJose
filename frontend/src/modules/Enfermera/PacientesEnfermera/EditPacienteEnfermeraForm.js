@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import Modal from "../../../components/common/Modal";
 import Button from "../../../components/common/Button";
 
@@ -190,3 +190,4 @@ const EditPatientForm = ({ onClose, onUpdate, initialData }) => {
 };
 
 export default EditPatientForm;
+ */

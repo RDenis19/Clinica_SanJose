@@ -42,7 +42,6 @@ function AdminLayout({ children }) {
       to: "/admin/historia-clinica",
       icon: <BookOutlined />, // Icono para Historia Clínica
       subMenu: [
-        { label: "Establecimiento", to: "/admin/historia-clinica/establecimiento" },
         { label: "Plantillas", to: "/admin/historia-clinica/plantillas" },
         { label: "Formularios", to: "/admin/historia-clinica/formularios" },
       ],

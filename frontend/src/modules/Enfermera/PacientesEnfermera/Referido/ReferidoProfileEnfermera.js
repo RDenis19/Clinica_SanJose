@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import Modal from '../../../../components/common/Modal';
 
 const ReferidoProfile = ({ referido, onClose }) => {
@@ -29,3 +29,4 @@ const ReferidoProfile = ({ referido, onClose }) => {
 };
 
 export default ReferidoProfile;
+ */

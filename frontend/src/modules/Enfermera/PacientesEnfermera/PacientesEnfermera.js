@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { FaEye, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../../components/common/SearchBar";
@@ -208,3 +208,4 @@ const PacientesEnfermera = () => {
 };
 
 export default PacientesEnfermera;
+ */

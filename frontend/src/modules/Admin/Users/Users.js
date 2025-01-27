@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Space, Select, Popconfirm, notification } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { fetchUsers } from "../../../utils/api";
-import AddUserModal from "./AddUserModal"; // Importamos el modal
+import { fetchUsers, fetchUserById } from "../../../utils/api";
+import AddUserModal from "./AddUserModal";
+import EditUserModal from "./EditUserModal"; // Importamos el modal de edición
 
 const { Search } = Input;
 const { Option } = Select;
@@ -14,6 +15,8 @@ const Users = () => {
   const [searchValue, setSearchValue] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
@@ -46,8 +49,8 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      setUsers(users.filter((user) => user.id !== id));
-      setFilteredUsers(filteredUsers.filter((user) => user.id !== id));
+      setUsers(users.filter((user) => user.id_usuario !== id));
+      setFilteredUsers(filteredUsers.filter((user) => user.id_usuario !== id));
       notification.success({
         message: "Éxito",
         description: "Usuario eliminado correctamente.",
@@ -68,6 +71,41 @@ const Users = () => {
   const handleUserAdded = () => {
     loadUsers(); // Recargamos la lista de usuarios después de agregar uno nuevo
     setIsAddModalOpen(false);
+  };
+
+  const handleEditClick = async (user) => {
+    try {
+      const userDetails = await fetchUserById(user.id_usuario); // Obtén los datos completos del usuario
+
+      if (!userDetails || !userDetails.personal || !userDetails.academica || !userDetails.contacto) {
+        notification.error({
+          message: "Error",
+          description: "Faltan datos del usuario para editar.",
+        });
+        return;
+      }
+
+      setEditingUser({
+        ...userDetails,
+        informacion_personal: userDetails.personal,
+        informacion_academica: userDetails.academica,
+        informacion_contacto: userDetails.contacto
+      });
+
+      setIsEditModalOpen(true); // Abre el modal
+    } catch (error) {
+      console.error("Error al cargar detalles del usuario:", error);
+      notification.error({
+        message: "Error",
+        description: "No se pudieron cargar los detalles del usuario.",
+      });
+    }
+  };
+
+
+  const handleUserUpdated = () => {
+    loadUsers(); // Recargamos la lista de usuarios después de actualizar
+    setIsEditModalOpen(false);
   };
 
   const paginatedUsers = filteredUsers.slice(
@@ -96,7 +134,7 @@ const Users = () => {
       title: "Último Login",
       dataIndex: "ultimo_login",
       key: "ultimo_login",
-      render: (text) => (text !== null ? (dayjs (text).format("YYYY-MM-DD HH:mm:ss")) : "Sin dato")
+      render: (text) => (text !== null ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : "Sin dato"),
     },
     {
       title: "Estado",
@@ -110,10 +148,10 @@ const Users = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button icon={<EyeOutlined />} onClick={() => console.log("Ver usuario", record)} />
-          <Button icon={<EditOutlined />} onClick={() => console.log("Editar usuario", record)} />
+          <Button icon={<EditOutlined />} onClick={() => handleEditClick(record)} />
           <Popconfirm
             title="¿Estás seguro de eliminar este usuario?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id_usuario)}
             okText="Sí"
             cancelText="No"
           >
@@ -141,8 +179,8 @@ const Users = () => {
           allowClear
           style={{ width: 200 }}
         >
-          <Option value="Activo">Activo</Option>
-          <Option value="Inactivo">Inactivo</Option>
+          <Option value="activo">Activo</Option>
+          <Option value="inactivo">Inactivo</Option>
         </Select>
         <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsAddModalOpen(true)}>
           Agregar Usuario
@@ -151,7 +189,7 @@ const Users = () => {
       <Table
         columns={columns}
         dataSource={paginatedUsers}
-        rowKey="id"
+        rowKey="id_usuario"
         pagination={{
           current: currentPage,
           pageSize: itemsPerPage,
@@ -163,6 +201,12 @@ const Users = () => {
         visible={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onUserAdded={handleUserAdded}
+      />
+      <EditUserModal
+        visible={isEditModalOpen}
+        userData={editingUser}
+        onClose={() => setIsEditModalOpen(false)}
+        onUserUpdated={handleUserUpdated}
       />
     </div>
   );

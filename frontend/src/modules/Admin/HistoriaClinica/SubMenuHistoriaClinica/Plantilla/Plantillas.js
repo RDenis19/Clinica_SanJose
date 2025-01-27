@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Modal, notification, Popconfirm, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { fetchPlantillas, deletePlantilla } from "../../../../../utils/api";
@@ -142,3 +142,4 @@ function Plantillas() {
 }
 
 export default Plantillas;
+ */

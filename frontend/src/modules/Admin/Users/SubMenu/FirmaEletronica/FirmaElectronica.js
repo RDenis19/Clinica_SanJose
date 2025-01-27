@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import Table from '../../../../../components/common/Table';
 import Button from '../../../../../components/common/Button';
 import SearchBar from '../../../../../components/common/SearchBar';
@@ -117,3 +117,4 @@ const FirmaElectronica = () => {
 };
 
 export default FirmaElectronica;
+ */

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
 import BackButton from "../../../../components/common/BackButton";
 import Table from "../../../../components/common/Table";
 import Pagination from "../../../../components/common/Pagination";
@@ -119,3 +119,4 @@ function TipoFormularios({ onBack, onPlantillaSeleccionada }) {
 }
 
 export default TipoFormularios;
+ */

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
 import { fetchFormularioById } from "../../../../utils/api";
 
 const VerFormulario = ({ idHistoriaClinica, onBack }) => {
@@ -53,3 +53,4 @@ const VerFormulario = ({ idHistoriaClinica, onBack }) => {
 };
 
 export default VerFormulario;
+ */
