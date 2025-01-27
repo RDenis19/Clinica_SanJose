@@ -23,7 +23,7 @@ API.interceptors.request.use(
 // Petición para iniciar sesión
 export const loginRequest = async (credentials) => {
   try {
-    const response = await API.post('/api/auth/login', credentials);
+    const response = await API.post('/auth/login', credentials);
     console.log("Respuesta del servidor:", response.data); // Depuración opcional
     return response.data;
   } catch (error) {
@@ -36,28 +36,65 @@ export const loginRequest = async (credentials) => {
 
 
 // Usuario
-export const fetchUsers = async (page = 1, limit = 10) => {
+export const fetchUsers = async () => {
   try {
-    const response = await API.get(`/user?page=${page}&limit=${limit}`);
+    const response = await API.get('/usuario/'); 
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    throw error.response
+      ? error.response.data
+      : { error: 'Error en el servidor' };
   }
 };
 
 
+// Crear un nuevo usuario con su información completa
 export const createUser = async (userData) => {
   try {
-    const response = await API.post("/user/", userData);
-    return response.data.data;
+    const response = await API.post('/usuario/', userData);
+    return response.data;
   } catch (error) {
-    console.error("Error en createUser:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Error al crear usuario.");
+    console.error('Error en createUser:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Error al crear el usuario.');
+  }
+};
+
+// Crear información personal del usuario
+export const createUserPersonalInfo = async (personalInfo) => {
+  try {
+    const response = await API.post('/uip/', personalInfo);
+    return response.data;
+  } catch (error) {
+    console.error('Error en createUserPersonalInfo:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Error al crear información personal.');
+  }
+};
+
+// Crear información académica del usuario
+export const createUserAcademicInfo = async (academicInfo) => {
+  try {
+    const response = await API.post('/uia/', academicInfo);
+    return response.data;
+  } catch (error) {
+    console.error('Error en createUserAcademicInfo:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Error al crear información académica.');
+  }
+};
+
+// Crear información de contacto del usuario
+export const createUserContactInfo = async (contactInfo) => {
+  try {
+    const response = await API.post('/uic/', contactInfo);
+    return response.data;
+  } catch (error) {
+    console.error('Error en createUserContactInfo:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Error al crear información de contacto.');
   }
 };
 
 
+// usuairo
 export const fetchUserDetails = async (identificacion) => {
   try {
     const response = await API.get(`/user/${identificacion}`);

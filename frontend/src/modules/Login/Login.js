@@ -42,9 +42,9 @@ function Login() {
       localStorage.setItem("jwt_token", token);
 
       const routes = {
-        Administrador: "/admin/dashboard", // Administrador
-        Doctor: "/doctor/dashboard", // Doctor
-        Enfermera: "/enfermera/dashboard", // Enfermera
+        Administrador: "/admin/dashboard", 
+        Doctor: "/doctor/dashboard", 
+        Enfermera: "/enfermera/dashboard", 
       };
 
       if (routes[rol]) {

@@ -17,15 +17,13 @@ import Dashboard from "./modules/Admin/Dashboard";
 import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
 import PatientProfilePage from "./modules/Admin/Patients/PatientProfilePage";
-import Referido from "./modules/Admin/Patients/Referido/Referido";
 import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Establecimiento from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento";
 import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/Plantillas";
 import Formularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/Formularios";
 import FirmaElectronica from "./modules/Admin/Users/SubMenu/FirmaEletronica/FirmaElectronica";
-import Jornada from "./modules/Admin/Users/SubMenu/Jornada/Jornada";
-import Titulo from "./modules/Admin/Users/SubMenu/Titulo/Titulo";
+
 
 // Módulos del Doctor
 import DashboardDoctor from "./modules/Doctor/DashboardDoctor";
@@ -65,8 +63,6 @@ function App() {
             label: "Usuarios",
             subMenu: [
               { to: "/admin/users/firma-electronica", label: "Firma Electrónica" },
-              { to: "/admin/users/jornada", label: "Jornada" },
-              { to: "/admin/users/titulo", label: "Título" },
             ],
           },
           {
@@ -152,10 +148,7 @@ function App() {
       <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
       <Route path="/admin/users" element={<AdminLayout><Users /></AdminLayout>} />
       <Route path="/admin/users/firma-electronica" element={<AdminLayout><FirmaElectronica /></AdminLayout>} />
-      <Route path="/admin/users/jornada" element={<AdminLayout><Jornada /></AdminLayout>} />
-      <Route path="/admin/users/titulo" element={<AdminLayout><Titulo /></AdminLayout>} />
       <Route path="/admin/patients" element={<AdminLayout><Patients /></AdminLayout>} />
-      <Route path="/admin/patients/referido" element={<AdminLayout><Referido /></AdminLayout>} />
       <Route path="/admin/change" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
       <Route path="/admin/historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
       <Route path="/admin/historia-clinica/establecimiento" element={<AdminLayout><Establecimiento /></AdminLayout>} />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
 import { LogoutOutlined, HeartOutlined } from "@ant-design/icons";
 
@@ -9,6 +9,7 @@ const { SubMenu } = Menu;
 function Sidebar({ links = [], onLogout }) {
   const [collapsed, setCollapsed] = useState(false);
   const [openKeys, setOpenKeys] = useState([]);
+  const navigate = useNavigate();
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
@@ -18,6 +19,11 @@ function Sidebar({ links = [], onLogout }) {
   const handleOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => !openKeys.includes(key));
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []); // Allow only one submenu to stay open
+  };
+
+  const handleMenuClick = (path) => {
+    navigate(path); // Navega a la ruta del menú principal
+    if (collapsed) setOpenKeys([]); // Cierra todos los submenús si el sidebar está colapsado
   };
 
   return (
@@ -40,7 +46,7 @@ function Sidebar({ links = [], onLogout }) {
 
       <Menu
         mode="inline"
-        openKeys={openKeys}
+        openKeys={!collapsed ? openKeys : []} // No abrir submenús si está colapsado
         onOpenChange={handleOpenChange}
         style={{ backgroundColor: "#F6FFED", borderRight: "none" }}
       >
@@ -49,10 +55,19 @@ function Sidebar({ links = [], onLogout }) {
             <SubMenu
               key={link.to}
               title={
-                <NavLink to={link.to} activeClassName="active" style={{ display: "flex", alignItems: "center" }}>
-                  <span className="icon" style={{ marginRight: "8px" }}>{link.icon}</span>
-                  {link.label}
-                </NavLink>
+                <div
+                  onClick={() => handleMenuClick(link.to)} // Navega al hacer clic en el menú principal
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <span className="icon" style={{ marginRight: collapsed ? "0" : "8px" }}>
+                    {link.icon}
+                  </span>
+                  {!collapsed && link.label}
+                </div>
               }
             >
               {link.subMenu.map((subLink) => (
@@ -66,8 +81,12 @@ function Sidebar({ links = [], onLogout }) {
           ) : (
             <Menu.Item key={link.to}>
               <NavLink to={link.to} activeClassName="active">
-                <span className="icon" style={{ marginRight: collapsed ? "0" : "8px" }}>{link.icon}</span>
-                {link.label}
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <span className="icon" style={{ marginRight: collapsed ? "0" : "8px" }}>
+                    {link.icon}
+                  </span>
+                  {!collapsed && link.label}
+                </span>
               </NavLink>
             </Menu.Item>
           )
@@ -86,7 +105,7 @@ function Sidebar({ links = [], onLogout }) {
         }}
         onClick={toggleCollapse}
       >
-        {collapsed ? '>' : '<'}
+        {collapsed ? ">" : "<"}
       </div>
 
       <div style={{ textAlign: "center", padding: "16px" }}>
