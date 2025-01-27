@@ -1,98 +1,68 @@
-/* import React, { useState } from "react";
-import Button from "../../../../components/common/Button";
-import { updateHistoria } from "../../../../utils/api";
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Input, Button, notification } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { updateHistoriaClinica } from "../../../../utils/api"; // Ajusta esta ruta
 
-function EditHistoriaClinica({ onClose, onRefresh, historia }) {
-  const [formData, setFormData] = useState({
-    idHistoriaClinica: historia.idHistoriaClinica || "",
-    nroHistoriaClinica: historia.nroHistoriaClinica || "",
-    fechaCreacionHC: historia.fechaCreacionHC || "",
-    fechaUltimaEdicion: new Date().toISOString().split("T")[0], // Fecha actual como valor por defecto
-    Paciente_identificacion: historia.Paciente_identificacion || "",
-  });
+const EditHistoriaClinica = ({ visible, onClose, historia, onHistoriaUpdated }) => {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    useEffect(() => {
+        if (historia) {
+            form.setFieldsValue(historia); // Carga los datos iniciales de la historia clínica
+        }
+    }, [historia, form]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await updateHistoria(historia.idHistoriaClinica, historia.Paciente_identificacion, formData);
-      alert("Historia clínica actualizada exitosamente");
-      onRefresh();
-      onClose();
-    } catch (error) {
-      console.error("Error al actualizar historia clínica:", error);
-      alert("Error al actualizar historia clínica");
-    }
-  };
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        try {
+            await updateHistoriaClinica(historia.nro_archivo, values); // Llama a la API para actualizar la historia clínica
+            notification.success({
+                message: "Historia clínica actualizada",
+                description: "La historia clínica se ha actualizado exitosamente.",
+            });
+            onHistoriaUpdated(); // Actualiza la lista en el componente principal
+            onClose(); // Cierra el modal
+        } catch (error) {
+            console.error("Error al actualizar historia clínica:", error);
+            notification.error({
+                message: "Error",
+                description: "No se pudo actualizar la historia clínica.",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div>
-      <h2>Editar Historia Clínica</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="idHistoriaClinica">ID de la Historia Clínica:</label>
-          <input
-            type="text"
-            name="idHistoriaClinica"
-            id="idHistoriaClinica"
-            value={formData.idHistoriaClinica}
-            readOnly
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="nroHistoriaClinica">Número de Historia Clínica:</label>
-          <input
-            type="text"
-            name="nroHistoriaClinica"
-            id="nroHistoriaClinica"
-            value={formData.nroHistoriaClinica}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fechaCreacionHC">Fecha de Creación:</label>
-          <input
-            type="date"
-            name="fechaCreacionHC"
-            id="fechaCreacionHC"
-            value={formData.fechaCreacionHC}
-            readOnly
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fechaUltimaEdicion">Fecha de Última Edición:</label>
-          <input
-            type="date"
-            name="fechaUltimaEdicion"
-            id="fechaUltimaEdicion"
-            value={formData.fechaUltimaEdicion}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="Paciente_identificacion">Identificación del Paciente:</label>
-          <input
-            type="text"
-            name="Paciente_identificacion"
-            id="Paciente_identificacion"
-            value={formData.Paciente_identificacion}
-            readOnly
-          />
-        </div>
-        <div className="form-buttons">
-          <Button type="submit" label="Guardar" />
-          <Button type="button" label="Cancelar" onClick={onClose} />
-        </div>
-      </form>
-    </div>
-  );
-}
+    return (
+        <Modal
+            title="Editar Historia Clínica"
+            visible={visible}
+            onCancel={onClose}
+            footer={null}
+        >
+            <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form.Item
+                    name="nro_identificacion"
+                    label="Identificación del Paciente"
+                    rules={[{ required: true, message: "Este campo es obligatorio." }]}
+                >
+                    <Input placeholder="Número de identificación del paciente" />
+                </Form.Item>
+                <Form.Item>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={loading}
+                        icon={<EditOutlined />}
+                        block
+                    >
+                        Guardar Cambios
+                    </Button>
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
+};
 
 export default EditHistoriaClinica;
- */

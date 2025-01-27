@@ -110,7 +110,6 @@ export const fetchUserDetails = async (idUsuario) => {
 
 
 // Actualizar Usuario
-// Actualizar Usuario
 export const updateUser = async (idUsuario, userData) => {
   try {
     const response = await API.put(`/usuario/${idUsuario}`, userData);
@@ -246,5 +245,52 @@ export const deletePatient = async (id) => {
   } catch (error) {
     console.error("Error al eliminar paciente:", error.response?.data || error.message);
     throw new Error(error.response?.data?.message || "Error al eliminar el paciente.");
+  }
+};
+
+// Historia Clinica 
+
+// Obtener todas las historias clínicas
+export const fetchHistoriaClinica = async () => {
+  try {
+    const response = await API.get("/archivos"); // Cambia "/archivo_clinico" a "/archivos"
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las historias clínicas:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+
+// Crear una nueva historia clínica
+export const createHistoriaClinica = async (data) => {
+  try {
+    const response = await API.post("/archivos", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear historia clínica:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+// Actualizar una historia clínica
+export const updateHistoriaClinica = async (nroArchivo, data) => {
+  try {
+    const response = await API.put(`/archivos/${nroArchivo}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar historia clínica:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+// Eliminar una historia clínica
+export const deleteHistoriaClinica = async (nroArchivo) => {
+  try {
+    const response = await API.delete(`/archivos/${nroArchivo}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar historia clínica:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
   }
 };
