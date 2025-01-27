@@ -1,13 +1,14 @@
 import React from "react";
-import { Layout, Avatar } from "antd";
+import { Layout } from "antd";
 import Sidebar from "./Sidebar";
+import CustomHeader from "./Header"; // Reutilizamos el CustomHeader
 import {
   DashboardOutlined,
   UserOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 function DoctorLayout({ children }) {
   const doctorLinks = [
@@ -40,31 +41,10 @@ function DoctorLayout({ children }) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* Sidebar con onLogout */}
       <Sidebar links={doctorLinks} onLogout={handleLogout} />
-
-      {/* Área principal */}
       <Layout>
-        <Header
-          style={{
-            background: "#001529",
-            padding: "0 16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ color: "white" }}>Bienvenido, Doctor</div>
-          <Avatar src="https://via.placeholder.com/40" size="large" />
-        </Header>
-
-        <Content
-          style={{
-            margin: "16px",
-            padding: "16px",
-            background: "#fff",
-          }}
-        >
+        <CustomHeader username="Doctor" profilePic="https://via.placeholder.com/40" />
+        <Content style={{ margin: "16px", padding: "16px", background: "#fff" }}>
           {children}
         </Content>
       </Layout>

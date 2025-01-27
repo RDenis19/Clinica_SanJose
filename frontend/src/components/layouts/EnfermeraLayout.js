@@ -1,25 +1,26 @@
 import React from "react";
-import { Layout, Avatar } from "antd";
+import { Layout } from "antd";
 import Sidebar from "./Sidebar";
+import CustomHeader from "./Header"; // Reutilizamos el CustomHeader
 import {
   DashboardOutlined,
   UserOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 function EnfermeraLayout({ children }) {
   const nurseLinks = [
     {
       label: "Dashboard",
       to: "/enfermera/dashboard",
-      icon: <DashboardOutlined />, 
+      icon: <DashboardOutlined />,
     },
     {
       label: "Pacientes",
       to: "/enfermera/pacientes",
-      icon: <UserOutlined />, 
+      icon: <UserOutlined />,
       subMenu: [
         { label: "Referidos", to: "/enfermera/pacientes/referidoEnfermera" },
       ],
@@ -27,7 +28,7 @@ function EnfermeraLayout({ children }) {
     {
       label: "Historias Clínicas",
       to: "/enfermera/historias",
-      icon: <FileTextOutlined />, 
+      icon: <FileTextOutlined />,
       subMenu: [
         { label: "Formulario", to: "/enfermera/historias/formulariosEnfermera" },
       ],
@@ -40,31 +41,10 @@ function EnfermeraLayout({ children }) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* Sidebar con onLogout */}
       <Sidebar links={nurseLinks} onLogout={handleLogout} />
-
-      {/* Área principal */}
       <Layout>
-        <Header
-          style={{
-            background: "#001529",
-            padding: "0 16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ color: "white" }}>Bienvenida, Enfermera</div>
-          <Avatar src="https://via.placeholder.com/40" size="large" />
-        </Header>
-
-        <Content
-          style={{
-            margin: "16px",
-            padding: "16px",
-            background: "#fff",
-          }}
-        >
+        <CustomHeader username="Enfermera" profilePic="https://via.placeholder.com/40" />
+        <Content style={{ margin: "16px", padding: "16px", background: "#fff" }}>
           {children}
         </Content>
       </Layout>
