@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Form, Input, Select, Button, DatePicker, Row, Col, notification } from "antd";
 import { UserOutlined, IdcardOutlined, CalendarOutlined, ManOutlined, WomanOutlined, SaveOutlined } from "@ant-design/icons";
-import { updatePatient } from "../../../utils/api"; // Importa la función para actualizar pacientes
+import { createPatient } from "../../../utils/api"; // Función para crear paciente
 import dayjs from "dayjs";
 
 const { Option } = Select;
 
-const EditPatientForm = ({ visible, onClose, onPatientUpdated, initialData }) => {
+const AddPatientModal = ({ visible, onClose, onPatientAdded }) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        if (initialData) {
-            form.setFieldsValue({
-                ...initialData,
-                fecha_nacimiento: initialData.fecha_nacimiento
-                    ? dayjs(initialData.fecha_nacimiento)
-                    : null,
-            });
-        }
-    }, [initialData, form]);
 
     const handleSubmit = async (values) => {
         setLoading(true);
@@ -31,20 +20,21 @@ const EditPatientForm = ({ visible, onClose, onPatientUpdated, initialData }) =>
                     : null,
             };
 
-            await updatePatient(initialData.nro_identificacion, formattedData);
+            await createPatient(formattedData);
 
             notification.success({
-                message: "Paciente actualizado",
-                description: "Los datos del paciente se actualizaron correctamente.",
+                message: "Paciente agregado",
+                description: "El paciente se ha creado exitosamente.",
             });
 
-            onPatientUpdated();
-            onClose();
+            onPatientAdded(); // Actualiza la lista en el componente principal
+            form.resetFields(); // Limpia el formulario
+            onClose(); // Cierra el modal
         } catch (error) {
-            console.error("Error al actualizar paciente:", error);
+            console.error("Error al agregar paciente:", error);
             notification.error({
                 message: "Error",
-                description: error.message || "No se pudo actualizar el paciente.",
+                description: error.message || "No se pudo crear el paciente.",
             });
         } finally {
             setLoading(false);
@@ -53,7 +43,7 @@ const EditPatientForm = ({ visible, onClose, onPatientUpdated, initialData }) =>
 
     return (
         <Modal
-            title="Editar Paciente"
+            title="Agregar Paciente"
             visible={visible}
             onCancel={onClose}
             footer={null}
@@ -69,9 +59,9 @@ const EditPatientForm = ({ visible, onClose, onPatientUpdated, initialData }) =>
                         <Form.Item
                             name="nro_identificacion"
                             label="Número de Identificación"
+                            rules={[{ required: true, message: "Este campo es obligatorio." }]}
                         >
                             <Input
-                                disabled
                                 prefix={<IdcardOutlined />}
                                 placeholder="Número de identificación"
                             />
@@ -192,4 +182,4 @@ const EditPatientForm = ({ visible, onClose, onPatientUpdated, initialData }) =>
     );
 };
 
-export default EditPatientForm;
+export default AddPatientModal;

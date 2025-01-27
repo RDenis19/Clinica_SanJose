@@ -16,7 +16,7 @@ import EnfermeraLayout from "./components/layouts/EnfermeraLayout";
 import Dashboard from "./modules/Admin/Dashboard";
 import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
-import PatientProfilePage from "./modules/Admin/Patients/PatientProfilePage";
+
 import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Establecimiento from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Establecimiento/Establecimiento";
@@ -155,7 +155,6 @@ function App() {
       <Route path="/admin/historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
       <Route path="/admin/historia-clinica/formularios" element={<AdminLayout><Formularios /></AdminLayout>} />
 
-      <Route path="/admin/patients/:identificacion" element={<PatientProfilePage />} />
 
       <Route path="/doctor/dashboard" element={<DoctorLayout><DashboardDoctor /></DoctorLayout>} />
       <Route path="/doctor/pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />

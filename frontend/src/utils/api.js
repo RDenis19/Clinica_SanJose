@@ -278,58 +278,58 @@ export const findPacienteById = async (identificacion) => {
 
 
 
-// Obtener lista de pacientes con paginación
-export const fetchPatients = async (page = 1, limit = 10) => {
+// Obtener lista completa de pacientes
+export const fetchPatients = async () => {
   try {
-    const response = await API.get(`/paciente?page=${page}&limit=${limit}`);
-    return response.data;
+    const response = await API.get('/pacientes/'); // Asegúrate de que esta ruta es correcta en tu backend
+    return response.data; // Debe devolver el arreglo de pacientes
   } catch (error) {
     console.error('Error al obtener pacientes:', error);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    throw error.response
+      ? error.response.data
+      : { error: 'Error en el servidor' };
   }
 };
+
+
 
 // Crear un nuevo paciente
 export const createPatient = async (patientData) => {
   try {
-    console.log('Datos enviados al backend (API):', patientData);
-    const response = await API.post('/paciente/', patientData);
-    return response.data;
+    console.log('Datos enviados al backend:', patientData); // Debug
+    const response = await API.post('/pacientes/', patientData); // URL del backend
+    return response.data; // Respuesta esperada
   } catch (error) {
     console.error('Error al agregar paciente:', error.response?.data || error.message);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    throw new Error(error.response?.data?.message || 'Error al crear el paciente.');
   }
 };
 
-// Obtener detalles de un paciente por su identificación
-export const fetchPatientDetails = async (identificacion) => {
+// Obtener detalles de un paciente por identificación
+export const fetchPatientDetails = async (id) => {
   try {
-    const response = await API.get(`/paciente/${identificacion}`);
-    return response.data.data; // Asume que el backend envía { success: true, data: paciente }
+    console.log("Consultando datos del paciente con ID:", id); // Debug
+    const response = await API.get(`/pacientes/${id}`); // Confirma que esta sea la ruta correcta
+    return response.data; // Devuelve los datos del paciente
   } catch (error) {
-    console.error('Error al obtener detalles del paciente:', error);
-    throw error.response
-      ? error.response.data
-      : { error: 'Error al obtener detalles del paciente.' };
+    console.error("Error al obtener detalles del paciente:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al obtener los datos del paciente.");
   }
 };
 
 // Actualizar datos de un paciente por identificación
 export const updatePatient = async (identificacion, patientData) => {
   try {
-    const config = {};
-    if (patientData instanceof FormData) {
-      config.headers = { 'Content-Type': 'multipart/form-data' };
-    }
-
+    // Asegúrate de que los datos sean un objeto JSON
     console.log('Datos enviados en la solicitud PUT:', patientData);
-    const response = await API.put(`/paciente/${identificacion}`, patientData, config);
+    const response = await API.put(`/pacientes/${identificacion}`, patientData); // Verifica que la ruta sea correcta
     return response.data;
   } catch (error) {
     console.error('Error al actualizar paciente:', error.response?.data || error.message);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    throw new Error(error.response?.data?.message || 'Error al actualizar el paciente.');
   }
 };
+
 
 export const searchPatients = async (criteria) => {
   try {
@@ -350,6 +350,19 @@ export const fetchPatientSummary = async () => {
     throw error.response ? error.response.data : { error: 'Error en el servidor' };
   }
 };
+
+// Eliminar un paciente por identificación
+export const deletePatient = async (id) => {
+  try {
+    console.log("Eliminando paciente con ID:", id); // Debug
+    const response = await API.delete(`/pacientes/${id}`); // Confirma que esta sea la ruta correcta
+    return response.data; // Devuelve el resultado de la eliminación
+  } catch (error) {
+    console.error("Error al eliminar paciente:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al eliminar el paciente.");
+  }
+};
+
 
 // Referidos
 export const fetchReferidos = async (pacienteIdentificacion = null) => {

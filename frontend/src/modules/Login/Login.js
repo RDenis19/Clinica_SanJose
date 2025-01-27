@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Typography, message } from "antd";
 import { loginRequest } from "../../utils/api";
 import jwtDecode from "jwt-decode";
-import "./Login.css";
+import "./login.css";
 import logo from "../../assets/images/LogoCorazon.png";
 import doctors from "../../assets/images/img aparte/DoctoresLogin.png";
 
