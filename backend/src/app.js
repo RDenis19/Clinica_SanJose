@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth.routes');
 const usuarioRoutes = require('./routes/usuario.routes');
+const rolRoutes = require('./routes/rol.routes');
+const usuarioInformacionPersonalRoutes = require('./routes/usuario_informacion_personal.routes');
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(express.json());
 // Rutas
 app.use('/auth', authRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/rol', rolRoutes);
+app.use('/uip', usuarioInformacionPersonalRoutes);
 
 
 // Middleware para manejar errores 404
