@@ -5,7 +5,7 @@ const rolController = require('../controllers/rol.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // GET: Obtener todos los roles
-router.get('/', authMiddleware,  olController.obtenerRoles);
+router.get('/', authMiddleware,  rolController.obtenerRoles);
 
 // GET: Obtener un rol por ID
 router.get('/:id_rol', authMiddleware, rolController.obtenerRolPorId);
