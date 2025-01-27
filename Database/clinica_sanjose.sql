@@ -55,6 +55,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`usuario_informacion_personal` (
   `id_informacion_personal` INT NOT NULL AUTO_INCREMENT,
   `id_usuario` INT NOT NULL,
+  `cedula` VARCHAR(10) NOT NULL,
   `nombres` VARCHAR(100) NOT NULL,
   `apellidos` VARCHAR(100) NOT NULL,
   `fecha_nacimiento` DATE NULL,
