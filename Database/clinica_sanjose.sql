@@ -240,8 +240,9 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`respuesta_formulario` (
   `id_campo` INT NOT NULL,
   `valor` TEXT NULL,
   PRIMARY KEY (`id_respuesta`),
-  INDEX `fk_respuesta_formulario_idx` (`id_formulario` ASC) VISIBLE,
+  INDEX `fk_respuesta_formulario_idx` (`id_formulario` ASC) INVISIBLE,
   INDEX `fk_respuesta_campo_formulario_idx` (`id_campo` ASC) VISIBLE,
+  UNIQUE INDEX `uq_respuesta_formulario_campo` (`id_formulario` ASC, `id_campo` ASC) VISIBLE,
   CONSTRAINT `fk_respuesta_formulario`
     FOREIGN KEY (`id_formulario`)
     REFERENCES `clinica_san_jose`.`formulario` (`id_formulario`)
@@ -251,6 +252,56 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`respuesta_formulario` (
     FOREIGN KEY (`id_campo`)
     REFERENCES `clinica_san_jose`.`campo_formulario` (`id_campo`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clinica_san_jose`.`formulario_cambios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`formulario_cambios` (
+  `id_cambio` INT NOT NULL AUTO_INCREMENT,
+  `id_formulario` INT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  `motivo` TEXT NOT NULL,
+  `fecha_cambio` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_cambio`),
+  INDEX `fk_cambio_formulario_idx` (`id_formulario` ASC) VISIBLE,
+  INDEX `fk_cambio_usuario_idx` (`id_usuario` ASC) VISIBLE,
+  CONSTRAINT `fk_cambio_formulario`
+    FOREIGN KEY (`id_formulario`)
+    REFERENCES `clinica_san_jose`.`formulario` (`id_formulario`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_cambio_usuario`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `clinica_san_jose`.`usuario` (`id_usuario`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clinica_san_jose`.`formulario_cambios_detalles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`formulario_cambios_detalles` (
+  `id_cambio_detalle` INT NOT NULL AUTO_INCREMENT,
+  `id_cambio` INT NOT NULL,
+  `id_campo` INT NOT NULL,
+  `valor_anterior` TEXT NULL,
+  `valor_nuevo` TEXT NULL,
+  PRIMARY KEY (`id_cambio_detalle`),
+  INDEX `fk_cambio_detalle_cambio_idx` (`id_cambio` ASC) VISIBLE,
+  INDEX `fk_cambio_detalle_campo_idx` (`id_campo` ASC) VISIBLE,
+  CONSTRAINT `fk_cambio_detalle_cambio`
+    FOREIGN KEY (`id_cambio`)
+    REFERENCES `clinica_san_jose`.`formulario_cambios` (`id_cambio`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_cambio_detalle_campo`
+    FOREIGN KEY (`id_campo`)
+    REFERENCES `clinica_san_jose`.`campo_formulario` (`id_campo`)
+    ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
