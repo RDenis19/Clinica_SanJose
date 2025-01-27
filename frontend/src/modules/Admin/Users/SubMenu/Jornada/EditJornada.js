@@ -5,7 +5,6 @@ import { updateJornada } from '../../../../../utils/api';
 
 const EditJornada = ({ onClose, initialData }) => {
   const [formData, setFormData] = useState({
-    idJornada: '',
     supervisor: '',
     fechaContratacion: '',
     fechaFinContratacion: '',
@@ -13,8 +12,6 @@ const EditJornada = ({ onClose, initialData }) => {
     finJornada: '',
     Usuario_identificacion: '',
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -29,8 +26,8 @@ const EditJornada = ({ onClose, initialData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     try {
+      // Llama al método de actualización del backend
       const { idJornada, Usuario_identificacion } = formData;
       await updateJornada(idJornada, Usuario_identificacion, formData);
       alert('Jornada actualizada con éxito.');
@@ -38,36 +35,32 @@ const EditJornada = ({ onClose, initialData }) => {
     } catch (error) {
       console.error('Error al actualizar la jornada:', error);
       alert('Hubo un error al actualizar la jornada.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <Modal onClose={onClose}>
       <h2>Editar Jornada</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className="form-grid" onSubmit={handleSubmit}>
+        <div className="form-field">
           <label>Supervisor</label>
           <input
+            type="text"
             name="supervisor"
             value={formData.supervisor}
             onChange={handleInputChange}
-            placeholder="Nombre del supervisor"
-            required
           />
         </div>
-        <div>
+        <div className="form-field">
           <label>Fecha Contratación</label>
           <input
             type="date"
             name="fechaContratacion"
             value={formData.fechaContratacion}
             onChange={handleInputChange}
-            required
           />
         </div>
-        <div>
+        <div className="form-field">
           <label>Fecha Fin Contratación</label>
           <input
             type="date"
@@ -76,37 +69,26 @@ const EditJornada = ({ onClose, initialData }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className="form-field">
           <label>Inicio Jornada</label>
           <input
             type="time"
             name="inicioJornada"
             value={formData.inicioJornada}
             onChange={handleInputChange}
-            required
           />
         </div>
-        <div>
+        <div className="form-field">
           <label>Fin Jornada</label>
           <input
             type="time"
             name="finJornada"
             value={formData.finJornada}
             onChange={handleInputChange}
-            required
           />
         </div>
-        <Button
-          type="submit"
-          label={isSubmitting ? 'Guardando...' : 'Guardar Cambios'}
-          disabled={isSubmitting}
-        />
-        <Button
-          type="button"
-          label="Cancelar"
-          onClick={onClose}
-          disabled={isSubmitting}
-        />
+        <Button type="submit" label="Guardar Cambios" className="primary" />
+        <Button type="button" label="Cancelar" onClick={onClose} className="secondary" />
       </form>
     </Modal>
   );

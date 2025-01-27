@@ -7,7 +7,7 @@ function EditHistoriaClinica({ onClose, onRefresh, historia }) {
     idHistoriaClinica: historia.idHistoriaClinica || "",
     nroHistoriaClinica: historia.nroHistoriaClinica || "",
     fechaCreacionHC: historia.fechaCreacionHC || "",
-    fechaUltimaEdicion: new Date().toISOString().split("T")[0],
+    fechaUltimaEdicion: new Date().toISOString().split("T")[0], // Fecha actual como valor por defecto
     Paciente_identificacion: historia.Paciente_identificacion || "",
   });
 
