@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const respuestaFormularioController = require('../controllers/respuestaFormularioController');
+const respuestaFormularioController = require('../controllers/respuestaFormulario.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // Obtener todas las respuestas
