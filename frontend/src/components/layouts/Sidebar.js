@@ -1,78 +1,113 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AiOutlineLogout } from 'react-icons/ai';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import '../../styles/layouts/sidebar.css';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Layout, Menu, Button } from "antd";
+import { LogoutOutlined, HeartOutlined } from "@ant-design/icons";
+
+const { Sider } = Layout;
+const { SubMenu } = Menu;
 
 function Sidebar({ links = [], onLogout }) {
-  const [expandedMenu, setExpandedMenu] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [openKeys, setOpenKeys] = useState([]);
 
-  const toggleSubMenu = (menuLabel) => {
-    setExpandedMenu(expandedMenu === menuLabel ? null : menuLabel);
+  const toggleCollapse = () => {
+    setCollapsed(!collapsed);
+    if (collapsed) setOpenKeys([]); // Reset open keys when sidebar collapses
+  };
+
+  const handleOpenChange = (keys) => {
+    const latestOpenKey = keys.find((key) => !openKeys.includes(key));
+    setOpenKeys(latestOpenKey ? [latestOpenKey] : []); // Allow only one submenu to stay open
   };
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <h1>
-          Clínica Hospital <span>San José</span>
-        </h1>
-        <p>Todo Corazón</p>
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={toggleCollapse}
+      style={{ backgroundColor: "#F6FFED" }}
+    >
+      <div style={{ padding: "16px", textAlign: "center" }}>
+        {collapsed ? (
+          <HeartOutlined style={{ fontSize: "24px", color: "#333" }} />
+        ) : (
+          <h1 style={{ color: "#333", fontSize: "24px" }}>
+            Clínica <span>San José</span>
+          </h1>
+        )}
+        {!collapsed && <p style={{ color: "#333", marginTop: "-10px" }}>Todo Corazón</p>}
       </div>
-      <ul className="menu">
+
+      <Menu
+        mode="inline"
+        openKeys={openKeys}
+        onOpenChange={handleOpenChange}
+        style={{ backgroundColor: "#F6FFED", borderRight: "none" }}
+      >
         {links.map((link) =>
           link.subMenu ? (
-            <li key={link.label} className="menu-item">
-              <div
-                className={`menu-link ${expandedMenu === link.label ? 'active' : ''}`}
-                onClick={() => toggleSubMenu(link.label)}
-              >
-                <NavLink
-                  to={link.to}
-                  className={({ isActive }) => (isActive ? 'active' : '')}
-                >
-                  <span className="icon">{link.icon}</span>
+            <SubMenu
+              key={link.to}
+              title={
+                <NavLink to={link.to} activeClassName="active" style={{ display: "flex", alignItems: "center" }}>
+                  <span className="icon" style={{ marginRight: "8px" }}>{link.icon}</span>
                   {link.label}
                 </NavLink>
-                <button className="toggleButton">
-                  {expandedMenu === link.label ? <FaChevronUp /> : <FaChevronDown />}
-                </button>
-              </div>
-              {expandedMenu === link.label && (
-                <ul className="submenu">
-                  {link.subMenu.map((subLink) => (
-                    <li key={subLink.to}>
-                      <NavLink
-                        to={subLink.to}
-                        className={({ isActive }) => (isActive ? 'active' : '')}
-                      >
-                        {subLink.label}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
+              }
+            >
+              {link.subMenu.map((subLink) => (
+                <Menu.Item key={subLink.to}>
+                  <NavLink to={subLink.to} activeClassName="active">
+                    {subLink.label}
+                  </NavLink>
+                </Menu.Item>
+              ))}
+            </SubMenu>
           ) : (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
-                className={({ isActive }) => (isActive ? 'active' : '')}
-              >
-                <span className="icon">{link.icon}</span>
+            <Menu.Item key={link.to}>
+              <NavLink to={link.to} activeClassName="active">
+                <span className="icon" style={{ marginRight: collapsed ? "0" : "8px" }}>{link.icon}</span>
                 {link.label}
               </NavLink>
-            </li>
+            </Menu.Item>
           )
         )}
-      </ul>
-      <div className="logout-section">
-        <button className="logout-button" onClick={onLogout}>
-          <AiOutlineLogout className="logout-icon" />
-          Cerrar Sesión
-        </button>
+      </Menu>
+
+      <div
+        className="ant-layout-sider-trigger"
+        style={{
+          textAlign: "center",
+          backgroundColor: "#001F3F",
+          color: "#fff",
+          height: "48px",
+          lineHeight: "48px",
+          cursor: "pointer",
+        }}
+        onClick={toggleCollapse}
+      >
+        {collapsed ? '>' : '<'}
       </div>
-    </aside>
+
+      <div style={{ textAlign: "center", padding: "16px" }}>
+        <Button
+          type="primary"
+          danger
+          icon={<LogoutOutlined style={{ fontSize: "18px" }} />}
+          onClick={onLogout}
+          style={{
+            width: collapsed ? "48px" : "90%",
+            height: "48px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto",
+          }}
+        >
+          {!collapsed && "Cerrar Sesión"}
+        </Button>
+      </div>
+    </Sider>
   );
 }
 

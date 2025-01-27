@@ -11,7 +11,6 @@ exports.iniciarSesion = async (req, res) => {
         if (!correo || !contraseña) {
             return res.status(400).json({ mensaje: 'Por favor, ingresa tu email y contraseña.' });
         }
-        
 
         // Buscar usuario por correo
         const usuario = await Usuario.findByEmail(correo);
@@ -28,15 +27,15 @@ exports.iniciarSesion = async (req, res) => {
         }
 
         // Obtener rol del usuario
-        const rolId = usuario.rol_id;
+        const rol = usuario.rol;
 
-        if (!rolId) {
+        if (!rol) {
             return res.status(400).json({ mensaje: 'No se encontró un rol asignado para el usuario.' });
         }
 
         // Generar token JWT
         const token = jwt.sign(
-            { id: usuario.idusuario, rol_id: rolId },
+            { id: usuario.id_usuario, rol },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
         );
@@ -47,6 +46,7 @@ exports.iniciarSesion = async (req, res) => {
         res.status(500).json({ mensaje: 'Error interno del servidor.' });
     }
 };
+
 
 
 

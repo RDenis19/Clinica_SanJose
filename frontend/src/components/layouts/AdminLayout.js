@@ -1,61 +1,92 @@
-import React from 'react';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import '../../styles/layouts/AdminLayout.css';
+import React from "react";
+import { Layout, Avatar } from "antd";
+import Sidebar from "./Sidebar"; // Asegúrate de que esta sea la ruta correcta
+import {
+  DashboardOutlined,
+  UserOutlined,
+  TeamOutlined,
+  ToolOutlined,
+  BookOutlined,
+} from "@ant-design/icons";
 
-import { AiOutlineDashboard, AiOutlineUser, AiOutlineTeam, AiOutlineTool } from 'react-icons/ai';
-import { BiBookContent } from 'react-icons/bi';
+const { Header, Content } = Layout;
 
 function AdminLayout({ children }) {
   const adminLinks = [
     {
-      label: 'Dashboard',
-      to: '/admin/dashboard',
-      icon: <AiOutlineDashboard />,
+      label: "Dashboard",
+      to: "/admin/dashboard",
+      icon: <DashboardOutlined />,
     },
     {
-      label: 'Usuarios',
-      to: '/admin/users',
-      icon: <AiOutlineUser />,
+      label: "Usuarios",
+      to: "/admin/users",
+      icon: <UserOutlined />,
       subMenu: [
-        { label: 'Firma Electrónica', to: '/admin/users/firma-electronica' },
-        { label: 'Jornada', to: '/admin/users/jornada' },
-        { label: 'Título', to: '/admin/users/titulo' },
+        { label: "Firma Electrónica", to: "/admin/users/firma-electronica" },
+        { label: "Jornada", to: "/admin/users/jornada" },
+        { label: "Título", to: "/admin/users/titulo" },
       ],
     },
     {
-      label: 'Pacientes',
-      to: '/admin/patients',
-      icon: <AiOutlineTeam />,
-      subMenu: [
-        { label: 'Referidos', to: '/admin/patients/referido' },
-      ],
+      label: "Pacientes",
+      to: "/admin/patients",
+      icon: <TeamOutlined />,
+      subMenu: [{ label: "Referidos", to: "/admin/patients/referido" }],
     },
     {
-      label: 'Solicitudes de Cambio',
-      to: '/admin/change',
-      icon: <AiOutlineTool />,
+      label: "Solicitudes de Cambio",
+      to: "/admin/change",
+      icon: <ToolOutlined />,
     },
     {
-      label: 'Historia Clínica',
-      to: '/admin/historia-clinica',
-      icon: <BiBookContent />,
+      label: "Historia Clínica",
+      to: "/admin/historia-clinica",
+      icon: <BookOutlined />,
       subMenu: [
-        { label: 'Establecimiento', to: '/admin/historia-clinica/establecimiento' },
-        { label: 'Plantillas', to: '/admin/historia-clinica/plantillas' },
-        { label: 'Formularios', to: '/admin/historia-clinica/Formularios' },
+        { label: "Establecimiento", to: "/admin/historia-clinica/establecimiento" },
+        { label: "Plantillas", to: "/admin/historia-clinica/plantillas" },
+        { label: "Formularios", to: "/admin/historia-clinica/formularios" },
       ],
     },
   ];
 
+  const handleLogout = () => {
+    // Aquí puedes agregar la lógica para cerrar sesión, como redirigir o limpiar tokens
+    console.log("Cerrando sesión...");
+  };
+
   return (
-    <div className="admin-layout">
-      <Sidebar links={adminLinks} />
-      <div className="admin-main">
-        <Header username="Administrador" profilePic="https://via.placeholder.com/40" />
-        <div className="admin-content">{children}</div>
-      </div>
-    </div>
+    <Layout style={{ minHeight: "100vh" }}>
+      {/* Sidebar con onLogout */}
+      <Sidebar links={adminLinks} onLogout={handleLogout} />
+
+      {/* Área principal */}
+      <Layout>
+        <Header
+          style={{
+            background: "#001529",
+            padding: "0 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ color: "white" }}>Bienvenido, Administrador</div>
+          <Avatar src="https://via.placeholder.com/40" size="large" />
+        </Header>
+
+        <Content
+          style={{
+            margin: "16px",
+            padding: "16px",
+            background: "#fff",
+          }}
+        >
+          {children}
+        </Content>
+      </Layout>
+    </Layout>
   );
 }
 

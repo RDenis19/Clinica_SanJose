@@ -75,7 +75,7 @@ const Formulario = () => {
   );
 
   const columns = [
-    { label: "Numero Formulario", accessor: "idFormulario" },
+    { label: "Número de Historia Clínica", accessor: "nroHistoriaClinica" },
     { label: "Fecha de Creación", accessor: "fechaCreacionF" },
     { label: "Última Modificación", accessor: "fechaUltimaModificacionF" },
     { label: "Estado", accessor: "estadoFormulario" },

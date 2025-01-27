@@ -5,14 +5,13 @@ import { updateFirma, fetchFirmas } from '../../../../../utils/api';
 
 const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
   const [formData, setFormData] = useState({
-    idFirmaElectronica: '',
-    Usuario_identificacion: '',
     nombreCertificado: '',
     serialNumber: '',
     validoDesde: '',
     validoHasta: '',
     clavePublica: '',
     archivoCertificado: '',
+    Usuario_identificacion: '',
   });
 
   useEffect(() => {
@@ -26,16 +25,10 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    const { name } = e.target;
-    const file = e.target.files[0];
-    setFormData({ ...formData, [name]: file });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateFirma(formData.idFirmaElectronica, formData.Usuario_identificacion, formData);
+      await updateFirma(formData.idFirmaElectronica, formData);
       const updatedFirmas = await fetchFirmas();
       onUpdate(updatedFirmas);
       onClose();
@@ -82,23 +75,6 @@ const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
             name="validoHasta"
             value={formData.validoHasta}
             onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Clave Pública</label>
-          <input
-            type="text"
-            name="clavePublica"
-            value={formData.clavePublica}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Archivo Certificado</label>
-          <input
-            type="file"
-            name="archivoCertificado"
-            onChange={handleFileChange}
           />
         </div>
         <Button type="submit" label="Actualizar" className="primary" />
