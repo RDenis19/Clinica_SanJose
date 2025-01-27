@@ -153,17 +153,14 @@ export const updateUserContactInfo = async (idInformacionContacto, contactData) 
   }
 };
 
-
-
-export const removeUser = async (identificacion) => {
+// Eliminar un usuario por ID
+export const deleteUser = async (id) => {
   try {
-    // Asegúrate de que la URL esté correctamente formada como string
-    const response = await API.delete(`/user/${identificacion}`);
-    console.log(`Iniciando eliminación para: ${identificacion}`); // Log para depurar
-    return response.data;
+    const response = await API.delete(`/usuario/${id}`);
+    return response.data; // Devuelve el resultado de la eliminación
   } catch (error) {
-    console.error('Error en la solicitud DELETE:', error.response?.data || error.message);
-    throw error.response ? error.response.data : { error: 'Error en el servidor' };
+    console.error("Error al eliminar usuario:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al eliminar el usuario.");
   }
 };
 

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Space, Select, Popconfirm, notification } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { fetchUsers, fetchUserDetails } from "../../../utils/api";
+import { fetchUsers, fetchUserDetails, deleteUser } from "../../../utils/api";
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
+import UserProfileModal from "./UserProfileModal"; // Importamos el modal de perfil
 
 const { Search } = Input;
 const { Option } = Select;
@@ -16,7 +17,9 @@ const Users = () => {
   const [statusFilter, setStatusFilter] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
@@ -49,8 +52,10 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
+      await deleteUser(id);
       setUsers(users.filter((user) => user.id_usuario !== id));
       setFilteredUsers(filteredUsers.filter((user) => user.id_usuario !== id));
+  
       notification.success({
         message: "Éxito",
         description: "Usuario eliminado correctamente.",
@@ -63,13 +68,14 @@ const Users = () => {
       });
     }
   };
+  
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleUserAdded = () => {
-    loadUsers(); // Recargamos la lista de usuarios después de agregar uno nuevo
+    loadUsers();
     setIsAddModalOpen(false);
   };
 
@@ -89,10 +95,28 @@ const Users = () => {
       });
     }
   };
-  
-  
+
+  const handleViewClick = async (user) => {
+    try {
+      const fullUserData = await fetchUserDetails(user.id_usuario);
+      setSelectedUser(fullUserData);
+      setIsProfileModalOpen(true);
+    } catch (error) {
+      console.error("Error al cargar datos del usuario:", error);
+      notification.error({
+        message: "Error",
+        description: "No se pudieron cargar los datos del usuario.",
+      });
+    }
+  };
+
+  const closeProfileModal = () => {
+    setIsProfileModalOpen(false);
+    setSelectedUser(null);
+  };
+
   const handleUserUpdated = () => {
-    loadUsers(); // Recargamos la lista de usuarios después de actualizar
+    loadUsers();
     setIsEditModalOpen(false);
   };
 
@@ -135,7 +159,7 @@ const Users = () => {
       key: "acciones",
       render: (_, record) => (
         <Space size="middle">
-          <Button icon={<EyeOutlined />} onClick={() => console.log("Ver usuario", record)} />
+          <Button icon={<EyeOutlined />} onClick={() => handleViewClick(record)} />
           <Button icon={<EditOutlined />} onClick={() => handleEditClick(record)} />
           <Popconfirm
             title="¿Estás seguro de eliminar este usuario?"
@@ -195,6 +219,11 @@ const Users = () => {
         userData={editingUser}
         onClose={() => setIsEditModalOpen(false)}
         onUserUpdated={handleUserUpdated}
+      />
+      <UserProfileModal
+        visible={isProfileModalOpen}
+        onClose={closeProfileModal}
+        userData={selectedUser}
       />
     </div>
   );
