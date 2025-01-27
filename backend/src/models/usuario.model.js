@@ -43,8 +43,8 @@ async function actualizar(id, data) {
         contraseña = ?,
         id_rol = ?,
         ultimo_login = ?,
-        activo = ?,
-        estado = ?
+        activo = 1,
+        estado = "activo"
     WHERE id_usuario = ?
   `;
 

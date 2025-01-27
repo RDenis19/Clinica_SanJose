@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Space, Select, Popconfirm, notification } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { fetchUsers, fetchUserById } from "../../../utils/api";
+import { fetchUsers, fetchUserDetails } from "../../../utils/api";
 import AddUserModal from "./AddUserModal";
-import EditUserModal from "./EditUserModal"; // Importamos el modal de edición
+import EditUserModal from "./EditUserModal";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -75,34 +75,22 @@ const Users = () => {
 
   const handleEditClick = async (user) => {
     try {
-      const userDetails = await fetchUserById(user.id_usuario); // Obtén los datos completos del usuario
-
-      if (!userDetails || !userDetails.personal || !userDetails.academica || !userDetails.contacto) {
-        notification.error({
-          message: "Error",
-          description: "Faltan datos del usuario para editar.",
-        });
-        return;
+      const fullUserData = await fetchUserDetails(user.id_usuario);
+      if (!fullUserData.informacion_personal?.id) {
+        console.error("Falta el ID de información personal");
       }
-
-      setEditingUser({
-        ...userDetails,
-        informacion_personal: userDetails.personal,
-        informacion_academica: userDetails.academica,
-        informacion_contacto: userDetails.contacto
-      });
-
-      setIsEditModalOpen(true); // Abre el modal
+      setEditingUser(fullUserData);
+      setIsEditModalOpen(true);
     } catch (error) {
-      console.error("Error al cargar detalles del usuario:", error);
+      console.error("Error al cargar datos del usuario:", error);
       notification.error({
         message: "Error",
-        description: "No se pudieron cargar los detalles del usuario.",
+        description: "No se pudieron cargar los datos del usuario.",
       });
     }
   };
-
-
+  
+  
   const handleUserUpdated = () => {
     loadUsers(); // Recargamos la lista de usuarios después de actualizar
     setIsEditModalOpen(false);

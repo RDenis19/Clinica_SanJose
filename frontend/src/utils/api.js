@@ -93,18 +93,24 @@ export const createUserContactInfo = async (contactInfo) => {
   }
 };
 
-// editar
-export const fetchUserById = async (idUsuario) => {
-  try {
-    const response = await API.get(`/usuario/${idUsuario}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error en fetchUserById:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Error al obtener los datos del usuario.");
-  }
+// editar Usuario codigo
+export const fetchUserDetails = async (idUsuario) => {
+  const usuario = await API.get(`/usuario/${idUsuario}`);
+  const informacionPersonal = await API.get(`/uip/${idUsuario}`);
+  const informacionAcademica = await API.get(`/uia/${idUsuario}`);
+  const informacionContacto = await API.get(`/uic/${idUsuario}`);
+
+  return {
+    ...usuario.data,
+    informacion_personal: informacionPersonal.data,
+    informacion_academica: informacionAcademica.data,
+    informacion_contacto: informacionContacto.data,
+  };
 };
 
 
+// Actualizar Usuario
+// Actualizar Usuario
 export const updateUser = async (idUsuario, userData) => {
   try {
     const response = await API.put(`/usuario/${idUsuario}`, userData);
@@ -115,6 +121,7 @@ export const updateUser = async (idUsuario, userData) => {
   }
 };
 
+// Actualizar Información Personal
 export const updateUserPersonalInfo = async (idInformacionPersonal, personalData) => {
   try {
     const response = await API.put(`/uip/${idInformacionPersonal}`, personalData);
@@ -125,6 +132,7 @@ export const updateUserPersonalInfo = async (idInformacionPersonal, personalData
   }
 };
 
+// Actualizar Información Académica
 export const updateUserAcademicInfo = async (idInformacionAcademica, academicData) => {
   try {
     const response = await API.put(`/uia/${idInformacionAcademica}`, academicData);
@@ -135,7 +143,7 @@ export const updateUserAcademicInfo = async (idInformacionAcademica, academicDat
   }
 };
 
-//usuario editar
+// Actualizar Información de Contacto
 export const updateUserContactInfo = async (idInformacionContacto, contactData) => {
   try {
     const response = await API.put(`/uic/${idInformacionContacto}`, contactData);
@@ -145,6 +153,7 @@ export const updateUserContactInfo = async (idInformacionContacto, contactData) 
     throw new Error(error.response?.data?.message || "Error al actualizar información de contacto.");
   }
 };
+
 
 
 export const removeUser = async (identificacion) => {
