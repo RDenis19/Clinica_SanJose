@@ -9,6 +9,7 @@ const usuarioInformacionPersonalRoutes = require('./routes/usuario_informacion_p
 const usuarioInformacionAcademicaRoutes = require('./routes/usuario_informacion_academica.routes');
 const usuarioInformacionContactoRoutes = require('./routes/usuario_informacion_contacto.routes');
 const firmaElectronicaRoutes = require('./routes/firma_electronica.routes');
+const pacienteRoutes = require('./routes/paciente.routes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/uip', usuarioInformacionPersonalRoutes);
 app.use('/uia', usuarioInformacionAcademicaRoutes);
 app.use('/uic', usuarioInformacionContactoRoutes);
 app.use('/firma', firmaElectronicaRoutes);
+app.use('/pacientes', pacienteRoutes);
 
 // Middleware para manejar errores 404
 app.use((req, res) => {
