@@ -13,6 +13,7 @@ const pacienteRoutes = require('./routes/paciente.routes');
 const archivoClinicoRoutes = require('./routes/archivo_clinico.routes');
 const formularioTipoRoutes = require('./routes/formulario_tipo.routes');
 const campoFormularioRoutes = require('./routes/campo_formulario.routes');
+const respuestaFormularioRoutes = require('./routes/respuestaFormulario.routes');
 
 const app = express();
 
@@ -32,6 +33,8 @@ app.use('/pacientes', pacienteRoutes);
 app.use('/archivos', archivoClinicoRoutes);
 app.use('/formularios/tipos', formularioTipoRoutes);
 app.use('/campos', campoFormularioRoutes);
+app.use('/respuestas', respuestaFormularioRoutes);
+
 
 // Middleware para manejar errores 404
 app.use((req, res) => {
