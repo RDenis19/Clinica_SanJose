@@ -8,6 +8,7 @@ const rolRoutes = require('./routes/rol.routes');
 const usuarioInformacionPersonalRoutes = require('./routes/usuario_informacion_personal.routes');
 const usuarioInformacionAcademicaRoutes = require('./routes/usuario_informacion_academica.routes');
 const usuarioInformacionContactoRoutes = require('./routes/usuario_informacion_contacto.routes');
+const firmaElectronicaRoutes = require('./routes/firma_electronica.routes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/rol', rolRoutes);
 app.use('/uip', usuarioInformacionPersonalRoutes);
 app.use('/uia', usuarioInformacionAcademicaRoutes);
 app.use('/uic', usuarioInformacionContactoRoutes);
+app.use('/firma', firmaElectronicaRoutes);
 
 // Middleware para manejar errores 404
 app.use((req, res) => {

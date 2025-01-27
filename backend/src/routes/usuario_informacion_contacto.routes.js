@@ -10,7 +10,7 @@ router.get('/', authMiddleware, uicController.obtenerContactos);
 // GET: Un registro por id_informacion_contacto
 router.get('/:id_informacion_contacto', authMiddleware, uicController.obtenerContactoPorId);
 
-// (Opcional) GET: Un registro por id_usuario
+// GET: Un registro por id_usuario
 router.get('/usuario/:id_usuario', authMiddleware, uicController.obtenerContactoPorUsuario);
 
 // POST: Crear un nuevo registro
