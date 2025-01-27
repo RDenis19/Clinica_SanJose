@@ -5,18 +5,18 @@ const usuarioController = require('../controllers/usuario.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // GET: Obtener todos los usuarios
-router.get('/', authMiddleware,usuarioController.obtenerUsuarios);
+router.get('/', authMiddleware, usuarioController.obtenerUsuarios);
 
 // GET: Obtener un usuario por ID
-router.get('/:id_usuario', authMiddleware,usuarioController.obtenerUsuarioPorId);
+router.get('/:id_usuario', authMiddleware, usuarioController.obtenerUsuarioPorId);
 
 // POST: Crear un nuevo usuario
-router.post('/', authMiddleware,usuarioController.crearUsuario);
+router.post('/', authMiddleware, usuarioController.crearUsuario);
 
 // PUT: Actualizar un usuario
-router.put('/:id_usuario', authMiddleware,usuarioController.actualizarUsuario);
+router.put('/:id_usuario', authMiddleware, usuarioController.actualizarUsuario);
 
 // DELETE: Eliminar un usuario
-router.delete('/:id_usuario', authMiddleware,usuarioController.eliminarUsuario);
+router.delete('/:id_usuario', authMiddleware, usuarioController.eliminarUsuario);
 
 module.exports = router;
