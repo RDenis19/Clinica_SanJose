@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Table, Button, Input, Space, Select, Popconfirm, notification } from "antd";
+import { Table, Button, Input, Space, Select, Popconfirm, notification, Typography } from "antd";
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { fetchPatients, deletePatient } from "../../../utils/api"; // Importa las funciones desde el archivo API
+import { fetchPatients, deletePatient } from "../../../utils/api";
 import dayjs from "dayjs";
 import AddPatientModal from "./AddPatientModal";
 import EditPatientForm from "./EditPatientForm";
@@ -9,6 +9,7 @@ import PatientProfileModal from "./PatientProfileModal";
 
 const { Search } = Input;
 const { Option } = Select;
+const { Title } = Typography;
 
 const Patients = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -22,12 +23,11 @@ const Patients = () => {
     const [idTypeFilter, setIdTypeFilter] = useState(null);
     const [editingPatient, setEditingPatient] = useState(null);
     const [selectedPatientId, setSelectedPatientId] = useState(null);
-    const itemsPerPage = 7;
+    const itemsPerPage = 6;
 
-    // Cargar pacientes desde la API
     const loadPatients = async () => {
         try {
-            const data = await fetchPatients(); // Llama a la API para obtener pacientes
+            const data = await fetchPatients();
             setAllPatients(data);
             setDisplayedPatients(data.slice(0, itemsPerPage));
         } catch (error) {
@@ -43,7 +43,6 @@ const Patients = () => {
         loadPatients();
     }, []);
 
-    // Función para filtrar y paginar pacientes
     const applyFilters = useCallback(() => {
         let filtered = allPatients;
 
@@ -67,7 +66,7 @@ const Patients = () => {
     }, [allPatients, searchValue, genderFilter, idTypeFilter, currentPage, itemsPerPage]);
 
     useEffect(() => {
-        applyFilters(); // Usa applyFilters cada vez que cambian las dependencias
+        applyFilters();
     }, [applyFilters]);
 
     const handlePageChange = (page) => {
@@ -76,12 +75,12 @@ const Patients = () => {
 
     const handleDelete = async (id) => {
         try {
-            await deletePatient(id); // Llama a la API para eliminar el paciente
+            await deletePatient(id);
             notification.success({
                 message: "Paciente eliminado",
                 description: `El paciente con ID ${id} fue eliminado correctamente.`,
             });
-            loadPatients(); // Recarga la lista de pacientes
+            loadPatients();
         } catch (error) {
             console.error("Error al eliminar paciente:", error);
             notification.error({
@@ -92,7 +91,7 @@ const Patients = () => {
     };
 
     const handlePatientAdded = () => {
-        loadPatients(); // Recarga la lista de pacientes
+        loadPatients();
         setIsAddModalOpen(false);
     };
 
@@ -162,6 +161,12 @@ const Patients = () => {
 
     return (
         <div>
+            {/* Título principal */}
+            <Title level={2} style={{ marginBottom: 24 }}>
+                Lista de Pacientes
+            </Title>
+
+            {/* Filtros y acciones */}
             <Space
                 style={{
                     marginBottom: 20,
@@ -169,7 +174,6 @@ const Patients = () => {
                     justifyContent: "space-between",
                 }}
             >
-                <h1>Pacientes</h1>
                 <Search
                     placeholder="Buscar pacientes por nombre"
                     value={searchValue}
@@ -205,6 +209,8 @@ const Patients = () => {
                     Agregar Paciente
                 </Button>
             </Space>
+
+            {/* Tabla de pacientes */}
             <Table
                 columns={columns}
                 dataSource={displayedPatients}
@@ -216,6 +222,8 @@ const Patients = () => {
                     onChange: handlePageChange,
                 }}
             />
+
+            {/* Modales */}
             <AddPatientModal
                 visible={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}

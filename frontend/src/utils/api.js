@@ -253,7 +253,7 @@ export const deletePatient = async (id) => {
 // Obtener todas las historias clínicas
 export const fetchHistoriaClinica = async () => {
   try {
-    const response = await API.get("/archivos"); // Cambia "/archivo_clinico" a "/archivos"
+    const response = await API.get("/archivos/"); // Cambia "/archivo_clinico" a "/archivos"
     return response.data;
   } catch (error) {
     console.error("Error al obtener las historias clínicas:", error);
@@ -265,7 +265,7 @@ export const fetchHistoriaClinica = async () => {
 // Crear una nueva historia clínica
 export const createHistoriaClinica = async (data) => {
   try {
-    const response = await API.post("/archivos", data);
+    const response = await API.post("/archivos/", data);
     return response.data;
   } catch (error) {
     console.error("Error al crear historia clínica:", error);
