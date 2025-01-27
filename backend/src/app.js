@@ -2,38 +2,30 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const authRoutes = require('./routes/auth.routes');
-const userRoutes = require('./routes/usuario.routes');
-const titleRoutes = require('./routes/titulo.routes');
-const firmaElectronicaRoutes = require('./routes/firmaElectronica.routes');
-const jornadaRoutes = require('./routes/jornada.routes');
-const pacienteRoutes = require('./routes/paciente.routes');
-const establecimientoRoutes = require('./routes/establecimiento.routes');
-const plantillaFormularioRoutes = require('./routes/plantillaFormulario.routes');
-const referidoRoutes = require('./routes/referido.routes');
-const historiaRoutes = require('./routes/historiaClinica.routes');
-const formularioRoutes = require('./routes/formulario.routes');
+// Cargar rutas
+const authRoutes = require('./routes/auth.routes'); // Por ahora solo autenticación
 
+// Crear la aplicación de Express
 const app = express();
 
 // Middlewares globales
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Permitir que el servidor procese JSON
 
-// Rutas
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.use('/title', titleRoutes);
-app.use('/firmaelectronica', firmaElectronicaRoutes);
-app.use('/jornada', jornadaRoutes);
-app.use('/paciente', pacienteRoutes);
-app.use('/establecimiento', establecimientoRoutes);
-app.use('/plantilla_formulario', plantillaFormularioRoutes);
-app.use('/referido', referidoRoutes);
-app.use('/historia', historiaRoutes);
-app.use('/formulario', formularioRoutes);
+// Configurar rutas principales
+app.use('/api/auth', authRoutes); // Ruta para autenticación
 
+// Ruta raíz de prueba
+app.get('/', (req, res) => {
+    res.send('Bienvenido al backend de Clínica San José');
+});
 
+// Middleware para manejar errores 404
+app.use((req, res) => {
+    res.status(404).json({ mensaje: 'Ruta no encontrada' });
+});
+
+// Puerto del servidor
 const PORT = process.env.PORT || 3301;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
