@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../../utils/api";
 import jwtDecode from "jwt-decode";
 import "./login.css";
@@ -10,57 +11,50 @@ const { Title } = Typography;
 
 function Login() {
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
 
   const handleLogin = async (values) => {
     const { email, password } = values;
     setLoading(true);
     try {
-      const correo = email;
-      const contraseña = password;
+      const response = await loginRequest({ correo: email, contraseña: password });
+      console.log("Datos recibidos del backend:", response);
 
-      const data = await loginRequest({ correo, contraseña });
-      console.log("Datos recibidos del backend:", data);
-
-      if (!data?.token) {
-        console.error("Estructura de datos no válida:", data);
+      if (!response?.token) {
         throw new Error("Respuesta inválida del servidor.");
       }
 
-      const { token } = data;
-
-      // Decodificar el token para obtener el rol
+      const { token } = response;
       const decodedToken = jwtDecode(token);
-      const { rol } = decodedToken;
 
+      const { rol } = decodedToken;
       if (!rol) {
         throw new Error("Rol no encontrado en el token.");
       }
 
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", rol);
       localStorage.setItem("jwt_token", token);
+      localStorage.setItem("userRole", rol);
+      localStorage.setItem("isAuthenticated", "true");
 
       const routes = {
-        Administrador: "/admin/dashboard", 
-        Doctor: "/doctor/dashboard", 
-        Enfermera: "/enfermera/dashboard", 
+        Administrador: "/admin/dashboard",
+        Doctor: "/doctor/dashboard",
+        Enfermera: "/enfermera/dashboard",
       };
 
       if (routes[rol]) {
         message.success("Login exitoso");
-        window.location.href = routes[rol];
+        navigate(routes[rol]);
       } else {
         throw new Error("Rol no reconocido.");
       }
-    } catch (err) {
-      console.error("Error en el login:", err);
-      message.error(err.message || "Usuario No Reconocido.");
+    } catch (error) {
+      console.error("Error en el login:", error);
+      message.error(error.message || "Error de autenticación.");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="login-container">

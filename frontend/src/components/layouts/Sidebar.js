@@ -13,17 +13,17 @@ function Sidebar({ links = [], onLogout }) {
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
-    if (collapsed) setOpenKeys([]); // Reset open keys when sidebar collapses
+    if (collapsed) setOpenKeys([]);
   };
 
   const handleOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => !openKeys.includes(key));
-    setOpenKeys(latestOpenKey ? [latestOpenKey] : []); // Allow only one submenu to stay open
+    setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   };
 
   const handleMenuClick = (path) => {
-    navigate(path); // Navega a la ruta del menú principal
-    if (collapsed) setOpenKeys([]); // Cierra todos los submenús si el sidebar está colapsado
+    navigate(path);
+    if (collapsed) setOpenKeys([]);
   };
 
   return (
@@ -46,7 +46,7 @@ function Sidebar({ links = [], onLogout }) {
 
       <Menu
         mode="inline"
-        openKeys={!collapsed ? openKeys : []} // No abrir submenús si está colapsado
+        openKeys={!collapsed ? openKeys : []}
         onOpenChange={handleOpenChange}
         style={{ backgroundColor: "#F6FFED", borderRight: "none" }}
       >
@@ -56,7 +56,7 @@ function Sidebar({ links = [], onLogout }) {
               key={link.to}
               title={
                 <div
-                  onClick={() => handleMenuClick(link.to)} // Navega al hacer clic en el menú principal
+                  onClick={() => handleMenuClick(link.to)}
                   style={{
                     display: "flex",
                     alignItems: "center",

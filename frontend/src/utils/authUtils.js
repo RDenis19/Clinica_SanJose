@@ -13,16 +13,29 @@ export const isTokenExpired = (token) => {
   }
 };
 
-export const checkTokenAndRedirect = () => {
+export const logout = (navigate) => {
+  localStorage.clear();
+  navigate("/");
+};
+
+export const checkTokenAndRedirect = (navigate) => {
   const token = localStorage.getItem("jwt_token");
-  if (!token) return false;
+  if (!token || isTokenExpired(token)) {
+    logout(navigate);
+    return false;
+  }
+  return true;
+};
+
+export const getUserRole = () => {
+  const token = localStorage.getItem("jwt_token");
+  if (!token) return null;
 
   try {
-    const decoded = jwtDecode(token);
-    const currentTime = Math.floor(Date.now() / 1000);
-    return decoded.exp > currentTime;
-  } catch (error) {
-    console.error("Error al decodificar el token:", error);
-    return false;
+    const { rol } = jwtDecode(token);
+    return rol || null;
+  } catch (err) {
+    console.error("Error decoding token to get role:", err);
+    return null;
   }
 };
