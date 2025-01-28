@@ -32,7 +32,7 @@ const EditUserModal = ({ visible, onClose, userData, onUserUpdated }) => {
       });
   
       // Actualizar Información Personal
-      if (userData.informacion_personal?.id) {
+      if (userData.informacion_personal) {
         await updateUserPersonalInfo(userData.informacion_personal.id, {
           cedula: values.cedula,
           nombres: values.nombres,
@@ -41,10 +41,9 @@ const EditUserModal = ({ visible, onClose, userData, onUserUpdated }) => {
           genero: values.genero,
           estado_civil: values.estado_civil,
         });
-      } else {
-        console.error("id_informacion_personal no definido.");
-        throw new Error("El ID de la información personal es undefined.");
       }
+      
+      
   
       // Actualizar Información Académica
       await updateUserAcademicInfo(userData.informacion_academica.id, {

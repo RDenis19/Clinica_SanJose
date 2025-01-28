@@ -28,7 +28,6 @@ const UserProfileModal = ({ visible, onClose, userData }) => {
           {userData?.estado === "activo" ? "🟢 Activo" : "🔴 Inactivo"}
         </Descriptions.Item>
       </Descriptions>
-
       <Descriptions title="Información Personal" bordered column={1}>
         <Descriptions.Item label="Cédula">
           {userData?.informacion_personal?.cedula || "N/A"}
@@ -42,8 +41,8 @@ const UserProfileModal = ({ visible, onClose, userData }) => {
         <Descriptions.Item label="Fecha de Nacimiento">
           {userData?.informacion_personal?.fecha_nacimiento
             ? dayjs(userData.informacion_personal.fecha_nacimiento).format(
-                "YYYY-MM-DD"
-              )
+              "YYYY-MM-DD"
+            )
             : "N/A"}
         </Descriptions.Item>
         <Descriptions.Item label="Género">
@@ -53,7 +52,6 @@ const UserProfileModal = ({ visible, onClose, userData }) => {
           {userData?.informacion_personal?.estado_civil || "N/A"}
         </Descriptions.Item>
       </Descriptions>
-
       <Descriptions title="Información Académica" bordered column={1}>
         <Descriptions.Item label="Institución">
           {userData?.informacion_academica?.institucion || "N/A"}
@@ -71,7 +69,6 @@ const UserProfileModal = ({ visible, onClose, userData }) => {
           {userData?.informacion_academica?.registro_senescyt || "N/A"}
         </Descriptions.Item>
       </Descriptions>
-
       <Descriptions title="Información de Contacto" bordered column={1}>
         <Descriptions.Item label="Provincia">
           {userData?.informacion_contacto?.provincia || "N/A"}

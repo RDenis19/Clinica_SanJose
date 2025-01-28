@@ -1,0 +1,89 @@
+.pacientes-doctor-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.pacientes-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.pacientes-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.pacientes-grid {
+    margin-top: 20px;
+}
+
+.paciente-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+    padding: 10px;
+    text-align: center;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.paciente-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.paciente-card .ant-card-meta-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.paciente-card .ant-card-meta-description {
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.paciente-card-actions {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.paciente-info {
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.paciente-info p {
+    margin: 2px 0;
+}
+
+@media (max-width: 768px) {
+    .pacientes-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pacientes-actions input {
+        width: 100%;
+    }
+
+    .paciente-card {
+        margin-bottom: 10px;
+        height: auto;
+    }
+}

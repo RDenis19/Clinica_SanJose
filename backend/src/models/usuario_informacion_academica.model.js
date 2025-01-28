@@ -28,33 +28,20 @@ async function obtenerPorUsuario(idUsuario) {
 
 async function crear(data) {
   const query = `
-    INSERT INTO usuario_informacion_academica
+    INSERT INTO usuario_informacion_academica 
       (id_usuario, institucion, titulo, anio_graduacion, especialidad, registro_senescyt)
     VALUES (?, ?, ?, ?, ?, ?)
   `;
-
-  const {
-    id_usuario,
-    institucion,
-    titulo,
-    anio_graduacion,
-    especialidad,
-    registro_senescyt,
-  } = data;
-
   const [result] = await db.query(query, [
-    id_usuario,
-    institucion,
-    titulo,
-    anio_graduacion,
-    especialidad || null,
-    registro_senescyt,
+    data.id_usuario,
+    data.institucion || "N/A",
+    data.titulo || "N/A",
+    data.anio_graduacion || null,
+    data.especialidad || "N/A",
+    data.registro_senescyt || "N/A",
   ]);
 
-  return {
-    id_informacion_academica: result.insertId,
-    ...data,
-  };
+  return { id_informacion_academica: result.insertId, ...data };
 }
 
 async function actualizar(id, data) {

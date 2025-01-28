@@ -82,34 +82,69 @@ const Users = () => {
   const handleEditClick = async (user) => {
     try {
       const fullUserData = await fetchUserDetails(user.id_usuario);
-      if (!fullUserData.informacion_personal?.id) {
-        console.error("Falta el ID de información personal");
+      setEditingUser(fullUserData || user); // Usar datos básicos si fetchUserDetails falla
+  
+      if (!fullUserData) {
+        // Notificación de advertencia si los datos están incompletos
+        notification.warning({
+          message: "Datos incompletos",
+          description: "Algunos datos del usuario podrían faltar, pero puedes continuar.",
+        });
       }
-      setEditingUser(fullUserData);
-      setIsEditModalOpen(true);
     } catch (error) {
-      console.error("Error al cargar datos del usuario:", error);
-      notification.error({
-        message: "Error",
-        description: "No se pudieron cargar los datos del usuario.",
+      console.warn("No se pudieron cargar los datos completos del usuario. Usando datos básicos.");
+      setEditingUser(user); // Solo usar los datos del registro existente
+  
+      // Notificación en caso de error al cargar datos
+      notification.warning({
+        message: "Datos incompletos",
+        description: "No se pudieron cargar todos los datos del usuario, pero puedes continuar.",
       });
     }
+  
+    setIsEditModalOpen(true); // Abrir el modal de edición
   };
+  
+  
+  
+  
 
   const handleViewClick = async (user) => {
     try {
       const fullUserData = await fetchUserDetails(user.id_usuario);
-      setSelectedUser(fullUserData);
-      setIsProfileModalOpen(true);
-    } catch (error) {
-      console.error("Error al cargar datos del usuario:", error);
-      notification.error({
-        message: "Error",
-        description: "No se pudieron cargar los datos del usuario.",
+      setSelectedUser({
+        ...fullUserData,
+        informacion_personal: fullUserData.informacion_personal || {
+          cedula: "N/A",
+          nombres: "N/A",
+          apellidos: "N/A",
+          fecha_nacimiento: "N/A",
+          genero: "N/A",
+          estado_civil: "N/A",
+        },
+        informacion_academica: fullUserData.informacion_academica || {
+          institucion: "N/A",
+          titulo: "N/A",
+          anio_graduacion: "N/A",
+          especialidad: "N/A",
+          registro_senescyt: "N/A",
+        },
+        informacion_contacto: fullUserData.informacion_contacto || {
+          provincia: "N/A",
+          ciudad: "N/A",
+          calle_principal: "N/A",
+          calle_secundaria: "N/A",
+          celular: "N/A",
+        },
       });
+    } catch (error) {
+      console.warn("No se pudieron cargar los datos completos del usuario.");
+      setSelectedUser(user); // Mostrar solo datos básicos si hay un error
     }
+    setIsProfileModalOpen(true);
   };
-
+  
+  
   const closeProfileModal = () => {
     setIsProfileModalOpen(false);
     setSelectedUser(null);

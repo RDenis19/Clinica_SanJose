@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Routes, Route } from "react-router-dom";
-import { isTokenExpired, logout } from "./utils/authUtils";
+import { useNavigate, Routes, Route} from "react-router-dom";
+import { isTokenExpired } from "./utils/authUtils";
 
 // Componentes generales
 import Sidebar from "./components/layouts/Sidebar";
@@ -34,18 +34,6 @@ import PacientesEnfermera from "./modules/Enfermera/PacientesEnfermera/Pacientes
 import HistoriasEnfermera from "./modules/Enfermera/HistoriaClinica/HistoriasEnfermera";
 import FormulariosEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioEnfermera";
 
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("jwt_token");
-  const navigate = useNavigate();
-
-  if (!token || isTokenExpired(token)) {
-    logout(navigate);
-    return null;
-  }
-
-  return children;
-};
-
 function App() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,13 +44,14 @@ function App() {
     const role = localStorage.getItem("userRole");
 
     if (!token || isTokenExpired(token)) {
-      logout(navigate);
+      localStorage.clear();
       setIsAuthenticated(false);
+      navigate("/");
     } else {
       setIsAuthenticated(true);
 
       const roleLinks = {
-        Administrador: [
+        Admin: [
           { to: "/admin/dashboard", label: "Dashboard" },
           {
             to: "/admin/users",
@@ -72,12 +61,7 @@ function App() {
             ],
           },
           {
-            to: "/admin/patients",
-            label: "Pacientes",
-            subMenu: [
-              { to: "/admin/patients/referido", label: "Referidos" },
-            ],
-          },
+            to: "/admin/patients", label: "Pacientes"},
           { to: "/admin/change", label: "Solicitudes de Cambio" },
           {
             to: "/admin/historia-clinica",
@@ -90,7 +74,10 @@ function App() {
         ],
         Doctor: [
           { to: "/doctor/dashboard", label: "Dashboard" },
-          { to: "/doctor/pacientes", label: "Pacientes" },
+          {
+            to: "/doctor/pacientes",
+            label: "Pacientes",
+          },
           {
             to: "/doctor/historias",
             label: "Historias Clínicas",
@@ -101,7 +88,10 @@ function App() {
         ],
         Enfermera: [
           { to: "/enfermera/dashboard", label: "Dashboard" },
-          { to: "/enfermera/paciente", label: "Pacientes" },
+          {
+            to: "/enfermera/paciente",
+            label: "Pacientes",
+          },
           {
             to: "/enfermera/historias",
             label: "Historias Clínicas",
@@ -116,6 +106,12 @@ function App() {
     }
   }, [navigate]);
 
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsAuthenticated(false);
+    navigate("/");
+  };
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -126,7 +122,7 @@ function App() {
           element={
             <>
               <Header />
-              <Sidebar links={links} onLogout={() => logout(navigate)} />
+              <Sidebar links={links} onLogout={handleLogout} />
             </>
           }
         />
@@ -135,46 +131,40 @@ function App() {
       <Route
         path="/admin/*"
         element={
-          <PrivateRoute>
-            <Routes>
-              <Route path="dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
-              <Route path="users" element={<AdminLayout><Users /></AdminLayout>} />
-              <Route path="users/firma-electronica" element={<AdminLayout><FirmaElectronica /></AdminLayout>} />
-              <Route path="patients" element={<AdminLayout><Patients /></AdminLayout>} />
-              <Route path="patients/referido" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
-              <Route path="historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
-              <Route path="historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
-              <Route path="historia-clinica/formularios" element={<AdminLayout><Formularios /></AdminLayout>} />
-            </Routes>
-          </PrivateRoute>
+          <Routes>
+            <Route path="dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+            <Route path="users" element={<AdminLayout><Users /></AdminLayout>} />
+            <Route path="users/firma-electronica" element={<AdminLayout><FirmaElectronica /></AdminLayout>} />
+            <Route path="patients" element={<AdminLayout><Patients /></AdminLayout>} />
+            <Route path="patients/referido" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
+            <Route path="historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
+            <Route path="historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
+            <Route path="historia-clinica/formularios" element={<AdminLayout><Formularios /></AdminLayout>} />
+          </Routes>
         }
       />
 
       <Route
         path="/doctor/*"
         element={
-          <PrivateRoute>
-            <Routes>
-              <Route path="dashboard" element={<DoctorLayout><DashboardDoctor /></DoctorLayout>} />
-              <Route path="pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />
-              <Route path="historias" element={<DoctorLayout><HistoriasDoctor /></DoctorLayout>} />
-              <Route path="historias/formulariosDoctor" element={<DoctorLayout><FormulariosDoctor /></DoctorLayout>} />
-            </Routes>
-          </PrivateRoute>
+          <Routes>
+            <Route path="dashboard" element={<DoctorLayout><DashboardDoctor /></DoctorLayout>} />
+            <Route path="pacientes" element={<DoctorLayout><PacientesDoctor /></DoctorLayout>} />
+            <Route path="historias" element={<DoctorLayout><HistoriasDoctor /></DoctorLayout>} />
+            <Route path="historias/formulariosDoctor" element={<DoctorLayout><FormulariosDoctor /></DoctorLayout>} />
+          </Routes>
         }
       />
 
       <Route
         path="/enfermera/*"
         element={
-          <PrivateRoute>
-            <Routes>
-              <Route path="dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
-              <Route path="pacientes" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
-              <Route path="historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
-              <Route path="historias/formularioEnfermera" element={<EnfermeraLayout><FormulariosEnfermera /></EnfermeraLayout>} />
-            </Routes>
-          </PrivateRoute>
+          <Routes>
+            <Route path="dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
+            <Route path="pacientes" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
+            <Route path="historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
+            <Route path="historias/formularioEnfermera" element={<EnfermeraLayout><FormulariosEnfermera /></EnfermeraLayout>} />
+          </Routes>
         }
       />
 

@@ -13,47 +13,57 @@ const AddUserModal = ({ visible, onClose, onUserAdded }) => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
+      // Crear el usuario principal
       const createdUser = await createUser({
         usuario: values.usuario,
         correo: values.correo,
         contraseña: values.contraseña,
         id_rol: values.id_rol,
       });
-
+  
+      console.log("Usuario creado con ID:", createdUser.id_usuario);
+  
       const userId = createdUser.id_usuario;
-
+  
+      // Información Personal
       await createUserPersonalInfo({
         id_usuario: userId,
-        cedula: values.cedula,
-        nombres: values.nombres,
-        apellidos: values.apellidos,
-        fecha_nacimiento: values.fecha_nacimiento ? dayjs(values.fecha_nacimiento).format('YYYY-MM-DD') : null,
-        genero: values.genero,
-        estado_civil: values.estado_civil,
+        cedula: values.cedula || "N/A",
+        nombres: values.nombres || "N/A",
+        apellidos: values.apellidos || "N/A",
+        fecha_nacimiento: values.fecha_nacimiento
+          ? dayjs(values.fecha_nacimiento).format("YYYY-MM-DD")
+          : null,
+        genero: values.genero || "N/A",
+        estado_civil: values.estado_civil || "N/A",
       });
-
+  
+      // Información Académica
       await createUserAcademicInfo({
         id_usuario: userId,
-        institucion: values.institucion,
-        titulo: values.titulo,
-        anio_graduacion: values.anio_graduacion,
-        especialidad: values.especialidad,
-        registro_senescyt: values.registro_senescyt,
+        institucion: values.institucion || "N/A",
+        titulo: values.titulo || "N/A",          
+        anio_graduacion: values.anio_graduacion || null,
+        especialidad: values.especialidad || "N/A", 
+        registro_senescyt: values.registro_senescyt || "N/A",
       });
+      
 
+      // Información de Contacto
       await createUserContactInfo({
         id_usuario: userId,
-        provincia: values.provincia,
-        ciudad: values.ciudad,
-        calle_principal: values.calle_principal,
-        calle_secundaria: values.calle_secundaria,
-        celular: values.celular,
+        provincia: values.provincia || "N/A",
+        ciudad: values.ciudad || "N/A",
+        calle_principal: values.calle_principal || "N/A",
+        calle_secundaria: values.calle_secundaria || "N/A",
+        celular: values.celular || "N/A",
       });
-
+  
       notification.success({
         message: "Usuario agregado",
-        description: "El usuario se ha creado exitosamente.",
+        description: "El usuario y sus datos relacionados se han creado exitosamente.",
       });
+  
       onUserAdded();
       form.resetFields();
       onClose();
@@ -67,7 +77,7 @@ const AddUserModal = ({ visible, onClose, onUserAdded }) => {
       setLoading(false);
     }
   };
-
+  
   return (
     <Modal
       title="Agregar Usuario"

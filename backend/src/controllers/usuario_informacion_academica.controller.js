@@ -49,9 +49,10 @@ exports.crearInformacionAcademica = async (req, res) => {
       registro_senescyt,
     } = req.body;
 
+    // Validar que los campos requeridos están presentes
     if (!id_usuario || !institucion || !titulo || !anio_graduacion || !registro_senescyt) {
-      return res.status(400).json({ 
-        message: 'Faltan campos requeridos (id_usuario, institucion, titulo, anio_graduacion, registro_senescyt)' 
+      return res.status(400).json({
+        message: "Faltan campos requeridos (id_usuario, institucion, titulo, anio_graduacion, registro_senescyt).",
       });
     }
 
@@ -60,14 +61,14 @@ exports.crearInformacionAcademica = async (req, res) => {
       institucion,
       titulo,
       anio_graduacion,
-      especialidad,
+      especialidad: especialidad || "N/A",
       registro_senescyt,
     });
 
     return res.status(201).json(nuevoRegistro);
   } catch (error) {
-    console.error('Error al crear información académica:', error);
-    return res.status(500).json({ message: 'Error al crear información académica' });
+    console.error("Error al crear información académica:", error);
+    return res.status(500).json({ message: "Error al crear información académica." });
   }
 };
 

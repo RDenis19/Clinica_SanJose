@@ -40,7 +40,7 @@ function AdminLayout({ children }) {
     {
       label: "Historia Clínica",
       to: "/admin/historia-clinica",
-      icon: <BookOutlined />, // Icono para Historia Clínica
+      icon: <BookOutlined />,
       subMenu: [
         { label: "Plantillas", to: "/admin/historia-clinica/plantillas" },
         { label: "Formularios", to: "/admin/historia-clinica/formularios" },
