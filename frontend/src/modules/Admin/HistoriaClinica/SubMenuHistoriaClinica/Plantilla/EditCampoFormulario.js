@@ -8,20 +8,34 @@ const { Option } = Select;
 const EditCampoFormulario = ({ visible, onClose, onCampoUpdated, campoId }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [formularioTipoId, setFormularioTipoId] = useState(null); // Almacena el id_formulario_tipo
 
   useEffect(() => {
     const loadCampo = async () => {
       if (campoId) {
         try {
-          const campo = await fetchCamposFormulario(null, campoId); // Llama a la API con el ID del campo
-          form.setFieldsValue({
-            nombre_campo: campo.nombre_campo,
-            tipo_dato: campo.tipo_dato, // Solo lectura
-            opciones: campo.opciones,
-            requerido: campo.requerido,
-          });
+          // Obtener el campo por ID
+          const campo = await fetchCamposFormulario(campoId);
+
+          if (campo) {
+            // Llenar el formulario con los valores existentes
+            form.setFieldsValue({
+              nombre_campo: campo.nombre_campo,
+              tipo_dato: campo.tipo_dato,
+              opciones: campo.opciones,
+              requerido: campo.requerido ? true : false,
+            });
+
+            // Establecer id_formulario_tipo
+            setFormularioTipoId(campo.id_formulario_tipo);
+          } else {
+            notification.error({
+              message: "Error",
+              description: "El campo no fue encontrado.",
+            });
+          }
         } catch (error) {
-          console.error("Error al cargar campo:", error);
+          console.error("Error al cargar el campo:", error);
           notification.error({
             message: "Error",
             description: "No se pudo cargar la información del campo.",
@@ -30,25 +44,38 @@ const EditCampoFormulario = ({ visible, onClose, onCampoUpdated, campoId }) => {
       }
     };
 
-    if (visible) loadCampo();
+    if (visible) {
+      loadCampo();
+    }
   }, [campoId, visible, form]);
 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      // Llamada a la API para actualizar el campo
-      await updateCampoFormulario(campoId, values);
+      // Crear el payload con id_formulario_tipo
+      const payload = {
+        ...values,
+        id_formulario_tipo: formularioTipoId, // Asegura incluir id_formulario_tipo
+      };
+
+      if (!payload.id_formulario_tipo) {
+        throw new Error("id_formulario_tipo es obligatorio.");
+      }
+
+      // Actualizar el campo en el backend
+      await updateCampoFormulario(campoId, payload);
       notification.success({
         message: "Campo actualizado",
         description: "El campo se ha actualizado correctamente.",
       });
+
       onCampoUpdated(); // Refresca la lista de campos
-      onClose();
+      onClose(); // Cierra el modal
     } catch (error) {
-      console.error("Error al actualizar campo:", error);
+      console.error("Error al actualizar el campo:", error);
       notification.error({
         message: "Error",
-        description: "No se pudo actualizar el campo.",
+        description: error.message || "No se pudo actualizar el campo.",
       });
     } finally {
       setLoading(false);

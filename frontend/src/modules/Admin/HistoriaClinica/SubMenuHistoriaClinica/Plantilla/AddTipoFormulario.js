@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import { Modal, Form, Input, Button, Divider, notification } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { createTipoFormulario } from "../../../../../utils/api"; // Asegúrate de ajustar la ruta
-import CamposFormularioList from "./CamposFormularioList"; // Componente de gestión de campos
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Divider, notification } from "antd";
+import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { createTipoFormulario } from "../../../../../utils/api";
+import CamposFormularioList from "./CamposFormularioList";
 
-const AddTipoFormulario = ({ visible, onClose, onTipoFormularioAdded }) => {
+const AddTipoFormulario = ({ setView }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [tipoFormularioId, setTipoFormularioId] = useState(null);
 
+  useEffect(() => {
+    // Scroll hacia arriba automáticamente al montar el componente
+    document.getElementById("root").scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      // Llamada a la API para crear el tipo de formulario
       const newTipoFormulario = await createTipoFormulario(values);
 
       notification.success({
@@ -20,13 +24,7 @@ const AddTipoFormulario = ({ visible, onClose, onTipoFormularioAdded }) => {
         description: "El tipo de formulario se ha creado exitosamente.",
       });
 
-      // Guarda el ID del nuevo tipo de formulario creado
       setTipoFormularioId(newTipoFormulario.id_formulario_tipo);
-
-      // Refresca la lista de tipos de formularios
-      onTipoFormularioAdded();
-
-      // Limpia el formulario
       form.resetFields();
     } catch (error) {
       console.error("Error al crear tipo de formulario:", error);
@@ -40,31 +38,34 @@ const AddTipoFormulario = ({ visible, onClose, onTipoFormularioAdded }) => {
   };
 
   return (
-    <Modal
-      title="Agregar Tipo de Formulario"
-      visible={visible}
-      onCancel={onClose}
-      footer={null}
-      width={800} // Ancho para acomodar la gestión de campos
-    >
+    <div style={{ padding: 24 }}>
+      <Button
+        type="link"
+        icon={<ArrowLeftOutlined />}
+        onClick={() => setView("list")}
+        style={{ marginBottom: 16 }}
+      >
+        Regresar a la Lista
+      </Button>
+
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Form.Item
           name="nombre"
           label="Nombre del Tipo de Formulario"
-          rules={[{ required: true, message: "Ingrese el nombre del tipo de formulario." }]}
-        >
+          rules={[{ required: true, message: "Ingrese el nombre del tipo de formulario." }]}>
           <Input placeholder="Ejemplo: Admisión, Alta, Evolución" />
         </Form.Item>
+
         <Form.Item
           name="descripcion"
           label="Descripción"
-          rules={[{ required: true, message: "Ingrese una descripción." }]}
-        >
+          rules={[{ required: true, message: "Ingrese una descripción." }]}>
           <Input.TextArea
             placeholder="Breve descripción del tipo de formulario"
             rows={3}
           />
         </Form.Item>
+
         <Form.Item>
           <Button
             type="primary"
@@ -78,7 +79,6 @@ const AddTipoFormulario = ({ visible, onClose, onTipoFormularioAdded }) => {
         </Form.Item>
       </Form>
 
-      {/* Mostrar la sección de campos si ya se ha creado un tipo de formulario */}
       {tipoFormularioId && (
         <>
           <Divider />
@@ -86,7 +86,7 @@ const AddTipoFormulario = ({ visible, onClose, onTipoFormularioAdded }) => {
           <CamposFormularioList tipoFormularioId={tipoFormularioId} />
         </>
       )}
-    </Modal>
+    </div>
   );
 };
 

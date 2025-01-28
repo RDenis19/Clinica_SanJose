@@ -417,11 +417,11 @@ export const deleteTipoFormulario = async (id) => {
 // Obtener los campos de un tipo de formulario específico
 export const fetchCamposFormulario = async (idFormularioTipo) => {
   try {
-      const response = await API.get(`/campos/${idFormularioTipo}`);
-      return response.data;
+    const response = await API.get(`/campos/formulario_tipo/${idFormularioTipo}`);
+    return response.data;
   } catch (error) {
-      console.error('Error al obtener campos de formulario:', error);
-      throw error;
+    console.error('Error al obtener campos de formulario:', error);
+    throw error;
   }
 };
 
@@ -453,13 +453,18 @@ export const fetchTipoFormularioById = async (id) => {
 // Editar un campo de formulario
 export const updateCampoFormulario = async (id, data) => {
   try {
-      const response = await API.put(`/campos/${id}`, data);
-      return response.data;
+    // Verifica que los datos sean válidos
+    if (!data.id_formulario_tipo || !data.nombre_campo || !data.tipo_dato) {
+      throw new Error("Datos incompletos: id_formulario_tipo, nombre_campo y tipo_dato son obligatorios.");
+    }
+    const response = await API.put(`/campos/${id}`, data);
+    return response.data;
   } catch (error) {
-      console.error('Error al actualizar campo de formulario:', error);
-      throw error;
+    console.error("Error al actualizar campo de formulario:", error);
+    throw error;
   }
 };
+
 
 // Eliminar un campo de formulario
 export const deleteCampoFormulario = async (id) => {
