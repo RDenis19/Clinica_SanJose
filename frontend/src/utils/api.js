@@ -163,6 +163,18 @@ export const deleteUser = async (id) => {
     throw new Error(error.response?.data?.message || "Error al eliminar el usuario.");
   }
 };
+// Obtener información personal de todos los usuarios
+export const fetchUserPersonalInfo = async () => {
+  try {
+    const response = await API.get("/uip"); // Ruta para obtener información personal
+    return response.data; // Devuelve la lista de información personal
+  } catch (error) {
+    console.error("Error al obtener información personal:", error);
+    throw error.response
+      ? error.response.data
+      : { error: "Error en el servidor" };
+  }
+};
 
 
 // Paciente
@@ -288,6 +300,64 @@ export const deleteHistoriaClinica = async (nroArchivo) => {
     return response.data;
   } catch (error) {
     console.error("Error al eliminar historia clínica:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+//Firma Electronica
+
+// 1. Obtener todas las firmas electrónicas
+export const fetchFirmaElectronica = async () => {
+  try {
+    const response = await API.get("/firma/");
+    return response.data; // Devuelve la lista de firmas electrónicas
+  } catch (error) {
+    console.error("Error al obtener las firmas electrónicas:", error.response?.data || error.message);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+// 2. Eliminar una firma electrónica por ID
+export const deleteFirmaElectronica = async (id) => {
+  try {
+    const response = await API.delete(`/firma/${id}`);
+    return response.data; // Devuelve una confirmación de eliminación
+  } catch (error) {
+    console.error("Error al eliminar la firma electrónica:", error.response?.data || error.message);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+// 3. Crear una nueva firma electrónica
+export const createFirmaElectronica = async (firmaData) => {
+  try {
+    const response = await API.post("/firma/", firmaData);
+    return response.data; // Devuelve los datos de la nueva firma creada
+  } catch (error) {
+    console.error("Error al crear la firma electrónica:", error.response?.data || error.message);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
+// 4. Actualizar una firma electrónica existente
+export const updateFirmaElectronica = async (idFirma, payload) => {
+  try {
+    const response = await API.put(`/firma/${idFirma}`, payload); // Verifica que la ruta sea correcta
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la firma electrónica:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al actualizar la firma electrónica.");
+  }
+};
+
+
+// 5. Obtener una firma electrónica específica por ID
+export const fetchFirmaElectronicaById = async (id) => {
+  try {
+    const response = await API.get(`/firma/${id}`);
+    return response.data; // Devuelve los datos de la firma electrónica
+  } catch (error) {
+    console.error("Error al obtener la firma electrónica:", error.response?.data || error.message);
     throw error.response ? error.response.data : { error: "Error en el servidor" };
   }
 };

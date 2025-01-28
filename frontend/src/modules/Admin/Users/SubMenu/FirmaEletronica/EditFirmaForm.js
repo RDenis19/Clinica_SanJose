@@ -1,87 +1,180 @@
-/* import React, { useState, useEffect } from 'react';
-import Modal from '../../../../../components/common/Modal';
-import Button from '../../../../../components/common/Button';
-import { updateFirma, fetchFirmas } from '../../../../../utils/api';
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Select, Button, Upload, notification } from "antd";
+import { UploadOutlined, EditOutlined } from "@ant-design/icons";
+import { updateFirmaElectronica, fetchUserPersonalInfo } from "../../../../../utils/api";
 
-const EditFirmaForm = ({ onClose, onUpdate, initialData }) => {
-  const [formData, setFormData] = useState({
-    nombreCertificado: '',
-    serialNumber: '',
-    validoDesde: '',
-    validoHasta: '',
-    clavePublica: '',
-    archivoCertificado: '',
-    Usuario_identificacion: '',
-  });
+const { Option } = Select;
+
+const EditFirmaForm = ({ visible, onClose, onFirmaUpdated, firma }) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]); // Lista de usuarios filtrados por cédula
+  const [firmaContent, setFirmaContent] = useState(null); // Contenido del archivo .txt
+  const [fileList, setFileList] = useState([]); // Lista de archivos subidos
 
   useEffect(() => {
-    if (initialData) {
-      setFormData({ ...initialData });
-    }
-  }, [initialData]);
+    // Cargar usuarios por cédula para el desplegable
+    const loadUsers = async () => {
+      try {
+        const data = await fetchUserPersonalInfo(); // Llama a la API para obtener información personal
+        setUsers(data);
+      } catch (error) {
+        console.error("Error al cargar usuarios:", error);
+        notification.error({
+          message: "Error",
+          description: "No se pudieron cargar los usuarios.",
+        });
+      }
+    };
+    loadUsers();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // Cargar datos iniciales del formulario
+    if (firma) {
+      form.setFieldsValue({
+        id_usuario: firma.id_usuario,
+      });
+    }
+  }, [firma, form]);
+
+  // Manejo de la carga del archivo .txt
+  const handleFileChange = (info) => {
+    const uploadedFile = info.file.originFileObj || info.file;
+
+    if (!uploadedFile) {
+      notification.error({
+        message: "Error",
+        description: "No se pudo procesar el archivo. Intente nuevamente.",
+      });
+      return;
+    }
+
+    if (uploadedFile.type !== "text/plain") {
+      notification.error({
+        message: "Error",
+        description: "Solo se permiten archivos .txt.",
+      });
+      setFileList([]); // Resetea la lista si el archivo no es válido
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = reader.result;
+      const wordsOnly = text
+        .replace(/[^a-zA-Z0-9\s]/g, "") // Elimina caracteres no alfanuméricos
+        .split(/\s+/) // Divide el texto por espacios
+        .join(" "); // Une las palabras en un solo string
+      setFirmaContent(wordsOnly); // Guarda el contenido limpio
+      setFileList([info.file]); // Actualiza la lista de archivos subidos
+      notification.success({
+        message: "Archivo procesado",
+        description: "El archivo se procesó correctamente.",
+      });
+    };
+    reader.onerror = () => {
+      notification.error({
+        message: "Error",
+        description: "No se pudo leer el archivo. Intente nuevamente.",
+      });
+      setFileList([]); // Resetea la lista si hay un error
+    };
+
+    reader.readAsText(uploadedFile); // Usa el archivo asegurado como un Blob
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const uploadProps = {
+    accept: ".txt", // Solo acepta archivos .txt
+    maxCount: 1, // Limita a un solo archivo
+    onRemove: () => {
+      setFirmaContent(null); // Limpia el contenido procesado
+      setFileList([]); // Limpia la lista de archivos
+    },
+    beforeUpload: () => false, // Evita la subida automática del archivo
+    onChange: handleFileChange, // Maneja los cambios de archivo
+    fileList, // Vincula la lista de archivos al estado
+  };
+
+  // Enviar el formulario para actualizar la firma electrónica
+  const handleSubmit = async (values) => {
+    if (!firmaContent) {
+      notification.error({
+        message: "Error",
+        description: "Debe subir un archivo .txt válido.",
+      });
+      return;
+    }
+
+    setLoading(true);
     try {
-      await updateFirma(formData.idFirmaElectronica, formData);
-      const updatedFirmas = await fetchFirmas();
-      onUpdate(updatedFirmas);
+      const payload = {
+        id_usuario: values.id_usuario, // ID del usuario seleccionado
+        firma_base64: firmaContent, // Contenido del archivo .txt
+      };
+
+      await updateFirmaElectronica(firma.id_firma_electronica, payload); // Llama a la API para actualizar la firma
+      notification.success({
+        message: "Firma actualizada",
+        description: "La firma electrónica se ha actualizado exitosamente.",
+      });
+      onFirmaUpdated(); // Refresca la lista en el componente principal
+      form.resetFields();
+      setFirmaContent(null);
+      setFileList([]);
       onClose();
     } catch (error) {
-      console.error('Error al actualizar la firma:', error);
-      alert('Error al actualizar la firma.');
+      console.error("Error al actualizar firma electrónica:", error);
+      notification.error({
+        message: "Error",
+        description: "No se pudo actualizar la firma electrónica.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Modal onClose={onClose}>
-      <form className="form-grid" onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label>Nombre Certificado</label>
-          <input
-            type="text"
-            name="nombreCertificado"
-            value={formData.nombreCertificado}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Serial Number</label>
-          <input
-            type="text"
-            name="serialNumber"
-            value={formData.serialNumber}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Válido Desde</label>
-          <input
-            type="date"
-            name="validoDesde"
-            value={formData.validoDesde}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-field">
-          <label>Válido Hasta</label>
-          <input
-            type="date"
-            name="validoHasta"
-            value={formData.validoHasta}
-            onChange={handleInputChange}
-          />
-        </div>
-        <Button type="submit" label="Actualizar" className="primary" />
-      </form>
+    <Modal
+      title="Editar Firma Electrónica"
+      visible={visible}
+      onCancel={onClose}
+      footer={null}
+    >
+      <Form form={form} layout="vertical" onFinish={handleSubmit}>
+        <Form.Item
+          name="id_usuario"
+          label="Usuario"
+          rules={[{ required: true, message: "Seleccione un usuario." }]}
+        >
+          <Select placeholder="Seleccione un usuario" disabled>
+            {users.map((user) => (
+              <Option key={user.id_usuario} value={user.id_usuario}>
+                {user.cedula} - {user.nombres} {user.apellidos}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="firma"
+          label="Archivo de Firma Electrónica (.txt)"
+        >
+          <Upload {...uploadProps}>
+            <Button icon={<UploadOutlined />}>Subir Archivo</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            icon={<EditOutlined />}
+            loading={loading}
+            block
+          >
+            Guardar Cambios
+          </Button>
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
 
 export default EditFirmaForm;
- */
