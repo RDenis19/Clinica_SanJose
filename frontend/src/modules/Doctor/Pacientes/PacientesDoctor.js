@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Input, Card, Button, Typography, Space, Row, Col, notification } from "antd";
+import { Input, Card, Button, Typography, Space, Row, Col, Avatar, notification } from "antd";
 import { PlusOutlined, SearchOutlined, IdcardOutlined, ManOutlined, WomanOutlined, CalendarOutlined } from "@ant-design/icons";
 import { fetchPatients } from "../../../utils/api";
 import AddPatientModal from "./AddPatientModal";
 import PatientProfileModal from "./PatientProfileModal";
-import "./PacientesDoctor.css";
 import dayjs from "dayjs";
 
-const { Title } = Typography;
-const { Meta } = Card;
+const { Title, Text } = Typography;
 
 const PacientesDoctor = () => {
     const [patients, setPatients] = useState([]);
@@ -70,12 +68,10 @@ const PacientesDoctor = () => {
     };
 
     return (
-        <div className="pacientes-doctor-container">
-            <Title level={2} className="pacientes-title">
-                Gestión de Pacientes
-            </Title>
+        <div style={{ padding: 20, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+            <Title level={2} style={{ textAlign: "center", marginBottom: 20 }}>Gestión de Pacientes</Title>
 
-            <Space className="pacientes-actions">
+            <Space style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
                 <Input
                     placeholder="Buscar por cédula o identificación"
                     value={searchValue}
@@ -92,54 +88,28 @@ const PacientesDoctor = () => {
                 </Button>
             </Space>
 
-            <Row gutter={[16, 16]} className="pacientes-grid">
+            <Row gutter={[8, 8]} justify="start">
                 {filteredPatients.map((patient) => (
-                    <Col key={patient.nro_identificacion} xs={24} sm={12} md={8} lg={6}>
-                        <Card
-                            className="paciente-card"
-                            hoverable
-                            actions={[
-                                <Button
-                                    type="link"
-                                    icon={<IdcardOutlined />}
-                                    onClick={() => handleMoreDetails(patient.nro_identificacion)}
-                                >
-                                    Más Detalles
-                                </Button>,
-                            ]}
-                        >
-                            <Meta
-                                avatar={
-                                    patient.genero === "M" ? (
-                                        <ManOutlined style={{ fontSize: "32px", color: "#1890ff" }} />
-                                    ) : (
-                                        <WomanOutlined style={{ fontSize: "32px", color: "#eb2f96" }} />
-                                    )
-                                }
-                                title={`${patient.primer_nombre} ${patient.primer_apellido}`}
-                                description={
-                                    <div>
-                                        <p><IdcardOutlined /> ID: {patient.nro_identificacion}</p>
-                                        <p><CalendarOutlined /> Fecha de Nacimiento: {patient.fecha_nacimiento ? dayjs(patient.fecha_nacimiento).format("YYYY-MM-DD") : "No especificada"}</p>
-                                    </div>
-                                }
+                    <Col key={patient.nro_identificacion} xs={24} sm={12} md={6} lg={4}>
+                        <Card size="small" hoverable style={{ textAlign: "center", width: 160, padding: 10 }}>
+                            <Avatar
+                                size={35}
+                                icon={patient.genero === "M" ? <ManOutlined /> : <WomanOutlined />}
+                                style={{ backgroundColor: patient.genero === "M" ? "#1890ff" : "#eb2f96", marginBottom: 8 }}
                             />
+                            <Title level={5} style={{ fontSize: "14px" }}>{patient.primer_nombre} {patient.primer_apellido}</Title>
+                            <Space direction="vertical" size={2}>
+                                <Text style={{ fontSize: "12px" }}><IdcardOutlined /> {patient.nro_identificacion}</Text>
+                                <Text style={{ fontSize: "12px" }}><CalendarOutlined /> {patient.fecha_nacimiento ? dayjs(patient.fecha_nacimiento).format("YYYY-MM-DD") : "No especificada"}</Text>
+                            </Space>
+                            <Button type="link" size="small" onClick={() => handleMoreDetails(patient.nro_identificacion)}>Más Detalles</Button>
                         </Card>
                     </Col>
                 ))}
             </Row>
 
-            <AddPatientModal
-                visible={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                onPatientAdded={handlePatientAdded}
-            />
-
-            <PatientProfileModal
-                patientId={selectedPatientId}
-                visible={isProfileModalVisible}
-                onClose={() => setIsProfileModalVisible(false)}
-            />
+            <AddPatientModal visible={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onPatientAdded={handlePatientAdded} />
+            <PatientProfileModal patientId={selectedPatientId} visible={isProfileModalVisible} onClose={() => setIsProfileModalVisible(false)} />
         </div>
     );
 };
