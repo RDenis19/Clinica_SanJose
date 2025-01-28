@@ -18,7 +18,7 @@ import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
 import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
-import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/Plantillas";
+import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/TipoFormularioList";
 import Formularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/Formularios";
 import FirmaElectronica from "./modules/Admin/Users/SubMenu/FirmaEletronica/FirmaElectronica";
 

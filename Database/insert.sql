@@ -28,7 +28,7 @@ INSERT INTO `usuario` (`usuario`, `correo`, `contraseña`, `id_rol`) VALUES
   ('Dr_Beatriz', 'beatriz.doctor@clinica.com', '$2b$10$abcdefg', 2),
   ('Dr_Carlos', 'carlos.doctor@clinica.com', '$2b$10$abcdefg', 2),
   ('Dr_Daniela', 'daniela.doctor@clinica.com', '$2b$10$abcdefg', 2),
-  ('Dr_Eduardo', 'eduardo.doctor@clinica.com', '$2b$10$abcdefg', 2)
+  ('Dr_Eduardo', 'eduardo.doctor@clinica.com', '$2a$10$5nFbTdiOmgMUr7YVhF5EdeF1BBQUhXAgd5YhpdjRzu7a.9zeoJnXK', 2)
 ON DUPLICATE KEY UPDATE `correo` = VALUES(`correo`);
 
 -- Insertar 6 usuarios con rol 'Enfermera' (id_rol = 3)
