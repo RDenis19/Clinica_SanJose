@@ -95,10 +95,13 @@ export const createUserContactInfo = async (contactInfo) => {
 
 // editar Usuario codigo
 export const fetchUserDetails = async (idUsuario) => {
+  console.log("Consultando detalles para el ID de usuario:", idUsuario); // Depuración
   const usuario = await API.get(`/usuario/${idUsuario}`);
   const informacionPersonal = await API.get(`/uip/${idUsuario}`);
   const informacionAcademica = await API.get(`/uia/${idUsuario}`);
   const informacionContacto = await API.get(`/uic/${idUsuario}`);
+
+  console.log("Datos obtenidos:", { usuario, informacionPersonal, informacionAcademica, informacionContacto });
 
   return {
     ...usuario.data,
@@ -107,6 +110,7 @@ export const fetchUserDetails = async (idUsuario) => {
     informacion_contacto: informacionContacto.data,
   };
 };
+
 
 
 // Actualizar Usuario
