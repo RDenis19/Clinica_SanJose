@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, Tabs, DatePicker, Card, Avatar } from "antd";
+import { Modal, Form, Input, Select, Button, Tabs, DatePicker, Card, Avatar, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { updateUser, updateUserPersonalInfo, updateUserAcademicInfo, updateUserContactInfo, fetchRoles } from "../../../utils/api";
@@ -57,9 +57,16 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
       const idContactoInfo = userData.informacion_contacto.id_informacion_contacto;
 
       await updateUser(idUsuario, { usuario: values.usuario, correo: values.correo, contraseña: values.contraseña ? values.contraseña : userData.contraseña, id_rol: values.id_rol, });
-      await updateUserPersonalInfo(idPersonalInfo, { ...values, fecha_nacimiento: values.fecha_nacimiento ? dayjs(values.fecha_nacimiento).format("YYYY-MM-DD") : null, });
+      await updateUserPersonalInfo(idPersonalInfo, { 
+        ...values, 
+        fecha_nacimiento: values.fecha_nacimiento ? dayjs(values.fecha_nacimiento).format("YYYY-MM-DD") : null, });
       await updateUserAcademicInfo(idAcademicaInfo, values);
       await updateUserContactInfo(idContactoInfo, values);
+
+      notification.success({
+        message: "Éxito",
+        description: "Usuario actualizado correctamente."
+      });
 
       onUserUpdated?.();
       form.resetFields();

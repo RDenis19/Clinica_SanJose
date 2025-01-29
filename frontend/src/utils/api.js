@@ -186,6 +186,17 @@ export const deleteUser = async (id) => {
     throw new Error(error.response?.data?.message || "Error al eliminar el usuario.");
   }
 };
+
+export const downUser = async (id) => {
+  try {
+    const response = await API.delete(`/usuario/baja/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al dar de baja usuario:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al dar de baja el usuario.");
+  }
+};
+
 // Obtener información personal de un usuario
 export const fetchUserPersonalInfo = async (idUsuario) => {
   try {

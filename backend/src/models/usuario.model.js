@@ -69,10 +69,17 @@ async function eliminar(id) {
     return true;
 }
 
+async function darBaja(id) {
+    const query = `UPDATE usuario SET estado = 'inactivo' WHERE id_usuario = ?`;
+    await db.query(query, [id]);
+    return true
+}
+
 module.exports = {
     obtenerTodos,
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+    darBaja
 };

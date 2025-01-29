@@ -84,3 +84,16 @@ exports.eliminarUsuario = async (req, res) => {
         return res.status(500).json({ message: 'Error al eliminar usuario' });
     }
 };
+
+exports.darBajaUsuario = async (req, res) => {
+    const { id_usuario } = req.params;
+
+    try {
+        await usuarioModel.darBaja(id_usuario);
+        return res.json({message: 'Usuario dado de baja correctamente'});
+        
+    } catch (error) {
+        console.log('Error al dar de baja usuario: ', error);
+        return res.status(500).json({ message: 'Error al dar de baja usuario' });
+    }
+}

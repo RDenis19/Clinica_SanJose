@@ -19,4 +19,7 @@ router.put('/:id_usuario', authMiddleware, usuarioController.actualizarUsuario);
 // DELETE: Eliminar un usuario
 router.delete('/:id_usuario', authMiddleware, usuarioController.eliminarUsuario);
 
+// BAJA: Dar de baja un usuario
+router.delete('/baja/:id_usuario', authMiddleware, usuarioController.darBajaUsuario);
+
 module.exports = router;
