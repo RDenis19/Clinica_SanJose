@@ -1,39 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  Form,
-  Input,
-  Select,
-  Button,
-  Tabs,
-  notification,
-  DatePicker,
-  Card,
-  Divider
-} from "antd";
-import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  IdcardOutlined,
-  HomeOutlined,
-  PhoneOutlined,
-  BookOutlined,
-  CalendarOutlined
-} from "@ant-design/icons";
+import { Modal, Form, Input, Select, Button, Tabs, notification, DatePicker, Card, Divider } from "antd";
+import { UserOutlined, MailOutlined, LockOutlined, IdcardOutlined, HomeOutlined, PhoneOutlined, BookOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 
-// APIs necesarias
-import {
-  updateUser,
-  createUserPersonalInfo,
-  updateUserPersonalInfo,
-  createUserAcademicInfo,
-  updateUserAcademicInfo,
-  createUserContactInfo,
-  updateUserContactInfo,
-  fetchRoles
-} from "../../../utils/api";
+import { updateUser, createUserPersonalInfo, updateUserPersonalInfo, createUserAcademicInfo, updateUserAcademicInfo, createUserContactInfo, updateUserContactInfo, fetchRoles } from "../../../utils/api";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
