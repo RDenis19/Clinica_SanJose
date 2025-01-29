@@ -1,119 +1,150 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Tabs, Card, Descriptions, Collapse, Tag, Spin, Row, Col, Typography } from "antd";
-import { UserOutlined, IdcardOutlined, FileOutlined, FormOutlined, CalendarOutlined, ManOutlined } from "@ant-design/icons";
+import { Spin, Row, Col, Typography, Divider, Avatar, Button, Collapse, Card, Tag, Descriptions } from "antd";
+import {
+  UserOutlined,
+  IdcardOutlined,
+  ManOutlined,
+  CalendarOutlined,
+  FileTextOutlined,
+  FileOutlined,
+  FormOutlined
+} from "@ant-design/icons";
 import { fetchPatientDetails, fetchHistoriaClinica, fetchFormularios } from "../../../utils/api";
 
 const { Title } = Typography;
-const { TabPane } = Tabs;
 const { Panel } = Collapse;
 
-const PatientProfileModal = ({ visible, onClose, patient }) => {
+const PatientDetailsView = ({ patient, onBack }) => {
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [clinicalRecords, setClinicalRecords] = useState([]);
+  const [recordsLoading, setRecordsLoading] = useState(true);
   const [formularios, setFormularios] = useState([]);
+  const [formulariosLoading, setFormulariosLoading] = useState(true);
+  const [showPatientInfo, setShowPatientInfo] = useState(false);
 
   useEffect(() => {
-    const loadPatientData = async () => {
-      setLoading(true);
+    const fetchDetails = async () => {
       try {
-        const patientDetails = await fetchPatientDetails(patient.nro_identificacion);
-        setPatientData(patientDetails);
+        setLoading(true);
+        const response = await fetchPatientDetails(patient.nro_identificacion);
+        setPatientData(response);
       } catch (error) {
-        console.error("Error al cargar datos del paciente:", error);
+        console.error("Error al obtener detalles del paciente:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    const loadClinicalRecords = async () => {
+    const fetchRecords = async () => {
       try {
-        const records = await fetchHistoriaClinica();
-        const patientRecords = records.filter(r => r.nro_identificacion === patient.nro_identificacion);
-        setClinicalRecords(patientRecords);
+        setRecordsLoading(true);
+        const response = await fetchHistoriaClinica();
+        const filteredRecords = response.filter(
+          (record) => record.nro_identificacion === patient.nro_identificacion
+        );
+        setClinicalRecords(filteredRecords);
+        
+        if (filteredRecords.length > 0) {
+          fetchForms(filteredRecords.map(record => record.nro_archivo));
+        }
       } catch (error) {
-        console.error("Error al cargar historias clínicas:", error);
+        console.error("Error al obtener historias clínicas:", error);
+      } finally {
+        setRecordsLoading(false);
       }
     };
 
-    const loadFormularios = async () => {
+    const fetchForms = async (nroArchivos) => {
       try {
-        const forms = await fetchFormularios();
-        const patientForms = forms.filter(f => f.nro_identificacion === patient.nro_identificacion);
-        setFormularios(patientForms);
+        setFormulariosLoading(true);
+        const response = await fetchFormularios();
+        const filteredForms = response.filter((form) => nroArchivos.includes(form.nro_archivo));
+        setFormularios(filteredForms);
       } catch (error) {
-        console.error("Error al cargar formularios:", error);
+        console.error("Error al obtener formularios:", error);
+      } finally {
+        setFormulariosLoading(false);
       }
     };
 
     if (patient) {
-      loadPatientData();
-      loadClinicalRecords();
-      loadFormularios();
+      fetchDetails();
+      fetchRecords();
     }
   }, [patient]);
 
   return (
-    <Modal visible={visible} onCancel={onClose} footer={null} width={800}>
-      <Title level={3} style={{ textAlign: "center" }}>{`${patient.primer_nombre} ${patient.segundo_nombre || ""} ${patient.primer_apellido}`}</Title>
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Información General" key="1">
+    <div style={{ padding: "20px", background: "#f5f5f5", borderRadius: "10px" }}>
+      <Button type="primary" onClick={onBack} style={{ marginBottom: "20px" }}>
+        Volver a la lista
+      </Button>
+
+      <div style={{ textAlign: "center", cursor: "pointer" }} onClick={() => setShowPatientInfo(!showPatientInfo)}>
+        <Avatar size={80} icon={<UserOutlined />} style={{ backgroundColor: "#1890ff" }} />
+      </div>
+
+      {showPatientInfo && (
+        <Card bordered={false} style={{ marginTop: "20px", boxShadow: "0px 4px 12px rgba(0,0,0,0.1)" }}>
+          <Title level={3} style={{ textAlign: "center" }}>{`${patient.primer_nombre} ${patient.segundo_nombre || ""} ${patient.primer_apellido} ${patient.segundo_apellido}`}</Title>
+          <Divider />
           {loading ? (
-            <Spin tip="Cargando..." style={{ width: "100%" }} />
+            <Spin tip="Cargando detalles del paciente..." style={{ width: "100%" }} />
           ) : (
-            <Card>
-              <Descriptions bordered column={1}>
-                <Descriptions.Item label="Número de Identificación">
-                  {patientData.nro_identificacion}
-                </Descriptions.Item>
-                <Descriptions.Item label="Tipo de Identificación">
-                  {patientData.tipo_identificacion}
-                </Descriptions.Item>
-                <Descriptions.Item label="Género">
-                  {patientData.genero === "M" ? "Masculino" : patientData.genero === "F" ? "Femenino" : "Otro"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Fecha de Nacimiento">
-                  {new Date(patientData.fecha_nacimiento).toLocaleDateString()}
-                </Descriptions.Item>
-              </Descriptions>
-            </Card>
+            <Descriptions bordered column={2} size="middle">
+              <Descriptions.Item label={<IdcardOutlined />}> {patientData.nro_identificacion} </Descriptions.Item>
+              <Descriptions.Item label={<FileTextOutlined />}> {patientData.tipo_identificacion || "No especificado"} </Descriptions.Item>
+              <Descriptions.Item label={<ManOutlined />}> {patientData.genero === "M" ? "Masculino" : patientData.genero === "F" ? "Femenino" : "Otro"} </Descriptions.Item>
+              <Descriptions.Item label={<CalendarOutlined />}> {new Date(patientData.fecha_nacimiento).toLocaleDateString()} </Descriptions.Item>
+            </Descriptions>
           )}
-        </TabPane>
-        
-        <TabPane tab="Historial Clínico" key="2">
-          <Collapse>
-            {clinicalRecords.length > 0 ? (
-              clinicalRecords.map(record => (
-                <Panel header={`Historia Clínica #${record.nro_archivo}`} key={record.nro_archivo}>
-                  <p><strong>Fecha de Creación:</strong> {new Date(record.fecha_creacion).toLocaleDateString()}</p>
-                </Panel>
-              ))
-            ) : (
-              <p>No hay registros de historias clínicas.</p>
-            )}
-          </Collapse>
-        </TabPane>
-        
-        <TabPane tab="Formularios Completados" key="3">
-          <Row gutter={[16, 16]}>
-            {formularios.length > 0 ? (
-              formularios.map(form => (
-                <Col span={12} key={form.id_formulario}>
-                  <Card title={`Formulario #${form.id_formulario}`}>
+        </Card>
+      )}
+
+      <Collapse accordion style={{ marginTop: "20px" }}>
+        <Panel header={<span><FileOutlined /> Archivos de Historia Clínica</span>} key="1">
+          {recordsLoading ? (
+            <Spin tip="Cargando historias clínicas..." style={{ width: "100%" }} />
+          ) : clinicalRecords.length > 0 ? (
+            <Row gutter={[16, 16]}>
+              {clinicalRecords.map((record) => (
+                <Col span={8} key={record.nro_archivo}>
+                  <Card
+                    hoverable
+                    style={{ borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", textAlign: "center" }}
+                  >
+                    <Title level={5}>Historia Clínica #{record.nro_archivo}</Title>
+                    <Tag color="blue">ID Paciente: {record.nro_identificacion}</Tag>
+                    <p><strong>Fecha Creación:</strong> {new Date(record.fecha_creacion).toLocaleDateString()}</p>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p>No se encontraron archivos clínicos para este paciente.</p>
+          )}
+        </Panel>
+        <Panel header={<span><FormOutlined /> Formularios Completados</span>} key="2">
+          {formulariosLoading ? (
+            <Spin tip="Cargando formularios..." style={{ width: "100%" }} />
+          ) : formularios.length > 0 ? (
+            <Row gutter={[16, 16]}>
+              {formularios.map((form) => (
+                <Col span={8} key={form.id_formulario}>
+                  <Card title={`Formulario #${form.id_formulario}`} bordered>
                     <p><strong>Estado:</strong> {form.estado}</p>
                     <p><strong>Fecha de Creación:</strong> {new Date(form.fecha_creacion).toLocaleDateString()}</p>
                   </Card>
                 </Col>
-              ))
-            ) : (
-              <p>No se encontraron formularios completados.</p>
-            )}
-          </Row>
-        </TabPane>
-      </Tabs>
-      <Button type="primary" onClick={onClose} block>Cerrar</Button>
-    </Modal>
+              ))}
+            </Row>
+          ) : (
+            <p>No se encontraron formularios asociados a las historias clínicas.</p>
+          )}
+        </Panel>
+      </Collapse>
+    </div>
   );
 };
 
-export default PatientProfileModal;
+export default PatientDetailsView;
