@@ -5,7 +5,7 @@ import { fetchPatients, deletePatient } from "../../../utils/api";
 import dayjs from "dayjs";
 import AddPatientModal from "./AddPatientModal";
 import EditPatientForm from "./EditPatientForm";
-import PatientProfileModal from "./PatientProfileModal";
+import PatientDetailsView from "./PatientDetailsView"; // Nueva vista para detalles del paciente
 
 const { Search } = Input;
 const { Option } = Select;
@@ -14,7 +14,6 @@ const { Title } = Typography;
 const Patients = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [allPatients, setAllPatients] = useState([]);
     const [displayedPatients, setDisplayedPatients] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +21,8 @@ const Patients = () => {
     const [genderFilter, setGenderFilter] = useState(null);
     const [idTypeFilter, setIdTypeFilter] = useState(null);
     const [editingPatient, setEditingPatient] = useState(null);
-    const [selectedPatientId, setSelectedPatientId] = useState(null);
+    const [activeView, setActiveView] = useState("list"); // Estado para alternar vistas
+    const [selectedPatient, setSelectedPatient] = useState(null); // Paciente seleccionado
     const itemsPerPage = 6;
 
     const loadPatients = async () => {
@@ -95,6 +95,11 @@ const Patients = () => {
         setIsAddModalOpen(false);
     };
 
+    const handleViewDetails = (patient) => {
+        setSelectedPatient(patient);
+        setActiveView("details");
+    };
+
     const columns = [
         {
             title: "Identificación",
@@ -134,10 +139,7 @@ const Patients = () => {
                 <Space size="middle">
                     <Button
                         icon={<EyeOutlined />}
-                        onClick={() => {
-                            setSelectedPatientId(record.nro_identificacion);
-                            setIsProfileModalOpen(true);
-                        }}
+                        onClick={() => handleViewDetails(record)}
                     />
                     <Button
                         icon={<EditOutlined />}
@@ -161,67 +163,76 @@ const Patients = () => {
 
     return (
         <div>
-            {/* Título principal */}
-            <Title level={2} style={{ marginBottom: 24 }}>
-                Lista de Pacientes
-            </Title>
+            {activeView === "list" ? (
+                <>
+                    {/* Título principal */}
+                    <Title level={2} style={{ marginBottom: 24 }}>
+                        Lista de Pacientes
+                    </Title>
 
-            {/* Filtros y acciones */}
-            <Space
-                style={{
-                    marginBottom: 20,
-                    display: "flex",
-                    justifyContent: "space-between",
-                }}
-            >
-                <Search
-                    placeholder="Buscar pacientes por nombre"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    style={{ width: 300 }}
+                    {/* Filtros y acciones */}
+                    <Space
+                        style={{
+                            marginBottom: 20,
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Search
+                            placeholder="Buscar pacientes por nombre"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            style={{ width: 300 }}
+                        />
+                        <Select
+                            placeholder="Filtrar por género"
+                            value={genderFilter}
+                            onChange={(value) => setGenderFilter(value)}
+                            allowClear
+                            style={{ width: 150 }}
+                        >
+                            <Option value="M">Masculino</Option>
+                            <Option value="F">Femenino</Option>
+                            <Option value="O">Otro</Option>
+                        </Select>
+                        <Select
+                            placeholder="Filtrar por tipo de ID"
+                            value={idTypeFilter}
+                            onChange={(value) => setIdTypeFilter(value)}
+                            allowClear
+                            style={{ width: 150 }}
+                        >
+                            <Option value="cedula">Cédula</Option>
+                            <Option value="pasaporte">Pasaporte</Option>
+                        </Select>
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={() => setIsAddModalOpen(true)}
+                        >
+                            Agregar Paciente
+                        </Button>
+                    </Space>
+
+                    {/* Tabla de pacientes */}
+                    <Table
+                        columns={columns}
+                        dataSource={displayedPatients}
+                        rowKey="nro_identificacion"
+                        pagination={{
+                            current: currentPage,
+                            pageSize: itemsPerPage,
+                            total: allPatients.length,
+                            onChange: handlePageChange,
+                        }}
+                    />
+                </>
+            ) : (
+                <PatientDetailsView
+                    patient={selectedPatient}
+                    onBack={() => setActiveView("list")}
                 />
-                <Select
-                    placeholder="Filtrar por género"
-                    value={genderFilter}
-                    onChange={(value) => setGenderFilter(value)}
-                    allowClear
-                    style={{ width: 150 }}
-                >
-                    <Option value="M">Masculino</Option>
-                    <Option value="F">Femenino</Option>
-                    <Option value="O">Otro</Option>
-                </Select>
-                <Select
-                    placeholder="Filtrar por tipo de ID"
-                    value={idTypeFilter}
-                    onChange={(value) => setIdTypeFilter(value)}
-                    allowClear
-                    style={{ width: 150 }}
-                >
-                    <Option value="cedula">Cédula</Option>
-                    <Option value="pasaporte">Pasaporte</Option>
-                </Select>
-                <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => setIsAddModalOpen(true)}
-                >
-                    Agregar Paciente
-                </Button>
-            </Space>
-
-            {/* Tabla de pacientes */}
-            <Table
-                columns={columns}
-                dataSource={displayedPatients}
-                rowKey="nro_identificacion"
-                pagination={{
-                    current: currentPage,
-                    pageSize: itemsPerPage,
-                    total: allPatients.length,
-                    onChange: handlePageChange,
-                }}
-            />
+            )}
 
             {/* Modales */}
             <AddPatientModal
@@ -234,11 +245,6 @@ const Patients = () => {
                 onClose={() => setIsEditModalOpen(false)}
                 onPatientUpdated={loadPatients}
                 initialData={editingPatient}
-            />
-            <PatientProfileModal
-                patientId={selectedPatientId}
-                visible={isProfileModalOpen}
-                onClose={() => setIsProfileModalOpen(false)}
             />
         </div>
     );
