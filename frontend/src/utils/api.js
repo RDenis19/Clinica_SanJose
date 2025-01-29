@@ -521,3 +521,14 @@ export const asignarFormularioAHistoria = async (nroArchivo, idFormulario) => {
     throw new Error(error.response?.data?.message || "Error al asignar formulario.");
   }
 };
+
+export const fetchFormularioById = async (id) => {
+  try {
+    const response = await API.get(`/formularios/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el formulario por ID:", error);
+    throw error.response ? error.response.data : { error: "Error en el servidor" };
+  }
+};
+
