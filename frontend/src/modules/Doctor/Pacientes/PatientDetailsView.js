@@ -1,253 +1,150 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Table, Button, Input, Space, Select, Popconfirm, notification, Typography } from "antd";
-import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { fetchPatients, deletePatient } from "../../../utils/api";
-import dayjs from "dayjs";
-import AddPatientModal from "./AddPatientModal";
-import EditPatientForm from "./EditPatientForm";
-import PatientDetailsView from "./PatientDetailsView"; // Nueva vista para detalles del paciente
+import React, { useState, useEffect } from "react";
+import { Spin, Row, Col, Typography, Divider, Avatar, Button, Collapse, Card, Tag, Descriptions } from "antd";
+import {
+  UserOutlined,
+  IdcardOutlined,
+  ManOutlined,
+  CalendarOutlined,
+  FileTextOutlined,
+  FileOutlined,
+  FormOutlined
+} from "@ant-design/icons";
+import { fetchPatientDetails, fetchHistoriaClinica, fetchFormularios } from "../../../utils/api";
 
-const { Search } = Input;
-const { Option } = Select;
 const { Title } = Typography;
+const { Panel } = Collapse;
 
-const Patients = () => {
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [allPatients, setAllPatients] = useState([]);
-    const [displayedPatients, setDisplayedPatients] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchValue, setSearchValue] = useState("");
-    const [genderFilter, setGenderFilter] = useState(null);
-    const [idTypeFilter, setIdTypeFilter] = useState(null);
-    const [editingPatient, setEditingPatient] = useState(null);
-    const [activeView, setActiveView] = useState("list"); // Estado para alternar vistas
-    const [selectedPatient, setSelectedPatient] = useState(null); // Paciente seleccionado
-    const itemsPerPage = 6;
+const PatientDetailsView = ({ patient, onBack }) => {
+  const [patientData, setPatientData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [clinicalRecords, setClinicalRecords] = useState([]);
+  const [recordsLoading, setRecordsLoading] = useState(true);
+  const [formularios, setFormularios] = useState([]);
+  const [formulariosLoading, setFormulariosLoading] = useState(true);
+  const [showPatientInfo, setShowPatientInfo] = useState(false);
 
-    const loadPatients = async () => {
-        try {
-            const data = await fetchPatients();
-            setAllPatients(data);
-            setDisplayedPatients(data.slice(0, itemsPerPage));
-        } catch (error) {
-            console.error("Error al cargar pacientes:", error);
-            notification.error({
-                message: "Error",
-                description: "No se pudo cargar la lista de pacientes.",
-            });
-        }
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchPatientDetails(patient.nro_identificacion);
+        setPatientData(response);
+      } catch (error) {
+        console.error("Error al obtener detalles del paciente:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    useEffect(() => {
-        loadPatients();
-    }, []);
-
-    const applyFilters = useCallback(() => {
-        let filtered = allPatients;
-
-        if (searchValue) {
-            filtered = filtered.filter((patient) =>
-                patient.primer_nombre.toLowerCase().includes(searchValue.toLowerCase())
-            );
+    const fetchRecords = async () => {
+      try {
+        setRecordsLoading(true);
+        const response = await fetchHistoriaClinica();
+        const filteredRecords = response.filter(
+          (record) => record.nro_identificacion === patient.nro_identificacion
+        );
+        setClinicalRecords(filteredRecords);
+        
+        if (filteredRecords.length > 0) {
+          fetchForms(filteredRecords.map(record => record.nro_archivo));
         }
-
-        if (genderFilter) {
-            filtered = filtered.filter((patient) => patient.genero === genderFilter);
-        }
-
-        if (idTypeFilter) {
-            filtered = filtered.filter((patient) => patient.tipo_identificacion === idTypeFilter);
-        }
-
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        setDisplayedPatients(filtered.slice(startIndex, endIndex));
-    }, [allPatients, searchValue, genderFilter, idTypeFilter, currentPage, itemsPerPage]);
-
-    useEffect(() => {
-        applyFilters();
-    }, [applyFilters]);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+      } catch (error) {
+        console.error("Error al obtener historias clínicas:", error);
+      } finally {
+        setRecordsLoading(false);
+      }
     };
 
-    const handleDelete = async (id) => {
-        try {
-            await deletePatient(id);
-            notification.success({
-                message: "Paciente eliminado",
-                description: `El paciente con ID ${id} fue eliminado correctamente.`,
-            });
-            loadPatients();
-        } catch (error) {
-            console.error("Error al eliminar paciente:", error);
-            notification.error({
-                message: "Error",
-                description: error.message || "No se pudo eliminar el paciente.",
-            });
-        }
+    const fetchForms = async (nroArchivos) => {
+      try {
+        setFormulariosLoading(true);
+        const response = await fetchFormularios();
+        const filteredForms = response.filter((form) => nroArchivos.includes(form.nro_archivo));
+        setFormularios(filteredForms);
+      } catch (error) {
+        console.error("Error al obtener formularios:", error);
+      } finally {
+        setFormulariosLoading(false);
+      }
     };
 
-    const handlePatientAdded = () => {
-        loadPatients();
-        setIsAddModalOpen(false);
-    };
+    if (patient) {
+      fetchDetails();
+      fetchRecords();
+    }
+  }, [patient]);
 
-    const handleViewDetails = (patient) => {
-        setSelectedPatient(patient);
-        setActiveView("details");
-    };
+  return (
+    <div style={{ padding: "20px", background: "#f5f5f5", borderRadius: "10px" }}>
+      <Button type="primary" onClick={onBack} style={{ marginBottom: "20px" }}>
+        Volver a la lista
+      </Button>
 
-    const columns = [
-        {
-            title: "Identificación",
-            dataIndex: "nro_identificacion",
-            key: "nro_identificacion",
-        },
-        {
-            title: "Tipo Identificación",
-            dataIndex: "tipo_identificacion",
-            key: "tipo_identificacion",
-        },
-        {
-            title: "Primer Nombre",
-            dataIndex: "primer_nombre",
-            key: "primer_nombre",
-        },
-        {
-            title: "Primer Apellido",
-            dataIndex: "primer_apellido",
-            key: "primer_apellido",
-        },
-        {
-            title: "Género",
-            dataIndex: "genero",
-            key: "genero",
-        },
-        {
-            title: "Fecha de Nacimiento",
-            dataIndex: "fecha_nacimiento",
-            key: "fecha_nacimiento",
-            render: (text) => dayjs(text).format("YYYY-MM-DD"),
-        },
-        {
-            title: "Acciones",
-            key: "acciones",
-            render: (_, record) => (
-                <Space size="middle">
-                    <Button
-                        icon={<EyeOutlined />}
-                        onClick={() => handleViewDetails(record)}
-                    />
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => {
-                            setEditingPatient(record);
-                            setIsEditModalOpen(true);
-                        }}
-                    />
-                    <Popconfirm
-                        title="¿Estás seguro de eliminar este paciente?"
-                        onConfirm={() => handleDelete(record.nro_identificacion)}
-                        okText="Sí"
-                        cancelText="No"
-                    >
-                        <Button icon={<DeleteOutlined />} danger />
-                    </Popconfirm>
-                </Space>
-            ),
-        },
-    ];
+      <div style={{ textAlign: "center", cursor: "pointer" }} onClick={() => setShowPatientInfo(!showPatientInfo)}>
+        <Avatar size={80} icon={<UserOutlined />} style={{ backgroundColor: "#1890ff" }} />
+      </div>
 
-    return (
-        <div>
-            {activeView === "list" ? (
-                <>
-                    {/* Título principal */}
-                    <Title level={2} style={{ marginBottom: 24 }}>
-                        Lista de Pacientes
-                    </Title>
+      {showPatientInfo && (
+        <Card bordered={false} style={{ marginTop: "20px", boxShadow: "0px 4px 12px rgba(0,0,0,0.1)" }}>
+          <Title level={3} style={{ textAlign: "center" }}>{`${patient.primer_nombre} ${patient.segundo_nombre || ""} ${patient.primer_apellido} ${patient.segundo_apellido}`}</Title>
+          <Divider />
+          {loading ? (
+            <Spin tip="Cargando detalles del paciente..." style={{ width: "100%" }} />
+          ) : (
+            <Descriptions bordered column={2} size="middle">
+              <Descriptions.Item label={<IdcardOutlined />}> {patientData.nro_identificacion} </Descriptions.Item>
+              <Descriptions.Item label={<FileTextOutlined />}> {patientData.tipo_identificacion || "No especificado"} </Descriptions.Item>
+              <Descriptions.Item label={<ManOutlined />}> {patientData.genero === "M" ? "Masculino" : patientData.genero === "F" ? "Femenino" : "Otro"} </Descriptions.Item>
+              <Descriptions.Item label={<CalendarOutlined />}> {new Date(patientData.fecha_nacimiento).toLocaleDateString()} </Descriptions.Item>
+            </Descriptions>
+          )}
+        </Card>
+      )}
 
-                    {/* Filtros y acciones */}
-                    <Space
-                        style={{
-                            marginBottom: 20,
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <Search
-                            placeholder="Buscar pacientes por nombre"
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            style={{ width: 300 }}
-                        />
-                        <Select
-                            placeholder="Filtrar por género"
-                            value={genderFilter}
-                            onChange={(value) => setGenderFilter(value)}
-                            allowClear
-                            style={{ width: 150 }}
-                        >
-                            <Option value="M">Masculino</Option>
-                            <Option value="F">Femenino</Option>
-                            <Option value="O">Otro</Option>
-                        </Select>
-                        <Select
-                            placeholder="Filtrar por tipo de ID"
-                            value={idTypeFilter}
-                            onChange={(value) => setIdTypeFilter(value)}
-                            allowClear
-                            style={{ width: 150 }}
-                        >
-                            <Option value="cedula">Cédula</Option>
-                            <Option value="pasaporte">Pasaporte</Option>
-                        </Select>
-                        <Button
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            onClick={() => setIsAddModalOpen(true)}
-                        >
-                            Agregar Paciente
-                        </Button>
-                    </Space>
-
-                    {/* Tabla de pacientes */}
-                    <Table
-                        columns={columns}
-                        dataSource={displayedPatients}
-                        rowKey="nro_identificacion"
-                        pagination={{
-                            current: currentPage,
-                            pageSize: itemsPerPage,
-                            total: allPatients.length,
-                            onChange: handlePageChange,
-                        }}
-                    />
-                </>
-            ) : (
-                <PatientDetailsView
-                    patient={selectedPatient}
-                    onBack={() => setActiveView("list")}
-                />
-            )}
-
-            {/* Modales */}
-            <AddPatientModal
-                visible={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                onPatientAdded={handlePatientAdded}
-            />
-            <EditPatientForm
-                visible={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
-                onPatientUpdated={loadPatients}
-                initialData={editingPatient}
-            />
-        </div>
-    );
+      <Collapse accordion style={{ marginTop: "20px" }}>
+        <Panel header={<span><FileOutlined /> Archivos de Historia Clínica</span>} key="1">
+          {recordsLoading ? (
+            <Spin tip="Cargando historias clínicas..." style={{ width: "100%" }} />
+          ) : clinicalRecords.length > 0 ? (
+            <Row gutter={[16, 16]}>
+              {clinicalRecords.map((record) => (
+                <Col span={8} key={record.nro_archivo}>
+                  <Card
+                    hoverable
+                    style={{ borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", textAlign: "center" }}
+                  >
+                    <Title level={5}>Historia Clínica #{record.nro_archivo}</Title>
+                    <Tag color="blue">ID Paciente: {record.nro_identificacion}</Tag>
+                    <p><strong>Fecha Creación:</strong> {new Date(record.fecha_creacion).toLocaleDateString()}</p>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p>No se encontraron archivos clínicos para este paciente.</p>
+          )}
+        </Panel>
+        <Panel header={<span><FormOutlined /> Formularios Completados</span>} key="2">
+          {formulariosLoading ? (
+            <Spin tip="Cargando formularios..." style={{ width: "100%" }} />
+          ) : formularios.length > 0 ? (
+            <Row gutter={[16, 16]}>
+              {formularios.map((form) => (
+                <Col span={8} key={form.id_formulario}>
+                  <Card title={`Formulario #${form.id_formulario}`} bordered>
+                    <p><strong>Estado:</strong> {form.estado}</p>
+                    <p><strong>Fecha de Creación:</strong> {new Date(form.fecha_creacion).toLocaleDateString()}</p>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p>No se encontraron formularios asociados a las historias clínicas.</p>
+          )}
+        </Panel>
+      </Collapse>
+    </div>
+  );
 };
 
-export default Patients;
+export default PatientDetailsView;
