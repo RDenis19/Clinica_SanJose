@@ -34,6 +34,18 @@ export const loginRequest = async (credentials) => {
   }
 };
 
+// Roles
+export const fetchRoles = async () => {
+  try {
+    const response = await API.get('/rol/');  // Usa API en lugar de API_URL
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener roles:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al obtener los roles.");
+  }
+};
+
+
 
 // Usuario
 export const fetchUsers = async () => {
@@ -95,21 +107,28 @@ export const createUserContactInfo = async (contactInfo) => {
 
 // editar Usuario codigo
 export const fetchUserDetails = async (idUsuario) => {
-  console.log("Consultando detalles para el ID de usuario:", idUsuario); // Depuración
-  const usuario = await API.get(`/usuario/${idUsuario}`);
-  const informacionPersonal = await API.get(`/uip/${idUsuario}`);
-  const informacionAcademica = await API.get(`/uia/${idUsuario}`);
-  const informacionContacto = await API.get(`/uic/${idUsuario}`);
+  try {
+    // 1. Datos de la tabla "usuario"
+    const usuario = await API.get(`/usuario/${idUsuario}`);
 
-  console.log("Datos obtenidos:", { usuario, informacionPersonal, informacionAcademica, informacionContacto });
+    // 2. Datos personales, académicos y de contacto (Fíjate en /usuario/:id_usuario)
+    const informacionPersonal = await API.get(`/uip/usuario/${idUsuario}`).catch(() => null);
+    const informacionAcademica = await API.get(`/uia/usuario/${idUsuario}`).catch(() => null);
+    const informacionContacto = await API.get(`/uic/usuario/${idUsuario}`).catch(() => null);
 
-  return {
-    ...usuario.data,
-    informacion_personal: informacionPersonal.data,
-    informacion_academica: informacionAcademica.data,
-    informacion_contacto: informacionContacto.data,
-  };
+    return {
+      ...usuario.data,
+      informacion_personal: informacionPersonal?.data || null,
+      informacion_academica: informacionAcademica?.data || null,
+      informacion_contacto: informacionContacto?.data || null,
+    };
+  } catch (error) {
+    console.error("Error en fetchUserDetails:", error);
+    return null;
+  }
 };
+
+
 
 
 
@@ -167,19 +186,39 @@ export const deleteUser = async (id) => {
     throw new Error(error.response?.data?.message || "Error al eliminar el usuario.");
   }
 };
-// Obtener información personal de todos los usuarios
-export const fetchUserPersonalInfo = async () => {
+// Obtener información personal de un usuario
+export const fetchUserPersonalInfo = async (idUsuario) => {
   try {
-    const response = await API.get("/uip"); // Ruta para obtener información personal
-    return response.data; // Devuelve la lista de información personal
+    const response = await API.get(`/uip/usuario/${idUsuario}`);
+    return response.data;
   } catch (error) {
     console.error("Error al obtener información personal:", error);
-    throw error.response
-      ? error.response.data
-      : { error: "Error en el servidor" };
+    throw error;
   }
 };
 
+
+// Obtener información académica de un usuario
+export const fetchUserAcademicInfo = async (idUsuario) => {
+  try {
+    const response = await API.get(`/uia/${idUsuario}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener información académica:", error);
+    throw error;
+  }
+};
+
+// Obtener información de contacto de un usuario
+export const fetchUserContactInfo = async (idUsuario) => {
+  try {
+    const response = await API.get(`/uic/${idUsuario}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener información de contacto:", error);
+    throw error;
+  }
+};
 
 // Paciente
 

@@ -81,30 +81,30 @@ const Users = () => {
 
   const handleEditClick = async (user) => {
     try {
+      console.log("Consultando detalles para el ID de usuario:", user.id_usuario);
       const fullUserData = await fetchUserDetails(user.id_usuario);
-      setEditingUser(fullUserData || user); // Usar datos básicos si fetchUserDetails falla
-  
-      if (!fullUserData) {
-        // Notificación de advertencia si los datos están incompletos
+      
+      if (fullUserData) {
+        setEditingUser(fullUserData);
+      } else {
         notification.warning({
           message: "Datos incompletos",
-          description: "Algunos datos del usuario podrían faltar, pero puedes continuar.",
+          description: "No se pudieron cargar los datos completos del usuario.",
         });
+        setEditingUser(user);
       }
     } catch (error) {
       console.warn("No se pudieron cargar los datos completos del usuario. Usando datos básicos.");
-      setEditingUser(user); // Solo usar los datos del registro existente
+      setEditingUser(user);
   
-      // Notificación en caso de error al cargar datos
       notification.warning({
         message: "Datos incompletos",
         description: "No se pudieron cargar todos los datos del usuario, pero puedes continuar.",
       });
     }
   
-    setIsEditModalOpen(true); // Abrir el modal de edición
-  };
-  
+    setIsEditModalOpen(true);
+  };  
   
   
   
