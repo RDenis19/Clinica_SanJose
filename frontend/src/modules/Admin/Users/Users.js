@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { fetchUsers, fetchUserDetails, deleteUser } from "../../../utils/api";
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
-import UserProfileModal from "./UserProfileModal"; // Importamos el modal de perfil
+import UserProfileModal from "./ViewUserModal";
 
 const { Search } = Input;
 const { Option } = Select;
