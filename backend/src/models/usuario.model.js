@@ -41,10 +41,7 @@ async function actualizar(id, data) {
     SET usuario = ?,
         correo = ?,
         contraseña = ?,
-        id_rol = ?,
-        ultimo_login = ?,
-        activo = 1,
-        estado = "activo"
+        id_rol = ?
     WHERE id_usuario = ?
   `;
 
@@ -53,9 +50,6 @@ async function actualizar(id, data) {
         correo,
         contraseña,
         id_rol,
-        ultimo_login,
-        activo,
-        estado
     } = data;
 
     await db.query(query, [
@@ -63,9 +57,6 @@ async function actualizar(id, data) {
         correo,
         contraseña,
         id_rol,
-        ultimo_login,
-        activo,
-        estado,
         id
     ]);
 
