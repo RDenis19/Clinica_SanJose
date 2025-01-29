@@ -266,7 +266,7 @@ export const deletePatient = async (id) => {
 // Obtener todas las historias clínicas
 export const fetchHistoriaClinica = async () => {
   try {
-    const response = await API.get("/archivos/"); // Cambia "/archivo_clinico" a "/archivos"
+    const response = await API.get("/archivos/"); 
     return response.data;
   } catch (error) {
     console.error("Error al obtener las historias clínicas:", error);
@@ -427,7 +427,6 @@ export const fetchCampoFormularioById = async (idCampo) => {
   }
 };
 
-
 // Obtener los campos de un tipo de formulario específico
 export const fetchCamposFormulario = async (idFormularioTipo) => {
   try {
@@ -488,5 +487,37 @@ export const deleteCampoFormulario = async (id) => {
   } catch (error) {
       console.error('Error al eliminar campo de formulario:', error);
       throw error;
+  }
+};
+
+// Formulario Seccion
+// Obtener todos los formularios
+export const fetchFormularios = async () => {
+  try {
+    const response = await API.get('/formularios');
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener formularios:', error);
+    throw error;
+  }
+};
+
+// Eliminar formulario
+export const deleteFormulario = async (id) => {
+  try {
+    await API.delete(`/formularios/${id}`);
+  } catch (error) {
+    console.error('Error al eliminar formulario:', error);
+    throw error;
+  }
+};
+
+export const asignarFormularioAHistoria = async (nroArchivo, idFormulario) => {
+  try {
+    const response = await API.put(`/archivos/${nroArchivo}/formulario`, { id_formulario: idFormulario });
+    return response.data;
+  } catch (error) {
+    console.error("Error al asignar formulario a la historia clínica:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Error al asignar formulario.");
   }
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Row, Col, Typography, Divider, Avatar, Button, Collapse, Card, Modal, Tag, Descriptions } from "antd";
+import { Spin, Row, Col, Typography, Divider, Avatar, Button, Collapse, Card, Tag, Descriptions } from "antd";
 import {
   UserOutlined,
   IdcardOutlined,
@@ -9,7 +9,7 @@ import {
   FileOutlined,
   FormOutlined
 } from "@ant-design/icons";
-import { fetchPatientDetails, fetchHistoriaClinica } from "../../../utils/api";
+import { fetchPatientDetails, fetchHistoriaClinica, fetchFormularios } from "../../../utils/api";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -19,8 +19,8 @@ const PatientDetailsView = ({ patient, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [clinicalRecords, setClinicalRecords] = useState([]);
   const [recordsLoading, setRecordsLoading] = useState(true);
-  const [selectedRecord, setSelectedRecord] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [formularios, setFormularios] = useState([]);
+  const [formulariosLoading, setFormulariosLoading] = useState(true);
   const [showPatientInfo, setShowPatientInfo] = useState(false);
 
   useEffect(() => {
@@ -44,10 +44,28 @@ const PatientDetailsView = ({ patient, onBack }) => {
           (record) => record.nro_identificacion === patient.nro_identificacion
         );
         setClinicalRecords(filteredRecords);
+        
+        // Llamar a fetchFormularios para cada historia clínica
+        if (filteredRecords.length > 0) {
+          fetchForms(filteredRecords.map(record => record.nro_archivo));
+        }
       } catch (error) {
         console.error("Error al obtener historias clínicas:", error);
       } finally {
         setRecordsLoading(false);
+      }
+    };
+
+    const fetchForms = async (nroArchivos) => {
+      try {
+        setFormulariosLoading(true);
+        const response = await fetchFormularios();
+        const filteredForms = response.filter((form) => nroArchivos.includes(form.nro_archivo));
+        setFormularios(filteredForms);
+      } catch (error) {
+        console.error("Error al obtener formularios:", error);
+      } finally {
+        setFormulariosLoading(false);
       }
     };
 
@@ -56,11 +74,6 @@ const PatientDetailsView = ({ patient, onBack }) => {
       fetchRecords();
     }
   }, [patient]);
-
-  const showRecordDetails = (record) => {
-    setSelectedRecord(record);
-    setModalVisible(true);
-  };
 
   return (
     <div style={{ padding: "20px", background: "#f5f5f5", borderRadius: "10px" }}>
@@ -99,7 +112,6 @@ const PatientDetailsView = ({ patient, onBack }) => {
                 <Col span={8} key={record.nro_archivo}>
                   <Card
                     hoverable
-                    onClick={() => showRecordDetails(record)}
                     style={{ borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", textAlign: "center" }}
                   >
                     <Title level={5}>Historia Clínica #{record.nro_archivo}</Title>
@@ -114,24 +126,24 @@ const PatientDetailsView = ({ patient, onBack }) => {
           )}
         </Panel>
         <Panel header={<span><FormOutlined /> Formularios Completados</span>} key="2">
-          <Spin tip="Cargando formularios..." style={{ width: "100%" }} />
+          {formulariosLoading ? (
+            <Spin tip="Cargando formularios..." style={{ width: "100%" }} />
+          ) : formularios.length > 0 ? (
+            <Row gutter={[16, 16]}>
+              {formularios.map((form) => (
+                <Col span={8} key={form.id_formulario}>
+                  <Card title={`Formulario #${form.id_formulario}`} bordered>
+                    <p><strong>Estado:</strong> {form.estado}</p>
+                    <p><strong>Fecha de Creación:</strong> {new Date(form.fecha_creacion).toLocaleDateString()}</p>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p>No se encontraron formularios asociados a las historias clínicas.</p>
+          )}
         </Panel>
       </Collapse>
-
-      <Modal
-        title="Detalles de la Historia Clínica"
-        visible={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        footer={null}
-      >
-        {selectedRecord && (
-          <Descriptions bordered column={1}>
-            <Descriptions.Item label="Número de Archivo">{selectedRecord.nro_archivo}</Descriptions.Item>
-            <Descriptions.Item label="ID Paciente">{selectedRecord.nro_identificacion}</Descriptions.Item>
-            <Descriptions.Item label="Fecha de Creación">{new Date(selectedRecord.fecha_creacion).toLocaleString()}</Descriptions.Item>
-          </Descriptions>
-        )}
-      </Modal>
     </div>
   );
 };

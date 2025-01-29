@@ -81,3 +81,27 @@ exports.eliminarArchivo = async (req, res) => {
         return res.status(500).json({ message: 'Error al eliminar archivo clínico' });
     }
 };
+
+exports.asignarFormularioAHistoria = async (req, res) => {
+    const { nro_archivo } = req.params;
+    const { id_formulario } = req.body;
+
+    if (!id_formulario) {
+        return res.status(400).json({ message: "Falta el ID del formulario a asignar." });
+    }
+
+    try {
+        const archivoExistente = await archivoModel.obtenerPorId(nro_archivo);
+        if (!archivoExistente) {
+            return res.status(404).json({ message: "Historia clínica no encontrada." });
+        }
+
+        // Guardar la asignación del formulario a la historia clínica
+        await archivoModel.asignarFormulario(nro_archivo, id_formulario);
+
+        return res.json({ message: "Formulario asignado exitosamente a la historia clínica." });
+    } catch (error) {
+        console.error("Error al asignar formulario a historia clínica:", error);
+        return res.status(500).json({ message: "Error interno del servidor." });
+    }
+};

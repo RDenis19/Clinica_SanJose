@@ -1,155 +1,196 @@
-/* import React, { useState, useEffect } from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import SearchBar from "../../../../../components/common/SearchBar";
-import Button from "../../../../../components/common/Button";
-import Table from "../../../../../components/common/Table";
-import TipoFormularios from "./TipoFormularios";
-import NuevoFormulario from "./NuevoFormulario";
-import VerFormulario from "./VerFormulario";
-import EditFormulario from "./EditFormulario";
+import React, { useState, useEffect, useCallback } from "react";
+import { Table, Button, Input, Space, Popconfirm, notification, DatePicker, Typography } from "antd";
+import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
+import FormularioTipo from "./FormularioTipo"; // Importar la vista de Tipos de Formulario
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import "dayjs/locale/es";
+
+dayjs.extend(advancedFormat);
+dayjs.locale("es");
+
+const { Title } = Typography;
+const { Search } = Input;
+const { RangePicker } = DatePicker;
 
 const Formulario = () => {
+  const [view, setView] = useState("formularios"); // Alternar entre 'formularios' y 'tipos_formulario'
   const [formularios, setFormularios] = useState([]);
+  const [filteredFormularios, setFilteredFormularios] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [selectedPlantilla, setSelectedPlantilla] = useState(null);
-  const [selectedFormulario, setSelectedFormulario] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dateRange, setDateRange] = useState(null);
+  const [sortRecent, setSortRecent] = useState(false);
+  const itemsPerPage = 6;
 
   useEffect(() => {
-    const loadFormularios = async () => {
-      try {
-        const data = await fetchFormularios();
-        setFormularios(data || []);
-      } catch (error) {
-        console.error("Error al cargar los formularios:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (view === "formularios") {
+      cargarFormularios();
+    }
+  }, [view]);
 
-    loadFormularios();
-  }, []);
-
-  const handleCreateFormulario = () => {
-    setCurrentStep(2);
-  };
-
-  const handleEditFormulario = (formulario) => {
-    setSelectedFormulario(formulario);
-    setCurrentStep(5); // Cambiar al paso de edición
-  };
-
-  const handleViewFormulario = (idFormulario) => {
-    setSelectedFormulario(idFormulario);
-    setCurrentStep(4);
-  };
-
-  const handleBackToFormularios = () => {
-    setCurrentStep(1);
-  };
-
-  const handlePlantillaSeleccionada = (plantilla) => {
-    setCurrentStep(3);
-    setSelectedPlantilla(plantilla);
-  };
-
-  const handleDeleteFormulario = async (id) => {
+  const cargarFormularios = async () => {
     try {
-      await deleteFormulario(id);
-      setFormularios((prev) => prev.filter((formulario) => formulario.idFormulario !== id));
-      alert("Formulario eliminado correctamente.");
+      const data = await fetchFormularios();
+      setFormularios(data);
+      setFilteredFormularios(data);
     } catch (error) {
-      console.error("Error al eliminar formulario:", error);
-      alert("Error al eliminar el formulario. Intente nuevamente.");
+      notification.error({
+        message: "Error",
+        description: "No se pudo cargar la lista de formularios.",
+      });
     }
   };
 
-  const handleSearch = (value) => {
-    setSearchValue(value);
+  const handleSearch = useCallback(() => {
+    let filtered = formularios;
+
+    if (searchValue) {
+      filtered = filtered.filter((formulario) =>
+        formulario.nro_archivo.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+
+    if (dateRange) {
+      const [start, end] = dateRange;
+      filtered = filtered.filter((formulario) => {
+        const fecha = dayjs(formulario.fecha_creacion);
+        return fecha.isAfter(start) && fecha.isBefore(end);
+      });
+    }
+
+    filtered = [...filtered].sort((a, b) =>
+      sortRecent
+        ? new Date(b.fecha_creacion) - new Date(a.fecha_creacion)
+        : new Date(a.fecha_creacion) - new Date(b.fecha_creacion)
+    );
+
+    setFilteredFormularios(filtered);
+    setCurrentPage(1);
+  }, [formularios, searchValue, dateRange, sortRecent]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchValue, dateRange, sortRecent, handleSearch]);
+
+  const eliminarFormulario = async (id) => {
+    try {
+      await deleteFormulario(id);
+      notification.success({
+        message: "Formulario eliminado",
+        description: `El formulario con ID ${id} fue eliminado correctamente.`,
+      });
+      cargarFormularios();
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "No se pudo eliminar el formulario.",
+      });
+    }
   };
 
-  const filteredFormularios = formularios.filter((formulario) =>
-    formulario?.nroHistoriaClinica?.toString().includes(searchValue)
-  );
+  if (view === "tipos_formulario") {
+    return <FormularioTipo setView={setView} />;
+  }
 
   const columns = [
-    { label: "Número de Historia Clínica", accessor: "nroHistoriaClinica" },
-    { label: "Fecha de Creación", accessor: "fechaCreacionF" },
-    { label: "Última Modificación", accessor: "fechaUltimaModificacionF" },
-    { label: "Estado", accessor: "estadoFormulario" },
     {
-      label: "Acciones",
-      accessor: "acciones",
-      render: (formulario) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <FaEye
-            onClick={() => handleViewFormulario(formulario.idFormulario)}
-            title="Ver formulario"
-            style={{ cursor: "pointer", color: "#007bff" }}
-          />
-          <FaEdit
-            onClick={() => handleEditFormulario(formulario)}
-            title="Editar formulario"
-            style={{ cursor: "pointer", color: "#ffc107" }}
-          />
-          <FaTrash
-            onClick={() => handleDeleteFormulario(formulario.idFormulario)}
-            title="Eliminar formulario"
-            style={{ cursor: "pointer", color: "#dc3545" }}
-          />
-        </div>
+      title: "ID",
+      dataIndex: "id_formulario",
+      key: "id_formulario",
+    },
+    {
+      title: "Tipo",
+      dataIndex: "id_formulario_tipo",
+      key: "id_formulario_tipo",
+    },
+    {
+      title: "Nro Archivo",
+      dataIndex: "nro_archivo",
+      key: "nro_archivo",
+    },
+    {
+      title: "Usuario Creador",
+      dataIndex: "id_usuario_creador",
+      key: "id_usuario_creador",
+    },
+    {
+      title: "Fecha Creación",
+      dataIndex: "fecha_creacion",
+      key: "fecha_creacion",
+      render: (text) => dayjs(text).format("dddd, D [de] MMMM [de] YYYY, h:mm:ss A"),
+    },
+    {
+      title: "Estado",
+      dataIndex: "estado",
+      key: "estado",
+    },
+    {
+      title: "Acciones",
+      key: "acciones",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button icon={<EyeOutlined />} onClick={() => console.log("Ver", record.id_formulario)} />
+          <Button icon={<EditOutlined />} onClick={() => console.log("Editar", record.id_formulario)} />
+          <Popconfirm
+            title="¿Estás seguro de eliminar este formulario?"
+            onConfirm={() => eliminarFormulario(record.id_formulario)}
+            okText="Sí"
+            cancelText="No"
+          >
+            <Button icon={<DeleteOutlined />} danger />
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
 
-  if (loading) {
-    return <p>Cargando formularios...</p>;
-  }
+  const paginatedData = filteredFormularios.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
-    <div className="formulario-container">
-      {currentStep === 1 && (
-        <>
-          <div className="actions-row">
-            <h2>Gestión de Formularios</h2>
-            <SearchBar
-              placeholder="Buscar por número de historia clínica"
-              value={searchValue}
-              onChange={handleSearch}
-            />
-            <Button
-              label="Crear Formulario"
-              onClick={handleCreateFormulario}
-              className="primary"
-            />
-          </div>
-          <Table columns={columns} data={filteredFormularios} />
-        </>
-      )}
-      {currentStep === 2 && (
-        <TipoFormularios
-          onBack={handleBackToFormularios}
-          onPlantillaSeleccionada={handlePlantillaSeleccionada}
+    <div style={{ padding: "20px" }}>
+      {/* Título y Botón Agregar */}
+      <Title level={3} style={{ marginBottom: 24 }}>
+        Lista de Formularios
+      </Title>
+      <Space style={{ marginBottom: 16, display: "flex", justifyContent: "space-between" }}>
+        <Search
+          placeholder="Buscar por Número de Archivo"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          style={{ width: 300 }}
         />
-      )}
-      {currentStep === 3 && (
-        <NuevoFormulario plantilla={selectedPlantilla} onBack={handleBackToFormularios} />
-      )}
-      {currentStep === 4 && (
-        <VerFormulario idFormulario={selectedFormulario} onBack={handleBackToFormularios} />
-      )}
-      {currentStep === 5 && selectedFormulario && (
-        <EditFormulario
-          formulario={selectedFormulario}
-          onBack={handleBackToFormularios}
-          onUpdate={handleBackToFormularios}
+        <RangePicker
+          onChange={(dates) =>
+            setDateRange(dates ? [dates[0].startOf("day"), dates[1].endOf("day")] : null)
+          }
         />
-      )}
+        <Button type="default" onClick={() => setSortRecent(!sortRecent)}>
+          {sortRecent ? "Ordenar: Antiguos" : "Ordenar: Recientes"}
+        </Button>
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => setView("tipos_formulario")}>
+          Agregar Nuevo
+        </Button>
+      </Space>
+
+      {/* Tabla con paginación */}
+      <Table
+        columns={columns}
+        dataSource={paginatedData}
+        rowKey="id_formulario"
+        pagination={{
+          current: currentPage,
+          pageSize: itemsPerPage,
+          total: filteredFormularios.length,
+          onChange: (page) => setCurrentPage(page),
+        }}
+      />
     </div>
   );
 };
 
 export default Formulario;
- */

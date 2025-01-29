@@ -19,4 +19,7 @@ router.put('/:nro_archivo', authMiddleware, archivoController.actualizarArchivo)
 // DELETE: Eliminar un archivo clínico
 router.delete('/:nro_archivo', authMiddleware, archivoController.eliminarArchivo);
 
+router.put('/:nro_archivo/formulario', authMiddleware, archivoController.asignarFormularioAHistoria);
+
+
 module.exports = router;

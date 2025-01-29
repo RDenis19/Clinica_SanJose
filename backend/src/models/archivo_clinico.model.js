@@ -46,10 +46,20 @@ async function eliminar(nroArchivo) {
   return true;
 }
 
+async function asignarFormulario(nroArchivo, idFormulario) {
+  const query = `
+      INSERT INTO formulario (nro_archivo, id_formulario_tipo, id_usuario_creador, estado, fecha_creacion)
+      VALUES (?, ?, ?, 'BORRADOR', NOW())
+  `;
+  await db.query(query, [nroArchivo, idFormulario, 1]); // 1 es el ID del usuario por defecto (debes pasarlo dinámicamente)
+  return true;
+}
+
 module.exports = {
   obtenerTodos,
   obtenerPorId,
   crear,
   actualizar,
   eliminar,
+  asignarFormulario, 
 };
