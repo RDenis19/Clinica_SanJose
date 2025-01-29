@@ -53,7 +53,7 @@ exports.crearUsuario = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
     const { id_usuario } = req.params;
     try {
-        let {
+        const {
             usuario,
             correo,
             contraseña,
@@ -63,27 +63,19 @@ exports.actualizarUsuario = async (req, res) => {
             estado
         } = req.body;
 
-        // Verificación de campos requeridos (ajustar según necesidades)
         if (!usuario || !correo || !id_rol) {
             return res.status(400).json({ message: 'Faltan datos para actualizar' });
         }
 
-        // Verificar si se está actualizando la contraseña
+        let contraseñaHasheada = contraseña;
         if (contraseña) {
-            // Expresión regular para verificar si la contraseña ya está hasheada con bcrypt
-            const bcryptRegex = /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/;
-
-            if (!bcryptRegex.test(contraseña)) {
-                // La contraseña no está hasheada, así que la hasheamos
-                contraseña = await bcrypt.hash(contraseña, 10);
-            }
-            // Si la contraseña ya está hasheada, no hacemos nada
+            contraseñaHasheada = await bcrypt.hash(contraseña, 10);
         }
 
         const usuarioActualizado = await usuarioModel.actualizar(id_usuario, {
             usuario,
             correo,
-            contraseña,
+            contraseña: contraseñaHasheada,
             id_rol,
             ultimo_login,
             activo,
