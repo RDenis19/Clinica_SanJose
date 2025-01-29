@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Spin, Row, Col, Typography, Divider, Avatar, Button, Collapse, Card, Tag, Descriptions } from "antd";
-import {
-  UserOutlined,
-  IdcardOutlined,
-  ManOutlined,
-  CalendarOutlined,
-  FileTextOutlined,
-  FileOutlined,
-  FormOutlined
-} from "@ant-design/icons";
+import { UserOutlined, IdcardOutlined, ManOutlined, CalendarOutlined, FileTextOutlined, FileOutlined, FormOutlined } from "@ant-design/icons";
 import { fetchPatientDetails, fetchHistoriaClinica, fetchFormularios } from "../../../utils/api";
 
 const { Title } = Typography;
@@ -44,7 +36,7 @@ const PatientDetailsView = ({ patient, onBack }) => {
           (record) => record.nro_identificacion === patient.nro_identificacion
         );
         setClinicalRecords(filteredRecords);
-        
+
         if (filteredRecords.length > 0) {
           fetchForms(filteredRecords.map(record => record.nro_archivo));
         }

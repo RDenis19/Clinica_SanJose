@@ -20,13 +20,14 @@ async function crear(data) {
     INSERT INTO usuario (usuario, correo, contraseña, id_rol)
     VALUES (?, ?, ?, ?)
   `;
-    const { usuario, correo, contraseña, id_rol } = data;
+    const { usuario, correo, contraseña, id_rol, estado } = data;
 
     const [result] = await db.query(query, [
         usuario,
         correo,
         contraseña,
-        id_rol
+        id_rol,
+        estado
     ]);
 
     return {
@@ -41,7 +42,8 @@ async function actualizar(id, data) {
     SET usuario = ?,
         correo = ?,
         contraseña = ?,
-        id_rol = ?
+        id_rol = ?,
+        estado = ?
     WHERE id_usuario = ?
   `;
 
@@ -50,6 +52,7 @@ async function actualizar(id, data) {
         correo,
         contraseña,
         id_rol,
+        estado
     } = data;
 
     await db.query(query, [
@@ -57,6 +60,7 @@ async function actualizar(id, data) {
         correo,
         contraseña,
         id_rol,
+        estado,
         id
     ]);
 

@@ -253,7 +253,7 @@ const AddUserModal = ({ visible, onClose, onUserAdded }) => {
                                 <DatePicker
                                     style={{ width: "100%" }}
                                     format="YYYY-MM-DD"
-                                    placeholder="Año-Mes-Dia"
+                                    placeholder="YYYY-MM-DD"
                                     prefix={<CalendarOutlined />}
                                 />
                             </Form.Item>

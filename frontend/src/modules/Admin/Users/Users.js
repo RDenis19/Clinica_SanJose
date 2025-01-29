@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Input, Space, Select, Popconfirm, notification } from "antd";
+import { Table, Button, Input, Space, Select, Popconfirm, notification, Typography } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { fetchUsers, fetchUserDetails, downUser } from "../../../utils/api";
@@ -9,6 +9,7 @@ import ViewUserModal from "./ViewUserModal";
 
 const { Search } = Input;
 const { Option } = Select;
+const { Title } = Typography;
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -160,8 +161,10 @@ const Users = () => {
 
     return (
         <div>
+            <Title level={2} style={{ marginBottom: 24 }}>
+                Lista de Usuarios
+            </Title>
             <Space style={{ marginBottom: 20, display: "flex", justifyContent: "space-between", width: "100%" }}>
-                <h1 style={{ margin: 0 }}>Lista de Usuarios</h1>
                 <Search
                     placeholder="Buscar por usuario"
                     value={searchValue}

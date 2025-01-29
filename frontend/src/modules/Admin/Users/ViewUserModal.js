@@ -57,11 +57,7 @@ const ViewUserModal = ({ visible, onClose, userData }) => {
                         <Descriptions.Item label="Cédula">{userData?.informacion_personal?.cedula || "N/A"}</Descriptions.Item>
                         <Descriptions.Item label="Nombres">{userData?.informacion_personal?.nombres || "N/A"}</Descriptions.Item>
                         <Descriptions.Item label="Apellidos">{userData?.informacion_personal?.apellidos || "N/A"}</Descriptions.Item>
-                        <Descriptions.Item label="Fecha de Nacimiento">
-                            {userData?.informacion_personal?.fecha_nacimiento
-                                ? dayjs(userData.informacion_personal.fecha_nacimiento).format("YYYY-MM-DD")
-                                : "N/A"}
-                        </Descriptions.Item>
+                        <Descriptions.Item label="Fecha de Nacimiento">{userData?.informacion_personal?.fecha_nacimiento? dayjs(userData.informacion_personal.fecha_nacimiento).format("YYYY-MM-DD"): "N/A"}</Descriptions.Item>
                         <Descriptions.Item label="Género">{userData?.informacion_personal?.genero || "N/A"}</Descriptions.Item>
                         <Descriptions.Item label="Estado Civil">{userData?.informacion_personal?.estado_civil || "N/A"}</Descriptions.Item>
                     </Descriptions>

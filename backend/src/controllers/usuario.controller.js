@@ -53,7 +53,7 @@ exports.crearUsuario = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
     try {
         const { id_usuario } = req.params;
-        const { usuario, correo, contraseña, id_rol, } = req.body;
+        const { usuario, correo, contraseña, id_rol, estado } = req.body;
 
         if (!usuario || !correo || !id_rol) {
             return res.status(400).json({ message: 'Faltan datos para actualizar' });
@@ -64,7 +64,7 @@ exports.actualizarUsuario = async (req, res) => {
             contraseñaHasheada = await bcrypt.hash(contraseña, 10);
         }
 
-        const usuarioActualizado = await usuarioModel.actualizar(id_usuario, { usuario, correo, contraseña: contraseñaHasheada, id_rol, });
+        const usuarioActualizado = await usuarioModel.actualizar(id_usuario, { usuario, correo, contraseña: contraseñaHasheada, id_rol, estado});
 
         return res.json(usuarioActualizado);
     } catch (error) {

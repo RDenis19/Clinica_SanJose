@@ -13,7 +13,7 @@ export const isTokenExpired = (token) => {
     return exp < now;
   } catch (err) {
     console.error("Error al decodificar el token:", err);
-    return true; // En caso de error, tratamos el token como expirado
+    return true;
   }
 };
 

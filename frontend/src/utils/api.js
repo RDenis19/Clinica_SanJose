@@ -144,9 +144,9 @@ export const updateUser = async (idUsuario, userData) => {
 };
 
 // Actualizar Información Personal
-export const updateUserPersonalInfo = async (idInformacionPersonal, personalData) => {
+export const updateUserPersonalInfo = async (id, dataInformacionPersonal) => {
   try {
-    const response = await API.put(`/uip/${idInformacionPersonal}`, personalData);
+    const response = await API.put(`/uip/${id}`, dataInformacionPersonal);
     return response.data;
   } catch (error) {
     console.error("Error en updateUserPersonalInfo:", error.response?.data || error.message);

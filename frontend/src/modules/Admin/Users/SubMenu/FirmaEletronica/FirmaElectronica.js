@@ -20,7 +20,7 @@ const FirmaElectronica = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [editingFirma, setEditingFirma] = useState(null);
   const [viewingFirma, setViewingFirma] = useState(null);
-  const itemsPerPage = 6;
+  const itemsPerPage = 7;
 
   // Cargar firmas electrónicas desde la API
   const loadFirmas = async () => {
