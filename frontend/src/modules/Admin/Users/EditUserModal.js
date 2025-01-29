@@ -11,6 +11,7 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
   const [form] = Form.useForm();
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("1");
 
   useEffect(() => {
     const loadRoles = async () => {
@@ -42,6 +43,7 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
 
   const handleCancel = () => {
     form.resetFields();
+    setActiveTab("1");
     onClose();
   };
 
@@ -50,19 +52,18 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
     setLoading(true);
     try {
       const idUsuario = userData.id_usuario;
+      const idPersonalInfo = userData.informacion_personal.id_informacion_personal;
+      const idAcademicaInfo = userData.informacion_academica.id_informacion_academica;
+      const idContactoInfo = userData.informacion_contacto.id_informacion_contacto;
 
       await updateUser(idUsuario, { usuario: values.usuario, correo: values.correo, contraseña: values.contraseña ? values.contraseña : userData.contraseña, id_rol: values.id_rol, });
-
-      await updateUserPersonalInfo(userData.informacion_personal?.id, {
-        ...values,
-        fecha_nacimiento: values.fecha_nacimiento ? dayjs(values.fecha_nacimiento).format("YYYY-MM-DD") : null,
-      });
-      console.log(userData);
-      await updateUserAcademicInfo(userData.informacion_academica?.id, values);
-      await updateUserContactInfo(userData.informacion_contacto?.id, values);
+      await updateUserPersonalInfo(idPersonalInfo, { ...values, fecha_nacimiento: values.fecha_nacimiento ? dayjs(values.fecha_nacimiento).format("YYYY-MM-DD") : null, });
+      await updateUserAcademicInfo(idAcademicaInfo, values);
+      await updateUserContactInfo(idContactoInfo, values);
 
       onUserUpdated?.();
       form.resetFields();
+      setActiveTab("1");
       onClose();
     } catch (error) {
       console.error("Error al actualizar usuario:", error);
@@ -78,7 +79,7 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
         <h2>{userData?.usuario || "Usuario Desconocido"}</h2>
       </div>
       <Form form={form} layout="vertical" onFinish={handleFinish}>
-        <Tabs defaultActiveKey="1" centered>
+        <Tabs activeKey={activeTab} onChange={setActiveTab} centered>
           <TabPane tab="Usuario" key="1">
             <Card>
               <Form.Item name="usuario" label="Usuario" rules={[{ required: true, message: "Ingrese un usuario." }]}>
