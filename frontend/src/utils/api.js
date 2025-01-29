@@ -414,6 +414,20 @@ export const deleteTipoFormulario = async (id) => {
   }
 };
 
+// Obtener un campo de formulario por ID
+export const fetchCampoFormularioById = async (idCampo) => {
+  try {
+    const response = await API.get(`/campos/${idCampo}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el campo de formulario por ID:", error);
+    throw error.response
+      ? error.response.data
+      : { error: "Error en el servidor" };
+  }
+};
+
+
 // Obtener los campos de un tipo de formulario específico
 export const fetchCamposFormulario = async (idFormularioTipo) => {
   try {

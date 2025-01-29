@@ -1,19 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Divider, notification } from "antd";
-import { ArrowLeftOutlined, SaveOutlined } from "@ant-design/icons";
-import { updateTipoFormulario, fetchTipoFormularioById } from "../../../../../utils/api";
-import CamposFormularioList from "./CamposFormularioList";
+import React, { useState, useEffect, useCallback } from "react";
+import { Form, Input, Button, Divider, Table, Space, notification } from "antd";
+import { ArrowLeftOutlined, SaveOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  updateTipoFormulario,
+  fetchTipoFormularioById,
+  fetchCamposFormulario,
+  deleteCampoFormulario,
+} from "../../../../../utils/api";
+import AddCampoFormulario from "./AddCampoFormulario";
+import EditCampoFormulario from "./EditCampoFormulario";
 
 const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [campos, setCampos] = useState([]);
+  const [loadingCampos, setLoadingCampos] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingCampoId, setEditingCampoId] = useState(null);
+
+  // Función para cargar los campos asociados
+  const loadCampos = useCallback(async () => {
+    setLoadingCampos(true);
+    try {
+      const camposData = await fetchCamposFormulario(tipoFormularioId);
+      setCampos(camposData);
+    } catch (error) {
+      console.error("Error al cargar los campos:", error);
+      notification.error({
+        message: "Error",
+        description: "No se pudieron cargar los campos del formulario.",
+      });
+    } finally {
+      setLoadingCampos(false);
+    }
+  }, [tipoFormularioId]);
 
   useEffect(() => {
-    // Scroll hacia arriba automáticamente al montar el componente
-    document.getElementById("root").scrollIntoView({ behavior: "smooth" });
-
-    // Cargar los datos iniciales del formulario
+    // Cargar datos del formulario y campos asociados
     const loadTipoFormulario = async () => {
       if (tipoFormularioId) {
         try {
@@ -22,7 +46,7 @@ const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
             nombre: data.nombre,
             descripcion: data.descripcion,
           });
-          setCampos(data.campos || []);
+          await loadCampos();
         } catch (error) {
           console.error("Error al cargar el formulario:", error);
           notification.error({
@@ -34,7 +58,7 @@ const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
     };
 
     loadTipoFormulario();
-  }, [tipoFormularioId, form]);
+  }, [tipoFormularioId, form, loadCampos]);
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -55,6 +79,68 @@ const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
       setLoading(false);
     }
   };
+
+  const handleDeleteCampo = async (campoId) => {
+    try {
+      await deleteCampoFormulario(campoId);
+      notification.success({
+        message: "Campo eliminado",
+        description: "El campo se eliminó correctamente.",
+      });
+      await loadCampos(); // Refrescar la tabla de campos
+    } catch (error) {
+      console.error("Error al eliminar el campo:", error);
+      notification.error({
+        message: "Error",
+        description: "No se pudo eliminar el campo.",
+      });
+    }
+  };
+
+  const columns = [
+    {
+      title: "Nombre del Campo",
+      dataIndex: "nombre_campo",
+      key: "nombre_campo",
+    },
+    {
+      title: "Tipo de Dato",
+      dataIndex: "tipo_dato",
+      key: "tipo_dato",
+    },
+    {
+      title: "Opciones",
+      dataIndex: "opciones",
+      key: "opciones",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Requerido",
+      dataIndex: "requerido",
+      key: "requerido",
+      render: (text) => (text ? "Sí" : "No"),
+    },
+    {
+      title: "Acciones",
+      key: "acciones",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => {
+              setEditingCampoId(record.id_campo);
+              setIsEditModalOpen(true);
+            }}
+          />
+          <Button
+            icon={<DeleteOutlined />}
+            danger
+            onClick={() => handleDeleteCampo(record.id_campo)}
+          />
+        </Space>
+      ),
+    },
+  ];
 
   return (
     <div style={{ padding: 24 }}>
@@ -97,13 +183,38 @@ const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
         </Form.Item>
       </Form>
 
-      {campos.length > 0 && (
-        <>
-          <Divider />
-          <h3>Gestión de Campos</h3>
-          <CamposFormularioList tipoFormularioId={tipoFormularioId} />
-        </>
-      )}
+      <Divider />
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h3>Campos Asociados</h3>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          Agregar Campo
+        </Button>
+      </div>
+
+      <Table
+        columns={columns}
+        dataSource={campos}
+        rowKey="id_campo"
+        loading={loadingCampos}
+        pagination={{ pageSize: 5 }}
+      />
+
+      <AddCampoFormulario
+        visible={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onCampoAdded={loadCampos}
+        tipoFormularioId={tipoFormularioId}
+      />
+      <EditCampoFormulario
+        visible={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onCampoUpdated={loadCampos}
+        campoId={editingCampoId}
+      />
     </div>
   );
 };
