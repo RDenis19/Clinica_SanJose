@@ -582,3 +582,16 @@ export const fetchFormularioById = async (id) => {
   }
 };
 
+// Guardar respuestas de un formulario
+export const guardarRespuestasFormulario = async (idFormulario, respuestas) => {
+  try {
+    const response = await API.post('/respuestas', {
+      id_formulario: idFormulario,
+      respuestas
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al guardar respuestas del formulario:', error);
+    throw new Error(error.response?.data?.message || "Error al guardar respuestas.");
+  }
+};

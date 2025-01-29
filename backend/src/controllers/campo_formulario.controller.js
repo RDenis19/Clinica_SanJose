@@ -28,12 +28,14 @@ exports.obtenerCamposPorFormularioTipo = async (req, res) => {
     const { id_formulario_tipo } = req.params;
     try {
         const campos = await campoModel.obtenerPorFormularioTipo(id_formulario_tipo);
+        console.log("📤 Campos enviados al frontend:", campos);
         return res.json(campos);
     } catch (error) {
-        console.error('Error al obtener campos por tipo de formulario:', error);
-        return res.status(500).json({ message: 'Error al obtener campos por tipo de formulario' });
+        console.error("❌ Error al obtener campos por tipo de formulario:", error);
+        return res.status(500).json({ message: "Error al obtener campos por tipo de formulario" });
     }
 };
+
 
 exports.crearCampo = async (req, res) => {
     try {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../../utils/api";
-import { getUserRole, getToken } from "../../utils/authUtils";
+import { getUserRole} from "../../utils/authUtils";
 import "./login.css";
 import logo from "../../assets/images/LogoCorazon.png";
 import doctors from "../../assets/images/img aparte/DoctoresLogin.png";
@@ -96,4 +96,3 @@ function Login() {
 export default Login;
 
 
-/*5. Validar si el token sigue siendo válido en cada vista importante*/

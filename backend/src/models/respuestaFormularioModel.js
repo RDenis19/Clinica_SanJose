@@ -26,24 +26,30 @@ const getRespuestaById = async (id) => {
 };
 
 const createRespuesta = async (respuesta) => {
-    const { id_formulario, id_campo, valor } = respuesta;
+  const { id_formulario, id_campo, valor } = respuesta;
 
-    const [existing] = await db.query(`
-    SELECT * FROM respuesta_formulario
-    WHERE id_formulario = ? AND id_campo = ?
-  `, [id_formulario, id_campo]);
+  const [existing] = await db.query(
+      `SELECT * FROM respuesta_formulario WHERE id_formulario = ? AND id_campo = ?`,
+      [id_formulario, id_campo]
+  );
 
-    if (existing.length > 0) {
-        throw new Error('Ya existe una respuesta para este formulario y campo.');
-    }
+  if (existing.length > 0) {
+      await db.query(
+          `UPDATE respuesta_formulario SET valor = ? WHERE id_formulario = ? AND id_campo = ?`,
+          [valor, id_formulario, id_campo]
+      );
+      return { id_formulario, id_campo, valor, updated: true };
+  }
 
-    const [result] = await db.query(`
-    INSERT INTO respuesta_formulario (id_formulario, id_campo, valor)
-    VALUES (?, ?, ?)
-  `, [id_formulario, id_campo, valor]);
+  // Si no existe, insertar una nueva respuesta
+  const [result] = await db.query(
+      `INSERT INTO respuesta_formulario (id_formulario, id_campo, valor) VALUES (?, ?, ?)`,
+      [id_formulario, id_campo, valor]
+  );
 
-    return getRespuestaById(result.insertId);
+  return getRespuestaById(result.insertId);
 };
+
 
 const updateRespuesta = async (id, valor) => {
     const [result] = await db.query(`

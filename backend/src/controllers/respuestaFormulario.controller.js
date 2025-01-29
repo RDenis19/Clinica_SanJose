@@ -25,21 +25,31 @@ const getRespuestaById = async (req, res) => {
 };
 
 const createRespuesta = async (req, res) => {
-    const { id_formulario, id_campo, valor } = req.body;
+    console.log("📥 Datos recibidos en el backend:", req.body); // Debug
 
-    if (!id_formulario || !id_campo) {
-        return res.status(400).json({ message: 'id_formulario e id_campo son obligatorios.' });
+    const { id_formulario, respuestas } = req.body;
+
+    if (!id_formulario || !Array.isArray(respuestas) || respuestas.length === 0) {
+        console.error("❌ Error: id_formulario o respuestas son inválidos:", req.body);
+        return res.status(400).json({ message: "id_formulario y respuestas son obligatorios." });
     }
 
     try {
-        const nuevaRespuesta = await RespuestaFormulario.createRespuesta({ id_formulario, id_campo, valor });
-        res.status(201).json(nuevaRespuesta);
-    } catch (error) {
-        console.error('Error al crear la respuesta:', error.message);
-        if (error.message === 'Ya existe una respuesta para este formulario y campo.') {
-            return res.status(400).json({ message: error.message });
+        let respuestasGuardadas = [];
+        for (const { id_campo, valor } of respuestas) {
+            if (!id_campo || valor === undefined) {
+                console.error("❌ Error en una respuesta:", { id_campo, valor });
+                return res.status(400).json({ message: "Cada respuesta debe incluir id_campo y valor." });
+            }
+
+            const nuevaRespuesta = await RespuestaFormulario.createRespuesta({ id_formulario, id_campo, valor });
+            respuestasGuardadas.push(nuevaRespuesta);
         }
-        res.status(500).json({ message: 'Error interno del servidor.' });
+
+        res.status(201).json(respuestasGuardadas);
+    } catch (error) {
+        console.error("❌ Error al crear las respuestas:", error.message);
+        res.status(500).json({ message: "Error interno del servidor." });
     }
 };
 
