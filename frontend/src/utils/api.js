@@ -518,6 +518,18 @@ export const fetchTipoFormularioById = async (id) => {
 };
 
 
+//Seccion
+export const fetchSeccionByTipoFormulario = async (data) => {
+  try {
+      const response = await API.post('/campos/', data);
+      return response.data;
+  } catch (error) {
+      console.error('Error al crear campo de formulario:', error);
+      throw error;
+  }
+};
+
+
 //Campo
 
 // Editar un campo de formulario
