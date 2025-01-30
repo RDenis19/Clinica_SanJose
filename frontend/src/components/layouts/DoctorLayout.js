@@ -18,13 +18,7 @@ function DoctorLayout({ children }) {
       icon: <DashboardOutlined />,
     },
     {
-      label: "Pacientes",
-      to: "/doctor/pacientes",
-      icon: <UserOutlined />,
-      subMenu: [
-        { label: "Referidos", to: "/doctor/pacientes/referidoDoctor" },
-      ],
-    },
+      label: "Pacientes", to: "/doctor/pacientes", icon: <UserOutlined />},
     {
       label: "Historias Clínicas",
       to: "/doctor/historias",

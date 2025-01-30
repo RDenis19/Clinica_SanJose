@@ -17,14 +17,7 @@ function EnfermeraLayout({ children }) {
       to: "/enfermera/dashboard",
       icon: <DashboardOutlined />,
     },
-    {
-      label: "Pacientes",
-      to: "/enfermera/pacientes",
-      icon: <UserOutlined />,
-      subMenu: [
-        { label: "Referidos", to: "/enfermera/pacientes/referidoEnfermera" },
-      ],
-    },
+    {label: "Pacientes", to: "/enfermera/pacientes", icon: <UserOutlined />},
     {
       label: "Historias Clínicas",
       to: "/enfermera/historias",

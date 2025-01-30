@@ -5,7 +5,7 @@ import { fetchPatients, deletePatient } from "../../../utils/api";
 import dayjs from "dayjs";
 import AddPatientModal from "./AddPatientModal";
 import EditPatientForm from "./EditPatientForm";
-import PatientDetailsView from "./PatientDetailsView"; // Nueva vista para detalles del paciente
+import PatientDetailsView from "./PatientDetailsView"; 
 
 const { Search } = Input;
 const { Option } = Select;
