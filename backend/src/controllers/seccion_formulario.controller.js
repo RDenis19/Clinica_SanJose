@@ -17,7 +17,6 @@ exports.obtenerSeccionFormularioPorId = async (req, res) => {
         if (!seccion) {
             return res.status(404).json({ message: 'Sección de formulario no encontrada' });
         }
-        console.log(seccion);
         return res.json(seccion);
     } catch (error) {
         console.error('Error al obtener sección de formulario por ID:', error);
@@ -45,6 +44,8 @@ exports.crearSeccionFormulario = async (req, res) => {
             nombre_seccion,
             descripcion,
         });
+
+        console.log(nuevaSeccion);
 
         return res.status(201).json(nuevaSeccion);
     } catch (error) {

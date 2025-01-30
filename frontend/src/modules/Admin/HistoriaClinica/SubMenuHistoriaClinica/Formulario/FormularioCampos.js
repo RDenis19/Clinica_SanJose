@@ -21,7 +21,6 @@ const FormularioCampos = ({ tipoFormularioId, setView }) => {
     if (!tipoFormularioId) return;
     try {
       const data = await fetchCamposFormulario(tipoFormularioId);
-      console.log("📥 Campos obtenidos del servidor:", data);
       setCampos(Array.isArray(data) ? data : []);
 
       // Inicializar valores en el formulario
@@ -70,7 +69,6 @@ const FormularioCampos = ({ tipoFormularioId, setView }) => {
     try {
       // Obtener valores del formulario
       let valores = form.getFieldsValue();
-      console.log("📌 Valores obtenidos del formulario:", valores);
 
       // Formatear los valores antes de enviarlos
       const respuestas = Object.keys(valores)
@@ -93,8 +91,6 @@ const FormularioCampos = ({ tipoFormularioId, setView }) => {
           };
         });
 
-      console.log("✅ Respuestas listas para enviar:", respuestas);
-
       if (respuestas.length === 0) {
         console.error("❌ Error: No se pueden enviar respuestas vacías.");
         notification.warning({
@@ -103,11 +99,6 @@ const FormularioCampos = ({ tipoFormularioId, setView }) => {
         });
         return;
       }
-
-      console.log("🚀 Enviando datos a la API...", {
-        id_formulario: selectedHistoria.nro_archivo,
-        respuestas,
-      });
 
       // **1. Primero asignar el formulario a la historia**
       await asignarFormularioAHistoria(selectedHistoria.nro_archivo, tipoFormularioId);

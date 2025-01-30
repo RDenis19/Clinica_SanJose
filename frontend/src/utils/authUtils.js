@@ -20,7 +20,6 @@ export const isTokenExpired = (token) => {
 /** Cierra sesión eliminando el token y redirigiendo al login */
 export const logout = (navigate) => {
   localStorage.clear();
-  console.log("Cierre de sesión exitoso.");
   if (navigate) navigate("/");
 };
 

@@ -40,7 +40,6 @@ const EditUserModal = ({ visible, onClose, onUserUpdated, userData }) => {
     // Establecer los valores del formulario cuando userData cambia
     useEffect(() => {
         if (userData) {
-            console.log(userData);
             form.resetFields();
             form.setFieldsValue({
                 usuario: userData.usuario,

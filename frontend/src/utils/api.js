@@ -24,7 +24,6 @@ API.interceptors.request.use(
 export const loginRequest = async (credentials) => {
     try {
         const response = await API.post('/auth/login', credentials);
-        console.log("Respuesta del servidor:", response.data); // Depuración opcional
         return response.data;
     } catch (error) {
         console.error("Error en loginRequest:", error);
@@ -265,7 +264,6 @@ export const fetchPatients = async () => {
 // Crear un nuevo paciente
 export const createPatient = async (patientData) => {
     try {
-        console.log('Datos enviados al backend:', patientData); // Debug
         const response = await API.post('/pacientes/', patientData); // URL del backend
         return response.data; // Respuesta esperada
     } catch (error) {
@@ -277,7 +275,6 @@ export const createPatient = async (patientData) => {
 // Obtener detalles de un paciente por identificación
 export const fetchPatientDetails = async (id) => {
     try {
-        console.log("Consultando datos del paciente con ID:", id); // Debug
         const response = await API.get(`/pacientes/${id}`); // Confirma que esta sea la ruta correcta
         return response.data; // Devuelve los datos del paciente
     } catch (error) {
@@ -289,8 +286,6 @@ export const fetchPatientDetails = async (id) => {
 // Actualizar datos de un paciente por identificación
 export const updatePatient = async (identificacion, patientData) => {
     try {
-        // Asegúrate de que los datos sean un objeto JSON
-        console.log('Datos enviados en la solicitud PUT:', patientData);
         const response = await API.put(`/pacientes/${identificacion}`, patientData); // Verifica que la ruta sea correcta
         return response.data;
     } catch (error) {
@@ -302,7 +297,6 @@ export const updatePatient = async (identificacion, patientData) => {
 // Eliminar un paciente por identificación
 export const deletePatient = async (id) => {
     try {
-        console.log("Eliminando paciente con ID:", id); // Debug
         const response = await API.delete(`/pacientes/${id}`); // Confirma que esta sea la ruta correcta
         return response.data; // Devuelve el resultado de la eliminación
     } catch (error) {
@@ -522,7 +516,6 @@ export const fetchTipoFormularioById = async (id) => {
 export const fetchSeccionByTipoFormulario = async (idFormulario) => {
     try {
         const response = await API.get(`/seccion/${idFormulario}`);
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error('Error al crear campo de formulario:', error);

@@ -29,11 +29,11 @@ const CreateSeccion = ({ idFormulario, onSeccionSelected }) => {
                 descripcion,
             });
 
-            if (newSeccion && newSeccion.id_seccion) {
+            if (newSeccion.id_seccion) {
                 setNombreSeccion("");
                 setDescripcion("");
                 setRefresh((prev) => !prev);
-                onSeccionSelected(newSeccion.id_seccion); // Pasar ID de la nueva sección al padre
+                onSeccionSelected(newSeccion.id_seccion);
                 notification.success({
                     message: "Sección creada",
                     description: `Sección "${newSeccion.nombre_seccion}" creada exitosamente.`,

@@ -32,7 +32,6 @@ function Sidebar({ links = [] }) {
 
   /** Maneja el cierre de sesión */
   const handleLogout = () => {
-    console.log("Cerrando sesión...");
     logout(navigate);
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Table, Button, Space, notification, Empty } from "antd";
+import { Table, Button, Space, Empty } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { fetchSeccionByTipoFormulario } from "../../../../../utils/api";
 import DeleteSeccion from "./DeleteSeccion";
@@ -19,24 +19,9 @@ const ListSecciones = ({ idFormulario, refresh, onSeccionSelected }) => {
         setLoading(true);
         try {
             const data = await fetchSeccionByTipoFormulario(idFormulario);
-
-            let seccionesArray = [];
-            if (Array.isArray(data)) {
-                seccionesArray = data;
-            } else if (data && typeof data === "object") {
-                seccionesArray = [data];
-            } else {
-                console.warn("La API devolvió un formato inesperado:", data);
-                seccionesArray = [];
-            }
-
-            setSecciones(seccionesArray);
+            setSecciones(data[0]);
         } catch (error) {
             console.error("Error al cargar secciones:", error);
-            notification.error({
-                message: "Error",
-                description: "Hubo un problema al obtener las secciones.",
-            });
             setSecciones([]);
         } finally {
             setLoading(false);
