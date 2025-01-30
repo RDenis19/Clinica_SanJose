@@ -17,16 +17,10 @@ function DoctorLayout({ children }) {
       to: "/doctor/dashboard",
       icon: <DashboardOutlined />,
     },
-    {
-      label: "Pacientes", to: "/doctor/pacientes", icon: <UserOutlined />},
-    {
-      label: "Historias Clínicas",
-      to: "/doctor/historias",
-      icon: <FileTextOutlined />,
-      subMenu: [
-        { label: "Formulario", to: "/doctor/historias/formulariosDoctor" },
-      ],
-    },
+    {label: "Pacientes", to: "/doctor/pacientes", icon: <UserOutlined />},
+    {label: "Historias Clínicas", to: "/doctor/historias", icon: <FileTextOutlined />},
+    { label: "Formulario", to: "/doctor/historias/formulariosDoctor", icon: <FileTextOutlined /> },
+
   ];
 
   const handleLogout = () => {

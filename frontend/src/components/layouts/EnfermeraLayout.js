@@ -18,14 +18,8 @@ function EnfermeraLayout({ children }) {
       icon: <DashboardOutlined />,
     },
     {label: "Pacientes", to: "/enfermera/pacientes", icon: <UserOutlined />},
-    {
-      label: "Historias Clínicas",
-      to: "/enfermera/historias",
-      icon: <FileTextOutlined />,
-      subMenu: [
-        { label: "Formulario", to: "/enfermera/historias/formulariosEnfermera" },
-      ],
-    },
+    {label: "Historias Clínicas", to: "/enfermera/historias", icon: <FileTextOutlined />,},
+    { label: "Formulario", to: "/enfermera/historias/formulariosEnfermera", icon: <FileTextOutlined />},
   ];
 
   const handleLogout = () => {
