@@ -481,10 +481,17 @@ export const fetchCampoFormularioById = async (idCampo) => {
 export const fetchCamposFormulario = async (idFormularioTipo) => {
   try {
     const response = await API.get(`/campos/formulario_tipo/${idFormularioTipo}`);
-    return response.data;
+    const data = response.data;
+    if (Array.isArray(data)) {
+      return data;
+    } else if (typeof data === 'object' && data !== null) {
+      return [data];
+    } else {
+      return [];
+    }
   } catch (error) {
     console.error('Error al obtener campos de formulario:', error);
-    throw error;
+    return []; // En caso de error, devuelve un array vacío
   }
 };
 

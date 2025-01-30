@@ -12,6 +12,9 @@ router.get('/', authMiddleware, campoFormularioController.obtenerCamposFormulari
 // GET: Obtener un campo de formulario por id_campo
 router.get('/:id_campo', authMiddleware, campoFormularioController.obtenerCampoFormularioPorId);
 
+// GET: Obtener un campos de un tipo_formulario
+router.get('/formulario_tipo/:idFormularioTipo', authMiddleware, campoFormularioController.obtenerCampoFormularioPorFormulario);
+
 // POST: Crear un nuevo campo de formulario
 router.post('/', authMiddleware, campoFormularioController.crearCampoFormulario);
 

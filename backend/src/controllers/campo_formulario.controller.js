@@ -24,6 +24,20 @@ exports.obtenerCampoFormularioPorId = async (req, res) => {
     }
 };
 
+exports.obtenerCampoFormularioPorFormulario = async (req, res) => {
+    const { idFormularioTipo } = req.params;
+    try {
+        const campo = await campoFormularioModel.obtenerPorFormulario(idFormularioTipo);
+        if (!campo) {
+            return res.status(404).json({ message: 'Error al obtener campos del tipo formulario especificado' });
+        }
+        return res.json(campo);
+    } catch (error) {
+        console.error('Error al obtener campos de formulario por ID:', error);
+        return res.status(500).json({ message: 'Error al obtener campos de tipo formulario' });
+    }
+};
+
 exports.crearCampoFormulario = async (req, res) => {
     try {
         const {

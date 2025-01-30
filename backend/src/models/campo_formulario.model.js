@@ -12,6 +12,12 @@ async function obtenerPorId(idCampo) {
     return rows.length ? rows[0] : null;
 }
 
+async function obtenerPorFormulario(idFormularioTipo) {
+    const query = 'SELECT * FROM campo_formulario WHERE id_formulario_tipo = ?';
+    const [rows] = await db.query(query, [idFormularioTipo]);
+    return rows.length ? rows[0] : null;
+}
+
 async function crear(data) {
     const query = `
     INSERT INTO campo_formulario 
@@ -71,6 +77,7 @@ async function eliminar(idCampo) {
 module.exports = {
     obtenerTodos,
     obtenerPorId,
+    obtenerPorFormulario,
     crear,
     actualizar,
     eliminar,
