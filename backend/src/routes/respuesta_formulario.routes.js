@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const respuestaFormularioController = require('../controllers/respuestaFormulario.controller');
+const respuestaFormularioController = require('../controllers/respuesta_formulario.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // GET: Obtener todas las respuestas de formularios

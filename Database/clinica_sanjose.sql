@@ -29,7 +29,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
-  `usuario` VARCHAR(50) NOT NULL,
   `correo` VARCHAR(100) NOT NULL,
   `contraseña` VARCHAR(255) NOT NULL,
   `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -38,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`usuario` (
   `estado` ENUM('activo', 'inactivo') NOT NULL DEFAULT 'activo',
   `id_rol` INT NOT NULL,
   PRIMARY KEY (`id_usuario`),
-  UNIQUE INDEX `uk_usuario_username` (`usuario` ASC) VISIBLE,
   UNIQUE INDEX `uk_usuario_email` (`correo` ASC) VISIBLE,
   INDEX `fk_usuario_rol_idx` (`id_rol` ASC) VISIBLE,
   CONSTRAINT `fk_usuario_rol`
@@ -160,14 +158,13 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`archivo_clinico` (
   `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`nro_archivo`),
   INDEX `fk_archivo_paciente_idx` (`nro_identificacion` ASC) VISIBLE,
-  UNIQUE INDEX `nro_archivo_UNIQUE` (`nro_archivo` ASC) VISIBLE,
-  UNIQUE INDEX `nro_identificacion_UNIQUE` (`nro_identificacion` ASC) VISIBLE,
   CONSTRAINT `fk_archivo_paciente`
     FOREIGN KEY (`nro_identificacion`)
     REFERENCES `clinica_san_jose`.`paciente` (`nro_identificacion`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `clinica_san_jose`.`formulario_tipo`
@@ -181,21 +178,46 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `clinica_san_jose`.`seccion_formulario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`seccion_formulario` (
+  `id_seccion` INT NOT NULL AUTO_INCREMENT,
+  `id_formulario_tipo` INT NOT NULL,
+  `nombre_seccion` VARCHAR(255) NOT NULL,
+  `descripcion` TEXT NULL,
+  PRIMARY KEY (`id_seccion`),
+  INDEX `fk_seccion_formulario_tipo_idx` (`id_formulario_tipo` ASC) VISIBLE,
+  CONSTRAINT `fk_seccion_formulario_tipo`
+    FOREIGN KEY (`id_formulario_tipo`)
+    REFERENCES `clinica_san_jose`.`formulario_tipo` (`id_formulario_tipo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `clinica_san_jose`.`campo_formulario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`campo_formulario` (
   `id_campo` INT NOT NULL AUTO_INCREMENT,
   `id_formulario_tipo` INT NOT NULL,
+  `id_seccion` INT NOT NULL,
   `nombre_campo` VARCHAR(255) NOT NULL,
   `tipo_dato` ENUM('TEXT', 'NUMBER', 'DATE', 'BOOLEAN', 'ENUM', 'FLOAT') NOT NULL,
   `requerido` TINYINT(1) NOT NULL DEFAULT 0,
   `opciones` TEXT NULL,
   PRIMARY KEY (`id_campo`),
   INDEX `fk_campo_formulario_tipo_idx` (`id_formulario_tipo` ASC) VISIBLE,
+  INDEX `fk_campo_formulario_seccion_idx` (`id_seccion` ASC) VISIBLE,
   CONSTRAINT `fk_campo_formulario_tipo`
     FOREIGN KEY (`id_formulario_tipo`)
     REFERENCES `clinica_san_jose`.`formulario_tipo` (`id_formulario_tipo`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_campo_formulario_seccion`
+    FOREIGN KEY (`id_seccion`)
+    REFERENCES `clinica_san_jose`.`seccion_formulario` (`id_seccion`)
+    ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 

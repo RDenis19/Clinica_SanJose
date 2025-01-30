@@ -16,6 +16,26 @@ async function obtenerPorId(id) {
     return rows.length ? rows[0] : null;
 }
 
+async function obtenerPorNroArchivo(nroArchivoClinico) {
+    const query = `
+        SELECT *
+        FROM formulario
+        WHERE nro_archivo = ?
+    `;
+    const [rows] = await db.query(query, [nroArchivoClinico]);
+    return rows.length ? rows[0] : null;
+}
+
+async function obtenerFormulariosCreadosPorUsuario(idUsuarioCreador) {
+    const query = `
+        SELECT *
+        FROM formulario
+        WHERE id_usuario_creador = ?
+    `;
+    const [rows] = await db.query(query, [idUsuarioCreador]);
+    return rows.length ? rows[0] : null;
+}
+
 async function crear(data) {
     const query = `
         INSERT INTO formulario (id_formulario_tipo, nro_archivo, id_usuario_creador, fecha_creacion, estado)

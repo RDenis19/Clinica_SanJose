@@ -15,6 +15,9 @@ const formularioTipoRoutes = require('./routes/formulario_tipo.routes');
 const campoFormularioRoutes = require('./routes/campo_formulario.routes');
 const respuestaFormularioRoutes = require('./routes/respuestaFormulario.routes');
 const formularioRoutes = require('./routes/formulario.routes');
+const seccionFormularioRoutes = require('./routes/seccion_formulario.routes');
+const formularioCambiosDetallesRoutes = require('./routes/formulario_cambios_detalles.routes');
+const formularioCambiosRoutes = require('./routes/formulario_cambios.routes');
 
 const app = express();
 
@@ -36,6 +39,9 @@ app.use('/formularios/tipos', formularioTipoRoutes);
 app.use('/campos', campoFormularioRoutes);
 app.use('/respuestas', respuestaFormularioRoutes);
 app.use('/formularios', formularioRoutes);
+app.use('/seccion', seccionFormularioRoutes);
+app.use('/formulario_cambios_detalles', formularioCambiosDetallesRoutes);
+app.use('/formulario_cambios', formularioCambiosRoutes);
 
 // Middleware para manejar errores 404
 app.use((req, res) => {

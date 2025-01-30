@@ -1,8 +1,8 @@
-const campoModel = require('../models/campo_formulario.model');
+const campoFormularioModel = require('../models/campo_formulario.model');
 
-exports.obtenerCampos = async (req, res) => {
+exports.obtenerCamposFormulario = async (req, res) => {
     try {
-        const campos = await campoModel.obtenerTodos();
+        const campos = await campoFormularioModel.obtenerTodos();
         return res.json(campos);
     } catch (error) {
         console.error('Error al obtener campos de formulario:', error);
@@ -10,10 +10,10 @@ exports.obtenerCampos = async (req, res) => {
     }
 };
 
-exports.obtenerCampoPorId = async (req, res) => {
+exports.obtenerCampoFormularioPorId = async (req, res) => {
     const { id_campo } = req.params;
     try {
-        const campo = await campoModel.obtenerPorId(id_campo);
+        const campo = await campoFormularioModel.obtenerPorId(id_campo);
         if (!campo) {
             return res.status(404).json({ message: 'Campo de formulario no encontrado' });
         }
@@ -24,54 +24,35 @@ exports.obtenerCampoPorId = async (req, res) => {
     }
 };
 
-exports.obtenerCamposPorFormularioTipo = async (req, res) => {
-    const { id_formulario_tipo } = req.params;
-    try {
-        const campos = await campoModel.obtenerPorFormularioTipo(id_formulario_tipo);
-        console.log("📤 Campos enviados al frontend:", campos);
-        return res.json(campos);
-    } catch (error) {
-        console.error("❌ Error al obtener campos por tipo de formulario:", error);
-        return res.status(500).json({ message: "Error al obtener campos por tipo de formulario" });
-    }
-};
-
-
-exports.crearCampo = async (req, res) => {
+exports.crearCampoFormulario = async (req, res) => {
     try {
         const {
             id_formulario_tipo,
+            id_seccion,
             nombre_campo,
             tipo_dato,
             requerido,
-            opciones
+            opciones,
         } = req.body;
 
-        if (!id_formulario_tipo || !nombre_campo || !tipo_dato) {
-            return res.status(400).json({
-                message: 'Faltan campos requeridos: id_formulario_tipo, nombre_campo, tipo_dato'
-            });
+        // Validación de campos requeridos
+        if (
+            !id_formulario_tipo ||
+            !id_seccion ||
+            !nombre_campo ||
+            !tipo_dato ||
+            typeof requerido === 'undefined'
+        ) {
+            return res.status(400).json({ message: 'Faltan campos obligatorios' });
         }
 
-        const tiposValidos = ['TEXT', 'NUMBER', 'DATE', 'BOOLEAN', 'ENUM', 'FLOAT'];
-        if (!tiposValidos.includes(tipo_dato)) {
-            return res.status(400).json({
-                message: `tipo_dato inválido. Debe ser uno de: ${tiposValidos.join(', ')}`
-            });
-        }
-
-        if (tipo_dato === 'ENUM' && !opciones) {
-            return res.status(400).json({
-                message: 'El campo "opciones" es obligatorio cuando tipo_dato es "ENUM"'
-            });
-        }
-
-        const nuevoCampo = await campoModel.crear({
+        const nuevoCampo = await campoFormularioModel.crear({
             id_formulario_tipo,
+            id_seccion,
             nombre_campo,
             tipo_dato,
-            requerido: requerido ? 1 : 0,
-            opciones: opciones || null
+            requerido,
+            opciones,
         });
 
         return res.status(201).json(nuevoCampo);
@@ -81,47 +62,40 @@ exports.crearCampo = async (req, res) => {
     }
 };
 
-exports.actualizarCampo = async (req, res) => {
+exports.actualizarCampoFormulario = async (req, res) => {
     const { id_campo } = req.params;
     try {
         const {
             id_formulario_tipo,
+            id_seccion,
             nombre_campo,
             tipo_dato,
             requerido,
-            opciones
+            opciones,
         } = req.body;
 
-        if (!id_formulario_tipo || !nombre_campo || !tipo_dato) {
-            return res.status(400).json({
-                message: 'Faltan campos requeridos: id_formulario_tipo, nombre_campo, tipo_dato'
-            });
+        if (
+            !id_formulario_tipo ||
+            !id_seccion ||
+            !nombre_campo ||
+            !tipo_dato ||
+            typeof requerido === 'undefined'
+        ) {
+            return res.status(400).json({ message: 'Faltan campos obligatorios para actualizar' });
         }
 
-        const tiposValidos = ['TEXT', 'NUMBER', 'DATE', 'BOOLEAN', 'ENUM', 'FLOAT'];
-        if (!tiposValidos.includes(tipo_dato)) {
-            return res.status(400).json({
-                message: `tipo_dato inválido. Debe ser uno de: ${tiposValidos.join(', ')}`
-            });
-        }
-
-        if (tipo_dato === 'ENUM' && !opciones) {
-            return res.status(400).json({
-                message: 'El campo "opciones" es obligatorio cuando tipo_dato es "ENUM"'
-            });
-        }
-
-        const campoExistente = await campoModel.obtenerPorId(id_campo);
+        const campoExistente = await campoFormularioModel.obtenerPorId(id_campo);
         if (!campoExistente) {
             return res.status(404).json({ message: 'Campo de formulario no encontrado' });
         }
 
-        const campoActualizado = await campoModel.actualizar(id_campo, {
+        const campoActualizado = await campoFormularioModel.actualizar(id_campo, {
             id_formulario_tipo,
+            id_seccion,
             nombre_campo,
             tipo_dato,
-            requerido: requerido ? 1 : 0,
-            opciones: opciones || null
+            requerido,
+            opciones,
         });
 
         return res.json(campoActualizado);
@@ -131,15 +105,15 @@ exports.actualizarCampo = async (req, res) => {
     }
 };
 
-exports.eliminarCampo = async (req, res) => {
+exports.eliminarCampoFormulario = async (req, res) => {
     const { id_campo } = req.params;
     try {
-        const campo = await campoModel.obtenerPorId(id_campo);
+        const campo = await campoFormularioModel.obtenerPorId(id_campo);
         if (!campo) {
             return res.status(404).json({ message: 'Campo de formulario no encontrado' });
         }
 
-        await campoModel.eliminar(id_campo);
+        await campoFormularioModel.eliminar(id_campo);
         return res.json({ message: 'Campo de formulario eliminado correctamente' });
     } catch (error) {
         console.error('Error al eliminar campo de formulario:', error);
