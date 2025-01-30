@@ -38,6 +38,22 @@ exports.obtenerCampoFormularioPorFormulario = async (req, res) => {
     }
 };
 
+exports.getCamposByFormularioYSeccion = async (req, res) => {
+    try {
+        const { idFormulario, idSeccion } = req.params;
+
+        if (!idFormulario || !idSeccion) {
+            return res.status(400).json({ error: 'Faltan parámetros requeridos' });
+        }
+
+        const results = await CampoFormulario.obtenerCamposPorFormularioYSeccion(idFormulario, idSeccion);
+        res.json(results);
+
+    } catch (error) {
+        res.status(500).json({ error: 'Error en la consulta a la base de datos', detalles: error.message });
+    }
+}
+
 exports.crearCampoFormulario = async (req, res) => {
     try {
         const {

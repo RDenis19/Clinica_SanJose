@@ -19,7 +19,6 @@ const EditTipoFormulario = ({ setView, tipoFormularioId }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingCampoId, setEditingCampoId] = useState(null);
 
-  // Función para cargar los campos asociados
   const loadCampos = useCallback(async () => {
     setLoadingCampos(true);
     try {

@@ -546,6 +546,16 @@ export const deleteSeccion = async (idSeccion) => {
 
 //Campo
 
+export const fetchCamposByFormularioYSeccion = async (idFormulario, idSeccion) => {
+    try {
+        const response = await API.get(`/campos/${idFormulario}/${idSeccion}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al crear campo de formulario:', error);
+        throw error;
+    }
+};
+
 //Crear un campo de un formulario
 export const createCampo = async (data) => {
     try {

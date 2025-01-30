@@ -45,8 +45,6 @@ exports.crearSeccionFormulario = async (req, res) => {
             descripcion,
         });
 
-        console.log(nuevaSeccion);
-
         return res.status(201).json(nuevaSeccion);
     } catch (error) {
         console.error('Error al crear sección de formulario:', error);

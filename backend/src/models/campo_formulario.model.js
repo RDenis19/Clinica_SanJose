@@ -18,6 +18,19 @@ async function obtenerPorFormulario(idFormularioTipo) {
     return rows.length ? rows[0] : null;
 }
 
+async function obtenerCamposPorFormularioYSeccion(idFormulario, idSeccion) {
+    try {
+        const query = `
+            SELECT * FROM campo_formulario 
+            WHERE id_formulario_tipo = ? AND id_seccion = ?
+        `;
+        const [rows] = await pool.promise().query(query, [idFormulario, idSeccion]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function crear(data) {
     const query = `
     INSERT INTO campo_formulario 
@@ -78,6 +91,7 @@ module.exports = {
     obtenerTodos,
     obtenerPorId,
     obtenerPorFormulario,
+    obtenerCamposPorFormularioYSeccion,
     crear,
     actualizar,
     eliminar,

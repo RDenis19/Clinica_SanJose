@@ -93,7 +93,6 @@ exports.darBajaUsuario = async (req, res) => {
         return res.json({message: 'Usuario dado de baja correctamente'});
         
     } catch (error) {
-        console.log('Error al dar de baja usuario: ', error);
         return res.status(500).json({ message: 'Error al dar de baja usuario' });
     }
 }
