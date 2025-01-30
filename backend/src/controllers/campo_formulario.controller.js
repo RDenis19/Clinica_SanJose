@@ -49,7 +49,6 @@ exports.crearCampoFormulario = async (req, res) => {
             opciones,
         } = req.body;
 
-        // Validación de campos requeridos
         if (
             !id_formulario_tipo ||
             !id_seccion ||
