@@ -16,7 +16,6 @@ import EnfermeraLayout from "./components/layouts/EnfermeraLayout";
 import Dashboard from "./modules/Admin/Dashboard";
 import Users from "./modules/Admin/Users/Users";
 import Patients from "./modules/Admin/Patients/Patients";
-import ChangeRequest from "./modules/Admin/ChangeRequest";
 import HistoriaClinica from "./modules/Admin/HistoriaClinica/HistoriaClinica/HistoriaClinica";
 import Plantillas from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Plantilla/TipoFormulario";
 import Formularios from "./modules/Admin/HistoriaClinica/SubMenuHistoriaClinica/Formulario/Formularios";
@@ -54,7 +53,6 @@ function App() {
                 Admin: [
                     { to: "/admin/dashboard", label: "Dashboard" },
                     { to: "/admin/patients", label: "Pacientes" },
-                    { to: "/admin/change", label: "Solicitudes de Cambio" },
                     {
                         to: "/admin/historia-clinica",
                         label: "Historia Clínica",
@@ -128,7 +126,6 @@ function App() {
                         <Route path="users" element={<AdminLayout><Users /></AdminLayout>} />
                         <Route path="users/firma-electronica" element={<AdminLayout><FirmaElectronica /></AdminLayout>} />
                         <Route path="patients" element={<AdminLayout><Patients /></AdminLayout>} />
-                        <Route path="patients/referido" element={<AdminLayout><ChangeRequest /></AdminLayout>} />
                         <Route path="historia-clinica" element={<AdminLayout><HistoriaClinica /></AdminLayout>} />
                         <Route path="historia-clinica/plantillas" element={<AdminLayout><Plantillas /></AdminLayout>} />
                         <Route path="historia-clinica/formularios" element={<AdminLayout><Formularios /></AdminLayout>} />

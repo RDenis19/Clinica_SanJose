@@ -6,7 +6,6 @@ import {
   DashboardOutlined,
   UserOutlined,
   TeamOutlined,
-  ToolOutlined,
   BookOutlined,
 } from "@ant-design/icons";
 
@@ -31,11 +30,6 @@ function AdminLayout({ children }) {
       label: "Pacientes",
       to: "/admin/patients",
       icon: <TeamOutlined />, // Icono para Pacientes
-    },
-    {
-      label: "Solicitudes de Cambio",
-      to: "/admin/change",
-      icon: <ToolOutlined />, // Icono para Solicitudes de Cambio
     },
     {
       label: "Historia Clínica",
