@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Input, Space, Select, Popconfirm, notification, Typography } from "antd";
+import { Table, Button, Input, Space, Popconfirm, notification, Typography } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { fetchFirmaElectronica, fetchUsersWithInfo, deleteFirmaElectronica } from "../../../../../utils/api";
@@ -8,7 +8,7 @@ import EditFirmaForm from "./EditFirmaForm";
 import FirmaProfileModal from "./FirmaProfileModal";
 
 const { Search } = Input;
-const { Option } = Select;
+
 const { Title } = Typography;
 
 const FirmaElectronica = () => {
