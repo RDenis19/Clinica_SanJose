@@ -159,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`archivo_clinico` (
   `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`nro_archivo`),
   INDEX `fk_archivo_paciente_idx` (`nro_identificacion` ASC) VISIBLE,
+  UNIQUE INDEX `nro_identificacion_UNIQUE` (`nro_identificacion` ASC) VISIBLE,
   CONSTRAINT `fk_archivo_paciente`
     FOREIGN KEY (`nro_identificacion`)
     REFERENCES `clinica_san_jose`.`paciente` (`nro_identificacion`)

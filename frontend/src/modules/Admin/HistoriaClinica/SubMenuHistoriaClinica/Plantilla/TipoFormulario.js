@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Input, Space, Spin, notification } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { fetchTiposFormulario, deleteTipoFormulario } from "../../../../../utils/api";
 import TipoFormularioModal from "./TipoFormularioModal";
 import TipoFormularioDetailsModal from "./TipoFormularioDetailsModal";
@@ -13,7 +13,7 @@ const TipoFormularioList = () => {
     const [deletingId, setDeletingId] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalType, setModalType] = useState(null);
-    const [editingTipoFormularioId, setEditingTipoFormularioId] = useState(null);
+    const [editingTipoFormularioId] = useState(null);
     const [viewingTipoFormulario, setViewingTipoFormulario] = useState(null);
     const [isViewModalVisible, setIsViewModalVisible] = useState(false);
 
@@ -68,14 +68,6 @@ const TipoFormularioList = () => {
                     <Button
                         icon={<EyeOutlined />}
                         onClick={() => handleViewDetails(record)}
-                    />
-                    <Button 
-                        icon={<EditOutlined />} 
-                        onClick={() => {
-                            setEditingTipoFormularioId(record.id_formulario_tipo);
-                            setModalType("edit");
-                            setIsModalVisible(true);
-                        }} 
                     />
                     <Button 
                         icon={<DeleteOutlined />} 
