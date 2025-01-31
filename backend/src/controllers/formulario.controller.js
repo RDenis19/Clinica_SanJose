@@ -3,7 +3,6 @@ const formularioModel = require('../models/formulario.model');
 async function obtenerFormularios(req, res) {
     try {
         const formularios = await formularioModel.obtenerTodos();
-        console.log(formularios);
         res.status(200).json(formularios);
     } catch (error) {
         console.error('Error al obtener formularios:', error);
@@ -33,8 +32,6 @@ async function obtenerFormularioPorId(req, res) {
 async function crearFormulario(req, res) {
     try {
         const { id_formulario_tipo, nro_archivo, id_usuario_creador, estado } = req.body;
-
-        console.log(req.body);
 
         if (
             id_formulario_tipo === undefined ||

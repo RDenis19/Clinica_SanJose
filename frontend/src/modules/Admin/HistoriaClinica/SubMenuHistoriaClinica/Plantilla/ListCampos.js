@@ -18,7 +18,6 @@ const ListCampos = ({ idFormulario, idSeccion, refresh }) => {
         setLoading(true);
         try {
             const data = await fetchCamposByFormularioYSeccion(idFormulario, idSeccion);
-            console.log("Campos recibidos de la API:", data);
 
             let camposArray = [];
             if (Array.isArray(data)) {

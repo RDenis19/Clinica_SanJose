@@ -38,7 +38,6 @@ const FormularioWizard = () => {
                     pacienteId={pacienteSeleccionado}
                     respuestas={seccionesSeleccionadas}
                     onConfirmar={() => {
-                        alert("Formulario vinculado exitosamente!");
                         setStep(1);
                     }}
                     onAtras={retrocederPaso}

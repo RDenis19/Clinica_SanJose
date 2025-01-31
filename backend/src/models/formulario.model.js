@@ -20,7 +20,6 @@ async function obtenerTodos() {
                 clinica_san_jose.usuario u ON f.id_usuario_creador = u.id_usuario
                 `;
     const [rows] = await db.query(query);
-    console.log(rows);
     return rows;
 }
 

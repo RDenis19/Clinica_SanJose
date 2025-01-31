@@ -27,7 +27,6 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
 
         const fetchNroArchivo = async () => {
             try {
-                console.log("Obteniendo historia clínica...");
                 const historiaClinica = await fetchHistoriaClinica();
 
                 // Buscar el paciente en la historia clínica
@@ -70,8 +69,6 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
 
             if (!nuevoFormulario || !nuevoFormulario.id_formulario) throw new Error("Error en la creación del formulario.");
 
-            console.log(respuestas);
-
             const respuestasArray = respuestas.map(({ id_campo, valor }) => ({
                 id_formulario: nuevoFormulario.id_formulario,
                 id_campo,
@@ -79,7 +76,6 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
             }));
 
             for (const respuesta of respuestasArray) {
-                console.log("Guardando respuesta:", respuesta);
                 await guardarRespuestasFormulario(respuesta);
             }
 
