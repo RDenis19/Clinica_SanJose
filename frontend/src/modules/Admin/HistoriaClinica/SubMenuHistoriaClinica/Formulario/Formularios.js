@@ -13,7 +13,6 @@ const ListaFormularios = ({ onAgregar }) => {
         setLoading(true);
         try {
             const data = await fetchFormularios();
-            console.log("Formularios obtenidos:", data);
             setFormularios(Array.isArray(data) ? data : []);
         } catch (error) {
             notification.error({ message: "Error", description: "No se pudo cargar la lista de formularios." });
@@ -39,16 +38,15 @@ const ListaFormularios = ({ onAgregar }) => {
         }
     };
 
-    // Columnas de la tabla
     const columns = [
         { title: "Nombre del Formulario", dataIndex: "nombre_tipo_formulario", key: "nombre_tipo_formulario" },
         { title: "Cédula del Paciente", dataIndex: "cedula_paciente", key: "cedula_paciente" },
         { title: "Usuario Creador", dataIndex: "nombre_creador", key: "nombre_creador" },
-        { 
-            title: "Fecha de Creación", 
-            dataIndex: "fecha_creacion", 
+        {
+            title: "Fecha de Creación",
+            dataIndex: "fecha_creacion",
             key: "fecha_creacion",
-            render: (fecha) => dayjs(fecha).format("YYYY-MM-DD HH:mm:ss") 
+            render: (fecha) => dayjs(fecha).format("YYYY-MM-DD HH:mm:ss")
         },
         { title: "Estado", dataIndex: "estado", key: "estado" },
         {
