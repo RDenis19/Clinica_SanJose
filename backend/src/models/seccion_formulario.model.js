@@ -9,7 +9,7 @@ async function obtenerTodos() {
 async function obtenerPorId(idSeccion) {
   const query = 'SELECT * FROM seccion_formulario WHERE id_formulario_tipo = ?';
   const [rows] = await db.query(query, [idSeccion]);
-  return [rows];
+  return rows;
 }
 
 async function crear(data) {

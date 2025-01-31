@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Button, Spin, notification, Select, DatePicker } from "antd";
-import { 
-    fetchSeccionByTipoFormulario, 
-    fetchSeccionByTipoFormularioYSeccion, 
+import {
+    fetchSeccionByTipoFormulario,
+    fetchSeccionByTipoFormularioYSeccion,
     editarRespuestaCampo,
-    fetchFormularioRespuestabyId // Asegúrate de importar correctamente la función
+    fetchFormularioRespuestabyId
 } from "../../../../../utils/api";
 import dayjs from "dayjs";
 
@@ -30,10 +30,9 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
             setLoadingSecciones(true);
             try {
                 const data = await fetchSeccionByTipoFormulario(formulario.id_formulario_tipo);
-                console.log("Secciones cargadas:", data); // Log para depuración
-                const seccionesArray = Array.isArray(data) ? data : [data]; // Asegúrate de que sea un array
-                setSecciones(seccionesArray);
+                setSecciones(data);
             } catch (error) {
+                console.error("Error al cargar secciones:", error);
                 notification.error({ message: "Error", description: "No se pudieron cargar las secciones." });
             } finally {
                 setLoadingSecciones(false);
@@ -49,17 +48,17 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
             if (!selectedSeccion || !formulario) return;
             setLoadingCampos(true);
             try {
-                // Obtener los campos de la sección seleccionada
                 const dataCampos = await fetchSeccionByTipoFormularioYSeccion(formulario.id_formulario_tipo, selectedSeccion);
-                console.log("Campos cargados:", dataCampos); // Log para depuración
+                console.log("Campos cargados desde API:", dataCampos);
                 const camposArray = Array.isArray(dataCampos) ? dataCampos : [dataCampos];
+                console.log("Campos a setear:", camposArray);
                 setCampos(camposArray);
 
                 // Obtener las respuestas actuales para cada campo
-                const respuestasPromises = camposArray.map(campo => 
+                const respuestasPromises = camposArray.map(campo =>
                     fetchFormularioRespuestabyId(formulario.id_formulario, campo.id_campo)
                         .then(response => {
-                            console.log(`Respuesta para campo ${campo.id_campo}:`, response); // Log para depuración
+                            console.log(`Respuesta para campo ${campo.id_campo}:`, response);
                             return { id_campo: campo.id_campo, valor: response.valor };
                         })
                         .catch(error => {
@@ -69,29 +68,28 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
                 );
 
                 const respuestas = await Promise.all(respuestasPromises);
-                console.log("Respuestas obtenidas:", respuestas); // Log para depuración
+                console.log("Respuestas obtenidas:", respuestas);
 
                 // Crear un mapa de respuestas para acceso rápido
                 const respuestasMap = {};
                 respuestas.forEach(respuesta => {
                     respuestasMap[respuesta.id_campo] = respuesta.valor;
                 });
+                console.log("Mapa de respuestas:", respuestasMap);
 
                 // Crear los valores iniciales para el formulario
                 const initialValues = {};
                 camposArray.forEach(campo => {
                     let valor = respuestasMap[campo.id_campo];
                     if (campo.tipo_dato.toLowerCase() === "date" && valor) {
-                        valor = dayjs(valor); // Convertir a objeto dayjs para DatePicker
+                        valor = dayjs(valor);
                     }
                     initialValues[`campo_${campo.id_campo}`] = valor || "";
                 });
-
-                console.log("Valores iniciales para el formulario:", initialValues); // Log para depuración
-
-                // Establecer los valores iniciales en el formulario
+                console.log("Valores iniciales para el formulario:", initialValues);
                 form.setFieldsValue(initialValues);
             } catch (error) {
+                console.error("Error al cargar campos y respuestas:", error);
                 notification.error({ message: "Error", description: "No se pudieron cargar los campos y respuestas de la sección." });
             } finally {
                 setLoadingCampos(false);
@@ -103,44 +101,38 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
 
     // Manejar el cambio de selección de sección
     const handleSelectSeccion = (value) => {
+        console.log("Sección seleccionada:", value);
         setSelectedSeccion(value);
     };
 
     // Manejar el envío del formulario
     const handleGuardar = async (values) => {
+        console.log("Valores a guardar:", values);
         setLoadingGuardar(true);
-        setCurrentCampoIndex(0); // Reiniciar el índice al iniciar
+        setCurrentCampoIndex(0);
         try {
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
                 let valor = values[`campo_${campo.id_campo}`];
-
-                // Si el campo es de tipo fecha, formatear el valor
                 if (campo.tipo_dato.toLowerCase() === "date" && valor) {
                     valor = valor.format('YYYY-MM-DD');
                 }
-
-                // Actualizar el estado del campo actual
                 setCurrentCampoIndex(i + 1);
-
+                console.log(`Guardando campo ${campo.id_campo} con valor:`, valor);
                 await editarRespuestaCampo({
-                    id_formulario: formulario.id_formulario, // Usar id_formulario
+                    id_formulario: formulario.id_formulario,
                     id_campo: campo.id_campo,
                     valor,
                 });
-
-                // Opcional: Puedes agregar una pequeña pausa para evitar sobrecargar el servidor
-                // await new Promise(resolve => setTimeout(resolve, 100)); // 100 ms de pausa
             }
-
             notification.success({ message: "Éxito", description: "El formulario se actualizó correctamente." });
-            onClose(); // Cerrar el modal después de guardar
+            onClose();
         } catch (error) {
-            console.error("Error al guardar las respuestas:", error); // Log para depuración
+            console.error("Error al guardar las respuestas:", error);
             notification.error({ message: "Error", description: "No se pudieron actualizar todas las respuestas." });
         } finally {
             setLoadingGuardar(false);
-            setCurrentCampoIndex(0); // Reiniciar el índice después de finalizar
+            setCurrentCampoIndex(0);
         }
     };
 
@@ -174,13 +166,15 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
                     {loadingSecciones ? (
                         <Spin />
                     ) : (
-                        <Select placeholder="Selecciona una sección" onChange={handleSelectSeccion} allowClear>
-                            {secciones.map(seccion => (
-                                <Option key={seccion.id_seccion} value={seccion.id_seccion}>
-                                    {seccion.nombre_seccion}
-                                </Option>
-                            ))}
-                        </Select>
+                        <>
+                            <Select placeholder="Selecciona una sección" onChange={handleSelectSeccion} allowClear>
+                                {secciones.map(seccion => (
+                                    <Option key={seccion.id_seccion} value={seccion.id_seccion}>
+                                        {seccion.nombre_seccion}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </>
                     )}
                 </Form.Item>
 
@@ -191,49 +185,56 @@ const EditarFormularioModal = ({ visible, onClose, formulario }) => { // Recibe 
                         {loadingCampos ? (
                             <Spin tip="Cargando campos..." />
                         ) : (
-                            campos.map(campo => (
-                                <Form.Item
-                                    key={campo.id_campo}
-                                    label={campo.nombre_campo}
-                                    name={`campo_${campo.id_campo}`}
-                                    rules={[
-                                        { required: campo.requerido === 1, message: `Por favor, ingresa el valor para ${campo.nombre_campo}.` },
-                                        // Puedes agregar más validaciones según el tipo de dato
-                                    ]}
-                                >
-                                    {(() => {
-                                        switch (campo.tipo_dato.toLowerCase()) {
-                                            case "text":
-                                                return <Input />;
-                                            case "number":
-                                                return <Input type="number" />;
-                                            case "date":
-                                                return <DatePicker style={{ width: "100%" }} />;
-                                            case "boolean":
-                                                return (
-                                                    <Select>
-                                                        <Option value={true}>Sí</Option>
-                                                        <Option value={false}>No</Option>
-                                                    </Select>
-                                                );
-                                            case "enum":
-                                                return (
-                                                    <Select placeholder="Selecciona una opción">
-                                                        {campo.opciones && campo.opciones.split(',').map((option, index) => (
-                                                            <Option key={index} value={option.trim()}>
-                                                                {option.trim()}
-                                                            </Option>
-                                                        ))}
-                                                    </Select>
-                                                );
-                                            case "float":
-                                                return <Input type="number" step="0.01" />;
-                                            default:
-                                                return <Input />;
-                                        }
-                                    })()}
-                                </Form.Item>
-                            ))
+                            <>
+                                {/* Lista temporal para verificar los nombres de los campos */}
+                                <ul>
+                                    {campos.map(campo => (
+                                        <li key={campo.id_campo}>{campo.nombre_campo}</li>
+                                    ))}
+                                </ul>
+                                {campos.map(campo => (
+                                    <Form.Item
+                                        key={campo.id_campo}
+                                        label={campo.nombre_campo}
+                                        name={`campo_${campo.id_campo}`}
+                                        rules={[
+                                            { required: campo.requerido === 1, message: `Por favor, ingresa el valor para ${campo.nombre_campo}.` },
+                                        ]}
+                                    >
+                                        {(() => {
+                                            switch (campo.tipo_dato.toLowerCase()) {
+                                                case "text":
+                                                    return <Input />;
+                                                case "number":
+                                                    return <Input type="number" />;
+                                                case "date":
+                                                    return <DatePicker style={{ width: "100%" }} />;
+                                                case "boolean":
+                                                    return (
+                                                        <Select>
+                                                            <Option value={true}>Sí</Option>
+                                                            <Option value={false}>No</Option>
+                                                        </Select>
+                                                    );
+                                                case "enum":
+                                                    return (
+                                                        <Select placeholder="Selecciona una opción">
+                                                            {campo.opciones && campo.opciones.split(',').map((option, index) => (
+                                                                <Option key={index} value={option.trim()}>
+                                                                    {option.trim()}
+                                                                </Option>
+                                                            ))}
+                                                        </Select>
+                                                    );
+                                                case "float":
+                                                    return <Input type="number" step="0.01" />;
+                                                default:
+                                                    return <Input />;
+                                            }
+                                        })()}
+                                    </Form.Item>
+                                ))}
+                            </>
                         )}
                     </>
                 )}
