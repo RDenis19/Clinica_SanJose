@@ -46,12 +46,23 @@ export const fetchRoles = async () => {
 export const fetchUsers = async () => {
     try {
         const response = await API.get('/usuario/');
-        return response.data;
+        const users = response.data;
+
+        // Obtiene la información personal de cada usuario
+        const usersWithInfo = await Promise.all(users.map(async (user) => {
+            try {
+                const personalInfo = await API.get(`/uip/usuario/${user.id_usuario}`);
+                return { ...user, ...personalInfo.data }; // Une los datos
+            } catch (error) {
+                console.warn(`No se encontró información personal para el usuario ${user.id_usuario}`);
+                return { ...user, cedula: null, nombres: "Desconocido", apellidos: "Desconocido" };
+            }
+        }));
+
+        return usersWithInfo;
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        throw error.response
-            ? error.response.data
-            : { error: 'Error en el servidor' };
+        console.error("Error al obtener usuarios:", error);
+        throw error;
     }
 };
 
