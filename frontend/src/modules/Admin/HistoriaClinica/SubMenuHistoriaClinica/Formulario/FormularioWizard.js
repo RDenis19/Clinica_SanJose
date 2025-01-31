@@ -8,7 +8,7 @@ const FormularioWizard = () => {
     const [step, setStep] = useState(1);
     const [formularioSeleccionado, setFormularioSeleccionado] = useState(null);
     const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
-    const [seccionesSeleccionadas, setSeccionesSeleccionadas] = useState({}); // Ahora almacena todas las respuestas
+    const [seccionesSeleccionadas, setSeccionesSeleccionadas] = useState([]);
 
     const avanzarPaso = () => setStep((prev) => prev + 1);
     const retrocederPaso = () => setStep((prev) => prev - 1);
@@ -23,21 +23,27 @@ const FormularioWizard = () => {
                 avanzarPaso();
             }} />}
 
-            {step === 3 && <SeleccionarSecciones formularioId={formularioSeleccionado} onSiguiente={({ seccionId, valoresCampos }) => {
-                setSeccionesSeleccionadas((prevSecciones) => ({
-                    ...prevSecciones,
-                    [seccionId]: valoresCampos,
-                }));
-                avanzarPaso();
-            }} onAtras={retrocederPaso} />}
-
-            {step === 4 && <ConfirmarVinculacion 
-                onConfirmar={() => setStep(1)}
-                onAtras={retrocederPaso}
+            {step === 3 && <SeleccionarSecciones
                 formularioId={formularioSeleccionado}
-                pacienteId={pacienteSeleccionado}
-                respuestas={seccionesSeleccionadas} 
+                onSiguiente={(respuestasSeccion) => {
+                    setSeccionesSeleccionadas((prev) => [...prev, ...respuestasSeccion]);
+                    avanzarPaso();
+                }}
+                onAtras={retrocederPaso}
             />}
+
+            {step === 4 && (
+                <ConfirmarVinculacion
+                    formularioId={formularioSeleccionado}
+                    pacienteId={pacienteSeleccionado}
+                    respuestas={seccionesSeleccionadas}
+                    onConfirmar={() => {
+                        alert("Formulario vinculado exitosamente!");
+                        setStep(1);
+                    }}
+                    onAtras={retrocederPaso}
+                />
+            )}
         </div>
     );
 };

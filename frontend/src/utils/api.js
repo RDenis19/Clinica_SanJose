@@ -550,6 +550,16 @@ export const fetchFormularios = async () => {
     }
 };
 
+export const createFormulario = async (data) => {
+    try {
+        const response = await API.post('/formularios/', data);
+        return response.data;
+    } catch (error) {
+        console.error('Error al crear campo de formulario:', error);
+        throw error;
+    }
+};
+
 // Eliminar formulario
 export const deleteFormulario = async (id) => {
     try {
@@ -581,12 +591,10 @@ export const fetchFormularioById = async (id) => {
 };
 
 // Guardar respuestas de un formulario
-export const guardarRespuestasFormulario = async (idFormulario, respuestas) => {
+export const guardarRespuestasFormulario = async (respuestas) => {
     try {
-        const response = await API.post('/respuestas', {
-            id_formulario: idFormulario,
-            respuestas
-        });
+        const response = await API.post('/respuestas/', respuestas);
+
         return response.data;
     } catch (error) {
         console.error('Error al guardar respuestas del formulario:', error);

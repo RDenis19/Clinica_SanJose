@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Spin, notification } from "antd";
-import { createTipoFormulario, fetchHistoriaClinica, guardarRespuestasFormulario } from "../../../../../utils/api";
+import { createFormulario, fetchHistoriaClinica, guardarRespuestasFormulario } from "../../../../../utils/api";
 import jwt_decode from "jwt-decode";
 
 const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, respuestas }) => {
@@ -21,19 +21,25 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
         }
     }, []);
 
-    // Obtener el número de archivo del paciente
+    // Obtener el número de archivo clínico del paciente
     useEffect(() => {
         if (!pacienteId) return;
 
         const fetchNroArchivo = async () => {
             try {
-                const historiaClinica = await fetchHistoriaClinica(pacienteId);
-                if (historiaClinica.length > 0) {
-                    setNroArchivo(historiaClinica[0].id);
+                console.log("Obteniendo historia clínica...");
+                const historiaClinica = await fetchHistoriaClinica();
+
+                // Buscar el paciente en la historia clínica
+                const pacienteHistorial = historiaClinica.find((historia) => historia.nro_identificacion === pacienteId);
+                
+                if (pacienteHistorial) {
+                    setNroArchivo(pacienteHistorial.nro_archivo);
                 } else {
                     notification.error({ message: "Error", description: "No se encontró historia clínica para este paciente." });
                 }
             } catch (error) {
+                console.error("Error al obtener la historia clínica:", error);
                 notification.error({ message: "Error", description: "No se pudo obtener la historia clínica." });
             }
         };
@@ -48,9 +54,14 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
             return;
         }
 
+        if (!respuestas || respuestas.length === 0) {
+            notification.warning({ message: "Advertencia", description: "No hay respuestas para guardar." });
+            return;
+        }
+
         setLoading(true);
         try {
-            const nuevoFormulario = await createTipoFormulario({
+            const nuevoFormulario = await createFormulario({
                 id_formulario_tipo: formularioId,
                 nro_archivo: nroArchivo,
                 id_usuario_creador: idUsuario,
@@ -59,28 +70,53 @@ const ConfirmarVinculacion = ({ onConfirmar, onAtras, formularioId, pacienteId, 
 
             if (!nuevoFormulario || !nuevoFormulario.id_formulario) throw new Error("Error en la creación del formulario.");
 
-            const respuestasArray = Object.entries(respuestas).flatMap(([seccionId, campos]) =>
-                Object.entries(campos).map(([id_campo, valor]) => ({
-                    id_formulario: nuevoFormulario.id_formulario,
-                    id_campo,
-                    valor,
-                }))
-            );
+            console.log(respuestas);
+
+            const respuestasArray = respuestas.map(({ id_campo, valor }) => ({
+                id_formulario: nuevoFormulario.id_formulario,
+                id_campo,
+                valor,
+            }));
 
             for (const respuesta of respuestasArray) {
+                console.log("Guardando respuesta:", respuesta);
                 await guardarRespuestasFormulario(respuesta);
             }
 
             notification.success({ message: "Éxito", description: "Formulario vinculado exitosamente." });
             onConfirmar();
         } catch (error) {
+            console.error("Error al vincular el formulario:", error);
             notification.error({ message: "Error", description: "No se pudo vincular el formulario." });
         } finally {
             setLoading(false);
         }
     };
 
-    return <Button type="primary" onClick={handleConfirmar} disabled={loading}>Confirmar</Button>;
+    return (
+        <div style={{ textAlign: "center" }}>
+            <h3>¿Está seguro de vincular este formulario?</h3>
+            <p><strong>Usuario ID:</strong> {idUsuario}</p>
+            <p><strong>Número de archivo:</strong> {nroArchivo}</p>
+            <p><strong>Formulario ID:</strong> {formularioId}</p>
+
+            {loading ? (
+                <Spin tip="Vinculando formulario..." />
+            ) : (
+                <>
+                    <Button 
+                        type="primary" 
+                        onClick={handleConfirmar} 
+                        disabled={!nroArchivo || loading} 
+                        style={{ marginRight: "10px" }}
+                    >
+                        Sí
+                    </Button>
+                    <Button onClick={onAtras}>No</Button>
+                </>
+            )}
+        </div>
+    );
 };
 
 export default ConfirmarVinculacion;

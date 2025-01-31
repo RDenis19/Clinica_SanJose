@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Spin, notification, Select } from "antd";
+import { Button, Input, Spin, notification } from "antd";
 import { fetchSeccionByTipoFormulario, fetchSeccionByTipoFormularioYSeccion } from "../../../../../utils/api";
-
-const { Option } = Select;
 
 const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
     const [secciones, setSecciones] = useState([]);
@@ -10,9 +8,9 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
     const [loadingSecciones, setLoadingSecciones] = useState(false);
     const [loadingCampos, setLoadingCampos] = useState(false);
     const [selectedSeccion, setSelectedSeccion] = useState(null);
-    const [respuestas, setRespuestas] = useState({}); // Almacena respuestas por sección
+    const [respuestas, setRespuestas] = useState([]); // Ahora es un array en lugar de objeto
 
-    // Cargar secciones de la API
+    // Cargar secciones
     useEffect(() => {
         const loadSecciones = async () => {
             if (!formularioId) return;
@@ -20,8 +18,6 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
 
             try {
                 const data = await fetchSeccionByTipoFormulario(formularioId);
-                console.log("Secciones obtenidas:", data);
-                
                 let seccionesArray = Array.isArray(data[0]) ? data[0] : data;
                 setSecciones(seccionesArray);
             } catch (error) {
@@ -42,7 +38,6 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
 
             try {
                 const data = await fetchSeccionByTipoFormularioYSeccion(formularioId, selectedSeccion);
-                console.log("Campos obtenidos:", data);
                 setCampos(Array.isArray(data) ? data : []);
             } catch (error) {
                 notification.error({ message: "Error", description: "No se pudieron cargar los campos de la sección." });
@@ -56,13 +51,10 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
 
     // Manejar cambios en los valores de los campos
     const handleChange = (campoId, value) => {
-        setRespuestas((prev) => ({
-            ...prev,
-            [selectedSeccion]: {
-                ...prev[selectedSeccion],
-                [campoId]: value,
-            },
-        }));
+        setRespuestas((prev) => {
+            const nuevasRespuestas = prev.filter((r) => r.id_campo !== campoId);
+            return [...nuevasRespuestas, { id_campo: campoId, valor: value }];
+        });
     };
 
     return (
@@ -89,7 +81,7 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
                     type="primary" 
                     onClick={() => onSiguiente(respuestas)} 
                     style={{ marginTop: "10px" }} 
-                    disabled={!selectedSeccion}
+                    disabled={respuestas.length === 0}
                 >
                     Siguiente
                 </Button>
@@ -109,7 +101,7 @@ const SeleccionarSecciones = ({ formularioId, onSiguiente, onAtras }) => {
                                 <label>{campo.nombre_campo}: </label>
                                 <Input
                                     type={campo.tipo_dato.toLowerCase()}
-                                    value={respuestas[selectedSeccion]?.[campo.id_campo] || ""}
+                                    value={respuestas.find((r) => r.id_campo === campo.id_campo)?.valor || ""}
                                     onChange={(e) => handleChange(campo.id_campo, e.target.value)}
                                 />
                             </div>
