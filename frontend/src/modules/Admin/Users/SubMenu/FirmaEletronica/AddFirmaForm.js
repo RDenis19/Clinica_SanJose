@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Select, Button, Upload, notification } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { createFirmaElectronica, fetchUsers } from "../../../../../utils/api";
+import { createFirmaElectronica, fetchUsersWithInfo } from "../../../../../utils/api";
 
 const { Option } = Select;
 
@@ -16,7 +16,7 @@ const AddFirmaForm = ({ visible, onClose, onFirmaAdded }) => {
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const data = await fetchUsers();
+        const data = await fetchUsersWithInfo();
         if (Array.isArray(data)) {
           const filteredData = data.filter(user => user.cedula && user.cedula.trim() !== "");
           setUsers(filteredData);

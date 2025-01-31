@@ -46,6 +46,18 @@ export const fetchRoles = async () => {
 export const fetchUsers = async () => {
     try {
         const response = await API.get('/usuario/');
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        throw error.response
+            ? error.response.data
+            : { error: 'Error en el servidor' };
+    }
+};
+
+export const fetchUsersWithInfo = async () => {
+    try {
+        const response = await API.get('/usuario/');
         const users = response.data;
 
         // Obtiene la información personal de cada usuario
@@ -61,10 +73,11 @@ export const fetchUsers = async () => {
 
         return usersWithInfo;
     } catch (error) {
-        console.error("Error al obtener usuarios:", error);
+        console.error("Error al obtener usuarios con información personal:", error);
         throw error;
     }
 };
+
 
 export const fetchUserDetails = async (idUsuario) => {
     try {

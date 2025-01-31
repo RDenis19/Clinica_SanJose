@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Input, Space, Select, Popconfirm, notification, Typography } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { fetchFirmaElectronica, fetchUsers, deleteFirmaElectronica } from "../../../../../utils/api";
+import { fetchFirmaElectronica, fetchUsersWithInfo, deleteFirmaElectronica } from "../../../../../utils/api";
 import AddFirmaForm from "./AddFirmaForm";
 import EditFirmaForm from "./EditFirmaForm";
 import FirmaProfileModal from "./FirmaProfileModal";
@@ -41,7 +41,7 @@ const FirmaElectronica = () => {
 
     const loadUsers = async () => {
         try {
-            const data = await fetchUsers();
+            const data = await fetchUsersWithInfo();
             const filteredUsers = data.filter(user => user.cedula && user.cedula.trim() !== "");
             setUsers(filteredUsers);
         } catch (error) {

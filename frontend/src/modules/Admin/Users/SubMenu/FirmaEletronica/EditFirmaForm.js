@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Select, Button, Upload, notification } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { fetchUsers, fetchFirmaElectronicaById, updateFirmaElectronica } from "../../../../../utils/api";
+import { fetchUsersWithInfo, fetchFirmaElectronicaById, updateFirmaElectronica } from "../../../../../utils/api";
 
 const { Option } = Select;
 
@@ -16,7 +16,7 @@ const EditFirmaForm = ({ visible, onClose, firma, onFirmaUpdated }) => {
   useEffect(() => {
     const loadUsuarios = async () => {
       try {
-        const data = await fetchUsers();
+        const data = await fetchUsersWithInfo();
         const filteredData = data.filter(user => user.cedula && user.cedula.trim() !== "");
         setUsers(filteredData);
         setFilteredUsers(filteredData);
