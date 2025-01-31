@@ -25,13 +25,14 @@ import FirmaElectronica from "./modules/Admin/Users/SubMenu/FirmaEletronica/Firm
 import DashboardDoctor from "./modules/Doctor/DashboardDoctor";
 import PacientesDoctor from "./modules/Doctor/Pacientes/PacientesDoctor";
 import HistoriasDoctor from "./modules/Doctor/HistoriaClinica/HistoriasDoctor";
-import FormulariosDoctor from "./modules/Doctor/HistoriaClinica/Formulario/Formularios";
+import FormulariosDoctor from "./modules/Doctor/HistoriaClinica/Formulario/FormularioWizard";
 
 // Módulos de la Enfermera
 import DashboardEnfermera from "./modules/Enfermera/DashboardEnfermera";
 import PacientesEnfermera from "./modules/Enfermera/PacientesEnfermera/PacientesEnfermera";
 import HistoriasEnfermera from "./modules/Enfermera/HistoriaClinica/HistoriasEnfermera";
-import FormulariosEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioEnfermera";
+import FormularioWizardEnfermera from "./modules/Enfermera/HistoriaClinica/Formulario/FormularioWizard";
+
 
 function App() {
     const navigate = useNavigate();
@@ -82,13 +83,8 @@ function App() {
                         to: "/enfermera/paciente",
                         label: "Pacientes",
                     },
-                    {
-                        to: "/enfermera/historias",
-                        label: "Historias Clínicas",
-                        subMenu: [
-                            { to: "/enfermera/historias/formularioEnfermera", label: "Formularios" },
-                        ],
-                    },
+                    { to: "/enfermera/historias", label: "Historias Clínicas" },
+                    { to: "/enfermera/historias/formulario", label: "Formularios" }
                 ],
             };
 
@@ -152,8 +148,7 @@ function App() {
                         <Route path="dashboard" element={<EnfermeraLayout><DashboardEnfermera /></EnfermeraLayout>} />
                         <Route path="pacientes" element={<EnfermeraLayout><PacientesEnfermera /></EnfermeraLayout>} />
                         <Route path="historias" element={<EnfermeraLayout><HistoriasEnfermera /></EnfermeraLayout>} />
-                        <Route path="historias/formularioEnfermera" element={<EnfermeraLayout><FormulariosEnfermera /></EnfermeraLayout>} />
-                    </Routes>
+                        <Route path="historias/formulariosEnfermera" element={<EnfermeraLayout><FormularioWizardEnfermera /></EnfermeraLayout>} /></Routes>
                 }
             />
 
