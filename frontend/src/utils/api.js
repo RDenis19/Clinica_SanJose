@@ -540,7 +540,6 @@ export const fetchSeccionByTipoFormularioYSeccion = async (idFormulario,idSeccio
     }
 };
 
-
 export const createSeccion = async (data) => {
     try {
         const response = await API.post('/seccion/', data);
@@ -613,10 +612,44 @@ export const fetchFormularioById = async (id) => {
     }
 };
 
+
 // Guardar respuestas de un formulario
+export const fetchFormularioRespuesta= async () => {
+    try {
+        const response = await API.get(`/respuestas/`);
+        console.log(`fetchFormularioRespuestabyId: ${response}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el formulario por ID:", error);
+        throw error.response ? error.response.data : { error: "Error en el servidor" };
+    }
+};
+
+export const fetchFormularioRespuestabyId= async (idFormulario, idCampo) => {
+    try {
+        const response = await API.get(`/respuestas/${idFormulario}/${idCampo}`);
+        console.log(`fetchFormularioRespuestabyId: ${response}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el formulario por ID:", error);
+        throw error.response ? error.response.data : { error: "Error en el servidor" };
+    }
+};
+
 export const guardarRespuestasFormulario = async (respuestas) => {
     try {
         const response = await API.post('/respuestas/', respuestas);
+
+        return response.data;
+    } catch (error) {
+        console.error('Error al guardar respuestas del formulario:', error);
+        throw new Error(error.response?.data?.message || "Error al guardar respuestas.");
+    }
+};
+
+export const editarRespuestaCampo = async (data) => {
+    try {
+        const response = await API.put('/respuestas/', data);
 
         return response.data;
     } catch (error) {

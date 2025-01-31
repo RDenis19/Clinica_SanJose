@@ -3,11 +3,14 @@ import { Table, Button, Space, Spin, notification, Popconfirm } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
 import dayjs from "dayjs";
+import EditarFormularioModal from "./EditarFormularioModal"; // Importar el nuevo componente
 
 const ListaFormularios = ({ onAgregar }) => {
     const [formularios, setFormularios] = useState([]);
     const [loading, setLoading] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
+    const [isEditarModalVisible, setIsEditarModalVisible] = useState(false);
+    const [formularioAEditar, setFormularioAEditar] = useState(null);
 
     const loadFormularios = async () => {
         setLoading(true);
@@ -38,6 +41,17 @@ const ListaFormularios = ({ onAgregar }) => {
         }
     };
 
+    const handleEditar = (formulario) => {
+        setFormularioAEditar(formulario);
+        setIsEditarModalVisible(true);
+    };
+
+    const handleCerrarEditarModal = () => {
+        setIsEditarModalVisible(false);
+        setFormularioAEditar(null);
+        loadFormularios();
+    };
+
     const columns = [
         { title: "Nombre del Formulario", dataIndex: "nombre_tipo_formulario", key: "nombre_tipo_formulario" },
         { title: "Cédula del Paciente", dataIndex: "cedula_paciente", key: "cedula_paciente" },
@@ -54,7 +68,9 @@ const ListaFormularios = ({ onAgregar }) => {
             key: "acciones",
             render: (_, record) => (
                 <Space>
-                    <Button icon={<EditOutlined />}>Editar</Button>
+                    <Button icon={<EditOutlined />} onClick={() => handleEditar(record)}>
+                        Editar
+                    </Button>
                     <Popconfirm
                         title="¿Estás seguro de eliminar este formulario?"
                         okText="Sí"
@@ -80,6 +96,15 @@ const ListaFormularios = ({ onAgregar }) => {
                 <Spin tip="Cargando formularios..." style={{ display: "block", margin: "20px auto" }} />
             ) : (
                 <Table columns={columns} dataSource={formularios} rowKey="id_formulario" pagination={{ pageSize: 10 }} />
+            )}
+
+            {/* Modal para editar formulario */}
+            {formularioAEditar && (
+                <EditarFormularioModal
+                    visible={isEditarModalVisible}
+                    onClose={handleCerrarEditarModal}
+                    formulario={formularioAEditar}
+                />
             )}
         </div>
     );

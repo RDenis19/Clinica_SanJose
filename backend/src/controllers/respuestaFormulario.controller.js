@@ -11,9 +11,9 @@ exports.obtenerRespuestasFormulario = async (req, res) => {
 };
 
 exports.obtenerRespuestaFormularioPorId = async (req, res) => {
-    const { id_respuesta } = req.params;
+    const { id_formulario, id_campo } = req.params;
     try {
-        const respuesta = await respuestaFormularioModel.obtenerPorId(id_respuesta);
+        const respuesta = await respuestaFormularioModel.obtenerPorId(id_formulario, id_campo);
         if (!respuesta) {
             return res.status(404).json({ message: 'Respuesta de formulario no encontrada' });
         }

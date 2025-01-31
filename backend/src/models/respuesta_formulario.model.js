@@ -6,9 +6,9 @@ async function obtenerTodos() {
     return rows;
 }
 
-async function obtenerPorId(idRespuesta) {
-    const query = 'SELECT * FROM respuesta_formulario WHERE id_respuesta = ?';
-    const [rows] = await db.query(query, [idRespuesta]);
+async function obtenerPorId(id_formulario, id_campo) {
+    const query = 'SELECT * FROM respuesta_formulario WHERE id_formulario = ? AND id_campo = ? ';
+    const [rows] = await db.query(query, [id_formulario, id_campo]);
     return rows.length ? rows[0] : null;
 }
 

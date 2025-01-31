@@ -2,7 +2,8 @@ const db = require('../config/db');
 
 async function obtenerTodos() {
     const query =`SELECT
-                        f.id_formulario,  -- Añadido el ID del formulario
+                        f.id_formulario,
+                        ft.id_formulario_tipo,
                         ft.nombre AS nombre_tipo_formulario,
                         p.nro_identificacion AS cedula_paciente,
                         u.usuario AS nombre_creador,
@@ -17,8 +18,8 @@ async function obtenerTodos() {
                     INNER JOIN
                         clinica_san_jose.paciente p ON ac.nro_identificacion = p.nro_identificacion
                     INNER JOIN
-                        clinica_san_jose.usuario u ON f.id_usuario_creador = u.id_usuario
-                `
+                        clinica_san_jose.usuario u ON f.id_usuario_creador = u.id_usuario;`
+
     const [rows] = await db.query(query);
     return rows;
 }

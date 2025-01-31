@@ -8,7 +8,7 @@ const authMiddleware = require('../middleware/auth.middleware');
 router.get('/', authMiddleware, respuestaFormularioController.obtenerRespuestasFormulario);
 
 // GET: Obtener una respuesta de formulario por id_respuesta
-router.get('/:id_respuesta', authMiddleware, respuestaFormularioController.obtenerRespuestaFormularioPorId);
+router.get('/:id_formulario/:id_campo', authMiddleware, respuestaFormularioController.obtenerRespuestaFormularioPorId);
 
 // GET: Obtener todas las respuestas de un formulario específico
 router.get('/formulario/:id_formulario', authMiddleware, respuestaFormularioController.obtenerRespuestasPorFormulario);
