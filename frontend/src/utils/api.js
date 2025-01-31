@@ -526,8 +526,8 @@ export const deleteSeccion = async (idSeccion) => {
     }
 };
 
-// Formulario Seccion
-// Obtener todos los formularios
+// Formulario
+
 export const fetchFormularios = async () => {
     try {
         const response = await API.get('/formularios');

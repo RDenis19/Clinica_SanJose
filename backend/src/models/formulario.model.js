@@ -1,8 +1,26 @@
 const db = require('../config/db');
 
 async function obtenerTodos() {
-    const query = 'SELECT * FROM formulario';
+    const query =`
+    SELECT
+        ft.nombre AS nombre_tipo_formulario,
+        p.nro_identificacion AS cedula_paciente,
+        u.usuario AS nombre_creador,
+        f.fecha_creacion,
+        f.estado
+            FROM
+                clinica_san_jose.formulario f
+            INNER JOIN
+                clinica_san_jose.formulario_tipo ft ON f.id_formulario_tipo = ft.id_formulario_tipo
+            INNER JOIN
+                clinica_san_jose.archivo_clinico ac ON f.nro_archivo = ac.nro_archivo
+            INNER JOIN
+                clinica_san_jose.paciente p ON ac.nro_identificacion = p.nro_identificacion
+            INNER JOIN
+                clinica_san_jose.usuario u ON f.id_usuario_creador = u.id_usuario
+                `;
     const [rows] = await db.query(query);
+    console.log(rows);
     return rows;
 }
 
