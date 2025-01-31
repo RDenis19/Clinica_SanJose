@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout, Avatar, Badge, Typography, Dropdown, Menu } from 'antd';
-import { BellOutlined, UserOutlined } from '@ant-design/icons';
+import { Layout, Avatar, Typography, Dropdown, Menu } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -29,11 +29,6 @@ function CustomHeader({ username, profilePic }) {
       </Title>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        {/* Notification Icon */}
-        <Badge count={5} offset={[0, 5]} style={{ backgroundColor: '#f5222d' }}>
-          <BellOutlined style={{ fontSize: '20px', color: '#000' }} />
-        </Badge>
-
         {/* Profile Avatar with Dropdown */}
         <Dropdown overlay={menu} placement="bottomRight">
           <Avatar

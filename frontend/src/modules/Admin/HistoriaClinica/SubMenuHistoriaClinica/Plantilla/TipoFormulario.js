@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Input, Space, Spin, notification } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { fetchTiposFormulario, deleteTipoFormulario } from "../../../../../utils/api";
 import TipoFormularioModal from "./TipoFormularioModal";
+import DetalleTipoFormularioModal from "./DetalleTipoFormularioModal";
 import dayjs from "dayjs";
 
 const TipoFormularioList = () => {
@@ -13,6 +14,8 @@ const TipoFormularioList = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [editingTipoFormularioId, setEditingTipoFormularioId] = useState(null);
+    const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+    const [selectedTipoFormulario, setSelectedTipoFormulario] = useState(null);
 
     useEffect(() => {
         loadTipoFormularios();
@@ -43,6 +46,11 @@ const TipoFormularioList = () => {
         }
     };
 
+    const handleViewDetails = (formulario) => {
+        setSelectedTipoFormulario(formulario);
+        setIsDetailModalVisible(true);
+    };
+
     const columns = [
         { title: "Nombre", dataIndex: "nombre", key: "nombre" },
         { title: "Descripción", dataIndex: "descripcion", key: "descripcion" },
@@ -52,12 +60,9 @@ const TipoFormularioList = () => {
             key: "acciones",
             render: (_, record) => (
                 <Space size="middle">
-                    <Button icon={<EditOutlined />} onClick={() => {
-                        setEditingTipoFormularioId(record.id_formulario_tipo);
-                        setModalType("edit");
-                        setIsModalVisible(true);
-                    }} />
-                    <Button icon={<DeleteOutlined />} danger loading={deletingId === record.id_formulario_tipo} onClick={() => handleDelete(record.id_formulario_tipo)} />
+                    <Button icon={<EyeOutlined />} onClick={() => handleViewDetails(record)} title="Ver Detalles" />
+                    <Button icon={<EditOutlined />} onClick={() => { setEditingTipoFormularioId(record.id_formulario_tipo); setModalType("edit"); setIsModalVisible(true); }} title="Editar" />
+                    <Button icon={<DeleteOutlined />} danger loading={deletingId === record.id_formulario_tipo} onClick={() => handleDelete(record.id_formulario_tipo)} title="Eliminar" />
                 </Space>
             ),
         },
@@ -73,13 +78,9 @@ const TipoFormularioList = () => {
                 </Button>
             </div>
 
-            {loading ? (
-                <Spin tip="Cargando formularios..." style={{ display: "block", margin: "20px auto" }} />
-            ) : (
-                <Table columns={columns} dataSource={tipoFormularios.filter((formulario) => formulario.nombre.toLowerCase().includes(searchText.toLowerCase()))} rowKey="id_formulario_tipo" pagination={{ pageSize: 10 }} />
-            )}
+            {loading ? <Spin tip="Cargando formularios..." /> : <Table columns={columns} dataSource={tipoFormularios} rowKey="id_formulario_tipo" pagination={{ pageSize: 10 }} />}
 
-            <TipoFormularioModal isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} modalType={modalType} editingTipoFormularioId={editingTipoFormularioId} reloadFormularios={loadTipoFormularios} />
+            <DetalleTipoFormularioModal formularioId={selectedTipoFormulario?.id_formulario_tipo} isVisible={isDetailModalVisible} onClose={() => setIsDetailModalVisible(false)} />
         </div>
     );
 };

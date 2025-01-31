@@ -159,6 +159,8 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`archivo_clinico` (
   `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`nro_archivo`),
   INDEX `fk_archivo_paciente_idx` (`nro_identificacion` ASC) VISIBLE,
+  UNIQUE INDEX `nro_identificacion_UNIQUE` (`nro_identificacion` ASC) VISIBLE,
+  UNIQUE INDEX `nro_archivo_UNIQUE` (`nro_archivo` ASC) VISIBLE,
   CONSTRAINT `fk_archivo_paciente`
     FOREIGN KEY (`nro_identificacion`)
     REFERENCES `clinica_san_jose`.`paciente` (`nro_identificacion`)
@@ -204,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`campo_formulario` (
   `id_formulario_tipo` INT NOT NULL,
   `id_seccion` INT NOT NULL,
   `nombre_campo` VARCHAR(255) NOT NULL,
-  `tipo_dato` ENUM('TEXT', 'NUMBER', 'DATE', 'BOOLEAN', 'ENUM', 'FLOAT') NOT NULL,
+  `tipo_dato` ENUM('TEXT', 'NUMBER', 'DATE', 'BOOLEAN', 'ENUM', 'FLOAT', 'TIME') NOT NULL,
   `requerido` TINYINT(1) NOT NULL DEFAULT 0,
   `opciones` TEXT NULL,
   PRIMARY KEY (`id_campo`),
@@ -232,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `clinica_san_jose`.`formulario` (
   `nro_archivo` INT NOT NULL,
   `id_usuario_creador` INT NOT NULL,
   `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `estado` ENUM('BORRADOR', 'COMPLETADO', 'EDITADO') NOT NULL DEFAULT 'BORRADOR',
+  `estado` ENUM('BORRADOR', 'COMPLETADO', 'EDITADO') NOT NULL DEFAULT 'COMPLETADO',
   PRIMARY KEY (`id_formulario`),
   INDEX `fk_formulario_tipo_idx` (`id_formulario_tipo` ASC) VISIBLE,
   INDEX `fk_formulario_archivo_idx` (`nro_archivo` ASC) VISIBLE,

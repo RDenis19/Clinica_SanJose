@@ -21,10 +21,11 @@ const Patients = () => {
     const [genderFilter, setGenderFilter] = useState(null);
     const [idTypeFilter, setIdTypeFilter] = useState(null);
     const [editingPatient, setEditingPatient] = useState(null);
-    const [activeView, setActiveView] = useState("list"); // Estado para alternar vistas
-    const [selectedPatient, setSelectedPatient] = useState(null); // Paciente seleccionado
+    const [activeView, setActiveView] = useState("list");
+    const [selectedPatient, setSelectedPatient] = useState(null);
     const itemsPerPage = 6;
 
+    // Cargar pacientes desde la API
     const loadPatients = async () => {
         try {
             const data = await fetchPatients();
@@ -140,6 +141,7 @@ const Patients = () => {
                     <Button
                         icon={<EyeOutlined />}
                         onClick={() => handleViewDetails(record)}
+                        title="Ver detalles"
                     />
                     <Button
                         icon={<EditOutlined />}
@@ -147,6 +149,7 @@ const Patients = () => {
                             setEditingPatient(record);
                             setIsEditModalOpen(true);
                         }}
+                        title="Editar"
                     />
                     <Popconfirm
                         title="¿Estás seguro de eliminar este paciente?"
@@ -154,7 +157,7 @@ const Patients = () => {
                         okText="Sí"
                         cancelText="No"
                     >
-                        <Button icon={<DeleteOutlined />} danger />
+                        <Button icon={<DeleteOutlined />} danger title="Eliminar" />
                     </Popconfirm>
                 </Space>
             ),
@@ -165,12 +168,10 @@ const Patients = () => {
         <div>
             {activeView === "list" ? (
                 <>
-                    {/* Título principal */}
                     <Title level={2} style={{ marginBottom: 24 }}>
                         Lista de Pacientes
                     </Title>
 
-                    {/* Filtros y acciones */}
                     <Space
                         style={{
                             marginBottom: 20,
@@ -214,7 +215,6 @@ const Patients = () => {
                         </Button>
                     </Space>
 
-                    {/* Tabla de pacientes */}
                     <Table
                         columns={columns}
                         dataSource={displayedPatients}
