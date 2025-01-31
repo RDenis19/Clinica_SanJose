@@ -46,7 +46,7 @@ exports.getCamposByFormularioYSeccion = async (req, res) => {
             return res.status(400).json({ error: 'Faltan parámetros requeridos' });
         }
 
-        const results = await CampoFormulario.obtenerCamposPorFormularioYSeccion(idFormulario, idSeccion);
+        const results = await campoFormularioModel.obtenerCamposPorFormularioYSeccion(idFormulario, idSeccion);
         res.json(results);
 
     } catch (error) {

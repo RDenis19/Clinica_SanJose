@@ -208,6 +208,7 @@ export const downUser = async (id) => {
 export const fetchPatients = async () => {
     try {
         const response = await API.get('/pacientes/');
+        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error('Error al obtener pacientes:', error);
@@ -506,6 +507,17 @@ export const fetchSeccionByTipoFormulario = async (idFormulario) => {
     }
 };
 
+export const fetchSeccionByTipoFormularioYSeccion = async (idFormulario,idSeccion) => {
+    try {
+        const response = await API.get(`/campos/${idFormulario}/${idSeccion}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al crear campo de formulario:', error);
+        throw error;
+    }
+};
+
+
 export const createSeccion = async (data) => {
     try {
         const response = await API.post('/seccion/', data);
@@ -530,7 +542,7 @@ export const deleteSeccion = async (idSeccion) => {
 
 export const fetchFormularios = async () => {
     try {
-        const response = await API.get('/formularios');
+        const response = await API.get('/formularios/');
         return response.data;
     } catch (error) {
         console.error('Error al obtener formularios:', error);

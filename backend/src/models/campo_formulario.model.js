@@ -24,7 +24,7 @@ async function obtenerCamposPorFormularioYSeccion(idFormulario, idSeccion) {
             SELECT * FROM campo_formulario 
             WHERE id_formulario_tipo = ? AND id_seccion = ?
         `;
-        const [rows] = await pool.promise().query(query, [idFormulario, idSeccion]);
+        const [rows] = await db.query(query, [idFormulario, idSeccion]);
         return rows;
     } catch (error) {
         throw error;
