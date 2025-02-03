@@ -19,7 +19,7 @@ const ListSecciones = ({ idFormulario, refresh, onSeccionSelected }) => {
         setLoading(true);
         try {
             const data = await fetchSeccionByTipoFormulario(idFormulario);
-            setSecciones(data[0]);
+            setSecciones(data);
         } catch (error) {
             console.error("Error al cargar secciones:", error);
             setSecciones([]);
