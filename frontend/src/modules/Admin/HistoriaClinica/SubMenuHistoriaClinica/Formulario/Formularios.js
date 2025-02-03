@@ -1,9 +1,8 @@
 // ListaFormularios.js
 import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Spin, notification, Popconfirm } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
-import EditarFormularioModal from "./EditarFormularioModal";
 import VerFormularioModal from "./VerFormularioModal";
 import dayjs from "dayjs";
 
@@ -12,8 +11,6 @@ const ListaFormularios = ({ onAgregar }) => {
     const [formularios, setFormularios] = useState([]);
     const [loading, setLoading] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
-    const [isEditarModalVisible, setIsEditarModalVisible] = useState(false);
-    const [formularioAEditar, setFormularioAEditar] = useState(null);
     const [isVerModalVisible, setIsVerModalVisible] = useState(false);
     const [formularioAVisualizar, setFormularioAVisualizar] = useState(null);
 
@@ -55,17 +52,6 @@ const ListaFormularios = ({ onAgregar }) => {
         }
     };
 
-    const handleEditar = (formulario) => {
-        setFormularioAEditar(formulario);
-        setIsEditarModalVisible(true);
-    };
-
-    const handleCerrarEditarModal = () => {
-        setIsEditarModalVisible(false);
-        setFormularioAEditar(null);
-        loadFormularios();
-    };
-
     const handleVer = (formulario) => {
         setFormularioAVisualizar(formulario);
         setIsVerModalVisible(true);
@@ -95,9 +81,6 @@ const ListaFormularios = ({ onAgregar }) => {
                     <Button icon={<EyeOutlined />} onClick={() => handleVer(record)}>
                         Ver
                     </Button>
-                    <Button icon={<EditOutlined />} onClick={() => handleEditar(record)}>
-                        Editar
-                    </Button>
                     <Popconfirm
                         title="¿Estás seguro de eliminar este formulario?"
                         okText="Sí"
@@ -123,15 +106,6 @@ const ListaFormularios = ({ onAgregar }) => {
                 <Spin tip="Cargando formularios..." style={{ display: "block", margin: "20px auto" }} />
             ) : (
                 <Table columns={columns} dataSource={formularios} rowKey="id_formulario" pagination={{ pageSize: 10 }} />
-            )}
-
-            {/* Modal para editar formulario */}
-            {formularioAEditar && (
-                <EditarFormularioModal
-                    visible={isEditarModalVisible}
-                    onClose={handleCerrarEditarModal}
-                    formulario={formularioAEditar}
-                />
             )}
 
             {/* Modal para ver formulario */}
