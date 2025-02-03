@@ -1,9 +1,12 @@
+// ListaFormularios.js
 import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Spin, notification, Popconfirm } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { fetchFormularios, deleteFormulario } from "../../../../../utils/api";
+import EditarFormularioModal from "./EditarFormularioModal";
+import VerFormularioModal from "./VerFormularioModal";
 import dayjs from "dayjs";
-import EditarFormularioModal from "./EditarFormularioModal"; // Importar el nuevo componente
+
 
 const ListaFormularios = ({ onAgregar }) => {
     const [formularios, setFormularios] = useState([]);
@@ -11,6 +14,8 @@ const ListaFormularios = ({ onAgregar }) => {
     const [deletingId, setDeletingId] = useState(null);
     const [isEditarModalVisible, setIsEditarModalVisible] = useState(false);
     const [formularioAEditar, setFormularioAEditar] = useState(null);
+    const [isVerModalVisible, setIsVerModalVisible] = useState(false);
+    const [formularioAVisualizar, setFormularioAVisualizar] = useState(null);
 
     const loadFormularios = async () => {
         setLoading(true);
@@ -18,7 +23,10 @@ const ListaFormularios = ({ onAgregar }) => {
             const data = await fetchFormularios();
             setFormularios(Array.isArray(data) ? data : []);
         } catch (error) {
-            notification.error({ message: "Error", description: "No se pudo cargar la lista de formularios." });
+            notification.error({
+                message: "Error",
+                description: "No se pudo cargar la lista de formularios.",
+            });
         } finally {
             setLoading(false);
         }
@@ -32,10 +40,16 @@ const ListaFormularios = ({ onAgregar }) => {
         setDeletingId(id);
         try {
             await deleteFormulario(id);
-            notification.success({ message: "Éxito", description: "El formulario se eliminó correctamente." });
+            notification.success({
+                message: "Éxito",
+                description: "El formulario se eliminó correctamente.",
+            });
             loadFormularios();
         } catch (error) {
-            notification.error({ message: "Error", description: "No se pudo eliminar el formulario." });
+            notification.error({
+                message: "Error",
+                description: "No se pudo eliminar el formulario.",
+            });
         } finally {
             setDeletingId(null);
         }
@@ -52,15 +66,25 @@ const ListaFormularios = ({ onAgregar }) => {
         loadFormularios();
     };
 
+    const handleVer = (formulario) => {
+        setFormularioAVisualizar(formulario);
+        setIsVerModalVisible(true);
+    };
+
+    const handleCerrarVerModal = () => {
+        setIsVerModalVisible(false);
+        setFormularioAVisualizar(null);
+    };
+
     const columns = [
-        { title: "Nombre del Formulario", dataIndex: "nombre_tipo_formulario", key: "nombre_tipo_formulario" },
-        { title: "Cédula del Paciente", dataIndex: "cedula_paciente", key: "cedula_paciente" },
+        { title: "Tipo de Formulario", dataIndex: "nombre_tipo_formulario", key: "nombre_tipo_formulario" },
+        { title: "Paciente", dataIndex: "cedula_paciente", key: "cedula_paciente" },
         { title: "Usuario Creador", dataIndex: "nombre_creador", key: "nombre_creador" },
         {
             title: "Fecha de Creación",
             dataIndex: "fecha_creacion",
             key: "fecha_creacion",
-            render: (fecha) => dayjs(fecha).format("YYYY-MM-DD HH:mm:ss")
+            render: (fecha) => dayjs(fecha).format("YYYY-MM-DD HH:mm:ss"),
         },
         { title: "Estado", dataIndex: "estado", key: "estado" },
         {
@@ -68,6 +92,9 @@ const ListaFormularios = ({ onAgregar }) => {
             key: "acciones",
             render: (_, record) => (
                 <Space>
+                    <Button icon={<EyeOutlined />} onClick={() => handleVer(record)}>
+                        Ver
+                    </Button>
                     <Button icon={<EditOutlined />} onClick={() => handleEditar(record)}>
                         Editar
                     </Button>
@@ -106,6 +133,13 @@ const ListaFormularios = ({ onAgregar }) => {
                     formulario={formularioAEditar}
                 />
             )}
+
+            {/* Modal para ver formulario */}
+            <VerFormularioModal 
+                visible={isVerModalVisible}
+                onClose={handleCerrarVerModal}
+                formulario={formularioAVisualizar}
+            />
         </div>
     );
 };
